@@ -30,7 +30,9 @@ import org.codehaus.marmalade.discovery.PrefixedDefFileResolutionStrategy;
 import org.codehaus.marmalade.discovery.PrefixedTldResolutionStrategy;
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -68,9 +70,9 @@ public class MarmaladeTaglibResolver
         }
     }
 
-    public void addTaglibDefinitionStrategies( List strategyList )
+    public void addTaglibDefinitionStrategies( Collection strategies )
     {
-        for ( Iterator it = strategyList.iterator(); it.hasNext(); )
+        for ( Iterator it = strategies.iterator(); it.hasNext(); )
         {
             TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
 
@@ -79,6 +81,11 @@ public class MarmaladeTaglibResolver
                 strategies.add( strategy );
             }
         }
+    }
+    
+    public void setTaglibDefinitionStrategies(Collection strategies)
+    {
+        this.strategies = new ArrayList(strategies);
     }
 
     public void setDefaultTagLibrary( MarmaladeTagLibrary taglib )

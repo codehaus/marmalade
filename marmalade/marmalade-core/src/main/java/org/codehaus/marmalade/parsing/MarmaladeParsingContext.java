@@ -24,15 +24,15 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.parsing;
 
+import java.io.Reader;
+import java.util.Collection;
+
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.util.RecordingReader;
-
-import java.io.Reader;
-import java.util.List;
 
 /**
  * @author jdcasey
@@ -49,7 +49,9 @@ public interface MarmaladeParsingContext
 
     void addTaglibDefinitionStrategy( TaglibResolutionStrategy strategy );
 
-    void addTaglibDefinitionStrategies( List strategies );
+    void addTaglibDefinitionStrategies( Collection strategies );
+    
+    void setTaglibDefinitionStrategies( Collection strategies );
 
     RecordingReader getInput();
 
