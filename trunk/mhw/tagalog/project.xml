@@ -10,7 +10,7 @@
   <currentVersion>0.1</currentVersion>
 
   <organization>
-    <name>The Codehaus</name>
+    <name>Mark Wilkinson</name>
     <url>http://codehaus.org/</url>
     <logo>http://codehaus.org/codehaus-small.gif</logo>
   </organization>
@@ -65,13 +65,6 @@
       <resources>
         <resource>
           <directory>src/test</directory>
-          <includes>
-            <include>**/*.xml</include>
-          </includes>
-        </resource>
-
-        <resource>
-          <directory>src/test-input</directory>
           <includes>
             <include>**/*.xml</include>
           </includes>
