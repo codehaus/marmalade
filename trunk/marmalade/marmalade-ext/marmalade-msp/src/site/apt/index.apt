@@ -1,0 +1,22 @@
+  ---
+  Marmalade Server Pages (MSP) - Home
+  ---
+  John Casey
+  ---
+  2004-11-26
+  ---
+  
+Marmalade Server Pages (MSP) - Home
+
+*Abstract
+
+  Marmalade Server Pages (MSP) is an alternative to JSP. It's main advantages 
+  include the ability to run efficiently in interpretive mode and it's 
+  flexibility in terms of expression evaluation. Marmalade is an XML scripting 
+  language which is not limited to the web presentation layer. MSP is an 
+  adaptation of the language to the web presentation layer.
+  
+*Table of Contents
+
+  - {{design.html}Design}
+  

@@ -6,7 +6,7 @@
     <artifactId>marmalade-parent</artifactId>
     <version>1.0-alpha2</version>
   </parent>
-  <artifactId>marmalade-jelly-common</artifactId>
+  <artifactId>marmalade-tags-jelly-common</artifactId>
 
   <name>Jelly Common (Abstract) Tags</name>
   
@@ -14,7 +14,6 @@
     <dependency>
       <groupId>marmalade</groupId>
       <artifactId>marmalade-core</artifactId>
-      <version>1.0-alpha2</version>
     </dependency>
     
   </dependencies>

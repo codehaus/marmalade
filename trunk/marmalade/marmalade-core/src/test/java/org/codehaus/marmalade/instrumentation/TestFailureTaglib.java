@@ -5,6 +5,7 @@ import org.codehaus.marmalade.metamodel.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 
 /**
  * @author jdcasey
@@ -22,7 +23,7 @@ public class TestFailureTaglib
     {
         protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
         {
-            MarmaladeExecutionException ex = new MarmaladeExecutionException( "test exception" );
+            MarmaladeExecutionException ex = new TagExecutionException( getTagInfo(), "test exception" );
 
             throw ex;
         }

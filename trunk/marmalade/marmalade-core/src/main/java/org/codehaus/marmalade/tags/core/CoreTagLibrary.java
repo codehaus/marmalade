@@ -19,6 +19,7 @@ public class CoreTagLibrary
         registerTag( "import", ImportTag.class );
         registerTag( "out", OutTag.class );
         registerTag( "remove", RemoveTag.class );
+        registerTag( "script", ScriptTag.class );
         registerTag( "set", SetTag.class );
         registerTag( "taglibStrategy", TaglibResolutionStrategyTag.class );
         registerTag( "when", WhenTag.class );

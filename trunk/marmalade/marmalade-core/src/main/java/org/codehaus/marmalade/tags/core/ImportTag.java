@@ -37,6 +37,7 @@ import org.codehaus.marmalade.parsing.MarmaladeParsingContext;
 import org.codehaus.marmalade.parsing.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.TaglibResolutionStrategyOwner;
 import org.codehaus.marmalade.util.RecordingReader;
 
@@ -90,7 +91,7 @@ public class ImportTag
             }
             catch ( MalformedURLException e )
             {
-                throw new MarmaladeExecutionException( "Error parsing url into java.net.URL.", e );
+                throw new TagExecutionException( getTagInfo(), "Error parsing url into java.net.URL.", e );
             }
         }
         else if ( location instanceof File )
@@ -101,12 +102,12 @@ public class ImportTag
             }
             catch ( MalformedURLException e )
             {
-                throw new MarmaladeExecutionException( "Error parsing url into java.net.URL.", e );
+                throw new TagExecutionException( getTagInfo(), "Error parsing url into java.net.URL.", e );
             }
         }
         else
         {
-            throw new MarmaladeExecutionException( "url attribute must be String, java.net.URL, or java.io.File type." );
+            throw new TagExecutionException( getTagInfo(), "url attribute must be String, java.net.URL, or java.io.File type." );
         }
 
         MarmaladeAttributes attributes = getAttributes();
@@ -154,15 +155,15 @@ public class ImportTag
         }
         catch ( MarmaladeParsetimeException e )
         {
-            throw new MarmaladeExecutionException( "Error parsing script from: " + resource.toExternalForm(), e );
+            throw new TagExecutionException( getTagInfo(), "Error parsing script from: " + resource.toExternalForm(), e );
         }
         catch ( ModelBuilderException e )
         {
-            throw new MarmaladeExecutionException( "Error parsing script from: " + resource.toExternalForm(), e );
+            throw new TagExecutionException( getTagInfo(), "Error parsing script from: " + resource.toExternalForm(), e );
         }
         catch ( IOException e )
         {
-            throw new MarmaladeExecutionException( "Error parsing script from: " + resource.toExternalForm(), e );
+            throw new TagExecutionException( getTagInfo(), "Error parsing script from: " + resource.toExternalForm(), e );
         }
         finally
         {

@@ -24,14 +24,16 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.runtime;
 
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+
 /**
  * @author jdcasey
  */
 public class MissingAttributeException
-    extends MarmaladeExecutionException
+    extends AbstractTagRelatedExecutionException
 {
-    public MissingAttributeException( String element, String attribute )
+    public MissingAttributeException( MarmaladeTagInfo tagInfo, String attribute )
     {
-        super( "Tag \'" + element + "\' requires attribute \'" + attribute + "\'" );
+        super( tagInfo, "Tag \'" + ((tagInfo != null)?(tagInfo.getElement()):("<unknown>")) + "\' requires attribute \'" + attribute + "\'" );
     }
 }

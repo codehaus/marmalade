@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.net.URL;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -93,10 +94,12 @@ public final class ExpressionEvaluatorFactory
                     {
                         in = new BufferedReader( new InputStreamReader( res ) );
                         className = in.readLine();
-                        in.close();
                     }
                     catch ( IOException e )
                     {
+                        //TODO: log this exception
+                        e.printStackTrace();
+                        System.err.println("Proceeding with taglib resolution.");
                     }
                     finally
                     {
@@ -114,24 +117,40 @@ public final class ExpressionEvaluatorFactory
 
                     if ( (className != null) && (className.length() > 0) )
                     {
-                        try
+                        URL classUrl = cloader.getResource(className.replace('.', '/') + ".class");
+                        if(classUrl != null)
                         {
-                            Class elClass = cloader.loadClass( className );
+                            try
+                            {
+                                Class elClass = cloader.loadClass( className );
 
-                            evaluator = (ExpressionEvaluator) elClass.newInstance();
-                            evaluators.put( type, evaluator );
-                        }
-                        catch ( ClassNotFoundException e )
-                        {
-                        }
-                        catch ( InstantiationException e )
-                        {
-                        }
-                        catch ( IllegalAccessException e )
-                        {
-                        }
-                        catch ( UndeclaredThrowableException e )
-                        {
+                                evaluator = (ExpressionEvaluator) elClass.newInstance();
+                                evaluators.put( type, evaluator );
+                            }
+                            catch ( ClassNotFoundException e )
+                            {
+                                //TODO: log this exception
+                                e.printStackTrace();
+                                System.err.println("Proceeding with taglib resolution.");
+                            }
+                            catch ( InstantiationException e )
+                            {
+                                //TODO: log this exception
+                                e.printStackTrace();
+                                System.err.println("Proceeding with taglib resolution.");
+                            }
+                            catch ( IllegalAccessException e )
+                            {
+                                //TODO: log this exception
+                                e.printStackTrace();
+                                System.err.println("Proceeding with taglib resolution.");
+                            }
+                            catch ( UndeclaredThrowableException e )
+                            {
+                                //TODO: log this exception
+                                e.printStackTrace();
+                                System.err.println("Proceeding with taglib resolution.");
+                            }
                         }
                     }
                 }

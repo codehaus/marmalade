@@ -62,27 +62,27 @@ public abstract class AbstractMarmaladeTagLibrary
         }
         catch ( SecurityException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( NoSuchMethodException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( IllegalArgumentException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( InstantiationException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( InvocationTargetException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
 
         return tag;

@@ -30,22 +30,23 @@ package org.codehaus.marmalade.metamodel;
 public class TagInstantiationException
     extends ModelBuilderException
 {
-    public TagInstantiationException()
+    public TagInstantiationException(MarmaladeTagInfo tagInfo)
     {
+        super(tagInfo);
     }
 
-    public TagInstantiationException( String message )
+    public TagInstantiationException( MarmaladeTagInfo tagInfo, String message )
     {
-        super( message );
+        super( tagInfo, message );
     }
 
-    public TagInstantiationException( Throwable cause )
+    public TagInstantiationException( MarmaladeTagInfo tagInfo, Throwable cause )
     {
-        super( cause );
+        super( tagInfo, cause );
     }
 
-    public TagInstantiationException( String message, Throwable cause )
+    public TagInstantiationException( MarmaladeTagInfo tagInfo, String message, Throwable cause )
     {
-        super( message, cause );
+        super( tagInfo, message, cause );
     }
 }

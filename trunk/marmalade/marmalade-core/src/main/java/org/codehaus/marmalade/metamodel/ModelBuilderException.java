@@ -1,52 +1,32 @@
 /* Created on Aug 11, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-import org.codehaus.marmalade.MarmaladeException;
+import org.codehaus.marmalade.AbstractTagRelatedException;
 
 /**
  * @author jdcasey
  */
 public class ModelBuilderException
-    extends MarmaladeException
+    extends AbstractTagRelatedException
 {
-    /**
-     *
-     */
-    public ModelBuilderException()
+    public ModelBuilderException(MarmaladeTagInfo tagInfo)
     {
-        //TODO Auto-generated constructor stub
-        super();
+        super(tagInfo);
     }
 
-    /**
-     * @param message
-     */
-    public ModelBuilderException( String message )
+    public ModelBuilderException( MarmaladeTagInfo tagInfo, String message )
     {
-        //TODO Auto-generated constructor stub
-        super( message );
+        super( tagInfo, message );
     }
 
-    /**
-     * @param cause
-     */
-    public ModelBuilderException( Throwable cause )
+    public ModelBuilderException( MarmaladeTagInfo tagInfo, Throwable cause )
     {
-        //TODO Auto-generated constructor stub
-        super( cause );
+        super( tagInfo, cause );
     }
 
-    /**
-     * @param message
-     * @param cause
-     */
-    public ModelBuilderException( String message, Throwable cause )
+    public ModelBuilderException( MarmaladeTagInfo tagInfo, String message, Throwable cause )
     {
-        //TODO Auto-generated constructor stub
-        super( message, cause );
+        super( tagInfo, message, cause );
     }
 
-    public static void main( String[] args )
-    {
-    }
 }

@@ -5,6 +5,7 @@ import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.TaglibResolutionStrategyOwner;
 
 /**
@@ -37,15 +38,15 @@ public class TaglibResolutionStrategyTag
         }
         catch ( ClassNotFoundException e )
         {
-            throw new MarmaladeExecutionException( "cannot find strategy class", e );
+            throw new TagExecutionException( getTagInfo(), "cannot find resolution strategy implementation", e );
         }
         catch ( InstantiationException e )
         {
-            throw new MarmaladeExecutionException( "cannot instantiate strategy", e );
+            throw new TagExecutionException( getTagInfo(), "cannot instantiate resolution strategy", e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new MarmaladeExecutionException( "cannot access strategy constructor", e );
+            throw new TagExecutionException( getTagInfo(), "cannot access resolution strategy implementation constructor", e );
         }
     }
 }
