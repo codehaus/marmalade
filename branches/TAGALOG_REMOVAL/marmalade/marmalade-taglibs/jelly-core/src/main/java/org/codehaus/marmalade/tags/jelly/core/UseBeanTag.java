@@ -41,9 +41,8 @@ public class UseBeanTag extends AbstractJellyMarmaladeTag
     public static final String VAR_ATTRIBUTE = "var";
     private Object target;
 
-    public UseBeanTag( MarmaladeTagInfo tagInfo )
+    public UseBeanTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

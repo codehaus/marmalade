@@ -33,8 +33,7 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
  */
 public class JellyTag extends AbstractJellyMarmaladeTag
 {
-    public JellyTag( MarmaladeTagInfo tagInfo )
+    public JellyTag(  )
     {
-        super( tagInfo );
     }
 }

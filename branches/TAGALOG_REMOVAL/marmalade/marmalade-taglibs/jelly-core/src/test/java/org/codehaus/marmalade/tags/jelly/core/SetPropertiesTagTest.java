@@ -30,6 +30,7 @@ import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
@@ -48,18 +49,23 @@ public class SetPropertiesTagTest extends TestCase
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", SetPropertiesTag.OBJECT_ATTRIBUTE,
+        attributes.addAttribute( "", "", SetPropertiesTag.OBJECT_ATTRIBUTE,
             "#object" );
-        attributes.addAttribute( "", "name", personName );
-        attributes.addAttribute( "", "age", "#age" );
-        attributes.addAttribute( "", "isDemocrat", "#democrat" );
+        attributes.addAttribute( "", "", "name", personName );
+        attributes.addAttribute( "", "", "age", "#age" );
+        attributes.addAttribute( "", "", "isDemocrat", "#democrat" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        SetPropertiesTag tag = new SetPropertiesTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        SetPropertiesTag tag = new SetPropertiesTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext context = new DefaultContext(  );
         Person person = new Person(  );
@@ -84,20 +90,24 @@ public class SetPropertiesTagTest extends TestCase
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", "name", personName );
-        attributes.addAttribute( "", "age", "#age" );
-        attributes.addAttribute( "", "isDemocrat", "#democrat" );
+        attributes.addAttribute( "", "", "name", personName );
+        attributes.addAttribute( "", "", "age", "#age" );
+        attributes.addAttribute( "", "", "isDemocrat", "#democrat" );
 
         Person person = new Person(  );
-        TestTargetObjectOwnerTag parent = new TestTargetObjectOwnerTag( new MarmaladeTagInfo(  ),
-                person );
+        TestTargetObjectOwnerTag parent = new TestTargetObjectOwnerTag( person );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        SetPropertiesTag tag = new SetPropertiesTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        SetPropertiesTag tag = new SetPropertiesTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         tag.setParent( parent );
         parent.addChild( tag );
@@ -161,9 +171,8 @@ public class SetPropertiesTagTest extends TestCase
     {
         private Object target;
 
-        TestTargetObjectOwnerTag( MarmaladeTagInfo tagInfo, Object target )
+        TestTargetObjectOwnerTag( Object target )
         {
-            super( tagInfo );
             this.target = target;
         }
 

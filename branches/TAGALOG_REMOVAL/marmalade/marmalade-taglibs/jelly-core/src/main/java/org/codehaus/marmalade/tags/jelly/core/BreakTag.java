@@ -36,9 +36,8 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyLoopControlTag;
  */
 public class BreakTag extends AbstractJellyLoopControlTag
 {
-    public BreakTag( MarmaladeTagInfo tagInfo )
+    public BreakTag(  )
     {
-        super( tagInfo );
     }
 
     protected void modifyLoop( MarmaladeExecutionContext context,

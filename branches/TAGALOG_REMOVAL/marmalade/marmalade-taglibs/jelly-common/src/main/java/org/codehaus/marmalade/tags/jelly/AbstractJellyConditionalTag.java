@@ -37,9 +37,8 @@ public abstract class AbstractJellyConditionalTag extends AbstractConditionalTag
 {
     public static final String TRIM_ATTRIBUTE = "trim";
 
-    protected AbstractJellyConditionalTag( MarmaladeTagInfo tagInfo )
+    protected AbstractJellyConditionalTag(  )
     {
-        super( tagInfo );
     }
 
     protected boolean preserveBodyWhitespace( MarmaladeExecutionContext context )

@@ -36,9 +36,8 @@ public class FlagChildTestTag extends AbstractMarmaladeTag
 {
     private boolean fired = false;
 
-    public FlagChildTestTag( MarmaladeTagInfo tagInfo )
+    public FlagChildTestTag(  )
     {
-        super( tagInfo );
     }
 
     public boolean fired(  )

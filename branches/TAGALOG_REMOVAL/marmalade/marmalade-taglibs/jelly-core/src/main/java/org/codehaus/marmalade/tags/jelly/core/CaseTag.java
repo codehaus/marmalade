@@ -40,9 +40,8 @@ public class CaseTag extends AbstractJellyConditionalTag
     private Object testTarget;
     private boolean fallThrough = false;
 
-    public CaseTag( MarmaladeTagInfo tagInfo )
+    public CaseTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

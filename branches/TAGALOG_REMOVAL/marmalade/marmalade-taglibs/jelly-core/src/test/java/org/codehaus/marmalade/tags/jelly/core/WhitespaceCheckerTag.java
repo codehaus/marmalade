@@ -1,6 +1,7 @@
 /* Created on Jun 28, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
@@ -13,9 +14,10 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 public class WhitespaceCheckerTag extends AbstractJellyMarmaladeTag {
     
     private String body;
+    private final boolean trim;
 
-    public WhitespaceCheckerTag(MarmaladeTagInfo tagInfo) {
-        super(tagInfo);
+    public WhitespaceCheckerTag(boolean trim) {
+        this.trim = trim;
     }
 
     protected void doExecute(MarmaladeExecutionContext context)
@@ -28,4 +30,9 @@ public class WhitespaceCheckerTag extends AbstractJellyMarmaladeTag {
         return body;
     }
     
+    protected boolean preserveBodyWhitespace(MarmaladeExecutionContext context)
+    throws ExpressionEvaluationException 
+    {
+        return trim;
+    }
 }

@@ -38,9 +38,8 @@ public class SetPropertiesTag extends AbstractJellyMarmaladeTag
 {
     public static final String OBJECT_ATTRIBUTE = "object";
 
-    public SetPropertiesTag( MarmaladeTagInfo tagInfo )
+    public SetPropertiesTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

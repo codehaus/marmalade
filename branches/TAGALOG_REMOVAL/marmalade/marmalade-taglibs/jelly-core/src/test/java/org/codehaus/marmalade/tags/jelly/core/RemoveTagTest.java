@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -41,13 +42,13 @@ public class RemoveTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", RemoveTag.VAR_ATTRIBUTE, "testKey" );
+        attributes.addAttribute( "", "", RemoveTag.VAR_ATTRIBUTE, "testKey" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-
-        RemoveTag tag = new RemoveTag( mti );
+        RemoveTag tag = new RemoveTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(new DefaultAttributes(attributes));
 
         DefaultContext ctx = new DefaultContext(  );
 

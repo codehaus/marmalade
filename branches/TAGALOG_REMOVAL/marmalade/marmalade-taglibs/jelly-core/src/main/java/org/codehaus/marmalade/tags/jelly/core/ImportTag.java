@@ -24,13 +24,14 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsetime.ScriptBuilder;
 import org.codehaus.marmalade.parsetime.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
@@ -50,16 +51,14 @@ public class ImportTag extends AbstractJellyMarmaladeTag
     public static final String VAR_ATTRIBUTE = "var";
     public static final String PARSE_ONLY_ATTRIBUTE = "parse-only";
 
-    public ImportTag( MarmaladeTagInfo tagInfo )
+    public ImportTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
     {
-        Object location = requireTagAttribute( URL_ATTRIBUTE, Object.class,
-                context );
+        Object location = requireTagAttribute( URL_ATTRIBUTE, context );
         URL resource = null;
 
         if ( location instanceof URL )
@@ -100,7 +99,8 @@ public class ImportTag extends AbstractJellyMarmaladeTag
         {
             MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
             ScriptParser parser = new ScriptParser( resolver );
-            MarmaladeScript script = parser.parse( resource );
+            ScriptBuilder builder = parser.parse( resource );
+            MarmaladeScript script = builder.build(  );
             MarmaladeAttributes attrs = getAttributes(  );
 
             Boolean parseOnly = ( Boolean ) attrs.getValue( PARSE_ONLY_ATTRIBUTE,

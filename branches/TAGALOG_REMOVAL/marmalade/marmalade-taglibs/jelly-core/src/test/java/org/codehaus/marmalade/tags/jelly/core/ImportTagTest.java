@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
@@ -57,16 +58,21 @@ public class ImportTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
-        attrs.addAttribute( "", ImportTag.VAR_ATTRIBUTE, "script" );
-        attrs.addAttribute( "", ImportTag.PARSE_ONLY_ATTRIBUTE, "true" );
+        attrs.addAttribute( "", "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
+        attrs.addAttribute( "", "", ImportTag.VAR_ATTRIBUTE, "script" );
+        attrs.addAttribute( "", "", ImportTag.PARSE_ONLY_ATTRIBUTE, "true" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ImportTag tag = new ImportTag( mti );
+        ImportTag tag = new ImportTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -86,16 +92,21 @@ public class ImportTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
-        attrs.addAttribute( "", ImportTag.VAR_ATTRIBUTE, "script" );
-        attrs.addAttribute( "", ImportTag.PARSE_ONLY_ATTRIBUTE, "false" );
+        attrs.addAttribute( "", "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
+        attrs.addAttribute( "", "", ImportTag.VAR_ATTRIBUTE, "script" );
+        attrs.addAttribute( "", "", ImportTag.PARSE_ONLY_ATTRIBUTE, "false" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ImportTag tag = new ImportTag( mti );
+        ImportTag tag = new ImportTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -117,16 +128,21 @@ public class ImportTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
-        attrs.addAttribute( "", ImportTag.VAR_ATTRIBUTE, "script" );
-        attrs.addAttribute( "", ImportTag.PARSE_ONLY_ATTRIBUTE, "true" );
+        attrs.addAttribute( "", "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
+        attrs.addAttribute( "", "", ImportTag.VAR_ATTRIBUTE, "script" );
+        attrs.addAttribute( "", "", ImportTag.PARSE_ONLY_ATTRIBUTE, "true" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ImportTag tag = new ImportTag( mti );
+        ImportTag tag = new ImportTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -145,16 +161,21 @@ public class ImportTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
-        attrs.addAttribute( "", ImportTag.VAR_ATTRIBUTE, "script" );
-        attrs.addAttribute( "", ImportTag.PARSE_ONLY_ATTRIBUTE, "false" );
+        attrs.addAttribute( "", "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
+        attrs.addAttribute( "", "", ImportTag.VAR_ATTRIBUTE, "script" );
+        attrs.addAttribute( "", "", ImportTag.PARSE_ONLY_ATTRIBUTE, "false" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ImportTag tag = new ImportTag( mti );
+        ImportTag tag = new ImportTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -175,15 +196,20 @@ public class ImportTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
-        attrs.addAttribute( "", ImportTag.VAR_ATTRIBUTE, "script" );
+        attrs.addAttribute( "", "", ImportTag.URL_ATTRIBUTE, "#scriptLocation" );
+        attrs.addAttribute( "", "", ImportTag.VAR_ATTRIBUTE, "script" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ImportTag tag = new ImportTag( mti );
+        ImportTag tag = new ImportTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 

@@ -39,9 +39,8 @@ public class ExprTag extends AbstractJellyMarmaladeTag
 {
     public static final String VALUE_ATTRIBUTE = "value";
 
-    public ExprTag( MarmaladeTagInfo tagInfo )
+    public ExprTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

@@ -35,9 +35,8 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
  */
 public class OtherwiseTag extends AbstractJellyMarmaladeTag
 {
-    public OtherwiseTag( MarmaladeTagInfo tagInfo )
+    public OtherwiseTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

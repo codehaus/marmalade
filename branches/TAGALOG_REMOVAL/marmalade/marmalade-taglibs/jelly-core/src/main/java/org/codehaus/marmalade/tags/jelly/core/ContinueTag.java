@@ -36,9 +36,8 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyLoopControlTag;
  */
 public class ContinueTag extends AbstractJellyLoopControlTag
 {
-    public ContinueTag( MarmaladeTagInfo tagInfo )
+    public ContinueTag(  )
     {
-        super( tagInfo );
     }
 
     protected void modifyLoop( MarmaladeExecutionContext context,

@@ -34,9 +34,8 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
  */
 public class ErrorGeneratingTestTag extends AbstractMarmaladeTag
 {
-    public ErrorGeneratingTestTag( MarmaladeTagInfo tagInfo )
+    public ErrorGeneratingTestTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )
