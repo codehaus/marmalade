@@ -6,7 +6,7 @@ package org.codehaus.tagalog.acceptance.people;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.TagalogParseException;
+import org.codehaus.tagalog.TagException;
 
 /**
  * AttributeTag
@@ -25,7 +25,7 @@ public final class AttributeTag extends AbstractTag {
         buffer.append(characters, start, length);
     }
 
-    public Object end(String elementName) throws TagalogParseException {
+    public Object end(String elementName) throws TagException {
         PersonTag parent = (PersonTag) requireAncestor("person", PersonTag.class);
         if (elementName.equals("first-name"))
             parent.person.setFirstName(buffer.toString());
