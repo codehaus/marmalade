@@ -19,7 +19,7 @@ public final class Naming {
 
     private static Map namespaceFactories = new java.util.HashMap();
 
-    private static void addNamespaceFactory(String namespace,
+    public static void addNamespaceFactory(String namespace,
         TypeFactory factory)
     {
         if (namespace == null)
