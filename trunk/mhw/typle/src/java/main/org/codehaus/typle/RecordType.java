@@ -11,23 +11,41 @@ package org.codehaus.typle;
  * @author Mark Wilkinson
  * @version $Revision$
  */
-public final class RecordType implements Type {
+public final class RecordType extends TypeHelper implements Type {
     private BindingList fields;
 
     public RecordType() {
+        super(null);
+        this.fields = new BindingList();
+    }
+
+    public RecordType(String name) {
+        super(name);
+        if (name == null)
+            throw new NullPointerException("name is null");
         this.fields = new BindingList();
     }
 
     public RecordType(Binding[] fields) {
+        super(null);
         this.fields = BindingList.fromArray(fields);
     }
 
-    private RecordType(BindingList fields) {
+    public RecordType(String name, Binding[] fields) {
+        super(name);
+        if (name == null)
+            throw new NullPointerException("name is null");
+        this.fields = BindingList.fromArray(fields);
+    }
+
+    private RecordType(String name, BindingList fields) {
+        super(name);
         this.fields = fields;
     }
 
     public RecordType addField(String name, Type type) {
-        return new RecordType(fields.add(new Binding(name, type)));
+        return new RecordType(super.getTypeName(),
+                              fields.add(new Binding(name, type)));
     }
 
     public BindingList getFields() {
@@ -40,15 +58,15 @@ public final class RecordType implements Type {
     }
 
     public String getTypeName() {
-        return "[" + fields.signature() + "]";
+        String s = super.getTypeName();
+        if (s == null) {
+            s = toString();
+        }
+        return s;
     }
 
     public String toString() {
-        return getTypeName();
-    }
-
-    public Type getWrappedType() {
-        return null;
+        return "[" + fields.signature() + "]";
     }
 
     public void resolvePlaceHolders() throws TypeLookupException {
