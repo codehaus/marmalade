@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractExpressionEvaluator implements ExpressionEvaluator
 {
+    
     private static final Pattern EXPRESSION_PATTERN = Pattern.compile( 
             "\\$\\{.*\\}" );
     private static final String LITERAL_PATTERNS = "[0-9]+[idfblhIDFBLH]?|true|false|0x[0-9]+[bB]?";
