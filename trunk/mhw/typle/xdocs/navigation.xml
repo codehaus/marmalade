@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="typle">
+  <title>typle</title>
+
+  <body>
+    <menu name="typle">
+      <item name="Overview" href="/index.html"/>
+      <item name="To Do"    href="/todo.html"/>
+    </menu>
+  </body>
+</project>
