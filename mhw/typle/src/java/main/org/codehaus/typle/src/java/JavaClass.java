@@ -20,9 +20,13 @@ public final class JavaClass
     extends AbstractSourceContainer
     implements SourceContainer
 {
-    private final Modifier accessLevel;
+    private final Modifier[] modifiers;
 
     private final String className;
+
+    private static final Modifier[] DEFAULT_MODIFIERS = new Modifier[] {
+        Modifier.PUBLIC, Modifier.FINAL,
+    };
 
     /**
      * Create a Java class that is publicly accessible. In other words,
@@ -32,7 +36,7 @@ public final class JavaClass
      * @param className Name of the class to create, without package prefix.
      */
     public JavaClass(String className) {
-        this(Modifier.PUBLIC, className);
+        this(DEFAULT_MODIFIERS, className);
     }
 
     /**
@@ -46,25 +50,20 @@ public final class JavaClass
      * @param className Name of the class to create, without package prefix.
      */
     public JavaClass(Modifier accessLevel, String className) {
-        super(JavaSource.COMPARATOR);
-        checkAccessLevel(accessLevel);
-        this.accessLevel = accessLevel;
-        this.className = className;
+        this(new Modifier[] { accessLevel }, className);
     }
 
-    private void checkAccessLevel(Modifier accessLevel) {
-        if (accessLevel != Modifier.PUBLIC
-            && accessLevel != Modifier.PROTECTED
-            && accessLevel != Modifier.DEFAULT
-            && accessLevel != Modifier.PRIVATE)
-        {
-            throw new IllegalArgumentException("illegal class access level "
-                                               + accessLevel);
-        }
+    public JavaClass(Modifier[] modifiers, String className) {
+        super(JavaSource.COMPARATOR);
+        this.modifiers = modifiers;
+        this.className = className;
+
+        // check for well-formed modifier list
+        Modifier accessibility = Modifier.accessibility(modifiers);
     }
 
     public Modifier getAccessLevel() {
-        return accessLevel;
+        return Modifier.accessibility(modifiers);
     }
 
     public String getClassName() {
@@ -75,14 +74,16 @@ public final class JavaClass
      * @see org.codehaus.typle.src.SourceArtefact#write(java.io.PrintWriter)
      */
     public void write(PrintWriter writer) throws IOException {
-        String s;
+        String mods;
+        String space;
 
         writer.println();
-        if (accessLevel == Modifier.DEFAULT)
-            s = "";
+        mods = Modifier.toString(modifiers);
+        if (mods.length() == 0)
+            space = "";
         else
-            s = accessLevel + " ";
-        writer.println(s + "class " + className + " {");
+            space = " ";
+        writer.println(mods + space + "class " + className + " {");
         Iterator iter = iterator();
         while (iter.hasNext()) {
             SourceArtefact artefact = (SourceArtefact) iter.next();
