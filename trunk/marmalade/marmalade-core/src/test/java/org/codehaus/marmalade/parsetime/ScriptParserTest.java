@@ -24,14 +24,6 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import junit.framework.TestCase;
-
-import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-import org.codehaus.marmalade.model.MarmaladeScript;
-import org.codehaus.marmalade.runtime.DefaultContext;
-import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.marmalade.util.RecordingReader;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -39,6 +31,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.util.RecordingReader;
 
 /**
  * @author jdcasey

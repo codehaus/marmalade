@@ -24,7 +24,6 @@
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade.tags;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 
 /**
  * @author jdcasey

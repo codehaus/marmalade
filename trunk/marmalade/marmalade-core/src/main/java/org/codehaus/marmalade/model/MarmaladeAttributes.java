@@ -24,11 +24,11 @@
 /* Created on Mar 25, 2004 */
 package org.codehaus.marmalade.model;
 
+import java.util.Iterator;
+
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
-
-import java.util.Iterator;
 
 /**
  * @author jdcasey

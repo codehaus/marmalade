@@ -30,6 +30,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -38,7 +39,6 @@ import javax.servlet.jsp.el.ELException;
 import javax.servlet.jsp.el.FunctionMapper;
 import javax.servlet.jsp.el.VariableResolver;
 
-import org.apache.commons.el.Coercions;
 import org.apache.commons.el.ExpressionEvaluatorImpl;
 import org.codehaus.marmalade.el.AbstractExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;

@@ -24,18 +24,6 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
-import org.codehaus.marmalade.model.MarmaladeTag;
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
-import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
-import org.codehaus.marmalade.parsetime.MarmaladeParsingContext;
-import org.codehaus.marmalade.parsetime.MarmaladeTagBuilder;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author jdcasey

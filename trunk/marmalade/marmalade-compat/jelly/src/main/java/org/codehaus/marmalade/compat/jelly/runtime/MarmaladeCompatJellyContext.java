@@ -7,20 +7,19 @@ import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 
-import java.net.URL;
-
 import java.util.Iterator;
 import java.util.Map;
 
 /**
  * @author jdcasey
  */
-public class MarmaladeCompatibleJellyContext extends JellyContext
+public class MarmaladeCompatJellyContext extends JellyContext
 {
+    public static final String JELLY_CONTEXT_SPECIAL_VARIABLE = "context";
     private MarmaladeExecutionContext embeddedContext;
     private ExpressionEvaluator expressionEvaluator;
 
-    public MarmaladeCompatibleJellyContext( MarmaladeExecutionContext context,
+    public MarmaladeCompatJellyContext( MarmaladeExecutionContext context,
         ExpressionEvaluator el )
     {
         this.embeddedContext = context;
@@ -39,14 +38,21 @@ public class MarmaladeCompatibleJellyContext extends JellyContext
 
     private Object _getVar( String name, String scopeName )
     {
-        try
+        if ( JELLY_CONTEXT_SPECIAL_VARIABLE.equals( name ) )
         {
-            return embeddedContext.getVariable( name, expressionEvaluator );
+            return this;
         }
-        catch ( ExpressionEvaluationException e )
+        else
         {
-            throw new JellyCompatUncheckedException( 
-                "Error retrieving variable: " + name, e );
+            try
+            {
+                return embeddedContext.getVariable( name, expressionEvaluator );
+            }
+            catch ( ExpressionEvaluationException e )
+            {
+                throw new JellyCompatUncheckedException( 
+                    "Error retrieving variable: " + name, e );
+            }
         }
     }
 

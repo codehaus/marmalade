@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
-import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MetaAttributes;
 import org.codehaus.marmalade.model.DefaultAttributes;

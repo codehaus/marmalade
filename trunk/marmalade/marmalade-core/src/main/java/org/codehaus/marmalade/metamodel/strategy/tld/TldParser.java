@@ -2,16 +2,12 @@
 package org.codehaus.marmalade.metamodel.strategy.tld;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
-import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
-import com.sun.corba.se.connection.GetEndPointInfoAgainException;
 
 /**
  * @author jdcasey

@@ -24,13 +24,13 @@
 /* Created on Mar 26, 2004 */
 package org.codehaus.marmalade.util;
 
-import junit.framework.TestCase;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import junit.framework.TestCase;
 
 public class ScopedMapTest extends TestCase
 {

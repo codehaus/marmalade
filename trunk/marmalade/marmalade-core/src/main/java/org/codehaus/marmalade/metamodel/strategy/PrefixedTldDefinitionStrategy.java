@@ -24,17 +24,14 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel.strategy;
 
-import org.codehaus.marmalade.metamodel.strategy.tld.TldParser;
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
-import org.xml.sax.SAXException;
-import org.xmlpull.v1.XmlPullParserException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+
+import org.codehaus.marmalade.metamodel.strategy.tld.TldParser;
+import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * @author jdcasey

@@ -1,13 +1,6 @@
 /* Created on Jun 28, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-
-import java.io.File;
-import java.io.InputStream;
-import java.io.Reader;
-
-import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
 
