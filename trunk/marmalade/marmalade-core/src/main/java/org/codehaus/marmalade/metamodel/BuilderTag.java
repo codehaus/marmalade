@@ -1,35 +1,3 @@
-
-/*
- * Copyright 2001-2004 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/*
- * Copyright 2001-2004 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -140,15 +108,10 @@ public class BuilderTag extends AbstractTag implements MarmaladeTagBuilder
             String name = attributes.getName( i );
             String value = attributes.getValue( i );
 
-            // filter marmalade:XXX attributes from the set passed on...
-            if ( !MarmaladeTagBuilder.MARMALADE_RESERVED_NS.equals( ns ) )
-            {
-                attrs.addAttribute( new DefaultRawAttribute( ns, name, value ) );
-            }
+            attrs.addAttribute( new DefaultRawAttribute( ns, name, value ) );
 
             // potentially replace with controller config from reserved ns.
-            else if ( MarmaladeTagBuilder.EXPRESSION_EVALUATOR_ATTRIBUTE.equals( 
-                    name ) )
+            if ( MarmaladeTagBuilder.EXPRESSION_EVALUATOR_ATTRIBUTE.equals( name ) )
             {
                 ExpressionEvaluator el = null;
 
@@ -167,7 +130,8 @@ public class BuilderTag extends AbstractTag implements MarmaladeTagBuilder
         tagInfo.setElement( elementName );
         tagInfo.setAttributes( attrs );
 
-        // will set the EL impl in the build() method, to accommodate late binding in the parse process.
+        tagInfo.setSourceLine(getLocation().getLine());
+        tagInfo.setSourceFile(getLocation().getFilename());
     }
 
     public synchronized void text( char[] characters, int start, int length )
