@@ -43,6 +43,19 @@ public class RecordTypeTest extends TestCase {
         }
     }
 
+    public void testFields() {
+        NamedTypeList fields;
+
+        type = new RecordType();
+        fields = type.getFields();
+        assertEquals(0, fields.size());
+        type = type.addField("foo", foo);
+        fields = type.getFields();
+        assertEquals(1, fields.size());
+        assertEquals("foo", fields.get(0).getName());
+        assertEquals("Foo", fields.get("foo").getType().getName());
+    }
+
     public void testGetSignature() {
         assertEquals("{}", type.getSignature());
         type = type.addField("foo", foo);
