@@ -26,12 +26,11 @@ public final class TagUtils {
 
     public static String requireAttribute(String attributeName,
                                           Attributes attributes)
-        throws TagalogParseException
+        throws TagException
     {
         String value = attributes.getValue(attributeName);
         if (value == null) {
-            throw new TagalogParseException(attributeName
-                                            + " attribute not found");
+            throw new TagException(attributeName + " attribute not found");
         }
         return value;
     }
@@ -50,11 +49,11 @@ public final class TagUtils {
     }
 
     public static Tag requireAncestor(Tag from, String tagName, Class tagClass)
-        throws TagalogParseException
+        throws TagException
     {
         Tag tag = findAncestorWithClass(from, tagClass);
         if (tag == null) {
-            throw new TagalogParseException(tagName + " ancestor not found");
+            throw new TagException(tagName + " ancestor not found");
         }
         return tag;
     }
