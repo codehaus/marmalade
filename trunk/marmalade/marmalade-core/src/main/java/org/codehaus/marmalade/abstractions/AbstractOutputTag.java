@@ -20,7 +20,8 @@ public abstract class AbstractOutputTag extends AbstractMarmaladeTag {
   protected AbstractOutputTag() {
   }
   
-  protected abstract void write(String message, MarmaladeExecutionContext context);
+  protected abstract void write(String message, MarmaladeExecutionContext context)
+  throws MarmaladeExecutionException;
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
     MarmaladeAttributes attributes = getAttributes();
