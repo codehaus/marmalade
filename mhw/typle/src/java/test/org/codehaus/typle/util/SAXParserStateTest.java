@@ -155,4 +155,36 @@ public final class SAXParserStateTest extends TestCase {
             // ignore
         }
     }
+
+    public void testSimpleScope() throws Exception {
+        assertEquals(null, state.get("foo"));
+        assertEquals(null, state.get("baz"));
+        state.put("foo", "bar");
+        assertEquals("bar", state.get("foo"));
+        assertEquals(null, state.get("baz"));
+        state.put("baz", "wibble");
+        assertEquals("bar", state.get("foo"));
+        assertEquals("wibble", state.get("baz"));
+    }
+
+    public void testNestedScope() throws Exception {
+        assertEquals(null, state.get("foo"));
+        assertEquals(null, state.get("baz"));
+        state.put("foo", "bar");
+        state.put("baz", "wibble");
+        assertEquals("bar", state.get("foo"));
+        assertEquals("wibble", state.get("baz"));
+        state.openScope();
+        assertEquals(null, state.get("foo"));
+        assertEquals(null, state.get("baz"));
+        state.put("foo", "bar");
+        state.put("frob", "wibble");
+        assertEquals("bar", state.get("foo"));
+        assertEquals("wibble", state.get("frob"));
+        assertEquals(null, state.get("baz"));
+        state.closeScope();
+        assertEquals("bar", state.get("foo"));
+        assertEquals("wibble", state.get("baz"));
+        assertEquals(null, state.get("frob"));
+    }
 }

@@ -4,8 +4,10 @@
 
 package org.codehaus.typle.util;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Stack;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -332,5 +334,41 @@ public final class SAXParserState {
         public String toString() {
             return "<" + qName + ">";
         }
+    }
+
+    /*
+     * Provide a stack of maps that can be used to store objects of
+     * arbitrary types during parsing.
+     */
+
+    private Stack maps = new Stack();
+
+    {
+        maps.push(new HashMap());
+    }
+
+    public void openScope() {
+        maps.push(new HashMap());
+    }
+
+    public void closeScope() {
+        maps.pop();
+    }
+
+    public void put(String name, Object value) throws SAXException {
+        HashMap map = (HashMap) maps.peek();
+        if (map.containsKey(name))
+            throw new SAXException("duplicate value for " + name
+                                   + ": " + value);
+        else
+            map.put(name, value);
+    }
+
+    public void replace(String name, Object value) {
+        ((HashMap) maps.peek()).put(name, value);
+    }
+
+    public Object get(String name) {
+        return ((HashMap) maps.peek()).get(name);
     }
 }
