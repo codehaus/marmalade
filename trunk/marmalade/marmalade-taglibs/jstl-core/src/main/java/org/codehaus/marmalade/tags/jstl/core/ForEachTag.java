@@ -9,7 +9,7 @@ import java.util.List;
 import org.codehaus.marmalade.MarmaladeAttributes;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.generics.AbstractLoopingTag;
+import org.codehaus.marmalade.abstractions.AbstractLoopingTag;
 
 /**
  * @author jdcasey

@@ -1,5 +1,5 @@
 /* Created on Mar 24, 2004 */
-package org.codehaus.marmalade.generics;
+package org.codehaus.marmalade.abstractions;
 
 import java.util.Collections;
 import java.util.Iterator;

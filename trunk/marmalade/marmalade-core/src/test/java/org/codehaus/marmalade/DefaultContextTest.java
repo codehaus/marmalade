@@ -9,9 +9,9 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.marmalade.abstractions.*;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.generics.*;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 

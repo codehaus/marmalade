@@ -1,10 +1,10 @@
 /* Created on Apr 18, 2004 */
-package org.codehaus.marmalade.generics;
+package org.codehaus.marmalade.abstractions;
 
 import org.codehaus.marmalade.LoopingTag;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.generics.AbstractConditionalTag;
+import org.codehaus.marmalade.abstractions.AbstractConditionalTag;
 
 
 /**

@@ -11,7 +11,7 @@ import org.codehaus.marmalade.MarmaladeExecutionException;
 import org.codehaus.marmalade.MarmaladeParseException;
 import org.codehaus.marmalade.MarmaladeScript;
 import org.codehaus.marmalade.MarmaladeUtils;
-import org.codehaus.marmalade.generics.AbstractMarmaladeTag;
+import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
 
 /**
  * @author jdcasey

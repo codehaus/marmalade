@@ -3,7 +3,7 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.generics.AbstractMarmaladeTag;
+import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
 
 
 /**

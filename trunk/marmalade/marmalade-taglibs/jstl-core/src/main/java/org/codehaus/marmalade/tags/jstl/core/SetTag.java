@@ -4,8 +4,8 @@ package org.codehaus.marmalade.tags.jstl.core;
 import org.codehaus.marmalade.MarmaladeAttributes;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.generics.AbstractMarmaladeTag;
 
 /**
  * @author jdcasey

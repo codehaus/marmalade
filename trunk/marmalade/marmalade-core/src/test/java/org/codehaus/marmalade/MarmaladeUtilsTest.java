@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.codehaus.marmalade.generics.*;
+import org.codehaus.marmalade.abstractions.*;
 
 import junit.framework.TestCase;
 
