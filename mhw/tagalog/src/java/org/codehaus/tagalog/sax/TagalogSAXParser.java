@@ -63,6 +63,20 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         }
     }
 
+    private Locator locator;
+
+    protected int getErrorLineNumber() {
+        return locator.getLineNumber();
+    }
+
+    //
+    // SAX ContentHandler methods.
+    //
+
+    public void setDocumentLocator(Locator locator) {
+        this.locator = locator;
+    }
+
     public void startElement(String namespaceUri, String localName,
                              String qName, Attributes atts)
         throws SAXException
@@ -114,9 +128,6 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     }
 
     public void skippedEntity(String name) throws SAXException {
-    }
-
-    public void setDocumentLocator(Locator locator) {
     }
 
     public void processingInstruction(String target, String data)

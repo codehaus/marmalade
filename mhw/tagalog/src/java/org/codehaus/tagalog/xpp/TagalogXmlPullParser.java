@@ -68,4 +68,8 @@ final class TagalogXmlPullParser extends AbstractParser {
             eventType = xpp.next();
         }
     }
+
+    protected int getErrorLineNumber() {
+        return xpp.getLineNumber();
+    }
 }
