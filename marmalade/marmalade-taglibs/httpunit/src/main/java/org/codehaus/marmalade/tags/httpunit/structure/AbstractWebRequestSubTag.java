@@ -15,7 +15,7 @@ public class AbstractWebRequestSubTag extends AbstractWebConversationSubTag{
   
   public static final String REQUEST_ATTRIBUTE = "request";
 
-  public AbstractWebRequestSubTag(){
+  protected AbstractWebRequestSubTag(){
   }
 
   protected WebRequest getRequest(MarmaladeExecutionContext context)

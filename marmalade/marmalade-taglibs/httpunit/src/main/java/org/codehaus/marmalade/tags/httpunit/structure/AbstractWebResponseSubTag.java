@@ -15,7 +15,7 @@ public class AbstractWebResponseSubTag extends AbstractWebRequestSubTag{
   
   public static final String RESPONSE_ATTRIBUTE = "response";
 
-  public AbstractWebResponseSubTag(){
+  protected AbstractWebResponseSubTag(){
   }
 
   protected WebResponse getResponse(MarmaladeExecutionContext context)

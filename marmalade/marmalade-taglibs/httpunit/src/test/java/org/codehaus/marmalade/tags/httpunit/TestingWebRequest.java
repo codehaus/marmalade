@@ -16,7 +16,7 @@ import com.meterware.httpunit.WebRequestSource;
 public class TestingWebRequest extends WebRequest{
 
   public TestingWebRequest(){
-    super((String)null);
+    super("TestingRequest");
   }
 
   public String getMethod(){
