@@ -28,8 +28,14 @@ public final class XmlStoreTypeFactory
 {
     private File baseDir;
 
+    private boolean supportAnnotations = false;
+
     public XmlStoreTypeFactory(File baseDir) {
         this.baseDir = baseDir;
+    }
+
+    public void setSupportAnnotations(boolean b) {
+        supportAnnotations = b;
     }
 
     protected boolean fullyQualified(String name) {
@@ -172,11 +178,13 @@ public final class XmlStoreTypeFactory
         private void buildType() {
             String name;
             BindingList fields;
-            RecordType type;
+            Type type;
 
             name = namespace + "." + (String) state.get(NAME);
             fields = (BindingList) state.get(FIELD);
             type = new RecordType(name, fields.toArray());
+            if (supportAnnotations)
+                type = new AnnotatedType(type);
             addType(name, type);
             newTypes.add(name);
             state.closeScope();
