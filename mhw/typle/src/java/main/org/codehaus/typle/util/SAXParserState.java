@@ -40,6 +40,13 @@ public final class SAXParserState {
 
     private boolean contentSignificant = false;
 
+    /**
+     * Create a new <code>XMLReader</code> instance using the JAXP interfaces.
+     *
+     * @return An newly created XML reader.
+     * @throws ParserConfigurationException if a parser could not be created.
+     * @throws SAXException if a parser could not be created.
+     */
     public static XMLReader createXMLReader()
         throws ParserConfigurationException, SAXException
     {
