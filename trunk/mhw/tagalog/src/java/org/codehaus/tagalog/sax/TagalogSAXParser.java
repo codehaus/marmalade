@@ -58,7 +58,7 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
             throw new TagalogParseException(e);
         }
     }
-    
+
     public void startElement(String namespaceUri, String localName,
                              String qName, Attributes atts)
         throws SAXException
