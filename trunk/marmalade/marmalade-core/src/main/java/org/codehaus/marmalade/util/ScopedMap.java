@@ -62,7 +62,7 @@ public class ScopedMap implements Map
             m = Collections.EMPTY_MAP;
         }
 
-        this.superMap = new HashMap( m );
+        this.superMap = m;
 
         this.thisMap = new HashMap(  );
 
@@ -184,5 +184,12 @@ public class ScopedMap implements Map
         update(  );
 
         return result;
+    }
+
+    public String toString(  )
+    {
+        return "ScopedMap:\n==========================\nlocal:\n\t"
+        + String.valueOf( thisMap ) + "\n\nparent:\n\t"
+        + String.valueOf( superMap );
     }
 }

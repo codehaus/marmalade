@@ -24,22 +24,24 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.runtime;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.util.ScopedMap;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author John Casey
@@ -52,9 +54,9 @@ public class DefaultContext implements MarmaladeExecutionContext
                 System.err ) );
     private static final Reader SYSIN = new BufferedReader( new InputStreamReader( 
                 System.in ) );
-    
     public static final String PRESERVE_WS_OVERRIDE_VARIABLE = "marmalade:preserve-whitespace-override";
     private Map context;
+    private Map systemContext;
     private PrintWriter out = SYSOUT;
     private PrintWriter err = SYSERR;
     private Reader in = SYSIN;
@@ -62,12 +64,21 @@ public class DefaultContext implements MarmaladeExecutionContext
 
     public DefaultContext(  )
     {
-        this.context = new HashMap(  );
+        this.systemContext = Collections.unmodifiableMap( new TreeMap( 
+                    System.getProperties(  ) ) );
+
+        this.context = new ScopedMap( systemContext );
     }
 
     public DefaultContext( Map context )
     {
-        this.context = context;
+        this.systemContext = new HashMap(  );
+        this.systemContext.putAll( System.getProperties(  ) );
+
+        this.systemContext = Collections.unmodifiableMap( systemContext );
+
+        this.context = new ScopedMap( systemContext );
+        this.context.putAll( context );
     }
 
     public void setOutWriter( PrintWriter out )
@@ -105,7 +116,9 @@ public class DefaultContext implements MarmaladeExecutionContext
 
     public Object removeVariable( Object key )
     {
-        return context.remove( key );
+        Object result = context.remove( key );
+
+        return result;
     }
 
     public Map unmodifiableVariableMap(  )
@@ -137,7 +150,9 @@ public class DefaultContext implements MarmaladeExecutionContext
             Map parent = ( ( ScopedMap ) context ).getSuperMap(  );
             Map local = ( ( ScopedMap ) context ).getLocalMap(  );
 
-            if ( parent != null )
+            // If parent isn't an instance of ScopedMap, 
+            // we're already at the root.
+            if ( ( parent != null ) && ( parent instanceof ScopedMap ) )
             {
                 context = parent;
                 replaced = local;
@@ -191,17 +206,22 @@ public class DefaultContext implements MarmaladeExecutionContext
         context.putAll( vars );
     }
 
-    public void setVariables(Map vars) {
-        context.putAll(vars);
+    public void setVariables( Map vars )
+    {
+        context.putAll( vars );
     }
 
-    public XmlSerializer getXmlSerializer() throws XmlPullParserException, IOException {
-        if(xmlSerializer == null) {
-            XmlPullParserFactory xpp3Factory = XmlPullParserFactory.newInstance();
-            xmlSerializer = xpp3Factory.newSerializer();
-            xmlSerializer.setOutput(getOutWriter());
+    public XmlSerializer getXmlSerializer(  )
+        throws XmlPullParserException, IOException
+    {
+        if ( xmlSerializer == null )
+        {
+            XmlPullParserFactory xpp3Factory = XmlPullParserFactory.newInstance(  );
+
+            xmlSerializer = xpp3Factory.newSerializer(  );
+            xmlSerializer.setOutput( getOutWriter(  ) );
         }
+
         return xmlSerializer;
     }
-
 }

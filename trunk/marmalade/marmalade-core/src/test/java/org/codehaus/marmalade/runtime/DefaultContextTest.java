@@ -24,19 +24,19 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.runtime;
 
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
+import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.el.ExpressionEvaluator;
-
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
 
 /**
  * @author jdcasey
@@ -95,20 +95,11 @@ public class DefaultContextTest extends MockObjectTestCase
 
         seed.put( "testkey", "testval" );
 
-        Mock elMock = mock( ExpressionEvaluator.class );
-
-        elMock.expects( once(  ) ).method( "evaluate" )
-              .with( eq( "testval" ), isA( Map.class ), isA( Class.class ) )
-              .will( returnValue( "testval" ) );
-
         DefaultContext ctx = new DefaultContext( seed );
-        Object result = ctx.getVariable( "testkey",
-                ( ExpressionEvaluator ) elMock.proxy(  ) );
+        Object result = ctx.getVariable( "testkey", null );
 
         assertEquals( "Value returned should match that in the seed map.",
             "testval", result );
-
-        elMock.verify(  );
     }
 
     public void testSetVariable(  )
@@ -146,22 +137,15 @@ public class DefaultContextTest extends MockObjectTestCase
 
         seed.put( "testkey", "testval" );
 
-        Mock elMock = mock( ExpressionEvaluator.class );
-
-        elMock.expects( never(  ) );
-
         DefaultContext ctx = new DefaultContext( seed );
 
         ctx.removeVariable( "testkey" );
 
-        Object result = ctx.getVariable( "testkey",
-                ( ExpressionEvaluator ) elMock.proxy(  ) );
+        Object result = ctx.getVariable( "testkey", null );
 
         assertFalse( "Value returned should NOT match that in the seed map.",
             "testval".equals( result ) );
         assertNull( "Value returned should null after being removed.", result );
-
-        elMock.verify(  );
     }
 
     public void testUnmodifiableVariableMap(  )
@@ -190,28 +174,9 @@ public class DefaultContextTest extends MockObjectTestCase
 
         seed.put( "testkey", "testval" );
 
-        Mock elMock = mock( ExpressionEvaluator.class );
-
-        elMock.expects( once(  ) ).method( "evaluate" )
-              .with( eq( "testval" ), isA( Map.class ), isA( Class.class ) )
-              .will( returnValue( "testval" ) );
-
-        Mock elMock2 = mock( ExpressionEvaluator.class );
-
-        elMock2.expects( once(  ) ).method( "evaluate" )
-               .with( eq( "testval2" ), isA( Map.class ), isA( Class.class ) )
-               .will( returnValue( "testval2" ) );
-
-        Mock elMock3 = mock( ExpressionEvaluator.class );
-
-        elMock3.expects( once(  ) ).method( "evaluate" )
-               .with( eq( "testval" ), isA( Map.class ), isA( Class.class ) )
-               .will( returnValue( "testval" ) );
-
         DefaultContext ctx = new DefaultContext( seed );
 
-        Object result1 = ctx.getVariable( "testkey",
-                ( ExpressionEvaluator ) elMock.proxy(  ) );
+        Object result1 = ctx.getVariable( "testkey", null );
 
         assertEquals( "Value returned should match that in the seed map.",
             "testval", result1 );
@@ -219,22 +184,16 @@ public class DefaultContextTest extends MockObjectTestCase
         ctx.newScope(  );
         ctx.setVariable( "testkey", "testval2" );
 
-        Object result2 = ctx.getVariable( "testkey",
-                ( ExpressionEvaluator ) elMock2.proxy(  ) );
+        Object result2 = ctx.getVariable( "testkey", null );
 
         assertEquals( "Value returned should match explicitly set value.",
             "testval2", result2 );
 
         ctx.lastScope(  );
 
-        Object result3 = ctx.getVariable( "testkey",
-                ( ExpressionEvaluator ) elMock3.proxy(  ) );
+        Object result3 = ctx.getVariable( "testkey", null );
 
         assertEquals( "Value returned should match that in the original seed map.",
             "testval", result3 );
-
-        elMock.verify(  );
-        elMock2.verify(  );
-        elMock3.verify(  );
     }
 }

@@ -42,7 +42,7 @@ public class GetStaticTag extends AbstractJellyMarmaladeTag
     public static final String CLASS_NAME_ATTRIBUTE = "className";
     public static final String FIELD_ATTRIBUTE = "field";
     public static final String VAR_ATTRIBUTE = "var";
-    private Reflector reflector = new Reflector();
+    private Reflector reflector = new Reflector(  );
 
     public GetStaticTag(  )
     {

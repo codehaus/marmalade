@@ -24,17 +24,17 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import java.io.IOException;
-
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 
 /**
  * @author jdcasey
  */
 public class ScriptParser
 {
-    public ScriptParser( )
+    public ScriptParser(  )
     {
     }
 
@@ -43,10 +43,11 @@ public class ScriptParser
     {
         ScriptBuilder result = null;
 
-        String location = context.getInputLocation();
+        String location = context.getInputLocation(  );
+
         try
         {
-            MarmaladeTaglibResolver resolver = context.getTaglibResolver();
+            MarmaladeTaglibResolver resolver = context.getTaglibResolver(  );
 
             ScriptReader scriptReader = new ScriptReader(  );
 

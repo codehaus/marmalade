@@ -87,7 +87,8 @@ public class MarmaladeCompatJellyContext extends JellyContext
 
     public JellyContext newJellyContext( Map newVariables )
     {
-        this.embeddedContext.setVariables(newVariables);
+        this.embeddedContext.setVariables( newVariables );
+
         return this;
     }
 
@@ -132,22 +133,26 @@ public class MarmaladeCompatJellyContext extends JellyContext
     {
         embeddedContext.setVariable( name, value );
     }
-    
-    public void registerTagLibrary(String uri, TagLibrary taglib) {
-        marmaladeTaglib.registerTagLibrary(uri, taglib);
-        super.registerTagLibrary(uri, taglib);
+
+    public void registerTagLibrary( String uri, TagLibrary taglib )
+    {
+        marmaladeTaglib.registerTagLibrary( uri, taglib );
+        super.registerTagLibrary( uri, taglib );
     }
 
-    public TagLibrary getTagLibrary(String name) {
-        return marmaladeTaglib.getTagLibrary(name);
+    public TagLibrary getTagLibrary( String name )
+    {
+        return marmaladeTaglib.getTagLibrary( name );
     }
 
-    public boolean isTagLibraryRegistered(String name) {
-        return marmaladeTaglib.getTagLibrary(name) != null;
+    public boolean isTagLibraryRegistered( String name )
+    {
+        return marmaladeTaglib.getTagLibrary( name ) != null;
     }
 
-    public void registerTagLibrary(String uri, String taglib) {
-        marmaladeTaglib.registerTagLibrary(uri, taglib);
-        super.registerTagLibrary(uri, taglib);
+    public void registerTagLibrary( String uri, String taglib )
+    {
+        marmaladeTaglib.registerTagLibrary( uri, taglib );
+        super.registerTagLibrary( uri, taglib );
     }
 }

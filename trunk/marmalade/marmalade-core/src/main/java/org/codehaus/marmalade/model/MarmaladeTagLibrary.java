@@ -36,6 +36,5 @@ public interface MarmaladeTagLibrary
 {
     MarmaladeTag createTag( MarmaladeTagInfo tagInfo );
 
-    ParserHint getParserHint(String name);
-    
+    ParserHint getParserHint( String name );
 }

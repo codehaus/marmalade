@@ -48,15 +48,17 @@ public class UseBeanTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         UseBeanTag tag = new UseBeanTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         try
         {
@@ -79,15 +81,17 @@ public class UseBeanTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         UseBeanTag tag = new UseBeanTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         try
         {
@@ -110,15 +114,17 @@ public class UseBeanTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         UseBeanTag tag = new UseBeanTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         try
         {
@@ -140,15 +146,17 @@ public class UseBeanTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         UseBeanTag tag = new UseBeanTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         try
         {
@@ -177,15 +185,17 @@ public class UseBeanTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         UseBeanTag tag = new UseBeanTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 
@@ -214,15 +224,17 @@ public class UseBeanTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         UseBeanTag tag = new UseBeanTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         TargetConsumerTestTag child = new TargetConsumerTestTag(  );
 

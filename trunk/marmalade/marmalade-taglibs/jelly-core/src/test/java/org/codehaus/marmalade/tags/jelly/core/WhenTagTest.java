@@ -46,15 +46,17 @@ public class WhenTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         WhenTag tag = new WhenTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         FlagChildTestTag flag = new FlagChildTestTag(  );
 
@@ -84,15 +86,17 @@ public class WhenTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         WhenTag tag = new WhenTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         parent.addChild( tag );
         tag.setParent( parent );

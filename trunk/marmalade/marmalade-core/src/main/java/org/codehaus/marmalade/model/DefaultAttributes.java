@@ -23,18 +23,18 @@
  */
 package org.codehaus.marmalade.model;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MetaAttribute;
 import org.codehaus.marmalade.metamodel.MetaAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author jdcasey
@@ -50,12 +50,14 @@ public class DefaultAttributes implements MarmaladeAttributes
         this.attributes = ( attributes != null ) ? ( attributes )
                                                  : ( new DefaultRawAttributes(  ) );
     }
-    
-    public DefaultAttributes() {
-        this.attributes = new DefaultRawAttributes();
+
+    public DefaultAttributes(  )
+    {
+        this.attributes = new DefaultRawAttributes(  );
     }
-    
-    public void setExpressionEvaluator(ExpressionEvaluator el) {
+
+    public void setExpressionEvaluator( ExpressionEvaluator el )
+    {
         this.el = el;
     }
 

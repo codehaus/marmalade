@@ -47,15 +47,17 @@ public class IfTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
 
         IfTag tag = new IfTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         FlagChildTestTag flag = new FlagChildTestTag(  );
 

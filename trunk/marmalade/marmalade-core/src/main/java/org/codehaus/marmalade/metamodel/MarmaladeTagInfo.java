@@ -35,10 +35,9 @@ public class MarmaladeTagInfo
     private String element;
     private String prefix;
     private int sourceLine = -1;
-
     private String filename;
     private String sourceFile;
-    
+
     public MarmaladeTagInfo(  )
     {
     }
@@ -102,5 +101,4 @@ public class MarmaladeTagInfo
     {
         return sourceFile;
     }
-    
 }

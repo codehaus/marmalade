@@ -6,37 +6,43 @@ import java.util.Iterator;
 /**
  * @author jdcasey
  */
-public class SingleValueIterator implements Iterator {
-
+public class SingleValueIterator implements Iterator
+{
     private Object value;
     private boolean valueHit = false;
 
-    public SingleValueIterator(Object value) {
+    public SingleValueIterator( Object value )
+    {
         this.value = value;
     }
 
-    public void remove() {
-        if(valueHit) {
+    public void remove(  )
+    {
+        if ( valueHit )
+        {
             value = null;
         }
     }
 
-    public boolean hasNext() {
+    public boolean hasNext(  )
+    {
         return !valueHit;
     }
 
-    public Object next() {
+    public Object next(  )
+    {
         Object result = null;
-        
-        if(valueHit) {
+
+        if ( valueHit )
+        {
             result = null;
         }
-        else {
+        else
+        {
             result = value;
             valueHit = true;
         }
-        
+
         return result;
     }
-
 }

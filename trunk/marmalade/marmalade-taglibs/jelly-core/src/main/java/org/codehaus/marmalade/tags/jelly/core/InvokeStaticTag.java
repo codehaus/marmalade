@@ -45,7 +45,7 @@ public class InvokeStaticTag extends AbstractJellyMarmaladeTag
     public static final String CLASS_NAME_ATTRIBUTE = "className";
     public static final String VAR_ATTRIBUTE = "var";
     private List args = new ArrayList(  );
-    private Reflector reflector = new Reflector();
+    private Reflector reflector = new Reflector(  );
 
     public InvokeStaticTag(  )
     {

@@ -35,15 +35,16 @@ SEE licenses/cj-license.txt FOR MORE INFORMATION.
  */
 package org.codehaus.marmalade.util;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /** Utility class used to instantiate an object using reflection.
  *  This utility hides many of the gory details needed to do this.
@@ -55,7 +56,6 @@ public final class Reflector
     private static final Log LOG = LogFactory.getLog( Reflector.class );
     private static final String CONSTRUCTOR_METHOD_NAME = "$$CONSTRUCTOR$$";
     private static final String GET_INSTANCE_METHOD_NAME = "getInstance";
-    
     private HashMap classMaps = new HashMap(  );
 
     /** Ensure no instances of Reflector are created...this is a utility. */
@@ -169,8 +169,8 @@ public final class Reflector
      * @return The result of the method call
      * @throws ReflectorException In case of an error looking up or invoking the method.
      */
-    public Object invoke( Object target, String methodName,
-        Object[] params ) throws ReflectorException
+    public Object invoke( Object target, String methodName, Object[] params )
+        throws ReflectorException
     {
         if ( params == null )
         {

@@ -105,26 +105,28 @@ public class ParseTag extends AbstractJellyMarmaladeTag
                 }
 
                 StringReader reader = new StringReader( preparedText.toString(  ) );
-                
+
                 MarmaladeTagInfo ti = getTagInfo(  );
 
                 MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
-                RecordingReader rreader = new RecordingReader(reader);
-                String location = "inline/internal script (file: " + ti.getSourceFile(  )
-                    + ", line: " + ti.getSourceLine(  ) + ")";
-                
-                MarmaladeParsingContext pContext = new DefaultParsingContext();
-                pContext.setTaglibResolver(resolver);
-                pContext.setInput(rreader);
-                pContext.setInputLocation(location);
-                pContext.setDefaultExpressionEvaluator(getExpressionEvaluator());
-                
+                RecordingReader rreader = new RecordingReader( reader );
+                String location = "inline/internal script (file: "
+                    + ti.getSourceFile(  ) + ", line: " + ti.getSourceLine(  )
+                    + ")";
+
+                MarmaladeParsingContext pContext = new DefaultParsingContext(  );
+
+                pContext.setTaglibResolver( resolver );
+                pContext.setInput( rreader );
+                pContext.setInputLocation( location );
+                pContext.setDefaultExpressionEvaluator( getExpressionEvaluator(  ) );
+
                 ScriptParser parser = new ScriptParser(  );
-                
+
                 ScriptBuilder builder = parser.parse( pContext );
 
-                MarmaladeScript script = builder.build();
-                
+                MarmaladeScript script = builder.build(  );
+
                 String var = ( String ) attributes.getValue( VAR_ATTRIBUTE,
                         String.class, context );
 

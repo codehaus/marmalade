@@ -1,22 +1,27 @@
 /* Created on Jul 2, 2004 */
 package org.codehaus.marmalade.parsetime;
 
+
 /**
  * @author jdcasey
  */
-public class ParserHint {
-    
+public class ParserHint
+{
     private boolean parseChildren = true;
 
-    public ParserHint() {
+    public ParserHint(  )
+    {
     }
 
-    public boolean parseChildren() {
+    public boolean parseChildren(  )
+    {
         return parseChildren;
     }
 
-    public ParserHint parseChildren(boolean parseChildren) {
+    public ParserHint parseChildren( boolean parseChildren )
+    {
         this.parseChildren = parseChildren;
+
         return this;
     }
 }

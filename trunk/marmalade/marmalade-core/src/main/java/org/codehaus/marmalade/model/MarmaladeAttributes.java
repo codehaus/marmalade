@@ -24,11 +24,11 @@
 /* Created on Mar 25, 2004 */
 package org.codehaus.marmalade.model;
 
-import java.util.Iterator;
-
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+
+import java.util.Iterator;
 
 /**
  * @author jdcasey
@@ -42,12 +42,12 @@ public interface MarmaladeAttributes
         throws ExpressionEvaluationException;
 
     public Object getValue( String namespace, String name, Class type,
-            MarmaladeExecutionContext context )
-            throws ExpressionEvaluationException;
+        MarmaladeExecutionContext context )
+        throws ExpressionEvaluationException;
 
     public Object getValue( String name, Class type,
-            MarmaladeExecutionContext context, Object defaultVal )
-            throws ExpressionEvaluationException;
+        MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException;
 
     public Object getValue( String namespace, String name, Class type,
         MarmaladeExecutionContext context, Object defaultVal )
@@ -58,15 +58,17 @@ public interface MarmaladeAttributes
         throws ExpressionEvaluationException;
 
     /** Assume Object.class is the type. */
-    public Object getValue( String namespace, String name, MarmaladeExecutionContext context )
+    public Object getValue( String namespace, String name,
+        MarmaladeExecutionContext context )
         throws ExpressionEvaluationException;
 
     /** Assume Object.class is the type. */
     public Object getValue( String name, MarmaladeExecutionContext context,
         Object defaultVal ) throws ExpressionEvaluationException;
 
-    public Object getValue( String namespace, String name, MarmaladeExecutionContext context,
-            Object defaultVal ) throws ExpressionEvaluationException;
+    public Object getValue( String namespace, String name,
+        MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException;
 
     public Iterator iterator(  );
 }

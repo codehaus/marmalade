@@ -206,17 +206,19 @@ public class IncludeTag extends AbstractJellyConditionalTag
 
         try
         {
-            RecordingReader rreader = new RecordingReader(reader);
-            
-            MarmaladeParsingContext pContext = new DefaultParsingContext();
-            pContext.setTaglibResolver(getTaglibResolver());
-            pContext.setInput(rreader);
-            pContext.setInputLocation(location);
-            pContext.setDefaultExpressionEvaluator(getExpressionEvaluator());
-            
-            ScriptParser parser = new ScriptParser();
+            RecordingReader rreader = new RecordingReader( reader );
+
+            MarmaladeParsingContext pContext = new DefaultParsingContext(  );
+
+            pContext.setTaglibResolver( getTaglibResolver(  ) );
+            pContext.setInput( rreader );
+            pContext.setInputLocation( location );
+            pContext.setDefaultExpressionEvaluator( getExpressionEvaluator(  ) );
+
+            ScriptParser parser = new ScriptParser(  );
             ScriptBuilder builder = parser.parse( pContext );
-            return builder.build();
+
+            return builder.build(  );
         }
         catch ( MarmaladeParsetimeException e )
         {
@@ -230,8 +232,10 @@ public class IncludeTag extends AbstractJellyConditionalTag
         }
     }
 
-    private MarmaladeTaglibResolver getTaglibResolver() {
+    private MarmaladeTaglibResolver getTaglibResolver(  )
+    {
         MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
+
         return resolver;
     }
 
@@ -239,19 +243,23 @@ public class IncludeTag extends AbstractJellyConditionalTag
         throws MarmaladeExecutionException
     {
         RecordingReader rreader = null;
+
         try
         {
-            rreader = new RecordingReader(new BufferedReader(new FileReader(sourceFile)));
-            
-            MarmaladeParsingContext pContext = new DefaultParsingContext();
-            pContext.setTaglibResolver(getTaglibResolver());
-            pContext.setInput(rreader);
-            pContext.setInputLocation(sourceFile.getAbsolutePath());
-            pContext.setDefaultExpressionEvaluator(getExpressionEvaluator());
-            
-            ScriptParser parser = new ScriptParser();
+            rreader = new RecordingReader( new BufferedReader( 
+                        new FileReader( sourceFile ) ) );
+
+            MarmaladeParsingContext pContext = new DefaultParsingContext(  );
+
+            pContext.setTaglibResolver( getTaglibResolver(  ) );
+            pContext.setInput( rreader );
+            pContext.setInputLocation( sourceFile.getAbsolutePath(  ) );
+            pContext.setDefaultExpressionEvaluator( getExpressionEvaluator(  ) );
+
+            ScriptParser parser = new ScriptParser(  );
             ScriptBuilder builder = parser.parse( pContext );
-            return builder.build();
+
+            return builder.build(  );
         }
         catch ( MarmaladeParsetimeException e )
         {
@@ -265,15 +273,23 @@ public class IncludeTag extends AbstractJellyConditionalTag
                 "error building included script from: "
                 + sourceFile.getAbsolutePath(  ), e );
         }
-        catch (FileNotFoundException e) {
+        catch ( FileNotFoundException e )
+        {
             throw new MarmaladeExecutionException( 
-                    "error building included script from: "
-                    + sourceFile.getAbsolutePath(  ), e );
+                "error building included script from: "
+                + sourceFile.getAbsolutePath(  ), e );
         }
-        finally {
-            if(rreader != null) {
-                try {rreader.close();}
-                catch(IOException e) {}
+        finally
+        {
+            if ( rreader != null )
+            {
+                try
+                {
+                    rreader.close(  );
+                }
+                catch ( IOException e )
+                {
+                }
             }
         }
     }
@@ -282,19 +298,23 @@ public class IncludeTag extends AbstractJellyConditionalTag
         throws MarmaladeExecutionException
     {
         RecordingReader rreader = null;
+
         try
         {
-            rreader = new RecordingReader(new BufferedReader(new InputStreamReader(sourceUrl.openStream())));
-            
-            MarmaladeParsingContext pContext = new DefaultParsingContext();
-            pContext.setTaglibResolver(getTaglibResolver());
-            pContext.setInput(rreader);
-            pContext.setInputLocation(sourceUrl.toExternalForm());
-            pContext.setDefaultExpressionEvaluator(getExpressionEvaluator());
-            
-            ScriptParser parser = new ScriptParser();
+            rreader = new RecordingReader( new BufferedReader( 
+                        new InputStreamReader( sourceUrl.openStream(  ) ) ) );
+
+            MarmaladeParsingContext pContext = new DefaultParsingContext(  );
+
+            pContext.setTaglibResolver( getTaglibResolver(  ) );
+            pContext.setInput( rreader );
+            pContext.setInputLocation( sourceUrl.toExternalForm(  ) );
+            pContext.setDefaultExpressionEvaluator( getExpressionEvaluator(  ) );
+
+            ScriptParser parser = new ScriptParser(  );
             ScriptBuilder builder = parser.parse( pContext );
-            return builder.build();
+
+            return builder.build(  );
         }
         catch ( MarmaladeParsetimeException e )
         {
@@ -308,15 +328,23 @@ public class IncludeTag extends AbstractJellyConditionalTag
                 "error building included script from: "
                 + sourceUrl.toExternalForm(  ), e );
         }
-        catch (IOException e) {
+        catch ( IOException e )
+        {
             throw new MarmaladeExecutionException( 
-                    "error building included script from: "
-                    + sourceUrl.toExternalForm(  ), e );
+                "error building included script from: "
+                + sourceUrl.toExternalForm(  ), e );
         }
-        finally {
-            if(rreader != null) {
-                try {rreader.close();}
-                catch(IOException e) {}
+        finally
+        {
+            if ( rreader != null )
+            {
+                try
+                {
+                    rreader.close(  );
+                }
+                catch ( IOException e )
+                {
+                }
             }
         }
     }

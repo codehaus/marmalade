@@ -26,7 +26,6 @@ package org.codehaus.marmalade.metamodel;
 
 import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
 
-
 /**
  * @author jdcasey
  */
