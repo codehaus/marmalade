@@ -2,7 +2,7 @@
  * $Id$
  */
 
-package org.codehaus.typle.bean;
+package org.codehaus.typle.gen.bean;
 
 /**
  * Typesafe-enumeration representing the different kinds of JavaBean that
