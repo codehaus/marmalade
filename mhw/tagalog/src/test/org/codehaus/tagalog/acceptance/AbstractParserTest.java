@@ -78,7 +78,7 @@ public abstract class AbstractParserTest extends TestCase {
         assertNull(people);
         ParseError[] errors = p.parseErrors();
         assertEquals(1, errors.length);
-        assertEquals(3, errors[0].getLineNumber());
+        assertEquals(3, errors[0].getLocation().getLine());
         assertEquals("no tag library for namespace 'bogus:namespace'",
                      errors[0].getMessage());
     }
@@ -94,7 +94,7 @@ public abstract class AbstractParserTest extends TestCase {
         assertNotNull(people);
         ParseError[] errors = p.parseErrors();
         assertEquals(1, errors.length);
-        assertEquals(8, errors[0].getLineNumber());
+        assertEquals(8, errors[0].getLocation().getLine());
         assertEquals("no tag 'username' in tag library for namespace 'tagalog:people'",
                      errors[0].getMessage());
     }
