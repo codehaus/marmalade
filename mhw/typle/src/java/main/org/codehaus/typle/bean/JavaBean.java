@@ -40,20 +40,6 @@ public final class JavaBean {
     }
 
     /**
-     * @return
-     */
-    public RecordType getType() {
-        return type;
-    }
-
-    /**
-     * @return
-     */
-    public JavaBeanType getJavaBeanType() {
-        return javaBeanType;
-    }
-
-    /**
      * @param stream
      */
     public void generate(PrintWriter writer) throws IOException {
