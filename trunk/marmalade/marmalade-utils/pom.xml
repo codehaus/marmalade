@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>1.0-alpha2</version>
+  </parent>
+  <artifactId>marmalade-utils</artifactId>
+
+  <name>Marmalade Utilities</name>
+  
+  <dependencies>
+    <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.0.3</version>
+    </dependency>
+  </dependencies>
+</project>

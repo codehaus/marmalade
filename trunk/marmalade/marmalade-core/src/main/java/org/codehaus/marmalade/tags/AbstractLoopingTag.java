@@ -37,62 +37,62 @@ import java.util.StringTokenizer;
 /**
  * @author jdcasey
  */
-public abstract class AbstractLoopingTag extends AbstractMarmaladeTag
+public abstract class AbstractLoopingTag
+    extends AbstractMarmaladeTag
     implements LoopingTag
 {
     private boolean shouldBreak = false;
+
     private boolean shouldContinue = false;
 
-    protected AbstractLoopingTag(  )
+    protected AbstractLoopingTag()
     {
-        super(  );
+        super();
     }
 
-    public final void breakLoop(  )
+    public final void breakLoop()
     {
         shouldBreak = true;
     }
 
-    public final void continueLoop(  )
+    public final void continueLoop()
     {
         shouldContinue = true;
     }
 
-    protected final boolean alwaysProcessChildren(  )
+    protected final boolean alwaysProcessChildren()
     {
         return false;
     }
 
-    protected void doReset(  )
+    protected void doReset()
     {
         shouldBreak = false;
         shouldContinue = false;
     }
 
-    protected final void executeLoop( LoopStep[] steps, String itemBinding,
-        String statusBinding, MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    protected final void executeLoop( LoopStep[] steps, String itemBinding, String statusBinding,
+        MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
-        context.newScope(  );
+        context.newScope();
 
-OUTER: 
-        for ( int i = 0; i < steps.length; i++ )
+        OUTER: for ( int i = 0; i < steps.length; i++ )
         {
             LoopStep step = steps[i];
-            Object item = step.getItem(  );
+            Object item = step.getItem();
 
             context.setVariable( itemBinding, item );
 
-            if ( ( statusBinding != null ) && ( statusBinding.length(  ) > 0 ) )
+            if ( (statusBinding != null) && (statusBinding.length() > 0) )
             {
                 context.setVariable( statusBinding, step );
             }
 
-            List children = children(  );
+            List children = children();
 
-            for ( Iterator it = children.iterator(  ); it.hasNext(  ); )
+            for ( Iterator it = children.iterator(); it.hasNext(); )
             {
-                MarmaladeTag child = ( MarmaladeTag ) it.next(  );
+                MarmaladeTag child = (MarmaladeTag) it.next();
 
                 child.execute( context );
 
@@ -109,20 +109,18 @@ OUTER:
             }
         }
 
-        context.lastScope(  );
+        context.lastScope();
     }
 
-    protected void getItemsFromCollection( Collection items, List itemList,
-        int begin, int end, int step )
+    protected void getItemsFromCollection( Collection items, List itemList, int begin, int end, int step )
     {
         int i = 0;
 
-        for ( Iterator it = items.iterator(  ); it.hasNext(  ); )
+        for ( Iterator it = items.iterator(); it.hasNext(); )
         {
-            Object item = it.next(  );
+            Object item = it.next();
 
-            if ( ( i < begin ) || ( ( i > end ) && ( end > -1 ) )
-                || ( ( i % step ) != 0 ) )
+            if ( (i < begin) || ((i > end) && (end > -1)) || ((i % step) != 0) )
             {
                 // ignore.
             }
@@ -135,18 +133,16 @@ OUTER:
         }
     }
 
-    protected void getItemsFromString( String items, String delims,
-        List itemList, int begin, int end, int step )
+    protected void getItemsFromString( String items, String delims, List itemList, int begin, int end, int step )
     {
         StringTokenizer st = new StringTokenizer( items, delims );
         int i = 0;
 
-        while ( st.hasMoreTokens(  ) )
+        while ( st.hasMoreTokens() )
         {
-            String item = st.nextToken(  ).trim(  );
+            String item = st.nextToken().trim();
 
-            if ( ( i < begin ) || ( ( i > end ) && ( end > -1 ) )
-                || ( ( i % step ) != 0 ) )
+            if ( (i < begin) || ((i > end) && (end > -1)) || ((i % step) != 0) )
             {
                 // ignore.
             }
@@ -159,15 +155,13 @@ OUTER:
         }
     }
 
-    protected void getItemsFromArray( Object[] itemArray, List itemList,
-        int begin, int end, int step )
+    protected void getItemsFromArray( Object[] itemArray, List itemList, int begin, int end, int step )
     {
         for ( int i = 0; i < itemArray.length; i++ )
         {
             Object item = itemArray[i];
 
-            if ( ( i < begin ) || ( ( i > end ) && ( end > -1 ) )
-                || ( ( i % step ) != 0 ) )
+            if ( (i < begin) || ((i > end) && (end > -1)) || ((i % step) != 0) )
             {
                 continue;
             }
@@ -178,12 +172,17 @@ OUTER:
         }
     }
 
-    public static final class LoopStep implements LoopStatus
+    public static final class LoopStep
+        implements LoopStatus
     {
         private Object item;
+
         private int index;
+
         private int begin;
+
         private int end;
+
         private int step;
 
         public LoopStep( Object item, int begin, int end, int step, int index )
@@ -195,27 +194,27 @@ OUTER:
             this.step = step;
         }
 
-        protected Object getItem(  )
+        protected Object getItem()
         {
             return item;
         }
 
-        public int getIndex(  )
+        public int getIndex()
         {
             return index;
         }
 
-        public int getBegin(  )
+        public int getBegin()
         {
             return begin;
         }
 
-        public int getEnd(  )
+        public int getEnd()
         {
             return end;
         }
 
-        public int getStep(  )
+        public int getStep()
         {
             return step;
         }

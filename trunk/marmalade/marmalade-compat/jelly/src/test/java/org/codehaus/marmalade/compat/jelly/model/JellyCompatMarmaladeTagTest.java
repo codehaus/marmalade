@@ -3,6 +3,7 @@ package org.codehaus.marmalade.compat.jelly.model;
 
 import org.apache.commons.jelly.TagLibrary;
 import org.apache.commons.jelly.test.MarmaladeTaglibWrapperCompatTestTagLibrary;
+import org.codehaus.marmalade.compat.jelly.metamodel.JellyCompatMarmaladeTaglib;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.commonsEl.CommonsElExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;

@@ -24,19 +24,21 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
+import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.metamodel.ModelBuilderException;
+import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
-import org.codehaus.marmalade.parsetime.DefaultParsingContext;
-import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
-import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
-import org.codehaus.marmalade.parsetime.MarmaladeParsingContext;
-import org.codehaus.marmalade.parsetime.ScriptBuilder;
-import org.codehaus.marmalade.parsetime.ScriptParser;
+import org.codehaus.marmalade.parsing.DefaultParsingContext;
+import org.codehaus.marmalade.parsing.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsing.MarmaladeParsingContext;
+import org.codehaus.marmalade.parsing.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.TaglibResolutionStrategyOwner;
 import org.codehaus.marmalade.util.RecordingReader;
 
 import java.io.BufferedReader;
@@ -47,16 +49,21 @@ import java.io.Reader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author jdcasey
  */
 public class ImportTag extends AbstractMarmaladeTag
+    implements TaglibResolutionStrategyOwner
 {
     public static final String URL_ATTRIBUTE = "url";
     public static final String VAR_ATTRIBUTE = "var";
     public static final String PARSE_ONLY_ATTRIBUTE = "parse-only";
     public static final String RESOLVER_ATTRIBUTE = "resolver";
+    
+    private List strategies = new LinkedList();
 
     public ImportTag(  )
     {
@@ -106,15 +113,6 @@ public class ImportTag extends AbstractMarmaladeTag
 
         MarmaladeAttributes attributes = getAttributes(  );
 
-        MarmaladeTaglibResolver resolver = ( MarmaladeTaglibResolver ) attributes
-            .getValue( RESOLVER_ATTRIBUTE, MarmaladeTaglibResolver.class,
-                context );
-
-        if ( resolver == null )
-        {
-            resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
-        }
-
         RecordingReader reader = null;
 
         try
@@ -124,10 +122,16 @@ public class ImportTag extends AbstractMarmaladeTag
 
             MarmaladeParsingContext pContext = new DefaultParsingContext(  );
 
-            pContext.setTaglibResolver( resolver );
             pContext.setInput( reader );
             pContext.setInputLocation( resource.toExternalForm(  ) );
             pContext.setDefaultExpressionEvaluator( getExpressionEvaluator(  ) );
+            
+            if(strategies.isEmpty()) {
+                pContext.addTaglibDefinitionStrategies(MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN);
+            }
+            else {
+                pContext.addTaglibDefinitionStrategies(strategies);
+            }
 
             ScriptParser parser = new ScriptParser(  );
             ScriptBuilder builder = parser.parse( pContext );
@@ -157,7 +161,7 @@ public class ImportTag extends AbstractMarmaladeTag
             throw new MarmaladeExecutionException( 
                 "Error parsing script from: " + resource.toExternalForm(  ), e );
         }
-        catch ( MarmaladeModelBuilderException e )
+        catch ( ModelBuilderException e )
         {
             throw new MarmaladeExecutionException( 
                 "Error parsing script from: " + resource.toExternalForm(  ), e );
@@ -179,6 +183,16 @@ public class ImportTag extends AbstractMarmaladeTag
                 {
                 }
             }
+        }
+    }
+    
+    protected void doReset() {
+        strategies.clear();
+    }
+
+    public void addTaglibResolutionStrategy(TaglibResolutionStrategy strategy) {
+        if(!strategies.contains(strategy)) {
+            strategies.add(strategy);
         }
     }
 }

@@ -24,13 +24,13 @@
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade.el.ognl;
 
-
 /**
  * @author jdcasey
  */
 public class TestSubject
 {
     public static final String TEST_STATIC_VALUE = "Test Static Value";
+
     private String id;
 
     public TestSubject( String id )
@@ -43,7 +43,7 @@ public class TestSubject
         return "Test Static Method Result: " + valueToUse;
     }
 
-    public String getId(  )
+    public String getId()
     {
         return id;
     }

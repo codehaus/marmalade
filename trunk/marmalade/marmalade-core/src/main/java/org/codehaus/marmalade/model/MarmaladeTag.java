@@ -27,39 +27,36 @@ package org.codehaus.marmalade.model;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.runtime.ConfigurationException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
-/** Represents a marmalade tag. Simply used as a common place to specify behavior in the future.
- *
+/**
+ * Represents a marmalade tag. Simply used as a common place to specify behavior
+ * in the future.
+ * 
  * @author John Casey
  */
 public interface MarmaladeTag
 {
-    Object getBody( MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException;
+    Object getBody( MarmaladeExecutionContext context ) throws ExpressionEvaluationException;
 
-    Object getBody( MarmaladeExecutionContext context, Class targetType )
-        throws ExpressionEvaluationException;
+    Object getBody( MarmaladeExecutionContext context, Class targetType ) throws ExpressionEvaluationException;
 
-    MarmaladeAttributes getAttributes(  );
+    MarmaladeAttributes getAttributes();
 
     void setExpressionEvaluator( ExpressionEvaluator el );
 
-    ExpressionEvaluator getExpressionEvaluator(  )
-        throws ConfigurationException;
+    ExpressionEvaluator getExpressionEvaluator();
 
-    void execute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException;
+    void execute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException;
 
     void setParent( MarmaladeTag parent );
 
     void addChild( MarmaladeTag child );
 
-    MarmaladeTag getParent(  );
+    MarmaladeTag getParent();
 
-    MarmaladeTagInfo getTagInfo(  );
+    MarmaladeTagInfo getTagInfo();
 
     void setAttributes( MarmaladeAttributes attributes );
 

@@ -31,22 +31,21 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public abstract class AbstractConditionalTag extends AbstractMarmaladeTag
+public abstract class AbstractConditionalTag
+    extends AbstractMarmaladeTag
 {
     public static final String TEST_ATTRIBUTE = "test";
 
     /**
      */
-    public AbstractConditionalTag(  )
+    public AbstractConditionalTag()
     {
-        super(  );
+        super();
     }
 
-    public boolean conditionMatches( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    public boolean conditionMatches( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
-        Object value = requireTagAttribute( TEST_ATTRIBUTE, Boolean.class,
-                context );
+        Object value = requireTagAttribute( TEST_ATTRIBUTE, Boolean.class, context );
 
         boolean result = false;
 
@@ -54,21 +53,20 @@ public abstract class AbstractConditionalTag extends AbstractMarmaladeTag
         {
             if ( value instanceof Boolean )
             {
-                result = ( ( Boolean ) value ).booleanValue(  );
+                result = ((Boolean) value).booleanValue();
             }
             else
             {
                 String test = String.valueOf( value );
 
-                result = Boolean.valueOf( test ).booleanValue(  );
+                result = Boolean.valueOf( test ).booleanValue();
             }
         }
 
         return result;
     }
 
-    protected void doExecute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
         if ( conditionMatches( context ) )
         {
@@ -76,7 +74,7 @@ public abstract class AbstractConditionalTag extends AbstractMarmaladeTag
         }
     }
 
-    protected boolean alwaysProcessChildren(  )
+    protected boolean alwaysProcessChildren()
     {
         return false;
     }

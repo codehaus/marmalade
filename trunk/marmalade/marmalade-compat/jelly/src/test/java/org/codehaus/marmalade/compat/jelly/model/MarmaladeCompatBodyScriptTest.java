@@ -9,6 +9,7 @@ import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.test.MarmaladeTagWrapperTestTag;
 import org.apache.commons.jelly.test.MarmaladeTaglibWrapperCompatTestTagLibrary;
+import org.codehaus.marmalade.compat.jelly.metamodel.JellyCompatMarmaladeTaglib;
 import org.codehaus.marmalade.compat.jelly.runtime.MarmaladeCompatJellyContext;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.commonsEl.CommonsElExpressionEvaluator;

@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jelly.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -51,17 +50,12 @@ public class SetTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         SetTag tag = new SetTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -77,34 +71,29 @@ public class SetTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", SetTag.PROPERTY_ATTRIBUTE, "attribute.value" );
-        attrs.addAttribute( "", "", SetTag.TARGET_ATTRIBUTE, "#subject" );
+        attrs.addAttribute( "", "", SetTag.PROPERTY_ATTRIBUTE, "attribute" );
+        attrs.addAttribute( "", "", SetTag.TARGET_ATTRIBUTE, "${subject}" );
         attrs.addAttribute( "", "", SetTag.VALUE_ATTRIBUTE, "testResult" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         SetTag tag = new SetTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext ctx = new DefaultContext(  );
 
-        TestSubject subject = new TestSubject( new TestAttribute( "testSource" ) );
+        TestSubject subject = new TestSubject( "testSource" );
 
         ctx.setVariable( "subject", subject );
 
         assertEquals( "Pre-Test: subject's attribute's value should be \'testSource\'",
-            "testSource", subject.getAttribute(  ).getValue(  ) );
+            "testSource", subject.getAttribute(  ) );
         tag.execute( ctx );
         assertEquals( "Post-Test: subject's attribute's value should be \'testResult\'",
-            "testResult", subject.getAttribute(  ).getValue(  ) );
+            "testResult", subject.getAttribute(  ) );
     }
 }

@@ -24,50 +24,61 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.model;
 
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Collections;
+
 import junit.framework.TestCase;
 
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 
 /**
  * @author jdcasey
  */
-public class MarmaladeScriptTest extends TestCase
+public class MarmaladeScriptTest
+    extends MockObjectTestCase
 {
-    public void testShouldConstructWithAndRetrieveLocation(  )
+    public void testShouldConstructWithAndRetrieveLocation()
     {
-        MarmaladeScript script = new MarmaladeScript( "test.mmld",
-                new TestRootTag(  ) );
+        MarmaladeScript script = new MarmaladeScript( "test.mmld", new TestRootTag() );
 
-        assertEquals( "test.mmld", script.getLocation(  ) );
+        assertEquals( "test.mmld", script.getLocation() );
     }
 
-    public void testShouldExecute(  )
-        throws MarmaladeExecutionException
+    public void testShouldExecute() throws MarmaladeExecutionException
     {
-        TestRootTag root = new TestRootTag(  );
+        TestRootTag root = new TestRootTag();
         MarmaladeScript script = new MarmaladeScript( "test.mmld", root );
 
-        script.execute( null );
-        assertTrue( root.executed(  ) );
+        Mock ctxMock = mock( MarmaladeExecutionContext.class );
+
+        PrintWriter out = new PrintWriter( new OutputStreamWriter( System.out ) );
+
+        MarmaladeExecutionContext ctx = (MarmaladeExecutionContext) ctxMock.proxy();
+
+        script.execute( ctx );
+        assertTrue( root.executed() );
     }
 
-    public static class TestRootTag extends AbstractMarmaladeTag
+    public static class TestRootTag
+        extends AbstractMarmaladeTag
     {
         private boolean executed = false;
 
-        TestRootTag(  )
+        TestRootTag()
         {
-            super(  );
+            super();
         }
 
-        boolean executed(  )
+        boolean executed()
         {
             return executed;
         }
 
-        protected void doExecute( MarmaladeExecutionContext context )
-            throws MarmaladeExecutionException
+        protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
         {
             this.executed = true;
         }

@@ -17,7 +17,7 @@ package org.codehaus.marmalade.compat.jelly;
 
 import java.util.HashMap;
 
-import org.codehaus.marmalade.compat.jelly.model.JellyCompatMarmaladeTaglib;
+import org.codehaus.marmalade.compat.jelly.metamodel.JellyCompatMarmaladeTaglib;
 import org.codehaus.marmalade.compat.jelly.runtime.MarmaladeCompatJellyContext;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.commonsEl.CommonsElExpressionEvaluator;

@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
@@ -125,9 +124,7 @@ public class ErrTagTest extends TestCase
         attrs.addAttribute( "", "", "value", message2 );
         attrs.addAttribute( "", "", "default", message3 );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
@@ -137,7 +134,6 @@ public class ErrTagTest extends TestCase
         tag.setAttributes(tagAttrs);
         tag.setTagInfo(ti);
         tag.appendBodyText( message );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 
@@ -158,10 +154,7 @@ public class ErrTagTest extends TestCase
         attrs.addAttribute( "", "", "value", message );
         attrs.addAttribute( "", "", "default", message2 );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
@@ -170,8 +163,6 @@ public class ErrTagTest extends TestCase
         ErrTag tag = new ErrTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator( el );
-
 
         DefaultContext context = new DefaultContext(  );
 
@@ -192,10 +183,7 @@ public class ErrTagTest extends TestCase
         attrs.addAttribute( "", "", "value", message );
         attrs.addAttribute( "", "", "escapeXml", "true" );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
@@ -204,7 +192,6 @@ public class ErrTagTest extends TestCase
         ErrTag tag = new ErrTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 

@@ -57,6 +57,7 @@ public class UseListTag extends AbstractJellyMarmaladeTag
         String className = ( String ) getAttributes(  ).getValue( CLASS_ATTRIBUTE,
                 String.class, context );
 
+        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
         Class collectionClass = null;
 
         if ( ( className == null ) || ( className.length(  ) < 1 ) )
@@ -67,7 +68,7 @@ public class UseListTag extends AbstractJellyMarmaladeTag
         {
             try
             {
-                collectionClass = Class.forName( className );
+                collectionClass = cloader.loadClass( className );
             }
             catch ( ClassNotFoundException e )
             {

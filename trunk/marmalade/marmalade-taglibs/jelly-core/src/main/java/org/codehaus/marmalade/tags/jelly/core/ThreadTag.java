@@ -54,6 +54,10 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
     public ThreadTag(  )
     {
     }
+    
+    protected boolean alwaysProcessChildren() {
+        return false;
+    }
 
     protected void doExecute( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
@@ -174,22 +178,29 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
 
         if ( ( threadName == null ) && ( threadName.length(  ) > 0 ) )
         {
-            thread = new Thread( new ChildRunner( ctx ) );
+            thread = new Thread( new ChildRunner( this, ctx ) );
         }
         else
         {
-            thread = new Thread( new ChildRunner( ctx ), threadName );
+            thread = new Thread( new ChildRunner( this, ctx ), threadName );
         }
 
         thread.setPriority( Thread.currentThread(  ).getPriority(  ) - 1 );
+        thread.start();
+    }
+    
+    public void run(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
+        processChildren(context);
     }
 
-    private class ChildRunner implements Runnable
+    private static class ChildRunner implements Runnable
     {
         private MarmaladeExecutionContext ctx;
+        private final ThreadTag tag;
 
-        ChildRunner( MarmaladeExecutionContext ctx )
+        ChildRunner( ThreadTag tag, MarmaladeExecutionContext ctx )
         {
+            this.tag = tag;
             this.ctx = ctx;
         }
 
@@ -197,7 +208,7 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
         {
             try
             {
-                processChildren( ctx );
+                tag.run( ctx );
             }
             catch ( MarmaladeExecutionException e )
             {

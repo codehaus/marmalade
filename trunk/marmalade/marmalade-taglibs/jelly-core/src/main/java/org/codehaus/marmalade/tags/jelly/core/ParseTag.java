@@ -24,19 +24,21 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
+import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.metamodel.ModelBuilderException;
+import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
-import org.codehaus.marmalade.parsetime.DefaultParsingContext;
-import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
-import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
-import org.codehaus.marmalade.parsetime.MarmaladeParsingContext;
-import org.codehaus.marmalade.parsetime.ScriptBuilder;
-import org.codehaus.marmalade.parsetime.ScriptParser;
+import org.codehaus.marmalade.parsing.DefaultParsingContext;
+import org.codehaus.marmalade.parsing.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsing.MarmaladeParsingContext;
+import org.codehaus.marmalade.parsing.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.TaglibResolutionStrategyOwner;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 import org.codehaus.marmalade.util.RecordingReader;
 
@@ -46,16 +48,21 @@ import java.io.StringReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author jdcasey
  */
 public class ParseTag extends AbstractJellyMarmaladeTag
+    implements TaglibResolutionStrategyOwner
 {
     public static final String XML_READER_ATTRIBUTE = "XMLReader";
     public static final String JELLY_PARSER_ATTRIBUTE = "jellyParser";
     public static final String VAR_ATTRIBUTE = "var";
     public static final String TEXT_ATTRIBUTE = "text";
+    
+    private List strategies = new LinkedList();
 
     public ParseTag(  )
     {
@@ -108,7 +115,6 @@ public class ParseTag extends AbstractJellyMarmaladeTag
 
                 MarmaladeTagInfo ti = getTagInfo(  );
 
-                MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
                 RecordingReader rreader = new RecordingReader( reader );
                 String location = "inline/internal script (file: "
                     + ti.getSourceFile(  ) + ", line: " + ti.getSourceLine(  )
@@ -116,7 +122,13 @@ public class ParseTag extends AbstractJellyMarmaladeTag
 
                 MarmaladeParsingContext pContext = new DefaultParsingContext(  );
 
-                pContext.setTaglibResolver( resolver );
+                if(strategies.isEmpty()) {
+                    pContext.addTaglibDefinitionStrategies(MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN);
+                }
+                else {
+                    pContext.addTaglibDefinitionStrategies(strategies);
+                }
+                
                 pContext.setInput( rreader );
                 pContext.setInputLocation( location );
                 pContext.setDefaultExpressionEvaluator( getExpressionEvaluator(  ) );
@@ -146,9 +158,15 @@ public class ParseTag extends AbstractJellyMarmaladeTag
         {
             throw new MarmaladeExecutionException( "Error parsing script", e );
         }
-        catch ( MarmaladeModelBuilderException e )
+        catch ( ModelBuilderException e )
         {
             throw new MarmaladeExecutionException( "Error parsing script", e );
+        }
+    }
+
+    public void addTaglibResolutionStrategy(TaglibResolutionStrategy strategy) {
+        if(!strategies.contains(strategy)) {
+            strategies.add(strategy);
         }
     }
 }

@@ -30,7 +30,7 @@ import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
-import org.codehaus.marmalade.runtime.IllegalParentException;
+import org.codehaus.marmalade.runtime.IllegalScriptStructureException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
@@ -59,8 +59,8 @@ public class OtherwiseTagTest extends TestCase
             tag.execute( new DefaultContext(  ) );
             fail( "Tag should fail due to missing ChooseTag parent." );
         }
-        catch ( IllegalParentException e )
-        {
+        catch(IllegalScriptStructureException e) {
+            // should snag on missing parent.
         }
     }
 

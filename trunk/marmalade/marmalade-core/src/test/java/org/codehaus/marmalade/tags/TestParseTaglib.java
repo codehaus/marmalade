@@ -24,14 +24,15 @@
 /* Created on May 25, 2004 */
 package org.codehaus.marmalade.tags;
 
-import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
+import org.codehaus.marmalade.metamodel.AbstractMarmaladeTagLibrary;
 
 /**
  * @author jdcasey
  */
-public class TestParseTaglib extends AbstractMarmaladeTagLibrary
+public class TestParseTaglib
+    extends AbstractMarmaladeTagLibrary
 {
-    public TestParseTaglib(  )
+    public TestParseTaglib()
     {
         registerTag( "testTag", TestParseTag.class );
     }

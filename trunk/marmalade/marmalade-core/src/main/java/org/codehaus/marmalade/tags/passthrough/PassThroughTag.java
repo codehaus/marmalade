@@ -29,7 +29,8 @@ import org.codehaus.marmalade.tags.AbstractPassThroughTag;
 /**
  * @author jdcasey
  */
-public class PassThroughTag extends AbstractPassThroughTag
+public class PassThroughTag
+    extends AbstractPassThroughTag
 {
     // Implemented in abstract super class, to allow access to this funcionality
     // from other tags as a fallback measure.

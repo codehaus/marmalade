@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jelly.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -43,7 +42,7 @@ public class IncludeTagTest extends TestCase
         + SCRIPT_WITHOUT_XML_DECL;
     private static final String SCRIPT_WITHOUT_XML_WITH_EXPECTATION_DECL =
         "<?xml version=\"1.0\"?>\n"
-        + "<set xmlns=\"jelly:core\" xmlns:marmalade=\"marmalade\" marmalade:el=\"ognl\" var=\"testKey\" value=\"#testVal\"/>";
+        + "<set xmlns=\"jelly:core\" xmlns:marmalade=\"marmalade\" marmalade:el=\"ognl\" var=\"testKey\" value=\"${testVal}\"/>";
 
     public void testShouldSkipIfTestAttributeEvaluatesToFalse(  )
         throws MarmaladeExecutionException
@@ -54,17 +53,12 @@ public class IncludeTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         IncludeTag tag = new IncludeTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         tag.execute( new DefaultContext(  ) );
     }
@@ -77,17 +71,12 @@ public class IncludeTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         IncludeTag tag = new IncludeTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         try
         {
@@ -111,17 +100,12 @@ public class IncludeTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         IncludeTag tag = new IncludeTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
         tag.appendBodyText( SCRIPT_WITH_XML_DECL );
 
         DefaultContext ctx = new DefaultContext(  );
@@ -144,17 +128,12 @@ public class IncludeTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         IncludeTag tag = new IncludeTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
         tag.appendBodyText( SCRIPT_WITHOUT_XML_WITH_EXPECTATION_DECL );
 
         DefaultContext ctx = new DefaultContext(  );
@@ -162,7 +141,7 @@ public class IncludeTagTest extends TestCase
         ctx.setVariable( "testVal", "myVal" );
         tag.execute( ctx );
 
-        String value = ( String ) ctx.getVariable( "testKey", el );
+        String value = ( String ) ctx.getVariable( "testKey", null );
 
         assertEquals( "myVal", value );
     }
@@ -176,17 +155,12 @@ public class IncludeTagTest extends TestCase
 
         attrs.addAttribute( "", "", IncludeTag.TEST_ATTRIBUTE, "true" );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         IncludeTag tag = new IncludeTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
         tag.appendBodyText( SCRIPT_WITH_XML_DECL );
 
         DefaultContext ctx = new DefaultContext(  );

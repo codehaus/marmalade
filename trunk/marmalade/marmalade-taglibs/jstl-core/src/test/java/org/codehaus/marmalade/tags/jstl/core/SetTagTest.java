@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
@@ -130,32 +129,28 @@ public class SetTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", "property", "attribute.value" );
-        attrs.addAttribute( "", "", "target", "#subject" );
+        attrs.addAttribute( "", "", "property", "attribute" );
+        attrs.addAttribute( "", "", "target", "${subject}" );
         attrs.addAttribute( "", "", "value", "testResult" );
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         SetTag tag = new SetTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
-        TestSubject subject = new TestSubject( new TestAttribute( "testSource" ) );
+        TestSubject subject = new TestSubject( "testSource" );
 
         ctx.setVariable( "subject", subject );
 
         assertEquals( "Pre-Test: subject's attribute's value should be \'testSource\'",
-            "testSource", subject.getAttribute(  ).getValue(  ) );
+            "testSource", subject.getAttribute(  ) );
         tag.execute( ctx );
         assertEquals( "Post-Test: subject's attribute's value should be \'testResult\'",
-            "testResult", subject.getAttribute(  ).getValue(  ) );
+            "testResult", subject.getAttribute(  ) );
     }
 }

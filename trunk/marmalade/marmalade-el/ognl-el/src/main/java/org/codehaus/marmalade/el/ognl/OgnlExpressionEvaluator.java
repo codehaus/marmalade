@@ -36,21 +36,20 @@ import java.util.regex.Pattern;
 /**
  * @author jdcasey
  */
-public class OgnlExpressionEvaluator extends AbstractExpressionEvaluator
+public class OgnlExpressionEvaluator
+    extends AbstractExpressionEvaluator
 {
-    public static final Pattern EXPRESSION_PATTERN = Pattern.compile( 
-            "(#|@)[^ ]+" );
+    public static final Pattern EXPRESSION_PATTERN = Pattern.compile( "(#|@)[^ ]+" );
 
-    public OgnlExpressionEvaluator(  )
+    public OgnlExpressionEvaluator()
     {
     }
 
-    public Object doEval( String expression, Map context, Class expectedType )
-        throws ExpressionEvaluationException
+    public Object doEval( String expression, Map context, Class expectedType ) throws ExpressionEvaluationException
     {
         try
         {
-            Object result = Ognl.getValue( expression, context, ( Object ) null );
+            Object result = Ognl.getValue( expression, context, (Object) null );
 
             return result;
         }
@@ -60,8 +59,7 @@ public class OgnlExpressionEvaluator extends AbstractExpressionEvaluator
         }
     }
 
-    public Object assign( Object target, String property, Object value )
-        throws ExpressionEvaluationException
+    public Object assign( Object target, String property, Object value ) throws ExpressionEvaluationException
     {
         try
         {
@@ -75,7 +73,7 @@ public class OgnlExpressionEvaluator extends AbstractExpressionEvaluator
         }
     }
 
-    protected Pattern getExpressionPattern(  )
+    protected Pattern getExpressionPattern()
     {
         return EXPRESSION_PATTERN;
     }

@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
@@ -120,10 +119,7 @@ public class OutTagTest extends TestCase
         attrs.addAttribute( "", "", "value", message2 );
         attrs.addAttribute( "", "", "default", message3 );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
         
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
@@ -133,7 +129,6 @@ public class OutTagTest extends TestCase
         tag.setTagInfo(ti);
         tag.setAttributes( tagAttrs );
         tag.appendBodyText( message );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 
@@ -156,17 +151,13 @@ public class OutTagTest extends TestCase
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         StringWriter out = new StringWriter(  );
 
         OutTag tag = new OutTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         DefaultContext context = new DefaultContext(  );
 
@@ -189,17 +180,13 @@ public class OutTagTest extends TestCase
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         StringWriter out = new StringWriter(  );
 
         OutTag tag = new OutTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         DefaultContext context = new DefaultContext(  );
 

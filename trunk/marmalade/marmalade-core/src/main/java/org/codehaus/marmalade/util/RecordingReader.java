@@ -7,9 +7,11 @@ import java.io.Reader;
 /**
  * @author jdcasey
  */
-public final class RecordingReader extends Reader
+public final class RecordingReader
+    extends Reader
 {
     private final Reader reader;
+
     private StringBuffer recordedInput;
 
     public RecordingReader( Reader reader )
@@ -23,19 +25,18 @@ public final class RecordingReader extends Reader
         this.reader = reader;
     }
 
-    public void close(  ) throws IOException
+    public void close() throws IOException
     {
-        reader.close(  );
+        reader.close();
     }
 
-    public int read( char[] cbuf, int off, int len )
-        throws IOException
+    public int read( char[] cbuf, int off, int len ) throws IOException
     {
         // do the read
         int result = reader.read( cbuf, off, len );
 
         // if we're recording, put a copy in the recorded input
-        if ( ( recordedInput != null ) && ( result > 0 ) )
+        if ( (recordedInput != null) && (result > 0) )
         {
             recordedInput.append( cbuf, off, result );
         }
@@ -44,13 +45,13 @@ public final class RecordingReader extends Reader
         return result;
     }
 
-    public void startRecording(  )
+    public void startRecording()
     {
-        recordedInput = new StringBuffer(  );
+        recordedInput = new StringBuffer();
     }
 
-    public String getRecordedInput(  )
+    public String getRecordedInput()
     {
-        return ( recordedInput == null ) ? ( null ) : ( recordedInput.toString(  ) );
+        return (recordedInput == null) ? (null) : (recordedInput.toString());
     }
 }

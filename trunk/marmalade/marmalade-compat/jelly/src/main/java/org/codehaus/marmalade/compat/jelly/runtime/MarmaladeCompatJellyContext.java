@@ -4,7 +4,7 @@ package org.codehaus.marmalade.compat.jelly.runtime;
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.TagLibrary;
 import org.codehaus.marmalade.compat.jelly.JellyCompatUncheckedException;
-import org.codehaus.marmalade.compat.jelly.model.JellyCompatMarmaladeTaglib;
+import org.codehaus.marmalade.compat.jelly.metamodel.JellyCompatMarmaladeTaglib;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;

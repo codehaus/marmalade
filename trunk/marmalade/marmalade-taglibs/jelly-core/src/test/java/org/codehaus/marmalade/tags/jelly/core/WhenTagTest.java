@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jelly.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -46,17 +45,12 @@ public class WhenTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         WhenTag tag = new WhenTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         FlagChildTestTag flag = new FlagChildTestTag(  );
 
@@ -86,17 +80,12 @@ public class WhenTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         WhenTag tag = new WhenTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         parent.addChild( tag );
         tag.setParent( parent );

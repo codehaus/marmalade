@@ -33,58 +33,57 @@ import org.codehaus.marmalade.util.XMLUtils;
 /**
  * @author jdcasey
  */
-public abstract class AbstractOutputTag extends AbstractMarmaladeTag
+public abstract class AbstractOutputTag
+    extends AbstractMarmaladeTag
 {
     public static final String VALUE_ATTRIBUTE = "value";
+
     public static final String DEFAULT_ATTRIBUTE = "default";
+
     public static final String ESCAPE_XML_ATTRIBUTE = "escapeXml";
 
     /**
      */
-    protected AbstractOutputTag(  )
+    protected AbstractOutputTag()
     {
-        super(  );
+        super();
     }
 
-    protected abstract void write( String message,
-        MarmaladeExecutionContext context )
+    protected abstract void write( String message, MarmaladeExecutionContext context )
         throws MarmaladeExecutionException;
 
-    protected void doExecute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
-        String value = ( String ) getBody( context, String.class );
+        String value = (String) getBody( context, String.class );
 
-        MarmaladeAttributes attributes = getAttributes(  );
+        MarmaladeAttributes attributes = getAttributes();
 
-        if ( ( value == null ) || ( value.length(  ) < 1 ) )
+        if ( (value == null) || (value.length() < 1) )
         {
-            value = ( String ) attributes.getValue( VALUE_ATTRIBUTE,
-                    String.class, context );
+            value = (String) attributes.getValue( VALUE_ATTRIBUTE, String.class, context );
         }
 
-        if ( ( value == null ) || ( value.length(  ) < 1 ) )
+        if ( (value == null) || (value.length() < 1) )
         {
-            value = ( String ) attributes.getValue( DEFAULT_ATTRIBUTE,
-                    String.class, context, "" );
+            value = (String) attributes.getValue( DEFAULT_ATTRIBUTE, String.class, context, "" );
         }
 
-        if ( ( value == null ) || ( value.length(  ) < 1 ) )
+        if ( (value == null) || (value.length() < 1) )
         {
-            throw new MarmaladeExecutionException( 
-                "Message is null. Either specify the value or default "
+            throw new MarmaladeExecutionException( "Message is null. Either specify the value or default "
                 + "attribute, or provide a non-null body for this tag." );
         }
         else
         {
-            Boolean escapeXml = ( Boolean ) attributes.getValue( ESCAPE_XML_ATTRIBUTE,
-                    Boolean.class, context, Boolean.FALSE );
+            Object escVal = attributes.getValue( ESCAPE_XML_ATTRIBUTE, Boolean.class, context, Boolean.FALSE );
+
+            Boolean escapeXml = (Boolean) escVal;
 
             boolean escape = false;
 
             if ( escapeXml != null )
             {
-                escape = escapeXml.booleanValue(  );
+                escape = escapeXml.booleanValue();
             }
 
             if ( escape )

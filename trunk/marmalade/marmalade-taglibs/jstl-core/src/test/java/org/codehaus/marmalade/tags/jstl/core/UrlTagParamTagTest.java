@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -48,17 +47,13 @@ public class UrlTagParamTagTest extends TestCase
         attrs.addAttribute( "", "", "var", "url" );
         attrs.addAttribute( "", "", "url", url );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         UrlTag tag = new UrlTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         if ( params != null )
         {
@@ -73,13 +68,10 @@ public class UrlTagParamTagTest extends TestCase
 
         DefaultContext ctx = new DefaultContext(  );
 
-        assertNull( "url variable should be null", ctx.getVariable( "url", el ) );
+        assertNull( "url variable should be null", ctx.getVariable( "url", null ) );
         tag.execute( ctx );
 
-        URL test = ( URL ) ctx.getVariable( "url", el );
-
-        System.out.println( "Original URL: " + url + "\tResulting URL: "
-            + test.toExternalForm(  ) );
+        URL test = ( URL ) ctx.getVariable( "url", null );
 
         assertEquals( checkUrl, test.toExternalForm(  ) );
     }
@@ -105,15 +97,11 @@ public class UrlTagParamTagTest extends TestCase
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         ParamTag param = new ParamTag(  );
         param.setTagInfo(ti);
         param.setAttributes(tagAttrs);
-        param.setExpressionEvaluator(el);
 
         _testUrlTag( url, new ParamTag[] { param }, check );
     }
@@ -131,15 +119,11 @@ public class UrlTagParamTagTest extends TestCase
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         ParamTag param = new ParamTag(  );
         param.setTagInfo(ti);
         param.setAttributes(tagAttrs);
-        param.setExpressionEvaluator(el);
 
         _testUrlTag( url, new ParamTag[] { param }, check );
     }
@@ -157,15 +141,11 @@ public class UrlTagParamTagTest extends TestCase
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         ParamTag param = new ParamTag(  );
         param.setTagInfo(ti);
         param.setAttributes(tagAttrs);
-        param.setExpressionEvaluator(el);
 
         _testUrlTag( url, new ParamTag[] { param }, check );
     }

@@ -9,12 +9,15 @@ These are just some notes to improve Marmalade.
       which is separate from the actual layering involved 
       (eg. a named scope of "parent" might always mean this-1 scope).
 
+<DONE 8/1/2004>
 [jdcasey 6/28/2004]:
 * Change ScopedMap and/or ScopedMap init in context to load 
   System.getProperties() into untouchable parent context
     - Cannot lastContext() into the sysprops scope
     
     - Cannot set values in the sysprops scope
+    
+</DONE>
 
 [jdcasey 7/2/2004]:
 * Bring HTTPUnit taglib up to speed with tagalog-less marmalade-core.

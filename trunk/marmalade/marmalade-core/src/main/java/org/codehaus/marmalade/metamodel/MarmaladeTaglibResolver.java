@@ -24,31 +24,54 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-import org.codehaus.marmalade.metamodel.strategy.LiteralClassDefinitionStrategy;
-import org.codehaus.marmalade.metamodel.strategy.PassThroughTaglibDefinitionStrategy;
-import org.codehaus.marmalade.metamodel.strategy.PrefixedDefFileDefinitionStrategy;
-import org.codehaus.marmalade.metamodel.strategy.PrefixedTldDefinitionStrategy;
-import org.codehaus.marmalade.metamodel.strategy.TaglibDefinitionStrategy;
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.codehaus.marmalade.discovery.LiteralResolutionStrategy;
+import org.codehaus.marmalade.discovery.PassThroughResolutionStrategy;
+import org.codehaus.marmalade.discovery.PrefixedDefFileResolutionStrategy;
+import org.codehaus.marmalade.discovery.PrefixedTldResolutionStrategy;
+import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author jdcasey
  */
 public class MarmaladeTaglibResolver
 {
-    public static final TaglibDefinitionStrategy[] DEFAULT_STRATEGY_CHAIN = 
-        {
-            new LiteralClassDefinitionStrategy(  ),
-            new PrefixedTldDefinitionStrategy(  ),
-            new PrefixedDefFileDefinitionStrategy(  ),
-            new PassThroughTaglibDefinitionStrategy(  )
-        };
-    private TaglibDefinitionStrategy[] strategies;
+    public static final List DEFAULT_STRATEGY_CHAIN = Arrays.asList( new TaglibResolutionStrategy[] {
+        new LiteralResolutionStrategy(), new PrefixedTldResolutionStrategy(), new PrefixedDefFileResolutionStrategy(),
+        new PassThroughResolutionStrategy() } );
+
+    private List strategies;
+
     private String defaultPrefix;
 
-    public MarmaladeTaglibResolver( TaglibDefinitionStrategy[] strategies )
+    public MarmaladeTaglibResolver()
     {
-        this.strategies = strategies;
+        this.strategies = new LinkedList();
+    }
+
+    public void addTaglibDefinitionStrategy( TaglibResolutionStrategy strategy )
+    {
+        if ( !strategies.contains( strategy ) )
+        {
+            strategies.add( strategy );
+        }
+    }
+
+    public void addTaglibDefinitionStrategies( List strategyList )
+    {
+        for ( Iterator it = strategyList.iterator(); it.hasNext(); )
+        {
+            TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
+
+            if ( !strategies.contains( strategy ) )
+            {
+                strategies.add( strategy );
+            }
+        }
     }
 
     public void setDefaultPrefix( String defaultPrefix )
@@ -56,7 +79,7 @@ public class MarmaladeTaglibResolver
         this.defaultPrefix = defaultPrefix;
     }
 
-    public String getDefaultPrefix(  )
+    public String getDefaultPrefix()
     {
         return defaultPrefix;
     }
@@ -67,14 +90,14 @@ public class MarmaladeTaglibResolver
 
         String realPrefix = prefix;
 
-        if ( ( realPrefix == null ) || ( realPrefix.trim(  ).length(  ) < 1 ) )
+        if ( (realPrefix == null) || (realPrefix.trim().length() < 1) )
         {
             realPrefix = defaultPrefix;
         }
 
-        for ( int i = 0; i < strategies.length; i++ )
+        for ( Iterator it = strategies.iterator(); it.hasNext(); )
         {
-            TaglibDefinitionStrategy strategy = strategies[i];
+            TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
 
             tlib = strategy.resolve( prefix, taglib );
 

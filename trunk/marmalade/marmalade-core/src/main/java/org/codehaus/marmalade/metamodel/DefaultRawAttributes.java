@@ -31,19 +31,20 @@ import java.util.TreeMap;
 /**
  * @author jdcasey
  */
-public class DefaultRawAttributes implements MetaAttributes
+public class DefaultRawAttributes
+    implements MetaAttributes
 {
-    private Map parsedAttributes = new TreeMap(  );
+    private Map parsedAttributes = new TreeMap();
 
-    public Iterator iterator(  )
+    public Iterator iterator()
     {
-        return parsedAttributes.values(  ).iterator(  );
+        return parsedAttributes.values().iterator();
     }
 
     public String getNamespace( String name )
     {
-        MetaAttribute attr = ( MetaAttribute ) parsedAttributes.get( name );
-        String ns = attr.getNamespace(  );
+        MetaAttribute attr = (MetaAttribute) parsedAttributes.get( name );
+        String ns = attr.getNamespace();
 
         return ns;
     }
@@ -52,11 +53,11 @@ public class DefaultRawAttributes implements MetaAttributes
     {
         String value = null;
 
-        MetaAttribute attr = ( MetaAttribute ) parsedAttributes.get( name );
+        MetaAttribute attr = (MetaAttribute) parsedAttributes.get( name );
 
         if ( attr != null )
         {
-            value = attr.getValue(  );
+            value = attr.getValue();
         }
 
         return value;
@@ -66,13 +67,12 @@ public class DefaultRawAttributes implements MetaAttributes
     {
         String value = null;
 
-        MetaAttribute attr = ( MetaAttribute ) parsedAttributes.get( name );
+        MetaAttribute attr = (MetaAttribute) parsedAttributes.get( name );
 
-        if ( ( attr != null )
-            && ( ( namespace == null ) || ( namespace.length(  ) < 1 )
-            || namespace.equals( attr.getNamespace(  ) ) ) )
+        if ( (attr != null)
+            && ((namespace == null) || (namespace.length() < 1) || namespace.equals( attr.getNamespace() )) )
         {
-            value = attr.getValue(  );
+            value = attr.getValue();
         }
 
         return value;
@@ -80,13 +80,11 @@ public class DefaultRawAttributes implements MetaAttributes
 
     public void addAttribute( MetaAttribute attribute )
     {
-        this.parsedAttributes.put( attribute.getName(  ), attribute );
+        this.parsedAttributes.put( attribute.getName(), attribute );
     }
 
-    public void addAttribute( String prefix, String namespace, String name,
-        String value )
+    public void addAttribute( String prefix, String namespace, String name, String value )
     {
-        this.parsedAttributes.put( name,
-            new DefaultRawAttribute( prefix, namespace, name, value ) );
+        this.parsedAttributes.put( name, new DefaultRawAttribute( prefix, namespace, name, value ) );
     }
 }

@@ -40,113 +40,101 @@ import java.util.Map;
 /**
  * @author jdcasey
  */
-public class DefaultAttributesTest extends MockObjectTestCase
+public class DefaultAttributesTest
+    extends MockObjectTestCase
 {
-    public void testShouldReturnNullValueWhenInputAttributesAreNull(  )
-        throws ExpressionEvaluationException
+    public void testShouldReturnNullValueWhenInputAttributesAreNull() throws ExpressionEvaluationException
     {
         DefaultAttributes attrs = new DefaultAttributes( null );
 
-        attrs.setExpressionEvaluator( new PassThroughExpressionEvaluator(  ) );
+        attrs.setExpressionEvaluator( new PassThroughExpressionEvaluator() );
 
-        assertNull( attrs.getValue( "url", String.class, new DefaultContext(  ) ) );
+        assertNull( attrs.getValue( "url", String.class, new DefaultContext() ) );
     }
 
     /*
      * Class to test for Object getValue(String, MarmaladeExecutionContext)
      */
-    public void testGetValue_String_Context(  )
-        throws ExpressionEvaluationException
+    public void testGetValue_String_Context() throws ExpressionEvaluationException
     {
         Mock elMock = mock( ExpressionEvaluator.class );
 
-        elMock.expects( once(  ) ).method( "evaluate" )
-              .with( eq( "value" ), isA( Map.class ), isA( Class.class ) ).will( returnValue( 
-                "value" ) );
+        elMock.expects( once() ).method( "evaluate" ).with( eq( "value" ), isA( Map.class ), isA( Class.class ) ).will(
+            returnValue( "value" ) );
 
-        DefaultRawAttributes attributes = new DefaultRawAttributes(  );
+        DefaultRawAttributes attributes = new DefaultRawAttributes();
 
-        attributes.addAttribute( new DefaultRawAttribute( null, null,
-                "testKey", "value" ) );
+        attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey", "value" ) );
 
         DefaultAttributes attrs = new DefaultAttributes( attributes );
 
-        attrs.setExpressionEvaluator( ( ExpressionEvaluator ) elMock.proxy(  ) );
+        attrs.setExpressionEvaluator( (ExpressionEvaluator) elMock.proxy() );
 
         Mock ctxMock = mock( MarmaladeExecutionContext.class );
 
-        ctxMock.expects( once(  ) ).method( "unmodifiableVariableMap" )
-               .withNoArguments(  ).will( returnValue( new HashMap(  ) ) );
+        ctxMock.expects( once() ).method( "unmodifiableVariableMap" ).withNoArguments().will(
+            returnValue( new HashMap() ) );
 
-        Object result = attrs.getValue( "testKey",
-                ( MarmaladeExecutionContext ) ctxMock.proxy(  ) );
+        Object result = attrs.getValue( "testKey", (MarmaladeExecutionContext) ctxMock.proxy() );
 
         assertEquals( "Wrong attribute value.", "value", result );
     }
 
     /*
-     * Class to test for Object getValue(String, MarmaladeExecutionContext, Object)
+     * Class to test for Object getValue(String, MarmaladeExecutionContext,
+     * Object)
      */
-    public void testGetValue_String_Context_Object(  )
-        throws ExpressionEvaluationException
+    public void testGetValue_String_Context_Object() throws ExpressionEvaluationException
     {
         Mock elMock = mock( ExpressionEvaluator.class );
 
-        elMock.expects( once(  ) ).method( "evaluate" )
-              .with( eq( "value" ), isA( Map.class ), isA( Class.class ) ).will( returnValue( 
-                "value" ) );
+        elMock.expects( once() ).method( "evaluate" ).with( eq( "value" ), isA( Map.class ), isA( Class.class ) ).will(
+            returnValue( "value" ) );
 
-        DefaultRawAttributes attributes = new DefaultRawAttributes(  );
+        DefaultRawAttributes attributes = new DefaultRawAttributes();
 
-        attributes.addAttribute( new DefaultRawAttribute( null, null,
-                "testKey", "value" ) );
+        attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey", "value" ) );
 
         DefaultAttributes attrs = new DefaultAttributes( attributes );
 
-        attrs.setExpressionEvaluator( ( ExpressionEvaluator ) elMock.proxy(  ) );
+        attrs.setExpressionEvaluator( (ExpressionEvaluator) elMock.proxy() );
 
         Mock ctxMock = mock( MarmaladeExecutionContext.class );
 
-        ctxMock.expects( once(  ) ).method( "unmodifiableVariableMap" )
-               .withNoArguments(  ).will( returnValue( new HashMap(  ) ) );
+        ctxMock.expects( once() ).method( "unmodifiableVariableMap" ).withNoArguments().will(
+            returnValue( new HashMap() ) );
 
-        Object result = attrs.getValue( "testKey",
-                ( MarmaladeExecutionContext ) ctxMock.proxy(  ), "value" );
+        Object result = attrs.getValue( "testKey", (MarmaladeExecutionContext) ctxMock.proxy(), "value" );
 
         assertEquals( "Wrong attribute value.", "value", result );
     }
 
-    public void testGetValue_String_Class_MarmaladeExecutionContext_Object(  )
-        throws ExpressionEvaluationException
+    public void testGetValue_String_Class_MarmaladeExecutionContext_Object() throws ExpressionEvaluationException
     {
         Integer testVal = new Integer( 10 );
 
         Mock elMock = mock( ExpressionEvaluator.class );
 
-        elMock.expects( once(  ) ).method( "evaluate" )
-              .with( eq( "value" ), isA( Map.class ), isA( Class.class ) ).will( returnValue( 
-                null ) );
+        elMock.expects( once() ).method( "evaluate" ).with( eq( "value" ), isA( Map.class ), isA( Class.class ) ).will(
+            returnValue( null ) );
 
-        DefaultRawAttributes attributes = new DefaultRawAttributes(  );
+        DefaultRawAttributes attributes = new DefaultRawAttributes();
 
-        attributes.addAttribute( new DefaultRawAttribute( null, null,
-                "testKey", "value" ) );
+        attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey", "value" ) );
 
         DefaultAttributes attrs = new DefaultAttributes( attributes );
 
-        attrs.setExpressionEvaluator( ( ExpressionEvaluator ) elMock.proxy(  ) );
+        attrs.setExpressionEvaluator( (ExpressionEvaluator) elMock.proxy() );
 
         Mock ctxMock = mock( MarmaladeExecutionContext.class );
 
-        ctxMock.expects( once(  ) ).method( "unmodifiableVariableMap" )
-               .withNoArguments(  ).will( returnValue( new HashMap(  ) ) );
+        ctxMock.expects( once() ).method( "unmodifiableVariableMap" ).withNoArguments().will(
+            returnValue( new HashMap() ) );
 
-        Object result = attrs.getValue( "testKey", Integer.class,
-                ( MarmaladeExecutionContext ) ctxMock.proxy(  ),
-                new Integer( 2 ) );
+        Object result = attrs.getValue( "testKey", Integer.class, (MarmaladeExecutionContext) ctxMock.proxy(),
+            new Integer( 2 ) );
 
         assertFalse( "Wrong attribute value.", testVal.equals( result ) );
-        assertEquals( "Should equal default value", 2,
-            ( ( Integer ) result ).intValue(  ) );
+        assertEquals( "Should equal default value", 2, ((Integer) result).intValue() );
     }
 }

@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jelly.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
@@ -44,37 +43,32 @@ public class SetPropertiesTagTest extends TestCase
         throws MarmaladeExecutionException
     {
         String personName = "Joe";
-        Integer personAge = new Integer( 11 );
-        boolean isDemocrat = true;
+        String personAge = "11";
+        Boolean isDemocrat = Boolean.TRUE;
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
         attributes.addAttribute( "", "", SetPropertiesTag.OBJECT_ATTRIBUTE,
-            "#object" );
+            "${object}" );
         attributes.addAttribute( "", "", "name", personName );
-        attributes.addAttribute( "", "", "age", "#age" );
-        attributes.addAttribute( "", "", "isDemocrat", "#democrat" );
+        attributes.addAttribute( "", "", "age", "${age}" );
+        attributes.addAttribute( "", "", "isDemocrat", "${democrat}" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         SetPropertiesTag tag = new SetPropertiesTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
         Person person = new Person(  );
 
         context.setVariable( "object", person );
         context.setVariable( "age", personAge );
-        context.setVariable( "democrat", Boolean.valueOf( isDemocrat ) );
+        context.setVariable( "democrat", isDemocrat );
 
         tag.execute( context );
 
@@ -87,31 +81,26 @@ public class SetPropertiesTagTest extends TestCase
         throws MarmaladeExecutionException
     {
         String personName = "Joe";
-        Integer personAge = new Integer( 11 );
-        boolean isDemocrat = true;
+        String personAge = "11";
+        Boolean isDemocrat = Boolean.TRUE;
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
         attributes.addAttribute( "", "", "name", personName );
-        attributes.addAttribute( "", "", "age", "#age" );
-        attributes.addAttribute( "", "", "isDemocrat", "#democrat" );
+        attributes.addAttribute( "", "", "age", "${age}" );
+        attributes.addAttribute( "", "", "isDemocrat", "${democrat}" );
 
         Person person = new Person(  );
         TestTargetObjectOwnerTag parent = new TestTargetObjectOwnerTag( person );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         SetPropertiesTag tag = new SetPropertiesTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         tag.setParent( parent );
         parent.addChild( tag );
@@ -119,7 +108,7 @@ public class SetPropertiesTagTest extends TestCase
         DefaultContext context = new DefaultContext(  );
 
         context.setVariable( "age", personAge );
-        context.setVariable( "democrat", Boolean.valueOf( isDemocrat ) );
+        context.setVariable( "democrat", isDemocrat );
 
         tag.execute( context );
 
@@ -132,8 +121,8 @@ public class SetPropertiesTagTest extends TestCase
     public static final class Person
     {
         private String name;
-        private Integer age;
-        private boolean isDemocrat;
+        private String age;
+        private Boolean isDemocrat;
 
         public Person(  )
         {
@@ -149,22 +138,22 @@ public class SetPropertiesTagTest extends TestCase
             return name;
         }
 
-        public void setAge( Integer age )
+        public void setAge( String age )
         {
             this.age = age;
         }
 
-        public Integer getAge(  )
+        public String getAge(  )
         {
             return age;
         }
 
-        public void setIsDemocrat( boolean isDemocrat )
+        public void setIsDemocrat( Boolean isDemocrat )
         {
             this.isDemocrat = isDemocrat;
         }
 
-        public boolean isDemocrat(  )
+        public Boolean isDemocrat(  )
         {
             return isDemocrat;
         }

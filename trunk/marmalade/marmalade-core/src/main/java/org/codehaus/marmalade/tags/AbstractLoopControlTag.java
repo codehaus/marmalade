@@ -30,18 +30,17 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public abstract class AbstractLoopControlTag extends AbstractConditionalTag
+public abstract class AbstractLoopControlTag
+    extends AbstractConditionalTag
 {
-    protected AbstractLoopControlTag(  )
+    protected AbstractLoopControlTag()
     {
-        super(  );
+        super();
     }
 
-    public boolean conditionMatches( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    public boolean conditionMatches( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
-        Object value = getAttributes(  ).getValue( AbstractConditionalTag.TEST_ATTRIBUTE,
-                Boolean.class, context );
+        Object value = getAttributes().getValue( AbstractConditionalTag.TEST_ATTRIBUTE, Boolean.class, context );
 
         boolean result = true;
 
@@ -49,7 +48,7 @@ public abstract class AbstractLoopControlTag extends AbstractConditionalTag
         {
             if ( value instanceof Boolean )
             {
-                result = ( ( Boolean ) value ).booleanValue(  );
+                result = ((Boolean) value).booleanValue();
             }
             else
             {
@@ -62,17 +61,16 @@ public abstract class AbstractLoopControlTag extends AbstractConditionalTag
         return result;
     }
 
-    protected void doExecute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
         requireParent( LoopingTag.class );
 
         if ( conditionMatches( context ) )
         {
-            modifyLoop( context, ( ( LoopingTag ) getParent(  ) ) );
+            modifyLoop( context, ((LoopingTag) getParent()) );
         }
     }
 
-    protected abstract void modifyLoop( MarmaladeExecutionContext context,
-        LoopingTag parent ) throws MarmaladeExecutionException;
+    protected abstract void modifyLoop( MarmaladeExecutionContext context, LoopingTag parent )
+        throws MarmaladeExecutionException;
 }

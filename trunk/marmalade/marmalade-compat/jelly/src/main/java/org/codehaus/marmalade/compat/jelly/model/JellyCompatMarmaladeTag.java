@@ -9,6 +9,7 @@ import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.expression.Expression;
 import org.codehaus.marmalade.compat.jelly.JellyCompatConstants;
 import org.codehaus.marmalade.compat.jelly.JellyCompatUncheckedException;
+import org.codehaus.marmalade.compat.jelly.metamodel.JellyCompatMarmaladeTaglib;
 import org.codehaus.marmalade.compat.jelly.runtime.MarmaladeCompatJellyContext;
 import org.codehaus.marmalade.compat.jelly.runtime.MarmaladeCompatJellyExpression;
 import org.codehaus.marmalade.compat.jelly.util.SAXAttributesWrapper;

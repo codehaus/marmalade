@@ -31,7 +31,7 @@ import java.util.Iterator;
  */
 public interface MetaAttributes
 {
-    Iterator iterator(  );
+    Iterator iterator();
 
     String getNamespace( String name );
 

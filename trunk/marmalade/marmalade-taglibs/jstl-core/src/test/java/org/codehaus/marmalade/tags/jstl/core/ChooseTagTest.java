@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
@@ -68,8 +67,6 @@ public class ChooseTagTest extends TestCase
         boolean otherShouldFire )
         throws MarmaladeExecutionException
     {
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         MarmaladeTagInfo chooseTI = new MarmaladeTagInfo(  );
         ChooseTag tag = new ChooseTag(  );
 
@@ -83,13 +80,10 @@ public class ChooseTagTest extends TestCase
 
         DefaultAttributes c1TagAttrs = new DefaultAttributes( c1Attrs );
 
-        c1TagAttrs.setExpressionEvaluator( el );
-
         WhenTag c1 = new WhenTag(  );
 
         c1.setTagInfo( c1TI );
         c1.setAttributes( c1TagAttrs );
-        c1.setExpressionEvaluator( el );
 
         MarmaladeTagInfo c1fTI = new MarmaladeTagInfo(  );
 
@@ -109,13 +103,10 @@ public class ChooseTagTest extends TestCase
 
         DefaultAttributes c2TagAttrs = new DefaultAttributes( c2Attrs );
 
-        c2TagAttrs.setExpressionEvaluator( el );
-
         WhenTag c2 = new WhenTag(  );
 
         c2.setTagInfo( c2TI );
         c2.setAttributes( c2TagAttrs );
-        c2.setExpressionEvaluator( el );
 
         MarmaladeTagInfo c2fTI = new MarmaladeTagInfo(  );
 

@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -196,20 +195,16 @@ public class ForEachTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", "items", "#items" );
+        attrs.addAttribute( "", "", "items", "${items}" );
         attrs.addAttribute( "", "", "var", "item" );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         ForEachTag tag = new ForEachTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
 
@@ -225,7 +220,7 @@ public class ForEachTagTest extends TestCase
 
         tag.execute( ctx );
 
-        assertNull( ctx.getVariable( "item", el ) );
+        assertNull( ctx.getVariable( "item", null ) );
         assertEquals( expectedResult, counter.counter(  ) );
     }
 
@@ -235,21 +230,17 @@ public class ForEachTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", "items", "#items" );
+        attrs.addAttribute( "", "", "items", "${items}" );
         attrs.addAttribute( "", "", "var", "item" );
-        attrs.addAttribute( "", "", "begin", "" + beginIdx );
+        attrs.addAttribute( "", "", "begin", "${begin}" );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         ForEachTag tag = new ForEachTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
 
@@ -262,10 +253,11 @@ public class ForEachTagTest extends TestCase
         DefaultContext ctx = new DefaultContext(  );
 
         ctx.setVariable( "items", iterationSubject );
+        ctx.setVariable( "begin", new Integer( beginIdx ) );
 
         tag.execute( ctx );
 
-        assertNull( ctx.getVariable( "item", el ) );
+        assertNull( ctx.getVariable( "item", null ) );
         assertEquals( expectedResult, counter.counter(  ) );
     }
 
@@ -275,21 +267,17 @@ public class ForEachTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", "items", "#items" );
+        attrs.addAttribute( "", "", "items", "${items}" );
         attrs.addAttribute( "", "", "var", "item" );
-        attrs.addAttribute( "", "", "end", "" + endIdx );
+        attrs.addAttribute( "", "", "end", "${end}" );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         ForEachTag tag = new ForEachTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
 
@@ -302,10 +290,11 @@ public class ForEachTagTest extends TestCase
         DefaultContext ctx = new DefaultContext(  );
 
         ctx.setVariable( "items", iterationSubject );
+        ctx.setVariable( "end", new Integer( endIdx ) );
 
         tag.execute( ctx );
 
-        assertNull( ctx.getVariable( "item", el ) );
+        assertNull( ctx.getVariable( "item", null ) );
         assertEquals( expectedResult, counter.counter(  ) );
     }
 
@@ -314,21 +303,17 @@ public class ForEachTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", "items", "#items" );
+        attrs.addAttribute( "", "", "items", "${items}" );
         attrs.addAttribute( "", "", "var", "item" );
-        attrs.addAttribute( "", "", "step", "" + step );
+        attrs.addAttribute( "", "", "step", "${step}" );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         ForEachTag tag = new ForEachTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
 
@@ -341,10 +326,11 @@ public class ForEachTagTest extends TestCase
         DefaultContext ctx = new DefaultContext(  );
 
         ctx.setVariable( "items", iterationSubject );
+        ctx.setVariable( "step", new Integer( step ) );
 
         tag.execute( ctx );
 
-        assertNull( ctx.getVariable( "item", el ) );
+        assertNull( ctx.getVariable( "item", null ) );
         assertEquals( expectedResult, counter.counter(  ) );
     }
 }

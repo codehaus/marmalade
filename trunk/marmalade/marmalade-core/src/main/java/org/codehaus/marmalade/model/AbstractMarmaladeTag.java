@@ -24,12 +24,11 @@
 /* Created on Mar 24, 2004 */
 package org.codehaus.marmalade.model;
 
+import org.codehaus.marmalade.el.BareBonesExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.runtime.ConfigurationException;
-import org.codehaus.marmalade.runtime.IllegalAncestorException;
-import org.codehaus.marmalade.runtime.IllegalParentException;
+import org.codehaus.marmalade.runtime.IllegalScriptStructureException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
@@ -39,21 +38,31 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-/** Base class implementing common marmalade tag features.
- *
+/**
+ * Base class implementing common marmalade tag features.
+ * 
  * @author John Casey
  */
-public abstract class AbstractMarmaladeTag implements MarmaladeTag
+public abstract class AbstractMarmaladeTag
+    implements MarmaladeTag
 {
     private ExpressionEvaluator el;
+
     private MarmaladeAttributes attributes;
+
     private MarmaladeTagInfo tagInfo;
+
     private boolean childrenProcessed = false;
-    private List children = new ArrayList(  );
+
+    private List children = new ArrayList();
+
     private MarmaladeTag parent;
+
     private StringBuffer bodyText;
 
-    protected AbstractMarmaladeTag(  )
+    private boolean bodyProcessed;
+
+    protected AbstractMarmaladeTag()
     {
     }
 
@@ -72,7 +81,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         this.tagInfo = tagInfo;
     }
 
-    public final MarmaladeTagInfo getTagInfo(  )
+    public final MarmaladeTagInfo getTagInfo()
     {
         return tagInfo;
     }
@@ -87,23 +96,28 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         children.add( child );
     }
 
-    public final MarmaladeTag getParent(  )
+    public final MarmaladeTag getParent()
     {
         return parent;
     }
 
-    // --------------------- CONCRETE IMPLEMENTATIONS CAN OVERRIDE THESE --------------------- //
-    protected void doExecute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    // --------------------- CONCRETE IMPLEMENTATIONS CAN OVERRIDE THESE
+    // --------------------- //
+    protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
     }
 
-    protected boolean alwaysProcessChildren(  )
+    protected boolean alwaysProcessChildren()
     {
         return true;
     }
 
-    protected void doReset(  )
+    protected boolean alwaysProcessBody()
+    {
+        return true;
+    }
+
+    protected void doReset()
     {
     }
 
@@ -116,39 +130,48 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     {
         if ( bodyText == null )
         {
-            bodyText = new StringBuffer(  );
+            bodyText = new StringBuffer();
         }
 
         bodyText.append( text );
     }
 
-    // ------------------ MARMALADE TAG IMPLEMENTATION DETAILS ------------------ //
-    public final void execute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    // ------------------ MARMALADE TAG IMPLEMENTATION DETAILS
+    // ------------------ //
+    public final void execute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
         doExecute( context );
 
-        if ( !childrenProcessed && alwaysProcessChildren(  ) )
+        if ( !childrenProcessed && alwaysProcessChildren() )
         {
             processChildren( context );
         }
 
-        reset(  );
+        if ( !bodyProcessed && alwaysProcessBody() )
+        {
+            processBody( context );
+        }
+
+        reset();
     }
 
-    protected final void resetChildrenProcessedFlag(  )
+    protected final void resetChildrenProcessedFlag()
     {
         this.childrenProcessed = false;
     }
 
-    protected void processChildren( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    protected final void resetBodyProcessedFlag()
+    {
+        this.bodyProcessed = false;
+    }
+
+    protected void processChildren( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
         try
         {
-            for ( Iterator it = children.iterator(  ); it.hasNext(  ); )
+            for ( Iterator it = children.iterator(); it.hasNext(); )
             {
-                MarmaladeTag child = ( MarmaladeTag ) it.next(  );
+                MarmaladeTag child = (MarmaladeTag) it.next();
 
                 child.execute( context );
             }
@@ -159,141 +182,150 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         }
     }
 
-    protected final List children(  )
+    protected void processBody( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
+    {
+        try
+        {
+            Object bodyValue = _getBody( context, Object.class );
+
+            if ( bodyValue != null )
+            {
+                String bodyContent = String.valueOf( bodyValue );
+
+                context.getOutWriter().print( formatWhitespace( bodyContent, context ) );
+            }
+        }
+        finally
+        {
+            bodyProcessed = true;
+        }
+    }
+
+    protected final List children()
     {
         return Collections.unmodifiableList( children );
     }
 
-    protected final void reset(  )
+    protected final void reset()
     {
-        doReset(  );
+        doReset();
         childrenProcessed = false;
     }
 
-    public final MarmaladeAttributes getAttributes(  )
+    public synchronized final MarmaladeAttributes getAttributes()
     {
+        if ( attributes == null )
+        {
+            attributes = new DefaultAttributes();
+        }
+
         return attributes;
     }
 
-    public final ExpressionEvaluator getExpressionEvaluator(  )
-        throws ConfigurationException
+    public synchronized final ExpressionEvaluator getExpressionEvaluator()
     {
+        if ( el == null )
+        {
+            el = new BareBonesExpressionEvaluator();
+        }
+
         return el;
     }
 
-    public final Object getBody( MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException
+    public final Object getBody( MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
         return _getBody( context, Object.class );
     }
 
-    public final Object getBody( MarmaladeExecutionContext context,
-        Class targetType ) throws ExpressionEvaluationException
+    public final Object getBody( MarmaladeExecutionContext context, Class targetType )
+        throws ExpressionEvaluationException
     {
         return _getBody( context, targetType );
     }
 
-    protected final String getRawBody( MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException
+    protected final String getRawBody( MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
         if ( bodyText == null )
         {
             return null;
         }
 
-        return formatWhitespace( bodyText.toString(  ), context );
+        return formatWhitespace( bodyText.toString(), context );
     }
 
-    protected String formatWhitespace( String src,
-        MarmaladeExecutionContext context )
+    protected String formatWhitespace( String src, MarmaladeExecutionContext context )
         throws ExpressionEvaluationException
     {
         String formatted = src;
 
-        Boolean preserveWSOverride = context.preserveWhitespaceOverride(  );
-        boolean presWSOver = ( preserveWSOverride != null )
-            ? ( preserveWSOverride.booleanValue(  ) ) : ( false );
+        Boolean preserveWSOverride = context.preserveWhitespaceOverride();
+        boolean presWSOver = (preserveWSOverride != null) ? (preserveWSOverride.booleanValue()) : (false);
 
         if ( !presWSOver && !preserveBodyWhitespace( context ) )
         {
-            formatted = formatted.replaceAll( "\\s+", " " ).trim(  );
+            formatted = formatted.replaceAll( "\\s+", " " ).trim();
         }
 
         return formatted;
     }
 
-    protected boolean preserveBodyWhitespace( MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException
+    protected boolean preserveBodyWhitespace( MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
         // decide from "native attribute" whether to preserve body whitespace.
-        Boolean preserveWS = ( Boolean ) getAttributes(  ).getValue( MarmaladeControlDefinitions.MARMALADE_RESERVED_NS,
-                MarmaladeControlDefinitions.PRESERVE_BODY_WHITESPACE_ATTRIBUTE,
-                Boolean.class, context, Boolean.TRUE );
+        MarmaladeAttributes attributes = getAttributes();
+        Boolean preserveWS = (Boolean) attributes.getValue( MarmaladeControlDefinitions.MARMALADE_RESERVED_NS,
+            MarmaladeControlDefinitions.PRESERVE_BODY_WHITESPACE_ATTRIBUTE, Boolean.class, context, Boolean.TRUE );
 
-        return preserveWS.booleanValue(  );
+        return preserveWS.booleanValue();
     }
 
-    private Object _getBody( MarmaladeExecutionContext context, Class targetType )
-        throws ExpressionEvaluationException
+    private Object _getBody( MarmaladeExecutionContext context, Class targetType ) throws ExpressionEvaluationException
     {
         if ( bodyText == null )
         {
             return null;
         }
 
-        String expression = bodyText.toString(  );
+        String expression = bodyText.toString();
         Object result = null;
 
-        if ( ( expression != null ) && ( expression.length(  ) > 0 ) )
+        if ( (expression != null) && (expression.length() > 0) )
         {
             expression = formatWhitespace( expression, context );
 
             if ( el == null )
             {
-                if ( targetType.isAssignableFrom( String.class ) )
-                {
-                    result = expression;
-                }
-                else
-                {
-                    throw new ExpressionEvaluationException( 
-                        "Expression cannot be evaluated and is not an instance of "
-                        + targetType.getName(  ) );
-                }
+                el = new BareBonesExpressionEvaluator();
             }
-            else
-            {
-                result = el.evaluate( expression,
-                        context.unmodifiableVariableMap(  ), targetType );
-            }
+
+            result = el.evaluate( expression, context.unmodifiableVariableMap(), targetType );
         }
+
+        this.bodyProcessed = true;
 
         return result;
     }
 
-    protected Object requireTagAttribute( String name, Class type,
-        MarmaladeExecutionContext context )
+    protected Object requireTagAttribute( String name, Class type, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
         return _requireTagAttribute( name, type, context );
     }
 
-    protected Object requireTagAttribute( String name,
-        MarmaladeExecutionContext context )
+    protected Object requireTagAttribute( String name, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
         return _requireTagAttribute( name, Object.class, context );
     }
 
-    private Object _requireTagAttribute( String name, Class type,
-        MarmaladeExecutionContext context )
+    private Object _requireTagAttribute( String name, Class type, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
         Object result = attributes.getValue( name, type, context );
 
         if ( result == null )
         {
-            throw new MissingAttributeException( tagInfo.getElement(  ), name );
+            throw new MissingAttributeException( tagInfo.getElement(), name );
         }
         else
         {
@@ -301,52 +333,48 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         }
     }
 
-    protected void deprecateTagAttribute( String name,
-        MarmaladeExecutionContext context )
+    protected void deprecateTagAttribute( String name, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
         Object result = attributes.getValue( name, context );
 
         if ( result != null )
         {
-            MarmaladeTagInfo ti = getTagInfo(  );
+            MarmaladeTagInfo ti = getTagInfo();
 
-            context.getErrWriter(  ).println( "Attribute " + name
-                + " of element " + ti.getElement(  )
-                + " has been deprecated and will be ignored (file: "
-                + ti.getSourceFile(  ) + ", line: " + ti.getSourceLine(  )
-                + ")." );
+            context.getErrWriter().println(
+                "Attribute " + name + " of element " + ti.getElement()
+                    + " has been deprecated and will be ignored (file: " + ti.getSourceFile() + ", line: "
+                    + ti.getSourceLine() + ")." );
         }
     }
 
-    protected MarmaladeTag requireParent( Class cls )
-        throws IllegalParentException
+    protected MarmaladeTag requireParent( Class cls ) throws IllegalScriptStructureException
     {
-        MarmaladeTag parent = getParent(  );
+        MarmaladeTag parent = getParent();
 
         if ( parent != null )
         {
-            if ( !cls.isAssignableFrom( parent.getClass(  ) ) )
+            if ( !cls.isAssignableFrom( parent.getClass() ) )
             {
-                throw new IllegalParentException( tagInfo.getElement(  ), cls );
+                throw new IllegalScriptStructureException( tagInfo.getElement(), cls );
             }
         }
         else
         {
-            throw new IllegalParentException( tagInfo.getElement(  ), cls );
+            throw new IllegalScriptStructureException( tagInfo.getElement(), cls );
         }
 
         return parent;
     }
 
-    protected MarmaladeTag requireAncestor( Class cls )
-        throws IllegalAncestorException
+    protected MarmaladeTag requireAncestor( Class cls ) throws IllegalScriptStructureException
     {
         MarmaladeTag parent = this;
 
-        while ( ( parent = parent.getParent(  ) ) != null )
+        while ( (parent = parent.getParent()) != null )
         {
-            if ( cls.isAssignableFrom( parent.getClass(  ) ) )
+            if ( cls.isAssignableFrom( parent.getClass() ) )
             {
                 break;
             }
@@ -354,7 +382,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
 
         if ( parent == null )
         {
-            throw new IllegalAncestorException( tagInfo.getElement(  ), cls );
+            throw new IllegalScriptStructureException( tagInfo.getElement(), cls );
         }
         else
         {
