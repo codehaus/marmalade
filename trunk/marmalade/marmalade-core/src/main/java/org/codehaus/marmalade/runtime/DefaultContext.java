@@ -185,4 +185,8 @@ public class DefaultContext implements MarmaladeExecutionContext
 
         context.putAll( vars );
     }
+
+    public void setVariables(Map vars) {
+        context.putAll(vars);
+    }
 }
