@@ -5,6 +5,9 @@
 package org.codehaus.typle;
 
 /**
+ * Class of objects that represent functions. A function has an ordered list
+ * of named, typed parameters (the formal parameters) and a return type.
+ *
  * @author Mark H. Wilkinson
  * @version $Revision$
  */
@@ -12,14 +15,22 @@ public class Function implements Type {
     private Type returnType;
     private final BindingList formalParameters;
 
-    public Function(Type returnType) {
-        this.returnType = returnType;
-        this.formalParameters = new BindingList();
-    }
-
+    /**
+     * Create a new <code>Function</code> object, with the specified return
+     * type and parameters.
+     *
+     * @param returnType The return type of the function. Must not be null.
+     * @param formalParameters The formal parameters of the function, or
+     * <code>null</code> if there are no parameters.
+     */
     public Function(Type returnType, Binding[] formalParameters) {
+        if (returnType == null)
+            throw new NullPointerException("return type is null");
         this.returnType = returnType;
-        this.formalParameters = BindingList.fromArray(formalParameters);
+        if (formalParameters == null)
+            this.formalParameters = new BindingList();
+        else
+            this.formalParameters = BindingList.fromArray(formalParameters);
     }
 
     private Function(Type returnType, BindingList formalParameters) {

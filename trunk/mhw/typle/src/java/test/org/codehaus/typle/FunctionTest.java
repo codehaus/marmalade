@@ -34,7 +34,7 @@ public class FunctionTest extends TestCase {
     public void testEmpty() {
         Function f;
 
-        f = new Function(bazType);
+        f = new Function(bazType, null);
         assertEquals("(): Baz", f.getTypeName());
         f = f.addFormalParameter("foo", fooType);
         assertEquals("(Foo foo): Baz", f.getTypeName());
