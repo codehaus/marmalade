@@ -23,7 +23,7 @@ public class OgnlExpressionEvaluatorTest extends TestCase implements ExpressionE
     context.put("subject", subject);
     
     OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-    Object result = el.evaluate("${#subject.id}", context, String.class);
+    Object result = el.evaluate("#subject.id", context, String.class);
     assertEquals("Id should come through unchanged.", id, result);
   }
   
@@ -48,7 +48,7 @@ public class OgnlExpressionEvaluatorTest extends TestCase implements ExpressionE
     context.put("subject", subject);
     
     OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-    Object result = el.evaluate("This is a test for id:${#subject.id}", context, String.class);
+    Object result = el.evaluate("This is a test for id:#subject.id", context, String.class);
     assertEquals("Id value should be embedded in larger literal expression.", "This is a test for id:" + id, result);
   }
 
