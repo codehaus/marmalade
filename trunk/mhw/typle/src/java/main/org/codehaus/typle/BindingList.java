@@ -61,6 +61,11 @@ public final class BindingList {
         return new BindingList(newList);
     }
 
+    public void resolvePlaceHolders() throws TypeLookupException {
+        for (int i = 0; i < list.length; i++)
+            list[i].resolvePlaceHolders();
+    }
+
     public boolean equals(Object o) {
         if (o == this)
             return true;

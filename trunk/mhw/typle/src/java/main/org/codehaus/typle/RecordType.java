@@ -51,6 +51,7 @@ public final class RecordType implements Type {
         return null;
     }
 
-    public void resolvePlaceHolders() {
+    public void resolvePlaceHolders() throws TypeLookupException {
+        fields.resolvePlaceHolders();
     }
 }

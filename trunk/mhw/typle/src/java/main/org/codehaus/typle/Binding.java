@@ -16,7 +16,7 @@ package org.codehaus.typle;
  * @version $Revision$
  */
 public final class Binding {
-    private String name;
+    private final String name;
     private Type type;
 
     /**
@@ -56,6 +56,12 @@ public final class Binding {
      */
     public Type getType() {
         return type;
+    }
+
+    public void resolvePlaceHolders() throws TypeLookupException {
+        if (type instanceof TypePlaceHolder) {
+            type = ((TypePlaceHolder) type).resolve();
+        }
     }
 
     /**

@@ -9,7 +9,7 @@ package org.codehaus.typle;
  * @version $Revision$
  */
 public class Function implements Type {
-    private final Type returnType;
+    private Type returnType;
     private final BindingList formalParameters;
 
     public Function(Type returnType) {
@@ -53,6 +53,10 @@ public class Function implements Type {
         return getTypeName();
     }
 
-    public void resolvePlaceHolders() {
+    public void resolvePlaceHolders() throws TypeLookupException {
+        if (returnType instanceof TypePlaceHolder) {
+            returnType = ((TypePlaceHolder) returnType).resolve();
+        }
+        formalParameters.resolvePlaceHolders();
     }
 }
