@@ -3,6 +3,7 @@ package org.codehaus.marmalade.tags.httpunit;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
@@ -16,6 +17,7 @@ import org.codehaus.tagalog.Tag;
 public class HttpTestTag extends AbstractMarmaladeTag{
   
   public static final String NAME_ATTRIBUTE = "name";
+  public static final String VAR_ATTRIBUTE = "var";
 
   public HttpTestTag(){
   }
@@ -28,15 +30,26 @@ public class HttpTestTag extends AbstractMarmaladeTag{
     if(parent != null && (parent instanceof HttpTestSuiteTag)) {
       ((HttpTestSuiteTag)parent).addTest(test);
     }
+    else {
+      String var = (String)requireTagAttribute(VAR_ATTRIBUTE, String.class, context);
+      TestResult result = test.run();
+      context.setVariable(var, result);
+    }
   }
   
   public final class ScriptedTest extends TestCase{
     
     private MarmaladeExecutionContext context;
+    private String name;
     
     ScriptedTest(String name, MarmaladeExecutionContext context){
-      super(name);
+      super("testScriptedAssertions");
       this.context = context;
+      this.name = name;
+    }
+    
+    public String getName() {
+      return name;
     }
     
     public void testScriptedAssertions() {
@@ -52,6 +65,6 @@ public class HttpTestTag extends AbstractMarmaladeTag{
         throw new AssertionFailedError("Test of scripted elements failed.\n\nReason: " + e.getMessage());
       }
     }
-    
   }
+  
 }
