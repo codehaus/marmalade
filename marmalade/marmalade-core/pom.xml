@@ -11,13 +11,4 @@
 
   <name>Marmalade Core</name>
   
-  <build>
-    <unitTest>
-      <excludes>
-        <exclude>**/*Abstract*.java</exclude>
-        <exclude>**/*AspectTest.java</exclude>
-      </excludes>
-    </unitTest>
-  </build>
-  
 </project>
