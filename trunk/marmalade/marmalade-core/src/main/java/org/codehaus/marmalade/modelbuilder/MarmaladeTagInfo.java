@@ -17,7 +17,7 @@ public class MarmaladeTagInfo{
   private String scheme;
   private String taglib;
   private String element;
-  private RawAttributes attributes;
+  private DefaultRawAttributes attributes;
   private StringBuffer text;
   private MarmaladeTagBuilder parent;
   private List children = new ArrayList();
@@ -25,11 +25,11 @@ public class MarmaladeTagInfo{
   public MarmaladeTagInfo(){
   }
 
-  public RawAttributes getAttributes(){
+  public DefaultRawAttributes getAttributes(){
     return attributes;
   }
 
-  public void setAttributes(RawAttributes attributes){
+  public void setAttributes(DefaultRawAttributes attributes){
     this.attributes = attributes;
   }
 

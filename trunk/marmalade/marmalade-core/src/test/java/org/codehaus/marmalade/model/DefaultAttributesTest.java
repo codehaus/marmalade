@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.model.*;
+import org.codehaus.marmalade.modelbuilder.*;
 import org.codehaus.marmalade.runtime.*;
 import org.codehaus.tagalog.Attributes;
 import org.jmock.Mock;

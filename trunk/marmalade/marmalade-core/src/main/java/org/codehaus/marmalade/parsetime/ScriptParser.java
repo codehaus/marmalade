@@ -12,7 +12,7 @@ import java.net.URLConnection;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.codehaus.marmalade.model.*;
+import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.modelbuilder.*;
 import org.codehaus.marmalade.parsetime.*;
 import org.codehaus.tagalog.ParserConfiguration;
