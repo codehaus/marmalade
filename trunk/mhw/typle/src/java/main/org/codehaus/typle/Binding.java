@@ -61,6 +61,8 @@ public final class Binding {
     public void resolvePlaceHolders() throws TypeLookupException {
         if (type instanceof TypePlaceHolder) {
             type = ((TypePlaceHolder) type).resolve();
+        } else {
+            type.resolvePlaceHolders();
         }
     }
 
