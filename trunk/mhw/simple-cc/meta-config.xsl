@@ -25,6 +25,11 @@
 	<cvs localworkingcopy="src/{$srcdir}"/>
       </modificationset>
       <schedule>
+        <xsl:if test="@interval">
+          <xsl:attribute name="interval">
+            <xsl:value-of select="@interval"/>
+          </xsl:attribute>
+        </xsl:if>
 	<maven
 	    mavenscript="/eng/pkg/maven/bin/maven"
 	    projectfile="src/{$srcdir}/project.xml"
