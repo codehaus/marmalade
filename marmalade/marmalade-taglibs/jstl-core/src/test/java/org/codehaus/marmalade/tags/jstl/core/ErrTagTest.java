@@ -4,8 +4,8 @@ package org.codehaus.marmalade.tags.jstl.core;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.codehaus.marmalade.DefaultContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.defaults.DefaultContext;
 import org.codehaus.marmalade.tags.jstl.core.ErrTag;
 import org.codehaus.marmalade.testing.AbstractTagTestCase;
 import org.codehaus.tagalog.Attributes;
