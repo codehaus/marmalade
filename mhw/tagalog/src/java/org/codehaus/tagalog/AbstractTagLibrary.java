@@ -79,7 +79,8 @@ public abstract class AbstractTagLibrary implements TagLibrary {
 
         TagInfo(Class tagClass) {
             if (!Tag.class.isAssignableFrom(tagClass))
-                throw new IllegalArgumentException("class does not implement Tag");
+                throw new IllegalArgumentException(
+                                            "class does not implement Tag");
             this.tagClass = tagClass;
 
             // Check that we can create instances of the tag.

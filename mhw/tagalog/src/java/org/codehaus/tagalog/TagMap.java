@@ -33,7 +33,8 @@ public final class TagMap {
         if (tagClass == null)
             throw new NullPointerException("tagClass is null");
         if (!(Tag.class.isAssignableFrom(tagClass)))
-            throw new IllegalArgumentException(tagClass + " does not implement the Tag interface");
+            throw new IllegalArgumentException(tagClass
+                                    + " does not implement the Tag interface");
         tagMap.put(tag, tagClass);
     }
 
