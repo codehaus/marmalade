@@ -43,7 +43,8 @@ public final class Field
     }
 
     public void write(PrintWriter writer) throws IOException {
-        writer.println(Modifier.toString(modifiers)
-            + " " + type + " " + fieldName + ";");
+        String mods = Modifier.toString(modifiers);
+        String space = (mods.length() == 0)? "" : " ";
+        writer.println(mods + space + type + " " + fieldName + ";");
     }
 }
