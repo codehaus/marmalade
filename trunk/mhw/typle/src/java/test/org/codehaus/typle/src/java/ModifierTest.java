@@ -13,6 +13,39 @@ import junit.framework.TestCase;
  * @version $Revision$
  */
 public class ModifierTest extends TestCase {
+    public void testAccessModifierArray() {
+        assertAccessModifier(Modifier.PUBLIC,
+            new Modifier[] {
+                Modifier.FINAL, Modifier.STATIC, Modifier.PUBLIC,
+            });
+        assertAccessModifier(Modifier.PROTECTED,
+            new Modifier[] {
+                Modifier.FINAL, Modifier.PROTECTED, Modifier.STATIC,
+            });
+        assertAccessModifier(Modifier.DEFAULT,
+            new Modifier[] {
+                Modifier.FINAL, Modifier.STATIC,
+            });
+        assertAccessModifier(Modifier.PRIVATE,
+            new Modifier[] {
+                Modifier.FINAL, Modifier.PRIVATE, Modifier.STATIC,
+            });
+
+        try {
+            Modifier[] modifiers = new Modifier[] {
+                Modifier.PUBLIC, Modifier.PRIVATE, Modifier.STATIC,
+            };
+            Modifier modifier = Modifier.accessibility(modifiers);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ignore
+        }
+    }
+
+    private void assertAccessModifier(Modifier modifier, Modifier[] modifiers) {
+        assertEquals(modifier, Modifier.accessibility(modifiers));
+    }
+
     public void testToStringModifierArray() {
         assertCorrectOrder("public static final",
             new Modifier[] {
