@@ -44,10 +44,10 @@ public final class JavaBean {
      * @param stream
      */
     public void generate(PrintWriter writer) throws IOException {
-        SourceFile source = new SourceFile(writer, JavaSource.COMPARATOR);
+        SourceFile source = new SourceFile(JavaSource.COMPARATOR);
         State state = new State(source);
         visit(type, state);
-        source.writeOutput();
+        source.write(writer);
     }
 
     private static class State {

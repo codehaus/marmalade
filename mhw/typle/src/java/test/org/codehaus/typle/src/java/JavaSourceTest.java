@@ -4,7 +4,6 @@
 
 package org.codehaus.typle.src.java;
 
-import java.io.PrintWriter;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
@@ -23,8 +22,7 @@ public class JavaSourceTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        src = new SourceFile(new PrintWriter(System.out),
-                             JavaSource.COMPARATOR);
+        src = new SourceFile(JavaSource.COMPARATOR);
     }
 
     /**
