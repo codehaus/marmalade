@@ -24,11 +24,10 @@
 /* Created on May 20, 2004 */
 package org.codehaus.marmalade.discovery;
 
-import junit.framework.TestCase;
-
-import org.codehaus.marmalade.discovery.PrefixedDefFileResolutionStrategy;
 import org.codehaus.marmalade.discovery.test.TestTaglibWithCorrectConstructor;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey

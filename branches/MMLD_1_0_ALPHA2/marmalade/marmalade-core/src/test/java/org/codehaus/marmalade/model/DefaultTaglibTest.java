@@ -1,8 +1,6 @@
 /* Created on Sep 20, 2004 */
 package org.codehaus.marmalade.model;
 
-import java.io.StringReader;
-
 import org.codehaus.marmalade.metamodel.ModelBuilderException;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.parsing.DefaultParsingContext;
@@ -13,6 +11,8 @@ import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.core.CoreTagLibrary;
+
+import java.io.StringReader;
 
 import junit.framework.TestCase;
 

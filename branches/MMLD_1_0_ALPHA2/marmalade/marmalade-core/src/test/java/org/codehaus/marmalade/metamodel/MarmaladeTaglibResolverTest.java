@@ -24,14 +24,10 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-import junit.framework.TestCase;
-
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
-import org.codehaus.marmalade.metamodel.AbstractMarmaladeTagLibrary;
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
-import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.model.MarmaladeTag;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey

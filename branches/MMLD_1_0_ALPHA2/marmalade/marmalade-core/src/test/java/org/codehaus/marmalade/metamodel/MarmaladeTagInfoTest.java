@@ -26,8 +26,6 @@ package org.codehaus.marmalade.metamodel;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-
 /**
  * @author jdcasey
  */

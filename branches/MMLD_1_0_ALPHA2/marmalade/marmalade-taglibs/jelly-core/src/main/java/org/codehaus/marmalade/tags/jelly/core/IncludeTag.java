@@ -29,7 +29,6 @@ import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.metamodel.ModelBuilderException;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
-import org.codehaus.marmalade.model.MarmaladeAttribute;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.parsing.DefaultParsingContext;
@@ -39,7 +38,7 @@ import org.codehaus.marmalade.parsing.ScriptParser;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.AbstractConditionalTag;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.TaglibResolutionStrategyOwner;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyConditionalTag;
 import org.codehaus.marmalade.util.RecordingReader;
@@ -49,10 +48,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -103,7 +100,7 @@ public class IncludeTag extends AbstractJellyConditionalTag
             // We have no input!
             if ( sourceObj == null )
             {
-                throw new MarmaladeExecutionException( 
+                throw new TagExecutionException( getTagInfo(), 
                     "file or uri attribute, or tag body must be specified and in the form of a valid jelly/marmalade script." );
             }
 
@@ -180,7 +177,7 @@ public class IncludeTag extends AbstractJellyConditionalTag
                 }
                 catch ( MalformedURLException e )
                 {
-                    throw new MarmaladeExecutionException( 
+                    throw new TagExecutionException( getTagInfo(), 
                         "error constructing URL to read from: " + sourceStr, e );
                 }
             }
@@ -235,12 +232,12 @@ public class IncludeTag extends AbstractJellyConditionalTag
         }
         catch ( MarmaladeParsetimeException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "error parsing included script", e );
         }
         catch ( ModelBuilderException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "error building included script", e );
         }
     }
@@ -275,19 +272,19 @@ public class IncludeTag extends AbstractJellyConditionalTag
         }
         catch ( MarmaladeParsetimeException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "error parsing included script from: "
                 + sourceFile.getAbsolutePath(  ), e );
         }
         catch ( ModelBuilderException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "error building included script from: "
                 + sourceFile.getAbsolutePath(  ), e );
         }
         catch ( FileNotFoundException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "error building included script from: "
                 + sourceFile.getAbsolutePath(  ), e );
         }
@@ -336,19 +333,19 @@ public class IncludeTag extends AbstractJellyConditionalTag
         }
         catch ( MarmaladeParsetimeException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "error parsing included script from: "
                 + sourceUrl.toExternalForm(  ), e );
         }
         catch ( ModelBuilderException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "error building included script from: "
                 + sourceUrl.toExternalForm(  ), e );
         }
         catch ( IOException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "error building included script from: "
                 + sourceUrl.toExternalForm(  ), e );
         }

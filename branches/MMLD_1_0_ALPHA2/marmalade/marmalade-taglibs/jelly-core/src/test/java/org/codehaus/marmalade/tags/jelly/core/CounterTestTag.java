@@ -24,7 +24,6 @@
 /* Created on Apr 14, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;

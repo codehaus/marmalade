@@ -24,12 +24,11 @@
 /* Created on Apr 20, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 import java.io.BufferedReader;
@@ -81,7 +80,7 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
                 }
                 catch ( IOException e )
                 {
-                    throw new MarmaladeExecutionException( "Error opening thread\'s output file for writing.",
+                    throw new TagExecutionException( getTagInfo(), "Error opening thread\'s output file for writing.",
                         e );
                 }
             }
@@ -94,7 +93,7 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
                 }
                 catch ( IOException e )
                 {
-                    throw new MarmaladeExecutionException( "Error opening thread\'s output file for writing.",
+                    throw new TagExecutionException( getTagInfo(), "Error opening thread\'s output file for writing.",
                         e );
                 }
             }
@@ -117,7 +116,7 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
                 }
                 catch ( IOException e )
                 {
-                    throw new MarmaladeExecutionException( "Error opening thread\'s error output file for writing.",
+                    throw new TagExecutionException( getTagInfo(), "Error opening thread\'s error output file for writing.",
                         e );
                 }
             }
@@ -130,7 +129,7 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
                 }
                 catch ( IOException e )
                 {
-                    throw new MarmaladeExecutionException( "Error opening thread\'s error output file for writing.",
+                    throw new TagExecutionException( getTagInfo(), "Error opening thread\'s error output file for writing.",
                         e );
                 }
             }
@@ -152,7 +151,7 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
                 }
                 catch ( FileNotFoundException e )
                 {
-                    throw new MarmaladeExecutionException( "Error opening thread\'s input file for reading.",
+                    throw new TagExecutionException( getTagInfo(), "Error opening thread\'s input file for reading.",
                         e );
                 }
             }
@@ -164,7 +163,7 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
                 }
                 catch ( FileNotFoundException e )
                 {
-                    throw new MarmaladeExecutionException( "Error opening thread\'s input file for reading.",
+                    throw new TagExecutionException( getTagInfo(), "Error opening thread\'s input file for reading.",
                         e );
                 }
             }

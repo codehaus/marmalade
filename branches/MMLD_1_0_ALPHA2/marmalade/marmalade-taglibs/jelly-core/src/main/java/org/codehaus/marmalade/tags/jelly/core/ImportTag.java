@@ -25,11 +25,9 @@
 package org.codehaus.marmalade.tags.jelly.core;
 
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.metamodel.ModelBuilderException;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.parsing.DefaultParsingContext;
@@ -38,6 +36,7 @@ import org.codehaus.marmalade.parsing.MarmaladeParsingContext;
 import org.codehaus.marmalade.parsing.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.TaglibResolutionStrategyOwner;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 import org.codehaus.marmalade.util.RecordingReader;
@@ -46,7 +45,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -86,7 +84,7 @@ public class ImportTag extends AbstractJellyMarmaladeTag
             }
             catch ( MalformedURLException e )
             {
-                throw new MarmaladeExecutionException( "Error parsing url into java.net.URL.",
+                throw new TagExecutionException( getTagInfo(), "Error parsing url into java.net.URL.",
                     e );
             }
         }
@@ -98,13 +96,13 @@ public class ImportTag extends AbstractJellyMarmaladeTag
             }
             catch ( MalformedURLException e )
             {
-                throw new MarmaladeExecutionException( "Error parsing url into java.net.URL.",
+                throw new TagExecutionException( getTagInfo(), "Error parsing url into java.net.URL.",
                     e );
             }
         }
         else
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "url attribute must be String, java.net.URL, or java.io.File type." );
         }
 
@@ -164,17 +162,17 @@ public class ImportTag extends AbstractJellyMarmaladeTag
         }
         catch ( MarmaladeParsetimeException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "Error parsing script from: " + resource.toExternalForm(  ), e );
         }
         catch ( ModelBuilderException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "Error parsing script from: " + resource.toExternalForm(  ), e );
         }
         catch ( IOException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "Error parsing script from: " + resource.toExternalForm(  ), e );
         }
         finally
