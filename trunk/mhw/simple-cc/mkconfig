@@ -1,2 +1,2 @@
-#!/bin/rc
+#!/bin/sh
 xml tr meta-config.xsl meta-config.xml | xml fo >config.xml 
