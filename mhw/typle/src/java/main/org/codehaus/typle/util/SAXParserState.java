@@ -26,6 +26,48 @@ import org.xml.sax.XMLReader;
  * content is detected.
  *
  * <p>
+ * The class is used to support XML parsing by calling it for each
+ * <code>startElement</code>, <code>endElement</code> and
+ * <code>characters</code> event. It manages an internal stack of
+ * events received, and collects any character data in a buffer.
+ * The client can then use the {@link #inElement}, {@link #getCharacters}
+ * and similar methods to enquire of the current state of the parse.
+ * A basic SAX event handler class that uses <code>SAXParserState</code>
+ * looks like this:
+ *
+ * <pre>
+ * public final class MyHandler extends DefaultHandler {
+ *     private SAXParserState state = new SAXParserState();
+ *
+ *     public void startDocument() throws SAXException {
+ *     }
+ *
+ *     public void endDocument() throws SAXException {
+ *         state.reset();
+ *     }
+ *
+ *     public void startElement(String uri, String localName, String qName,
+ *         Attributes attributes)
+ *         throws SAXException
+ *     {
+ *         state.startElement(uri, localName, qName);
+ *     }
+ *
+ *     public void endElement(String uri, String localName, String qName)
+ *         throws SAXException
+ *     {
+ *         state.endElement(uri, localName, qName);
+ *     }
+ *
+ *     public void characters(char[] ch, int start, int length)
+ *         throws SAXException
+ *     {
+ *         state.characters(ch, start, length);
+ *     }
+ * }
+ * </pre>
+ *
+ * <p>
  * Not thoroughly tested with namespace-aware SAX sources. (Or, in
  * otherwords, the unit tests only use the qName argument.)
  *
