@@ -4,6 +4,8 @@
 
 package org.codehaus.typle;
 
+import java.util.Map;
+
 /**
  * Simple interface to the typle naming service.
  *
@@ -15,6 +17,22 @@ public final class Naming {
     private Naming() {
     }
 
+    private static Map namespaceFactories = new java.util.HashMap();
+
+    private static void addNamespaceFactory(String namespace,
+        TypeFactory factory)
+    {
+        if (namespace == null)
+            throw new NullPointerException("namespace is null");
+        if (factory == null)
+            throw new NullPointerException("factory is null");
+        namespaceFactories.put(namespace, factory);
+    }
+
+    static {
+        addNamespaceFactory("java", new JavaTypeFactory());
+    }
+
     /**
      * Return a type given a compound name. The compound name consists
      * of the namespace and local part separated by ':'.
@@ -22,7 +40,7 @@ public final class Naming {
      * @param name Compound type name.
      * @return Type with the given name.
      */
-    public Type lookup(String name) {
+    public static Type lookup(String name) {
         int colon = name.indexOf(':');
         if (colon == -1)
             throw new IllegalArgumentException("compound type name "
@@ -38,11 +56,15 @@ public final class Naming {
      * @param localPart The name of the type within the namespace.
      * @return Type with the given name.
      */
-    public Type lookup(String namespace, String localPart) {
+    public static Type lookup(String namespace, String localPart) {
         if (namespace == null)
             throw new NullPointerException("namespace is null");
         if (localPart == null)
             throw new NullPointerException("local part is null");
-        return null;
+        Object o = namespaceFactories.get(namespace);
+        if (o == null)
+            throw new IllegalArgumentException("namespace " + namespace
+                                               + "not found");
+        return ((TypeFactory) o).lookup(localPart);
     }
 }
