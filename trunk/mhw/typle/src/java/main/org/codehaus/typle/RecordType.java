@@ -6,36 +6,36 @@ package org.codehaus.typle;
 
 /**
  * A <code>RecordType</code> is a data type for items that contain an
- * unordered set of named values.
+ * unordered set of typed fields.
  *
  * @author Mark Wilkinson
  * @version $Revision$
  */
 public final class RecordType implements Type {
-    private NamedTypeList fields;
+    private BindingList fields;
 
     public RecordType() {
-        this.fields = new NamedTypeList();
+        this.fields = new BindingList();
     }
 
-    public RecordType(NamedType[] fields) {
-        this.fields = NamedTypeList.fromArray(fields);
+    public RecordType(Binding[] fields) {
+        this.fields = BindingList.fromArray(fields);
     }
 
-    private RecordType(NamedTypeList fields) {
+    private RecordType(BindingList fields) {
         this.fields = fields;
     }
 
     public RecordType addField(String name, Type type) {
-        return new RecordType(fields.add(new NamedType(name, type)));
+        return new RecordType(fields.add(new Binding(name, type)));
     }
 
-    public NamedTypeList getFields() {
+    public BindingList getFields() {
         return fields;
     }
 
     public Type getField(String name) {
-        NamedType t = fields.get(name);
+        Binding t = fields.get(name);
         return (t == null)? null : t.getType();
     }
 

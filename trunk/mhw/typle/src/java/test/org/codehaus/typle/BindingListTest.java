@@ -7,47 +7,47 @@ package org.codehaus.typle;
 import junit.framework.TestCase;
 
 /**
- * Tests for lists of named data types.
+ * Tests for {@link BindingList} objects.
  *
  * @author Mark Wilkinson
  * @version $Revision$
  */
-public class NamedTypeListTest extends TestCase {
+public class BindingListTest extends TestCase {
     private BasicType fooType;
     private BasicType barType;
     private BasicType bazType;
-    private NamedType foo;
-    private NamedType bar;
-    private NamedType baz;
+    private Binding foo;
+    private Binding bar;
+    private Binding baz;
 
     protected void setUp() throws Exception {
         super.setUp();
         fooType = new BasicType("Foo");
         barType = new BasicType("Bar");
         bazType = new BasicType("Baz");
-        foo = new NamedType("foo", fooType);
-        bar = new NamedType("bar", barType);
-        baz = new NamedType("baz", bazType);
+        foo = new Binding("foo", fooType);
+        bar = new Binding("bar", barType);
+        baz = new Binding("baz", bazType);
     }
 
     /**
      * Test the names given to the primitives.
      */
     public void testEmpty() {
-        NamedTypeList list;
+        BindingList list;
 
-        list = new NamedTypeList();
+        list = new BindingList();
         assertEquals(0, list.size());
-        assertEquals(list, new NamedTypeList());
+        assertEquals(list, new BindingList());
     }
 
     /**
      * Test addition of elements to list.
      */
     public void testAdd() {
-        NamedTypeList list;
+        BindingList list;
 
-        list = new NamedTypeList();
+        list = new BindingList();
         assertEquals(0, list.size());
         list = list.add(foo);
         assertEquals(1, list.size());
@@ -80,10 +80,10 @@ public class NamedTypeListTest extends TestCase {
     }
 
     public void testEquals() {
-        NamedTypeList list1, list2;
+        BindingList list1, list2;
 
-        list1 = new NamedTypeList();
-        list2 = new NamedTypeList();
+        list1 = new BindingList();
+        list2 = new BindingList();
         assertEquals(list1, list2);
         list1 = list1.add(foo);
         list2 = list2.add(foo);
@@ -95,7 +95,7 @@ public class NamedTypeListTest extends TestCase {
         list2 = list2.add(baz);
         assertEquals(list1, list2);
         assertFalse(list1.equals(new Object()));
-        list2 = new NamedTypeList();
+        list2 = new BindingList();
         assertFalse(list1.equals(list2));
         list2 = list2.add(baz);
         assertFalse(list1.equals(list2));

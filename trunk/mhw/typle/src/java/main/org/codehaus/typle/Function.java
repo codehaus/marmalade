@@ -10,19 +10,19 @@ package org.codehaus.typle;
  */
 public class Function implements Type {
     private final Type returnType;
-    private final NamedTypeList formalParameters;
+    private final BindingList formalParameters;
 
     public Function(Type returnType) {
         this.returnType = returnType;
-        this.formalParameters = new NamedTypeList();
+        this.formalParameters = new BindingList();
     }
 
-    public Function(Type returnType, NamedType[] formalParameters) {
+    public Function(Type returnType, Binding[] formalParameters) {
         this.returnType = returnType;
-        this.formalParameters = NamedTypeList.fromArray(formalParameters);
+        this.formalParameters = BindingList.fromArray(formalParameters);
     }
 
-    private Function(Type returnType, NamedTypeList formalParameters) {
+    private Function(Type returnType, BindingList formalParameters) {
         this.returnType = returnType;
         this.formalParameters = formalParameters;
     }
@@ -31,7 +31,7 @@ public class Function implements Type {
         return returnType;
     }
 
-    public NamedTypeList getFormalParameters() {
+    public BindingList getFormalParameters() {
         return formalParameters;
     }
 
@@ -45,7 +45,7 @@ public class Function implements Type {
                + returnType.getSignature();
     }
 
-    public Function addFormalParameter(NamedType parameter) {
+    public Function addFormalParameter(Binding parameter) {
         return new Function(returnType, formalParameters.add(parameter));
     }
 }
