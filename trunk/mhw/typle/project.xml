@@ -10,9 +10,9 @@
   <currentVersion>0.1</currentVersion>
 
   <organization>
-    <name>Codehaus</name>
-    <url>http://www.codehaus.org/</url>
-    <logo>/images/codehaus-small.gif</logo>
+    <name>The Codehaus</name>
+    <url>http://codehaus.org/</url>
+    <logo>http://codehaus.org/codehaus-small.gif</logo>
   </organization>
 
   <inceptionYear>2003</inceptionYear>
