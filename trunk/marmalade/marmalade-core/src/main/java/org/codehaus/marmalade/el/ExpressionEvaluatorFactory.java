@@ -9,7 +9,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import org.codehaus.marmalade.ConfigurationException;
+import org.codehaus.marmalade.runtime.ConfigurationException;
 
 /** Provide factory methods to retrieve specific implementations for various dynamic elements of
  * the marmalade system.

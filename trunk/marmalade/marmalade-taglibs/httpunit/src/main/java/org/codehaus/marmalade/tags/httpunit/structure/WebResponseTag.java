@@ -4,10 +4,9 @@ package org.codehaus.marmalade.tags.httpunit.structure;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.WebConversation;
@@ -24,7 +23,8 @@ public class WebResponseTag extends AbstractWebRequestSubTag{
   
   private WebResponse response;
   
-  public WebResponseTag(){
+  public WebResponseTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
   
   public WebResponse getResponse() {

@@ -1,14 +1,14 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
 
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 import junit.framework.TestSuite;
-
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
-
 
 /**
  * @author jdcasey
@@ -19,7 +19,8 @@ public class HttpTestSuiteTag extends AbstractMarmaladeTag{
 
   private TestSuite suite = new TestSuite();
   
-  public HttpTestSuiteTag(){
+  public HttpTestSuiteTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
   
   public void addTest(TestCase test) {

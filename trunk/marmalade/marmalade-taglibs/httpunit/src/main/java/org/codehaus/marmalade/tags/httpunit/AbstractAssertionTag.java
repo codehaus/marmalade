@@ -1,18 +1,18 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
-
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.httpunit.structure.AbstractWebResponseSubTag;
 
 /**
  * @author jdcasey
  */
 public abstract class AbstractAssertionTag extends AbstractWebResponseSubTag{
 
-  protected AbstractAssertionTag(){
+  protected AbstractAssertionTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected abstract boolean test(MarmaladeExecutionContext context)

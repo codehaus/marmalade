@@ -1,11 +1,11 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit.form;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.httpunit.AbstractAssertionTag;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
 import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.HTMLElement;
@@ -23,7 +23,8 @@ public class HasFormTag extends AbstractAssertionTag{
   
   private WebForm form;
   
-  public HasFormTag(){
+  public HasFormTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
   
   public WebForm getForm() {

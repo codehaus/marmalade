@@ -1,7 +1,7 @@
 /* Created on Mar 24, 2004 */
 package org.codehaus.marmalade.el;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /** Exception signalling that an error has occurred while evaluating an expression.
  * 

@@ -1,10 +1,10 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.HTMLElement;
@@ -21,7 +21,8 @@ public class HasElementTag extends AbstractAssertionTag{
   public static final String WITH_CLASSNAME_ATTRIBUTE = "withClassName";
   public static final String WITH_TITLE_ATTRIBUTE = "withTitle";
   
-  public HasElementTag(){
+  public HasElementTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected boolean test(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

@@ -1,11 +1,10 @@
 /* Created on Apr 21, 2004 */
 package org.codehaus.marmalade.tags.httpunit.structure;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 import com.meterware.httpunit.ClientProperties;
 import com.meterware.httpunit.DNSListener;
@@ -35,7 +34,8 @@ public class ClientPropertiesTag extends AbstractWebConversationSubTag{
   private static final Boolean DEFAULT_AUTO_REDIRECT = Boolean.TRUE;
   private static final Boolean DEFAULT_IFRAME_SUPPORTED = Boolean.TRUE;
   
-  public ClientPropertiesTag(){
+  public ClientPropertiesTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
