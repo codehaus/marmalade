@@ -6,7 +6,7 @@ package org.codehaus.tagalog.acceptance.people;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.TagalogParseException;
+import org.codehaus.tagalog.TagException;
 
 /**
  * PersonTag
@@ -18,7 +18,7 @@ public final class PersonTag extends AbstractTag {
     Person person;
 
     public void begin(String elementName, Attributes attributes)
-        throws TagalogParseException
+        throws TagException
     {
         person = new Person();
         person.setUserId(requireAttribute("user-id", attributes));
