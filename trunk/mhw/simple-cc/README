@@ -2,6 +2,7 @@ Simplified CruiseControl setup for maven projects
 -------------------------------------------------
 
 Mark Wilkinson <mhw@kremvax.net>
+$Id$
 
 This is a template CruiseControl (CC) setup that simplifies maintenance
 for maven projects.
