@@ -96,7 +96,11 @@
     <tagclass>org.codehaus.marmalade.tags.jelly.core.ThreadTag</tagclass>
   </tag>
   <tag>
-    <name>When</name>
+    <name>useList</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.UseListTag</tagclass>
+  </tag>
+  <tag>
+    <name>when</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.WhenTag</tagclass>
   </tag>
   <tag>
