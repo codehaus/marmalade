@@ -9,17 +9,16 @@ import java.io.PrintWriter;
 
 import org.codehaus.typle.Binding;
 import org.codehaus.typle.BindingList;
-import org.codehaus.typle.JavaNames;
 import org.codehaus.typle.JavaPrimitive;
 import org.codehaus.typle.JavaReferenceType;
 import org.codehaus.typle.RecordType;
 import org.codehaus.typle.Type;
-import org.codehaus.typle.src.BoilerPlateComment;
+import org.codehaus.typle.src.SourceContainer;
 import org.codehaus.typle.src.SourceFile;
 import org.codehaus.typle.src.java.Field;
 import org.codehaus.typle.src.java.Import;
 import org.codehaus.typle.src.java.JavaClass;
-import org.codehaus.typle.src.java.JavaPackage;
+import org.codehaus.typle.src.java.JavaHelper;
 import org.codehaus.typle.src.java.JavaSource;
 
 /**
@@ -45,57 +44,45 @@ public final class JavaBean {
      */
     public void generate(PrintWriter writer) throws IOException {
         SourceFile source = new SourceFile(JavaSource.COMPARATOR);
-        State state = new State(source);
-        visit(type, state);
+        JavaClass srcClass = JavaHelper.initSourceFile(source, beanName);
+        addImports(type, source);
+        addFields(type, srcClass);
+        addGetMethods(type, srcClass);
+        addSetMethods(type, srcClass);
         source.write(writer);
     }
 
-    private static class State {
-        SourceFile source;
-        JavaClass outputClass;
-
-        public State(SourceFile source) {
-            this.source = source;
-        }
-    }
-
-    private static final String BOILERPLATE_COMMENT
-        = "/*\n"
-        + " * Automatically generated. Do not edit.\n"
-        + " */\n\n";
-
-    /**
-     * @param record
-     */
-    private void visit(RecordType record, State state) {
-        state.source.add(new BoilerPlateComment(BOILERPLATE_COMMENT, 1));
-        state.source.add(new JavaPackage(JavaNames.packageName(beanName)));
-
-        state.outputClass = new JavaClass(JavaNames.className(beanName));
-        state.source.add(state.outputClass);
+    private void addImports(RecordType record, SourceContainer src) {
         BindingList fields = record.getFields();
         for (int i = 0; i < fields.size(); i++) {
-            visit(fields.get(i), state);
+            Type t = fields.get(i).getType();
+            if (t instanceof JavaReferenceType) {
+                if (!t.getTypeName().startsWith("java.lang.")) {
+                    src.add(new Import(t.getTypeName()));
+                }
+            }
         }
-        state.outputClass = null;
     }
 
-    /**
-     * @param binding
-     */
-    private void visit(Binding binding, State state) {
-        Type t = binding.getType();
-        if (t instanceof JavaReferenceType) {
-            JavaReferenceType javaType = (JavaReferenceType) t;
-
-            if (!t.getTypeName().startsWith("java.lang.")) {
-                state.source.add(new Import(t.getTypeName()));
+    private void addFields(RecordType record, SourceContainer src) {
+        BindingList fields = record.getFields();
+        for (int i = 0; i < fields.size(); i++) {
+            Binding binding = fields.get(i);
+            Type t = binding.getType();
+            if (t instanceof JavaReferenceType) {
+                JavaReferenceType javaType = (JavaReferenceType) t;
+                src.add(new Field(javaType.getUnqualifiedName(),
+                                                binding.getName()));
+            } else if (t instanceof JavaPrimitive) {
+                src.add(new Field(binding.getType().getTypeName(),
+                                                binding.getName()));
             }
-            state.outputClass.add(new Field(javaType.getUnqualifiedName(),
-                                            binding.getName()));
-        } else if (t instanceof JavaPrimitive) {
-            state.outputClass.add(new Field(binding.getType().getTypeName(),
-                                            binding.getName()));
         }
+    }
+
+    private void addGetMethods(RecordType record, SourceContainer src) {
+    }
+
+    private void addSetMethods(RecordType record, SourceContainer src) {
     }
 }
