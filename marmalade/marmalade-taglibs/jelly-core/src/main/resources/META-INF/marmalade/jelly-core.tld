@@ -88,6 +88,10 @@
     <tagclass>org.codehaus.marmalade.tags.jelly.core.SetTag</tagclass>
   </tag>
   <tag>
+    <name>setProperties</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.SetPropertiesTag</tagclass>
+  </tag>
+  <tag>
     <name>switch</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.SwitchTag</tagclass>
   </tag>

@@ -119,17 +119,10 @@ public class UseBeanTagTest extends TestCase {
         assertEquals(isDemocrat, person.isDemocrat());
     }
 
-    public void testShouldSetPropertiesInBeanWithStringBeanSpec() throws MarmaladeExecutionException {
-        String personName = "Joe";
-        Integer personAge = new Integer(11);
-        boolean isDemocrat = true;
-        
+    public void testShouldMakeTargetObjectAvailableToChildren() throws MarmaladeExecutionException {
         DefaultRawAttributes attributes = new DefaultRawAttributes();
         attributes.addAttribute("", UseBeanTag.VAR_ATTRIBUTE, "var");
         attributes.addAttribute("", UseBeanTag.CLASS_ATTRIBUTE, Person.class.getName());
-        attributes.addAttribute("", "name", personName);
-        attributes.addAttribute("", "age", "#age");
-        attributes.addAttribute("", "isDemocrat", "#democrat");
         
         MarmaladeTagInfo mti = new MarmaladeTagInfo();
         mti.setAttributes(attributes);
@@ -137,17 +130,18 @@ public class UseBeanTagTest extends TestCase {
         
         UseBeanTag tag = new UseBeanTag(mti);
         
+        TargetConsumerTestTag child = new TargetConsumerTestTag(new MarmaladeTagInfo());
+        
+        child.setParent(tag);
+        tag.addChild(child);
+        
         DefaultContext context = new DefaultContext();
-        context.setVariable("age", personAge);
-        context.setVariable("democrat", Boolean.valueOf(isDemocrat));
         
         tag.execute(context);
         
         Person person = (Person)context.getVariable("var", null);
         assertNotNull(person);
-        assertEquals(personName, person.getName());
-        assertEquals(personAge, person.getAge());
-        assertEquals(isDemocrat, person.isDemocrat());
+        assertEquals(person, child.getTarget());
     }
 
     public static final class NonEmptyConstructorBean

@@ -10,10 +10,11 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
-public class UseBeanTag extends AbstractMarmaladeTag {
+public class UseBeanTag extends AbstractMarmaladeTag implements TargetObjectOwner{
     
     public static final String CLASS_ATTRIBUTE = "class";
     public static final String VAR_ATTRIBUTE = "var";
+    private Object target;
 
     public UseBeanTag(MarmaladeTagInfo tagInfo) {
         super(tagInfo);
@@ -38,9 +39,8 @@ public class UseBeanTag extends AbstractMarmaladeTag {
             }
         }
         
-        Object target = null;
         try {
-            target = objectClass.newInstance();
+            this.target = objectClass.newInstance();
         }
         catch (InstantiationException e) {
             throw new MarmaladeExecutionException("error instantiating bean", e);
@@ -66,5 +66,14 @@ public class UseBeanTag extends AbstractMarmaladeTag {
         }
         
         context.setVariable(var, target);
+    }
+    
+    protected void doReset() {
+        this.target = null;
+        super.doReset();
+    }
+
+    public Object getTarget() {
+        return target;
     }
 }
