@@ -69,7 +69,7 @@ public class DefaultAttributesTest extends MockObjectTestCase
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( new DefaultRawAttribute( null, "testKey",
+        attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey",
                 "value" ) );
 
         DefaultAttributes attrs = new DefaultAttributes( ( ExpressionEvaluator ) elMock
@@ -100,7 +100,7 @@ public class DefaultAttributesTest extends MockObjectTestCase
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( new DefaultRawAttribute( null, "testKey",
+        attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey",
                 "value" ) );
 
         DefaultAttributes attrs = new DefaultAttributes( ( ExpressionEvaluator ) elMock
@@ -130,7 +130,7 @@ public class DefaultAttributesTest extends MockObjectTestCase
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( new DefaultRawAttribute( null, "testKey",
+        attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey",
                 "value" ) );
 
         DefaultAttributes attrs = new DefaultAttributes( ( ExpressionEvaluator ) elMock

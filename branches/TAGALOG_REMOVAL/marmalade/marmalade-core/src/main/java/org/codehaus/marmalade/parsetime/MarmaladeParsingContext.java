@@ -24,51 +24,20 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
-
-import java.io.PrintWriter;
-import java.io.Reader;
-
-import java.util.Map;
+import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
+import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
 
 /**
  * @author jdcasey
  */
 public interface MarmaladeParsingContext
 {
-    public Object getVariable( Object key, ExpressionEvaluator el )
-        throws ExpressionEvaluationException;
-
-    public Object setVariable( Object key, Object value );
     
-    public void setVariables( Map vars );
+    public ExpressionEvaluator getDefaultExpressionEvaluator();
 
-    public Object removeVariable( Object key );
+    public ExpressionEvaluatorFactory getExpressionEvaluatorFactory();
 
-    public Map unmodifiableVariableMap(  );
-
-    public void newScope(  );
-
-    public Map lastScope(  );
-
-    public Map lastScope( boolean export );
-
-    public void setOutWriter( PrintWriter out );
-
-    public void setErrWriter( PrintWriter err );
-
-    public void setInReader( Reader in );
-
-    public PrintWriter getErrWriter(  );
-
-    public PrintWriter getOutWriter(  );
-
-    public Reader getInReader(  );
-
-    public Boolean preserveWhitespaceOverride(  );
-
-    public void preserveWhitespaceOverride( Boolean shouldOverride );
-
-    public void importContext( MarmaladeParsingContext context );
+    public void setDefaultExpressionEvaluator(ExpressionEvaluator evaluator);
+    
 }

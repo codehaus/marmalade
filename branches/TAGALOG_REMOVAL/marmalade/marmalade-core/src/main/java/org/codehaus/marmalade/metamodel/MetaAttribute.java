@@ -35,4 +35,6 @@ public interface MetaAttribute
     public abstract String getNamespace(  );
 
     public abstract String getValue(  );
+
+    public abstract String getPrefix();
 }

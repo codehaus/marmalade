@@ -44,25 +44,23 @@ public class TldParser {
             if(eventType == XmlPullParser.START_TAG) {
                 if(TAGLIB_TAG.equals(parser.getName())) {
                     taglib = new TldDefinedTagLibrary();
+                }
+                else if(TAG_TAG.equals(parser.getName())){
+                    
+                    String tagName = null;
+                    Class tagClass = null;
                     
                     while(parser.nextTag() == XmlPullParser.START_TAG) {
-                        if(TAG_TAG.equals(parser.getName())) {
-                            String tagName = null;
-                            Class tagClass = null;
-                            
-                            while(parser.nextTag() == XmlPullParser.START_TAG) {
-                                if(NAME_TAG.equals(parser.getName())) {
-                                    tagName = parser.nextText();
-                                }
-                                else if(TAGCLASS_TAG.equals(parser.getName())) {
-                                    String className = parser.nextText();
-                                    tagClass = cloader.loadClass(className);
-                                }
-                            }
-                            
-                            taglib.registerTag(tagName, tagClass);
+                        if(NAME_TAG.equals(parser.getName())) {
+                            tagName = parser.nextText();
+                        }
+                        else if(TAGCLASS_TAG.equals(parser.getName())) {
+                            String className = parser.nextText();
+                            tagClass = cloader.loadClass(className);
                         }
                     }
+                    
+                    taglib.registerTag(tagName, tagClass);
                 }
             }
             

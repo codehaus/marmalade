@@ -101,6 +101,6 @@ public class MarmaladeCompatibleJellyTaglib implements MarmaladeTagLibrary
             }
         }
 
-        return new JellyCompatMarmaladeTag( tagInfo, tlib );
+        return new JellyCompatMarmaladeTag( tlib );
     }
 }

@@ -30,12 +30,14 @@ package org.codehaus.marmalade.metamodel;
  */
 public class DefaultRawAttribute implements MetaAttribute
 {
+    private String prefix;
     private String namespace;
     private String name;
     private String value;
 
-    public DefaultRawAttribute( String namespace, String name, String value )
+    public DefaultRawAttribute( String prefix, String namespace, String name, String value )
     {
+        this.prefix = prefix;
         this.namespace = namespace;
         this.name = name;
         this.value = value;
@@ -44,6 +46,10 @@ public class DefaultRawAttribute implements MetaAttribute
     public String getName(  )
     {
         return name;
+    }
+    
+    public String getPrefix() {
+        return prefix;
     }
 
     public String getNamespace(  )

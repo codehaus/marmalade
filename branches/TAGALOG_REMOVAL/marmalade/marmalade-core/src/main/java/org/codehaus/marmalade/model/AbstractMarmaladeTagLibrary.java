@@ -51,8 +51,8 @@ public abstract class AbstractMarmaladeTagLibrary implements MarmaladeTagLibrary
         try
         {
             Class tagClass = ( Class ) registeredTags.get( tagInfo.getElement(  ) );
-            Object[] params = { tagInfo };
-            Class[] paramTypes = { MarmaladeTagInfo.class };
+            Object[] params = {  };
+            Class[] paramTypes = {  };
             Constructor constructor = tagClass.getConstructor( paramTypes );
 
             tag = ( MarmaladeTag ) constructor.newInstance( params );

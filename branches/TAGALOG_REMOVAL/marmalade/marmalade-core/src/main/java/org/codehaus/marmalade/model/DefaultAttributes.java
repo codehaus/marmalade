@@ -46,8 +46,7 @@ public class DefaultAttributes implements MarmaladeAttributes
     private MetaAttributes attributes;
     private transient Set attributesSet;
 
-    public DefaultAttributes( ExpressionEvaluator el,
-        MetaAttributes attributes )
+    public DefaultAttributes( ExpressionEvaluator el, MetaAttributes attributes )
     {
         this.el = el;
         this.attributes = ( attributes != null ) ? ( attributes )
@@ -62,14 +61,30 @@ public class DefaultAttributes implements MarmaladeAttributes
     public Object getValue( String name, MarmaladeExecutionContext context )
         throws ExpressionEvaluationException
     {
-        return _getValue( name, Object.class,
+        return _getValue( null, name, Object.class,
+            context.unmodifiableVariableMap(  ), null );
+    }
+
+    public Object getValue( String namespace, String name,
+        MarmaladeExecutionContext context )
+        throws ExpressionEvaluationException
+    {
+        return _getValue( null, name, Object.class,
             context.unmodifiableVariableMap(  ), null );
     }
 
     public Object getValue( String name, MarmaladeExecutionContext context,
         Object defaultVal ) throws ExpressionEvaluationException
     {
-        return _getValue( name, Object.class,
+        return _getValue( null, name, Object.class,
+            context.unmodifiableVariableMap(  ), defaultVal );
+    }
+
+    public Object getValue( String namespace, String name,
+        MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException
+    {
+        return _getValue( null, name, Object.class,
             context.unmodifiableVariableMap(  ), defaultVal );
     }
 
@@ -77,21 +92,39 @@ public class DefaultAttributes implements MarmaladeAttributes
         MarmaladeExecutionContext context )
         throws ExpressionEvaluationException
     {
-        return _getValue( name, type, context.unmodifiableVariableMap(  ), null );
+        return _getValue( null, name, type,
+            context.unmodifiableVariableMap(  ), null );
+    }
+
+    public Object getValue( String namespace, String name, Class type,
+        MarmaladeExecutionContext context )
+        throws ExpressionEvaluationException
+    {
+        return _getValue( null, name, type,
+            context.unmodifiableVariableMap(  ), null );
     }
 
     public Object getValue( String name, Class type,
         MarmaladeExecutionContext context, Object defaultVal )
         throws ExpressionEvaluationException
     {
-        return _getValue( name, type, context.unmodifiableVariableMap(  ),
-            defaultVal );
+        return _getValue( null, name, type,
+            context.unmodifiableVariableMap(  ), defaultVal );
     }
 
-    private Object _getValue( String name, Class type, Map context,
-        Object defaultVal ) throws ExpressionEvaluationException
+    public Object getValue( String namespace, String name, Class type,
+        MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException
     {
-        String expression = attributes.getValue( name );
+        return _getValue( null, name, type,
+            context.unmodifiableVariableMap(  ), defaultVal );
+    }
+
+    private Object _getValue( String namespace, String name, Class type,
+        Map context, Object defaultVal )
+        throws ExpressionEvaluationException
+    {
+        String expression = attributes.getValue( namespace, name );
         Object result = null;
 
         if ( ( expression != null ) && ( expression.length(  ) > 0 ) )
@@ -124,8 +157,7 @@ public class DefaultAttributes implements MarmaladeAttributes
 
                 for ( Iterator it = attributes.iterator(  ); it.hasNext(  ); )
                 {
-                    MetaAttribute raw = ( MetaAttribute ) it
-                        .next(  );
+                    MetaAttribute raw = ( MetaAttribute ) it.next(  );
 
                     attributesSet.add( new DefaultAttribute( raw, el ) );
                 }

@@ -41,9 +41,9 @@ public class DefaultRawAttributesTest extends TestCase
     {
         DefaultRawAttributes ra = new DefaultRawAttributes(  );
 
-        ra.addAttribute( new DefaultRawAttribute( "testNS", "testAttr",
+        ra.addAttribute( new DefaultRawAttribute( "t", "testNS", "testAttr",
                 "testVal" ) );
-        ra.addAttribute( new DefaultRawAttribute( "testNS2", "testAttr2",
+        ra.addAttribute( new DefaultRawAttribute( "t", "testNS2", "testAttr2",
                 "testVal2" ) );
 
         int counter = 0;
@@ -62,7 +62,7 @@ public class DefaultRawAttributesTest extends TestCase
     {
         DefaultRawAttributes ra = new DefaultRawAttributes(  );
 
-        ra.addAttribute( new DefaultRawAttribute( "testNS", "testAttr",
+        ra.addAttribute( new DefaultRawAttribute( "t", "testNS", "testAttr",
                 "testVal" ) );
 
         assertEquals( "testNS", ra.getNamespace( "testAttr" ) );
@@ -72,7 +72,7 @@ public class DefaultRawAttributesTest extends TestCase
     {
         DefaultRawAttributes ra = new DefaultRawAttributes(  );
 
-        ra.addAttribute( new DefaultRawAttribute( "testNS", "testAttr",
+        ra.addAttribute( new DefaultRawAttribute( "t", "testNS", "testAttr",
                 "testVal" ) );
 
         assertEquals( "testVal", ra.getValue( "testAttr" ) );

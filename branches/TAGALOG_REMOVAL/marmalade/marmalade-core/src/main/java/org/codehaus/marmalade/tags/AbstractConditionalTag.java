@@ -38,9 +38,9 @@ public abstract class AbstractConditionalTag extends AbstractMarmaladeTag
 
     /**
      */
-    public AbstractConditionalTag( MarmaladeTagInfo tagInfo )
+    public AbstractConditionalTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     public boolean conditionMatches( MarmaladeExecutionContext context )

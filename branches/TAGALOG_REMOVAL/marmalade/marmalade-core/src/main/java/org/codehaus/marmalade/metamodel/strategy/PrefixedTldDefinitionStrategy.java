@@ -71,15 +71,19 @@ public class PrefixedTldDefinitionStrategy implements TaglibDefinitionStrategy
                 // Intercept and ignore...return null.
                 catch ( UnsupportedEncodingException e )
                 {
+                    //TODO: log this exception
                 }
                 catch ( XmlPullParserException e )
                 {
+                    //TODO: log this exception
                 }
                 catch ( IOException e )
                 {
+                    //TODO: log this exception
                 }
                 catch ( ClassNotFoundException e )
                 {
+                    //TODO: log this exception
                 }
             }
         }
