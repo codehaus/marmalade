@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project>
   <groupId>marmalade</groupId>
   <artifactId>marmalade-parent</artifactId>
   <version>1.0-alpha2</version>
-
   <name>Marmalade Parent Project</name>
   <organization>
     <name>Codehaus</name>
@@ -12,26 +10,22 @@
   </organization>
   <inceptionYear>2004</inceptionYear>
   <package>org.codehaus.marmalade</package>
-  
-  <description>
-      Marmalade is a scripting language, implemented in XML, with pluggable
-      expression languages and tag libraries via XML Namespaces. Initially,
-      Marmalade will focus on supporting a syntax like JSP or Jelly.
-  </description>
-  
+  <description> Marmalade is a scripting language, implemented in XML, with pluggable expression 
+    languages and tag libraries via XML Namespaces. Initially, Marmalade will focus on supporting a 
+    syntax like JSP or Jelly. </description>
   <shortDescription>Marmalade is an XML-based scripting language.</shortDescription>
   <url>http://marmalade.codehaus.org</url>
   <siteAddress>marmalade.codehaus.org</siteAddress>
   <siteDirectory>/home/projects/marmalade/public_html</siteDirectory>
   <distributionSite>marmalade.codehaus.org</distributionSite>
   <distributionDirectory>/home/projects/marmalade/dist</distributionDirectory>
-  
   <repository>
-    <connection>scm:cvs:pserver:anonymous@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</connection>
-    <developerConnection>scm:cvs:ext:user@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</developerConnection>
+    <connection> 
+      scm:cvs:pserver:anonymous@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</connection>
+    <developerConnection> 
+      scm:cvs:ext:user@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</developerConnection>
     <url>http://cvs.marmalade.codehaus.org</url>
   </repository>
-  
   <mailingLists>
     <mailingList>
       <name>user</name>
@@ -46,7 +40,6 @@
       <archive>http://lists.codehaus.org/pipermail/marmalade-dev/</archive>
     </mailingList>
   </mailingLists>
-  
   <developers>
     <developer>
       <name>John Casey</name>
@@ -57,33 +50,87 @@
       </roles>
     </developer>
   </developers>
-  
   <dependencies>
     <dependency>
       <groupId>xpp3</groupId>
       <artifactId>xpp3</artifactId>
       <version>1.1.3.3</version>
     </dependency>
-    
     <!-- Testing dependencies -->
     <dependency>
       <groupId>jmock</groupId>
       <artifactId>jmock</artifactId>
       <version>1.0.1</version>
     </dependency>
-    
     <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>3.8.1</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
     </dependency>
     <!-- /Testing dependencies -->
   </dependencies>
-  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>marmalade</groupId>
+        <artifactId>marmalade-core</artifactId>
+        <version>#version</version>
+      </dependency>
+      <dependency>
+        <groupId>marmalade</groupId>
+        <artifactId>marmalade-el-ognl</artifactId>
+        <version>#version</version>
+      </dependency>
+      <dependency>
+        <groupId>marmalade</groupId>
+        <artifactId>marmalade-el-commons</artifactId>
+        <version>#version</version>
+      </dependency>
+      <dependency>
+        <groupId>marmalade</groupId>
+        <artifactId>marmalade-tags-jelly-common</artifactId>
+        <version>#version</version>
+      </dependency>
+      <dependency>
+        <groupId>marmalade</groupId>
+        <artifactId>marmalade-utils</artifactId>
+        <version>#version</version>
+      </dependency>
+      <dependency>
+        <groupId>ognl</groupId>
+        <artifactId>ognl</artifactId>
+        <version>2.5.1</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-el</groupId>
+        <artifactId>commons-el</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>servletapi</groupId>
+        <artifactId>servletapi</artifactId>
+        <version>2.4-20040521</version>
+      </dependency>
+      <dependency>
+        <groupId>tomcat</groupId>
+        <artifactId>jsp-api</artifactId>
+        <version>5.0.18</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.0.3</version>
+      </dependency>
+     <dependency>
+      <groupId>jmock</groupId>
+      <artifactId>jmock</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    </dependencies>
+  </dependencyManagement>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
-    
     <unitTest>
       <includes>
         <include>**/*Test.java</include>
@@ -94,12 +141,10 @@
         </resource>
       </resources>
     </unitTest>
-    
     <resources>
       <resource>
         <directory>src/main/resources</directory>
       </resource>
     </resources>
   </build>
-  
 </project>

@@ -14,7 +14,6 @@
     <dependency>
       <groupId>marmalade</groupId>
       <artifactId>marmalade-core</artifactId>
-      <version>1.0-alpha2</version>
     </dependency>
     
     <dependency>
@@ -32,13 +31,11 @@
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.0.3</version>
     </dependency>
     
     <dependency>
       <groupId>jmock</groupId>
       <artifactId>jmock</artifactId>
-      <version>1.0.1</version>
     </dependency>
     
   </dependencies>

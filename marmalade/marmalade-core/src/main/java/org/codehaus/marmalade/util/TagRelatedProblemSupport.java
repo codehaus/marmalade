@@ -55,13 +55,23 @@ public final class TagRelatedProblemSupport
     public void printStackTrace( Exception owningException, PrintStream err )
     {
         err.println(getFormattedProblemStatistics());
-        owningException.printStackTrace(err);
+        err.println("\nException Message: " + owningException.getLocalizedMessage());
+        StackTraceElement[] traceElements = owningException.getStackTrace();
+        for ( int i = 0; i < traceElements.length; i++ )
+        {
+            err.println("    " + traceElements[i]);
+        }
     }
 
     public void printStackTrace( Exception owningException, PrintWriter err )
     {
         err.println(getFormattedProblemStatistics());
-        owningException.printStackTrace(err);
+        err.println("\nException Message: " + owningException.getLocalizedMessage());
+        StackTraceElement[] traceElements = owningException.getStackTrace();
+        for ( int i = 0; i < traceElements.length; i++ )
+        {
+            err.println("    " + traceElements[i]);
+        }
     }
 
     private String getFormattedProblemStatistics()

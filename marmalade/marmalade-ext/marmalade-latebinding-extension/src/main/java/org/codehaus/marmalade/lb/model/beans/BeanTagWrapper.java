@@ -6,6 +6,7 @@ import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -86,15 +87,15 @@ public class BeanTagWrapper
         }
         catch ( IllegalArgumentException e )
         {
-            throw new MarmaladeExecutionException( e );
+            throw new TagExecutionException( getTagInfo(), "Error while invoking embedded bean.", e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new MarmaladeExecutionException( e );
+            throw new TagExecutionException( getTagInfo(), "Invalid access to embedded bean.", e );
         }
         catch ( InvocationTargetException e )
         {
-            throw new MarmaladeExecutionException( e.getTargetException() );
+            throw new TagExecutionException( getTagInfo(), "Embedded bean threw an exception.", e.getTargetException() );
         }
     }
 

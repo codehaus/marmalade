@@ -6,9 +6,9 @@
     <artifactId>marmalade-parent</artifactId>
     <version>1.0-alpha2</version>
   </parent>
-  <artifactId>marmalade-tags-jelly-common</artifactId>
+  <artifactId>marmalade-el-ognl</artifactId>
 
-  <name>Jelly Common (Abstract) Tags</name>
+  <name>OGNL Expression Library</name>
   
   <dependencies>
     <dependency>
@@ -16,5 +16,9 @@
       <artifactId>marmalade-core</artifactId>
     </dependency>
     
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-utils</artifactId>
+    </dependency>
   </dependencies>
 </project>

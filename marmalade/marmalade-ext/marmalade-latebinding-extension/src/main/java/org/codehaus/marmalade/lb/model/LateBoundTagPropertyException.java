@@ -2,6 +2,7 @@
 package org.codehaus.marmalade.lb.model;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.TagInstantiationException;
 
 /**
@@ -16,10 +17,10 @@ public class LateBoundTagPropertyException
 
     private final Object value;
 
-    public LateBoundTagPropertyException( Class beanClass, String property, Object value,
+    public LateBoundTagPropertyException( MarmaladeTagInfo tagInfo, Class beanClass, String property, Object value,
         ExpressionEvaluationException e )
     {
-        super( "late-bound tag property resolution failed", e );
+        super( tagInfo, "late-bound tag property resolution failed", e );
         this.beanClass = beanClass;
         this.property = property;
         this.value = value;

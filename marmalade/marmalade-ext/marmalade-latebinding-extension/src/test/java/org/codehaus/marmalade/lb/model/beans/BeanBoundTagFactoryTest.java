@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import junit.framework.TestCase;
+
 import org.codehaus.marmalade.el.BareBonesExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.TagInstantiationException;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-
-import junit.framework.TestCase;
 
 /**
  * @author jdcasey
@@ -33,7 +34,12 @@ public class BeanBoundTagFactoryTest
         List methodParams = new LinkedList();
         ExpressionEvaluator el = new BareBonesExpressionEvaluator();
         
-        BeanBoundTagFactory factory = new BeanBoundTagFactory(cls, meth, constructorArgs, properties, methodParams, el);
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        BeanBoundTagFactory factory = new BeanBoundTagFactory(tagInfo, cls, meth, constructorArgs, properties, methodParams, el);
     }
 
     public void testShouldConstructWithBeanClassExecMethodConstructorArgsPropertiesMethodParamsAndNullEL() throws SecurityException, NoSuchMethodException {
@@ -45,7 +51,12 @@ public class BeanBoundTagFactoryTest
         List methodParams = new LinkedList();
         ExpressionEvaluator el = null;
         
-        BeanBoundTagFactory factory = new BeanBoundTagFactory(cls, meth, constructorArgs, properties, methodParams, el);
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        BeanBoundTagFactory factory = new BeanBoundTagFactory(tagInfo, cls, meth, constructorArgs, properties, methodParams, el);
     }
 
     public void testShouldCreateBeanWithConstructorArgAndContextMethodParamAndCreateWrapperTag() throws SecurityException, NoSuchMethodException, TagInstantiationException, MarmaladeExecutionException {
@@ -61,7 +72,12 @@ public class BeanBoundTagFactoryTest
         
         ExpressionEvaluator el = null;
         
-        BeanBoundTagFactory factory = new BeanBoundTagFactory(cls, meth, constructorArgs, properties, methodParams, el);
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        BeanBoundTagFactory factory = new BeanBoundTagFactory(tagInfo, cls, meth, constructorArgs, properties, methodParams, el);
         
         MarmaladeTag tag = factory.newTag();
         
@@ -88,7 +104,12 @@ public class BeanBoundTagFactoryTest
         
         ExpressionEvaluator el = new BareBonesExpressionEvaluator();
         
-        BeanBoundTagFactory factory = new BeanBoundTagFactory(cls, meth, constructorArgs, properties, methodParams, el);
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        BeanBoundTagFactory factory = new BeanBoundTagFactory(tagInfo, cls, meth, constructorArgs, properties, methodParams, el);
         
         MarmaladeTag tag = factory.newTag();
         

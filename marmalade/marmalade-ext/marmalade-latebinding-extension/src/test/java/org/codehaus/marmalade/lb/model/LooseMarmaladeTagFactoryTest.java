@@ -2,17 +2,18 @@
 package org.codehaus.marmalade.lb.model;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import junit.framework.TestCase;
+
 import org.codehaus.marmalade.el.BareBonesExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.TagInstantiationException;
 import org.codehaus.marmalade.model.MarmaladeTag;
-
-import junit.framework.TestCase;
 
 /**
  * @author jdcasey
@@ -22,7 +23,12 @@ public class LooseMarmaladeTagFactoryTest
 {
     
     public void testShouldConstructWithTagClassConstructorArgsPropertiesAndEL() throws TagInstantiationException {
-        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(TestTag.class, new LinkedList(), new HashMap(), new BareBonesExpressionEvaluator());
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(tagInfo, TestTag.class, new LinkedList(), new HashMap(), new BareBonesExpressionEvaluator());
         MarmaladeTag tag = factory.newTag();
         
         assertTrue("should be a TestTag", (tag instanceof TestTag));
@@ -35,7 +41,12 @@ public class LooseMarmaladeTagFactoryTest
     }
 
     public void testShouldConstructWithTagClassConstructorArgsPropertiesAndNullEL() throws TagInstantiationException {
-        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(TestTag.class, new LinkedList(), new HashMap(), null);
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(tagInfo, TestTag.class, new LinkedList(), new HashMap(), null);
         MarmaladeTag tag = factory.newTag();
         
         assertTrue("should be a TestTag", (tag instanceof TestTag));
@@ -52,7 +63,12 @@ public class LooseMarmaladeTagFactoryTest
         constructorArgs.add("test");
         constructorArgs.add(new Integer(1));
         
-        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(TestTag.class, constructorArgs, new HashMap(), null);
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(tagInfo, TestTag.class, constructorArgs, new HashMap(), null);
         MarmaladeTag tag = factory.newTag();
         
         assertTrue("should be a TestTag", (tag instanceof TestTag));
@@ -68,7 +84,12 @@ public class LooseMarmaladeTagFactoryTest
         List constructorArgs = new LinkedList();
         constructorArgs.add("test");
         
-        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(TestTag.class, constructorArgs, new HashMap(), null);
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(tagInfo, TestTag.class, constructorArgs, new HashMap(), null);
         try
         {
             MarmaladeTag tag = factory.newTag();
@@ -85,7 +106,12 @@ public class LooseMarmaladeTagFactoryTest
         properties.put("stringProperty", "test");
         properties.put("integerProperty", new Integer(1));
         
-        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(TestTag.class, Collections.EMPTY_LIST, properties, null);
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(tagInfo, TestTag.class, Collections.EMPTY_LIST, properties, null);
         try
         {
             MarmaladeTag tag = factory.newTag();
@@ -103,7 +129,12 @@ public class LooseMarmaladeTagFactoryTest
         properties.put("stringProperty", "test");
         properties.put("integerProperty", new Integer(1));
         
-        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(TestTag.class, Collections.EMPTY_LIST, properties, new BareBonesExpressionEvaluator());
+        MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
+        tagInfo.setTaglib("unitTest");
+        tagInfo.setScheme("test");
+        tagInfo.setElement("test");
+        
+        LooseMarmaladeTagFactory factory = new LooseMarmaladeTagFactory(tagInfo, TestTag.class, Collections.EMPTY_LIST, properties, new BareBonesExpressionEvaluator());
         MarmaladeTag tag = factory.newTag();
         
         assertTrue("should be a TestTag", (tag instanceof TestTag));
