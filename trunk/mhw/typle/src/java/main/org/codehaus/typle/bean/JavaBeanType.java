@@ -22,9 +22,12 @@ public final class JavaBeanType {
         return name;
     }
 
-    public static final JavaBeanType INTERFACE = new JavaBeanType("interface");
+    public static final JavaBeanType INTERFACE
+        = new JavaBeanType("interface");
 
-    public static final JavaBeanType CLASS = new JavaBeanType("class");
+    public static final JavaBeanType CLASS
+        = new JavaBeanType("class");
 
-    public static final JavaBeanType ABSTRACT_CLASS = new JavaBeanType("abstract class");
+    public static final JavaBeanType ABSTRACT_CLASS
+        = new JavaBeanType("abstract class");
 }

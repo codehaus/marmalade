@@ -72,11 +72,16 @@ public final class JavaBean {
         }
     }
 
+    private static final String BOILERPLATE_COMMENT
+        = "/*\n"
+        + " * Automatically generated. Do not edit.\n"
+        + " */\n\n";
+
     /**
      * @param record
      */
     private void visit(RecordType record, State state) {
-        state.source.add(new BoilerPlateComment("/*\n * $" + "Id$\n */\n\n", 1));
+        state.source.add(new BoilerPlateComment(BOILERPLATE_COMMENT, 1));
         state.source.add(new JavaPackage("net.kremvax"));
         state.source.add(new JavaPackage("foo.kremvax"));
         state.source.add(new Import("org.codehaus.plexus.Plexus"));
