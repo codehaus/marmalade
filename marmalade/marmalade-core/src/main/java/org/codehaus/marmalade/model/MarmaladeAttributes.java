@@ -48,6 +48,8 @@
 /* Created on Mar 25, 2004 */
 package org.codehaus.marmalade.model;
 
+import java.util.Iterator;
+
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
@@ -74,4 +76,6 @@ public interface MarmaladeAttributes
     /** Assume Object.class is the type. */
     public Object getValue( String name, MarmaladeExecutionContext context,
         Object defaultVal ) throws ExpressionEvaluationException;
+    
+    public Iterator iterator();
 }
