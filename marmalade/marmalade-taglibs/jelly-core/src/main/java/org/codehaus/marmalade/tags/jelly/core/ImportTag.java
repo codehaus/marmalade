@@ -29,15 +29,21 @@ import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.parsetime.DefaultParsingContext;
 import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsetime.MarmaladeParsingContext;
 import org.codehaus.marmalade.parsetime.ScriptBuilder;
 import org.codehaus.marmalade.parsetime.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
+import org.codehaus.marmalade.util.RecordingReader;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -95,11 +101,24 @@ public class ImportTag extends AbstractJellyMarmaladeTag
                 "url attribute must be String, java.net.URL, or java.io.File type." );
         }
 
+        RecordingReader reader = null;
+
         try
         {
+            reader = new RecordingReader( new BufferedReader( 
+                        new InputStreamReader( resource.openStream(  ) ) ) );
+
             MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
-            ScriptParser parser = new ScriptParser( resolver );
-            ScriptBuilder builder = parser.parse( resource );
+
+            MarmaladeParsingContext pContext = new DefaultParsingContext(  );
+
+            pContext.setTaglibResolver( resolver );
+            pContext.setInput( reader );
+            pContext.setInputLocation( resource.toExternalForm(  ) );
+            pContext.setDefaultExpressionEvaluator( getExpressionEvaluator(  ) );
+
+            ScriptParser parser = new ScriptParser(  );
+            ScriptBuilder builder = parser.parse( pContext );
             MarmaladeScript script = builder.build(  );
             MarmaladeAttributes attrs = getAttributes(  );
 
@@ -141,6 +160,24 @@ public class ImportTag extends AbstractJellyMarmaladeTag
         {
             throw new MarmaladeExecutionException( 
                 "Error parsing script from: " + resource.toExternalForm(  ), e );
+        }
+        catch ( IOException e )
+        {
+            throw new MarmaladeExecutionException( 
+                "Error parsing script from: " + resource.toExternalForm(  ), e );
+        }
+        finally
+        {
+            if ( reader != null )
+            {
+                try
+                {
+                    reader.close(  );
+                }
+                catch ( IOException e )
+                {
+                }
+            }
         }
     }
 }

@@ -18,63 +18,24 @@ public class CachingScriptParser extends ScriptParser
 {
     private Map cache = new TreeMap();
 
-    public CachingScriptParser( MarmaladeTaglibResolver marmaladeResolver )
+    public CachingScriptParser(  )
     {
-        super( marmaladeResolver );
     }
 
-    public ScriptBuilder parse( File input )
+    public ScriptBuilder parse( MarmaladeParsingContext context )
         throws MarmaladeParsetimeException, MarmaladeModelBuilderException
     {
-        String location = input.getAbsolutePath();
+        String location = context.getInputLocation();
         
         ScriptBuilder builder = checkCache(location);
         if(builder == null) {
-            builder = super.parse( input );
+            builder = super.parse( context );
             cache(location, builder);
         }
         
         return builder;
     }
 
-    public ScriptBuilder parse( InputStream input, String location )
-        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
-    {
-        ScriptBuilder builder = checkCache(location);
-        if(builder == null) {
-            builder = super.parse( input, location );
-            cache(location, builder);
-        }
-        
-        return builder;
-    }
-
-    public ScriptBuilder parse( Reader input, String location )
-        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
-    {
-        ScriptBuilder builder = checkCache(location);
-        if(builder == null) {
-            builder = super.parse( input, location );
-            cache(location, builder);
-        }
-        
-        return builder;
-    }
-
-    public ScriptBuilder parse( URL input )
-        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
-    {
-        String location = input.toExternalForm();
-        
-        ScriptBuilder builder = checkCache(location);
-        if(builder == null) {
-            builder = super.parse( input );
-            cache(location, builder);
-        }
-        
-        return builder;
-    }
-    
     private void cache(String location, ScriptBuilder builder) {
         cache.put(location, builder);
     }

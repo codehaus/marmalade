@@ -90,4 +90,12 @@ public class MarmaladeTagBuilder {
         this.attributes = attributes;
     }
 
+    public MarmaladeTagLibrary getTagLibrary() {
+        return tagLibrary;
+    }
+
+    public MarmaladeTagInfo getTagInfo() {
+        return tagInfo;
+    }
+
 }

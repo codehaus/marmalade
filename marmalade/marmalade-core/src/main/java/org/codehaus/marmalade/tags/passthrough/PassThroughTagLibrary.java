@@ -25,13 +25,14 @@
 package org.codehaus.marmalade.tags.passthrough;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 
 /**
  * @author jdcasey
  */
-public class PassThroughTagLibrary implements MarmaladeTagLibrary
+public class PassThroughTagLibrary extends AbstractMarmaladeTagLibrary
 {
     public PassThroughTagLibrary(  )
     {
@@ -40,5 +41,11 @@ public class PassThroughTagLibrary implements MarmaladeTagLibrary
     public MarmaladeTag createTag( MarmaladeTagInfo tagInfo )
     {
         return new PassThroughTag(  );
+    }
+
+    public void registerTag( String name, Class tagClass )
+    {
+        throw new UnsupportedOperationException( 
+            "This is not an open tag library. Tags cannot be registered here." );
     }
 }
