@@ -28,100 +28,32 @@ import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MetaAttribute;
 import org.codehaus.marmalade.metamodel.MetaAttributes;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeAttribute;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.AbstractPassThroughTag;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+import org.xmlpull.v1.XmlSerializer;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author jdcasey
  */
-public class PassThroughTag extends AbstractMarmaladeTag
+public class PassThroughTag extends AbstractPassThroughTag
 {
-    public PassThroughTag( MarmaladeTagInfo tagInfo )
-    {
-        super( tagInfo );
-    }
-
-    protected void doExecute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
-    {
-        StringWriter sWriter = new StringWriter(  );
-        PrintWriter out = new PrintWriter( sWriter );
-        MarmaladeTagInfo tagInfo = getTagInfo(  );
-
-        out.print( "<" + tagInfo.getElement(  ) );
-        out.print( " xmlns=\"" + tagInfo.getScheme(  ) + ":"
-            + tagInfo.getTaglib(  ) + "\"" );
-
-        MetaAttributes attributes = tagInfo.getAttributes(  );
-
-        for ( Iterator it = attributes.iterator(  ); it.hasNext(  ); )
-        {
-            MetaAttribute attribute = ( MetaAttribute ) it.next(  );
-
-            out.print( " " );
-
-            String ns = attribute.getNamespace(  );
-
-            if ( ( ns != null ) && ( ns.length(  ) > 0 ) )
-            {
-                out.print( ns + ":" );
-            }
-
-            out.print( attribute.getName(  ) );
-            out.print( "=\"" + attribute.getValue(  ) + "\"" );
-        }
-
-        MarmaladeTagInfo ti = getTagInfo(  );
-        List children = ti.getChildComponents(  );
-
-        if ( children.isEmpty(  ) )
-        {
-            out.println( "/>" );
-        }
-        else
-        {
-            Map childTagMap = getChildMap(  );
-
-            out.print( ">" );
-
-            for ( Iterator it = children.iterator(  ); it.hasNext(  ); )
-            {
-                Object childElement = ( Object ) it.next(  );
-
-                if ( childElement instanceof MarmaladeTagInfo )
-                {
-                    MarmaladeTag child = ( MarmaladeTag ) childTagMap.get( childElement );
-
-                    child.execute( context );
-                }
-                else
-                {
-                    out.print( childElement );
-                }
-            }
-
-            out.println( "</" + tagInfo.getElement(  ) + ">\n" );
-        }
-
-        context.getOutWriter(  ).print( formatWhitespace( 
-                sWriter.getBuffer(  ).toString(  ), context ) );
-    }
-
-    protected boolean alwaysProcessChildren(  )
-    {
-        return false;
-    }
-
-    protected boolean mapChildren(  )
-    {
-        return true;
-    }
+    // Implemented in abstract super class, to allow access to this funcionality
+    // from other tags as a fallback measure.
 }

@@ -1,50 +1,90 @@
-/*
- *
- * Copyright (c) 2004 John Dennis Casey
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- *
- */
-/* Created on May 18, 2004 */
+/* Created on Jul 1, 2004 */
 package org.codehaus.marmalade.parsetime;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
+import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.metamodel.MetaAttributes;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 
 /**
  * @author jdcasey
  */
-public interface MarmaladeTagBuilder
-{
-    public static final String MARMALADE_RESERVED_NS = "marmalade";
-    public static final String EXPRESSION_EVALUATOR_ATTRIBUTE = "el";
+public class MarmaladeTagBuilder {
 
-    public MarmaladeTagLibrary getTagLibrary(  );
+    private MarmaladeTagBuilder parent;
+    private List childComponents = new LinkedList();
+    private MarmaladeTagInfo tagInfo;
+    private MarmaladeTagLibrary tagLibrary;
+    private ExpressionEvaluator expressionEvaluator;
+    private MetaAttributes attributes;
 
-    public MarmaladeTagInfo getTagInfo(  );
+    public MarmaladeTagBuilder() {
+    }
+    
+    public void startParsing(MarmaladeParsingContext context) {
+        this.expressionEvaluator = context.getDefaultExpressionEvaluator();
+    }
 
-    public MarmaladeTag build(  )
-        throws MarmaladeModelBuilderException;
+    public void setParent(MarmaladeTagBuilder parent) {
+        this.parent = parent;
+    }
+    
+    public MarmaladeTagBuilder getParent() {
+        return parent;
+    }
 
-    public void setExpressionEvaluator( ExpressionEvaluator el );
+    public void addChild(MarmaladeTagBuilder child) {
+        childComponents.add(child);
+    }
 
-    public ExpressionEvaluator getExpressionEvaluator(  );
+    public void addText(String text) {
+        childComponents.add(text);
+    }
+
+    public void setTagLibrary(MarmaladeTagLibrary tagLibrary) {
+        this.tagLibrary = tagLibrary;
+    }
+
+    public MarmaladeTag build(  ) 
+    throws MarmaladeModelBuilderException
+    {
+        MarmaladeTag tag = tagLibrary.createTag(tagInfo);
+        tag.setExpressionEvaluator(expressionEvaluator);
+        tag.setAttributes(new DefaultAttributes(expressionEvaluator, attributes));
+        
+        for (Iterator it = childComponents.iterator(); it.hasNext();) {
+            Object childComponent = it.next();
+            if(childComponent instanceof MarmaladeTagBuilder) {
+                MarmaladeTag child = ((MarmaladeTagBuilder)childComponent).build();
+                child.setParent(tag);
+                tag.addChild(child);
+            }
+            else {
+                tag.appendBodyText(String.valueOf(childComponent));
+            }
+        }
+        
+        return tag;
+    }
+
+    public void setTagInfo(MarmaladeTagInfo tagInfo) {
+        this.tagInfo = tagInfo;
+    }
+
+    public void setExpressionEvaluator(ExpressionEvaluator expressionEvaluator) {
+        this.expressionEvaluator = expressionEvaluator;
+    }
+
+    public void setAttributes(MetaAttributes attributes) {
+        this.attributes = attributes;
+    }
+
 }

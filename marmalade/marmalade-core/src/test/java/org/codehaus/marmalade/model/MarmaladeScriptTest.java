@@ -38,7 +38,7 @@ public class MarmaladeScriptTest extends TestCase
     public void testShouldConstructWithAndRetrieveLocation(  )
     {
         MarmaladeScript script = new MarmaladeScript( "test.mmld",
-                new TestRootTag( new MarmaladeTagInfo(  ) ) );
+                new TestRootTag(  ) );
 
         assertEquals( "test.mmld", script.getLocation(  ) );
     }
@@ -46,7 +46,7 @@ public class MarmaladeScriptTest extends TestCase
     public void testShouldExecute(  )
         throws MarmaladeExecutionException
     {
-        TestRootTag root = new TestRootTag( new MarmaladeTagInfo(  ) );
+        TestRootTag root = new TestRootTag(  );
         MarmaladeScript script = new MarmaladeScript( "test.mmld", root );
 
         script.execute( null );
@@ -57,9 +57,9 @@ public class MarmaladeScriptTest extends TestCase
     {
         private boolean executed = false;
 
-        TestRootTag( MarmaladeTagInfo tagInfo )
+        TestRootTag(  )
         {
-            super( tagInfo );
+            super(  );
         }
 
         boolean executed(  )

@@ -44,9 +44,9 @@ public abstract class AbstractLoopingTag extends AbstractMarmaladeTag
     private boolean shouldBreak = false;
     private boolean shouldContinue = false;
 
-    protected AbstractLoopingTag( MarmaladeTagInfo tagInfo )
+    protected AbstractLoopingTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     public final void breakLoop(  )

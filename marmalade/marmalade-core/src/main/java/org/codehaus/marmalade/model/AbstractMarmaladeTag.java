@@ -47,27 +47,29 @@ import java.util.Map;
  */
 public abstract class AbstractMarmaladeTag implements MarmaladeTag
 {
-    public static final String MARMALADE_EL_PI_NAMESPACE = "marmalade-el";
-    public static final String MARMALADE_EL_ATTRIBUTE = "marmalade:el";
-    public static final String PRESERVE_BODY_WHITESPACE_ATTRIBUTE = "marmalade:preserve-whitespace";
     private ExpressionEvaluator el;
     private MarmaladeAttributes attributes;
     private MarmaladeTagInfo tagInfo;
     private boolean childrenProcessed = false;
     private List children = new ArrayList(  );
     private MarmaladeTag parent;
-    private Map childMap;
+    private StringBuffer bodyText;
 
-    protected AbstractMarmaladeTag( MarmaladeTagInfo tagInfo )
+    protected AbstractMarmaladeTag(  )
+    {
+    }
+    
+    public final void setAttributes(MarmaladeAttributes attributes) {
+        this.attributes = attributes;
+    }
+    
+    public final void setExpressionEvaluator(ExpressionEvaluator el) {
+        this.el = el;
+    }
+
+    public final void setTagInfo( MarmaladeTagInfo tagInfo )
     {
         this.tagInfo = tagInfo;
-        this.el = tagInfo.getExpressionEvaluator(  );
-        this.attributes = new DefaultAttributes( el, tagInfo.getAttributes(  ) );
-
-        if ( mapChildren(  ) )
-        {
-            this.childMap = new HashMap(  );
-        }
     }
 
     public final MarmaladeTagInfo getTagInfo(  )
@@ -80,14 +82,9 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         this.parent = parent;
     }
 
-    public final void addChild( MarmaladeTag child )
+    public void addChild( MarmaladeTag child )
     {
         children.add( child );
-
-        if ( mapChildren(  ) )
-        {
-            childMap.put( child.getTagInfo(  ), child );
-        }
     }
 
     public final MarmaladeTag getParent(  )
@@ -106,30 +103,6 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         return true;
     }
 
-    protected final Map getChildMap(  )
-    {
-        if ( childMap == null )
-        {
-            return null;
-        }
-        else
-        {
-            return Collections.unmodifiableMap( childMap );
-        }
-    }
-
-    /** Whether this tag instance should provide a mapping of
-     * MarmaladeTagInfo -&gt; MarmaladeTag for its children.
-     * This may be used to retrieve the children given their
-     * tagInfo objects, as in the case of replaying the
-     * childComponent log from this tag's tagInfo object (to
-     * output the tag as interpreted XML, for instance).
-     */
-    protected boolean mapChildren(  )
-    {
-        return false;
-    }
-
     protected void doReset(  )
     {
     }
@@ -139,6 +112,14 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         return true;
     }
 
+    public void appendBodyText(String text) {
+        if(bodyText == null) {
+            bodyText = new StringBuffer();
+        }
+        
+        bodyText.append(text);
+    }
+    
     // ------------------ MARMALADE TAG IMPLEMENTATION DETAILS ------------------ //
     public final void execute( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
@@ -158,7 +139,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         this.childrenProcessed = false;
     }
 
-    public void processChildren( MarmaladeExecutionContext context )
+    protected void processChildren( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
     {
         try
@@ -213,7 +194,9 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     protected final String getRawBody( MarmaladeExecutionContext context )
         throws ExpressionEvaluationException
     {
-        return formatWhitespace( tagInfo.getText(  ), context );
+        if(bodyText == null) {return null;}
+        
+        return formatWhitespace( bodyText.toString(), context );
     }
 
     protected String formatWhitespace( String src,
@@ -228,7 +211,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
 
         if ( !presWSOver && !preserveBodyWhitespace( context ) )
         {
-            formatted = formatted.replaceAll( "\\s+", " " ).trim();
+            formatted = formatted.replaceAll( "\\s+", " " ).trim(  );
         }
 
         return formatted;
@@ -238,7 +221,8 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         throws ExpressionEvaluationException
     {
         // decide from "native attribute" whether to preserve body whitespace.
-        Boolean preserveWS = ( Boolean ) getAttributes(  ).getValue( PRESERVE_BODY_WHITESPACE_ATTRIBUTE,
+        Boolean preserveWS = ( Boolean ) getAttributes(  ).getValue( MarmaladeControlDefinitions.MARMALADE_RESERVED_NS,
+                MarmaladeControlDefinitions.PRESERVE_BODY_WHITESPACE_ATTRIBUTE,
                 Boolean.class, context, Boolean.TRUE );
 
         return preserveWS.booleanValue(  );
@@ -247,7 +231,9 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     private Object _getBody( MarmaladeExecutionContext context, Class targetType )
         throws ExpressionEvaluationException
     {
-        String expression = tagInfo.getText(  );
+        if(bodyText == null) {return null;}
+        
+        String expression = bodyText.toString();
         Object result = null;
 
         if ( ( expression != null ) && ( expression.length(  ) > 0 ) )
@@ -367,4 +353,5 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
             return parent;
         }
     }
+
 }

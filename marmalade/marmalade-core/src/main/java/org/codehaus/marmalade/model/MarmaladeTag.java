@@ -27,6 +27,7 @@ package org.codehaus.marmalade.model;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.metamodel.MetaAttributes;
 import org.codehaus.marmalade.runtime.ConfigurationException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
@@ -45,13 +46,12 @@ public interface MarmaladeTag
 
     MarmaladeAttributes getAttributes(  );
 
+    void setExpressionEvaluator(ExpressionEvaluator el);
+    
     ExpressionEvaluator getExpressionEvaluator(  )
         throws ConfigurationException;
 
     void execute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException;
-
-    void processChildren( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException;
 
     void setParent( MarmaladeTag parent );
@@ -61,4 +61,8 @@ public interface MarmaladeTag
     MarmaladeTag getParent(  );
 
     MarmaladeTagInfo getTagInfo(  );
+
+    void setAttributes(MarmaladeAttributes attributes);
+
+    void appendBodyText(String string);
 }

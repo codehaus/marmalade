@@ -36,9 +36,9 @@ public class TestParseTag extends AbstractOutputTag
     /**
      * @param tagInfo
      */
-    public TestParseTag( MarmaladeTagInfo tagInfo )
+    public TestParseTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void write( String message, MarmaladeExecutionContext context )

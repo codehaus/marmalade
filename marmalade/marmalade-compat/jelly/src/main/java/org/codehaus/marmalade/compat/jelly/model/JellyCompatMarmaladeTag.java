@@ -20,6 +20,7 @@ import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 import org.codehaus.marmalade.runtime.ConfigurationException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.AbstractPassThroughTag;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,14 +30,14 @@ import java.util.Map;
 /**
  * @author jdcasey
  */
-public class JellyCompatMarmaladeTag extends AbstractMarmaladeTag
+public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
 {
     private TagLibrary tagLibrary;
     private Tag jellyTag;
 
-    public JellyCompatMarmaladeTag( MarmaladeTagInfo mti, TagLibrary tagLibrary )
+    public JellyCompatMarmaladeTag( TagLibrary tagLibrary )
     {
-        super( mti );
+        super(  );
         this.tagLibrary = tagLibrary;
     }
 
@@ -78,9 +79,8 @@ public class JellyCompatMarmaladeTag extends AbstractMarmaladeTag
 
             // assemble and setup the jelly tag body, which consists of the 
             // child elements (text and tags).
-            List childComponents = mti.getChildComponents(  );
+            List childComponents = getChildComponents(  );
             List bodyItems = new ArrayList(  );
-            Map childMap = getChildMap(  );
 
             for ( Iterator it = childComponents.iterator(  ); it.hasNext(  ); )
             {
@@ -88,7 +88,7 @@ public class JellyCompatMarmaladeTag extends AbstractMarmaladeTag
 
                 if ( childElement instanceof MarmaladeTagInfo )
                 {
-                    bodyItems.add( ( MarmaladeTag ) childMap.get( childElement ) );
+                    bodyItems.add( ( MarmaladeTag ) childElement );
                 }
                 else
                 {

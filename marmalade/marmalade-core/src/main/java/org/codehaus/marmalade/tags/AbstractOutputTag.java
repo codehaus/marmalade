@@ -42,9 +42,9 @@ public abstract class AbstractOutputTag extends AbstractMarmaladeTag
 
     /**
      */
-    protected AbstractOutputTag( MarmaladeTagInfo tagInfo )
+    protected AbstractOutputTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected abstract void write( String message,

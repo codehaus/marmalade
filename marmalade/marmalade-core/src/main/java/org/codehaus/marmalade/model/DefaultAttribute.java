@@ -81,4 +81,12 @@ public class DefaultAttribute implements MarmaladeAttribute
 
         return result;
     }
+
+    public String getPrefix() {
+        return attribute.getPrefix();
+    }
+
+    public String getRawValue() {
+        return attribute.getValue();
+    }
 }

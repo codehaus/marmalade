@@ -39,6 +39,6 @@ public class PassThroughTagLibrary implements MarmaladeTagLibrary
 
     public MarmaladeTag createTag( MarmaladeTagInfo tagInfo )
     {
-        return new PassThroughTag( tagInfo );
+        return new PassThroughTag(  );
     }
 }

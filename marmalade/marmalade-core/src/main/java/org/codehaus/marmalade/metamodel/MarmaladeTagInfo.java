@@ -25,10 +25,16 @@
 package org.codehaus.marmalade.metamodel;
 
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
+import org.codehaus.marmalade.model.MarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
+import org.codehaus.marmalade.parsetime.MarmaladeParsingContext;
 import org.codehaus.marmalade.parsetime.MarmaladeTagBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -41,20 +47,11 @@ public class MarmaladeTagInfo
     private String element;
     private String prefix;
     private MetaAttributes attributes;
-    private StringBuffer text;
-    private MarmaladeTagBuilder parent;
-    private List children = new ArrayList(  );
-    private ExpressionEvaluator el;
     private int sourceLine = -1;
 
-    /** For registering child events (child elements, text) as
-     * they happen. This may be important for certain types of
-     * tags.
-     */
-    private List childComponents = new ArrayList(  );
     private String filename;
     private String sourceFile;
-
+    
     public MarmaladeTagInfo(  )
     {
     }
@@ -69,17 +66,6 @@ public class MarmaladeTagInfo
         this.attributes = attributes;
     }
 
-    public List getChildren(  )
-    {
-        return Collections.unmodifiableList( children );
-    }
-
-    public void addChild( MarmaladeTagBuilder child )
-    {
-        children.add( child );
-        childComponents.add( child );
-    }
-
     public String getElement(  )
     {
         return element;
@@ -88,16 +74,6 @@ public class MarmaladeTagInfo
     public void setElement( String element )
     {
         this.element = element;
-    }
-
-    public MarmaladeTagBuilder getParent(  )
-    {
-        return parent;
-    }
-
-    public void setParent( MarmaladeTagBuilder parent )
-    {
-        this.parent = parent;
     }
 
     public String getScheme(  )
@@ -130,39 +106,6 @@ public class MarmaladeTagInfo
         this.prefix = prefix;
     }
 
-    public String getText(  )
-    {
-        if ( text == null )
-        {
-            return null;
-        }
-        else
-        {
-            return text.toString(  );
-        }
-    }
-
-    public synchronized void appendText( char[] c, int start, int length )
-    {
-        if ( text == null )
-        {
-            text = new StringBuffer(  );
-        }
-
-        text.append( c, start, length );
-        childComponents.add( String.valueOf( c, start, length ) );
-    }
-
-    public void setExpressionEvaluator( ExpressionEvaluator el )
-    {
-        this.el = el;
-    }
-
-    public ExpressionEvaluator getExpressionEvaluator(  )
-    {
-        return el;
-    }
-
     public int getSourceLine(  )
     {
         return sourceLine;
@@ -171,11 +114,6 @@ public class MarmaladeTagInfo
     public void setSourceLine( int sourceLine )
     {
         this.sourceLine = sourceLine;
-    }
-
-    public List getChildComponents(  )
-    {
-        return Collections.unmodifiableList( childComponents );
     }
 
     public void setSourceFile( String sourceFile )
