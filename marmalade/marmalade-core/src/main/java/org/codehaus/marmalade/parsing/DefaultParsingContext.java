@@ -4,9 +4,11 @@ package org.codehaus.marmalade.parsing;
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
+import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.util.RecordingReader;
 
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -65,9 +67,14 @@ public class DefaultParsingContext
         return input;
     }
 
-    public void setInput( RecordingReader input )
+    public void setInput( Reader input )
     {
-        this.input = input;
+        if(input instanceof RecordingReader) {
+            this.input = (RecordingReader)input;
+        }
+        else {
+            this.input = new RecordingReader(input);
+        }
     }
 
     public String getInputLocation()
@@ -78,5 +85,10 @@ public class DefaultParsingContext
     public void setInputLocation( String inputLocation )
     {
         this.inputLocation = inputLocation;
+    }
+
+    public void setDefaultTagLibrary( MarmaladeTagLibrary taglib )
+    {
+        resolver.setDefaultTagLibrary(taglib);
     }
 }

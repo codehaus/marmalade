@@ -48,9 +48,16 @@ public class MarmaladeTaglibResolver
 
     private String defaultPrefix;
 
+    private MarmaladeTagLibrary defaultTagLibrary;
+
     public MarmaladeTaglibResolver()
     {
         this.strategies = new LinkedList();
+    }
+
+    public boolean hasStrategies()
+    {
+        return !strategies.isEmpty();
     }
 
     public void addTaglibDefinitionStrategy( TaglibResolutionStrategy strategy )
@@ -74,26 +81,19 @@ public class MarmaladeTaglibResolver
         }
     }
 
-    public void setDefaultPrefix( String defaultPrefix )
+    public void setDefaultTagLibrary( MarmaladeTagLibrary taglib )
     {
-        this.defaultPrefix = defaultPrefix;
+        this.defaultTagLibrary = taglib;
     }
 
-    public String getDefaultPrefix()
+    public MarmaladeTagLibrary getDefaultTagLibrary()
     {
-        return defaultPrefix;
+        return defaultTagLibrary;
     }
 
     public MarmaladeTagLibrary resolve( String prefix, String taglib )
     {
         MarmaladeTagLibrary tlib = null;
-
-        String realPrefix = prefix;
-
-        if ( (realPrefix == null) || (realPrefix.trim().length() < 1) )
-        {
-            realPrefix = defaultPrefix;
-        }
 
         for ( Iterator it = strategies.iterator(); it.hasNext(); )
         {
@@ -105,6 +105,12 @@ public class MarmaladeTaglibResolver
             {
                 break;
             }
+        }
+
+        if ( tlib == null && defaultTagLibrary != null && 
+             ((prefix == null) || (prefix.trim().length() < 1)) )
+        {
+            tlib = defaultTagLibrary;
         }
 
         return tlib;

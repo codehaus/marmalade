@@ -19,7 +19,7 @@ public class PathBasedViewFinder
 
     public PathBasedViewFinder( String viewDirectory )
     {
-        String dir = viewDirectory.replaceAll( "\\", "/" );
+        String dir = viewDirectory.replace( '\\', '/' );
 
         if ( !dir.endsWith( "/" ) )
         {

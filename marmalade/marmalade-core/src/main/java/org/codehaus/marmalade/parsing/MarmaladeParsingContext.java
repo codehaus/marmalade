@@ -27,9 +27,11 @@ package org.codehaus.marmalade.parsing;
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
+import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.util.RecordingReader;
 
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -51,9 +53,11 @@ public interface MarmaladeParsingContext
 
     RecordingReader getInput();
 
-    void setInput( RecordingReader input );
+    void setInput( Reader input );
 
     String getInputLocation();
 
     void setInputLocation( String inputLocation );
+    
+    void setDefaultTagLibrary( MarmaladeTagLibrary taglib );
 }

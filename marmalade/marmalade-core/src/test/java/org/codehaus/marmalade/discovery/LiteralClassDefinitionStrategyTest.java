@@ -51,7 +51,7 @@ public class LiteralClassDefinitionStrategyTest
     {
         LiteralResolutionStrategy strat = new LiteralResolutionStrategy();
         MarmaladeTagLibrary taglib = strat.resolve( "marmalade",
-            "org.codehaus.marmalade.discovery.tags.mytags.NonExistentTaglib" );
+            "org.codehaus.marmalade.lb.discovery.tags.mytags.NonExistentTaglib" );
 
         assertNull( taglib );
     }
@@ -60,7 +60,7 @@ public class LiteralClassDefinitionStrategyTest
     {
         LiteralResolutionStrategy strat = new LiteralResolutionStrategy();
         MarmaladeTagLibrary taglib = strat.resolve( "marmalade",
-            "org.codehaus.marmalade.discovery.test.NonEmptyConstructorTaglib" );
+            "org.codehaus.marmalade.lb.discovery.test.NonEmptyConstructorTaglib" );
 
         assertNull( taglib );
     }
@@ -69,7 +69,7 @@ public class LiteralClassDefinitionStrategyTest
     {
         LiteralResolutionStrategy strat = new LiteralResolutionStrategy();
         MarmaladeTagLibrary taglib = strat
-            .resolve( "marmalade", "org.codehaus.marmalade.discovery.test.NonTaglibClass" );
+            .resolve( "marmalade", "org.codehaus.marmalade.lb.discovery.test.NonTaglibClass" );
 
         assertNull( taglib );
     }
