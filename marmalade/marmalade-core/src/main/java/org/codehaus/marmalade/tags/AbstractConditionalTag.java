@@ -40,7 +40,13 @@ public abstract class AbstractConditionalTag extends AbstractMarmaladeTag {
   }
   
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
-    processChildren(context);
+    if(conditionMatches(context)) {
+      processChildren(context);
+    }
   }
 
+  protected boolean alwaysProcessChildren()
+  {
+    return false;
+  }
 }

@@ -7,6 +7,7 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.MissingAttributeException;
 
 /**
  * @author jdcasey
@@ -23,7 +24,10 @@ public class SetTag extends AbstractMarmaladeTag {
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
-    Object value = requireTagAttribute(VALUE_ATTRIBUTE, context);
+    Object value = getBody(context);
+    if(value == null) {
+      value = requireTagAttribute(VALUE_ATTRIBUTE, context);
+    }
     
     MarmaladeAttributes attributes = getAttributes();
     String var = (String)attributes.getValue(VAR_ATTRIBUTE, String.class, context);

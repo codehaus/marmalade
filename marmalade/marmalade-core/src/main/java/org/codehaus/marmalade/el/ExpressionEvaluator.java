@@ -2,7 +2,6 @@
 package org.codehaus.marmalade.el;
 
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /** Represents a bridge to an expression language processor which is used to resolve
  * object expressions within the parsing process.

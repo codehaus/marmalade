@@ -1,7 +1,6 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.model;
 
-import org.codehaus.marmalade.modelbuilder.MarmaladeTagBuilder;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 

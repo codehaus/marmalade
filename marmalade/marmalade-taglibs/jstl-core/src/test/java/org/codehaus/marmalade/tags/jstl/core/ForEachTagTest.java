@@ -6,580 +6,248 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.jstl.core.ForEachTag;
-import org.codehaus.marmalade.testing.AbstractTagTestCase;
-import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 import org.jmock.Mock;
 
 
 /**
  * @author jdcasey
  */
-public class ForEachTagTest extends AbstractTagTestCase{
+public class ForEachTagTest extends TestCase{
 
-  public void testDoExecute_Simple_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read three", 3, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverSimpleArrayOfValues() throws MarmaladeExecutionException{
+    _testSimpleIteration(new String[] {"one", "two", "three"}, 3);
   }
-
-  public void testDoExecute_Simple_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
+  
+  public void testShouldIterateOverSimpleCollectionOfValues() throws MarmaladeExecutionException{
     List items = new ArrayList();
     items.add("one");
     items.add("two");
     items.add("three");
     
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read three", 3, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testSimpleIteration(items, 3);
   }
 
-  public void testDoExecute_Simple_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read three", 3, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverTokensExtractedFromSimpleString() throws MarmaladeExecutionException{
+    _testSimpleIteration("one,two,three", 3);
   }
 
-  public void testDoExecute_Simple_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverSingleNonStringObject() throws MarmaladeExecutionException{
+    _testSimpleIteration(new Integer(1), 1);
   }
 
-  public void testDoExecute_NonZeroBegin_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("begin", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverArrayStartingAtNonZeroBeginIndex() throws MarmaladeExecutionException{
+    _testNonZeroBeginIteration(new String[] {"one", "two", "three"}, 1, 2);
   }
 
-  public void testDoExecute_NonZeroBegin_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("begin", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
+  public void testShouldIterateOverCollectionStartingAtNonZeroBeginIndex() throws MarmaladeExecutionException{
     List items = new ArrayList();
     items.add("one");
     items.add("two");
     items.add("three");
     
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read 2", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testNonZeroBeginIteration(items, 1, 2);
   }
 
-  public void testDoExecute_NonZeroBegin_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("begin", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverStringTokensStartingAtNonZeroBeginIndex() throws MarmaladeExecutionException{
+    _testNonZeroBeginIteration("one,two,three", 1, 2);
   }
 
-  public void testDoExecute_NonZeroBegin_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("begin", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read zero", 0, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldNotIterateOverSingleObjectWhenStartingAtNonZeroBeginIndex() throws MarmaladeExecutionException{
+    _testNonZeroBeginIteration(new Integer(1), 1, 0);
   }
 
-  public void testDoExecute_PositiveEnd_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverArrayEndingAtPositiveEndIndex() throws MarmaladeExecutionException{
+    _testPositiveEndIteration(new String[] {"one", "two", "three"}, 1, 2);
   }
 
-  public void testDoExecute_PositiveEnd_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
+  public void testShouldIterateOverCollectionEndingAtPositiveEndIndex() throws MarmaladeExecutionException{
     List items = new ArrayList();
     items.add("one");
     items.add("two");
     items.add("three");
     
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testPositiveEndIteration(items, 1, 2);
   }
 
-  public void testDoExecute_PositiveEnd_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverStringTokensEndingAtPositiveEndIndex() throws MarmaladeExecutionException{
+    _testPositiveEndIteration("one,two,three", 1, 2);
   }
 
-  public void testDoExecute_PositiveEnd_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read 1", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverArrayEndingAtZeroEndIndex() throws MarmaladeExecutionException{
+    _testPositiveEndIteration(new String[] {"one", "two", "three"}, 0, 1);
   }
 
-  public void testDoExecute_ZeroEnd_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "0");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
-
-  public void testDoExecute_ZeroEnd_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "0");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
+  public void testShouldIterateOverCollectionEndingAtZeroEndIndex() throws MarmaladeExecutionException{
     List items = new ArrayList();
     items.add("one");
     items.add("two");
     items.add("three");
     
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testPositiveEndIteration(items, 0, 1);
   }
 
-  public void testDoExecute_ZeroEnd_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "0");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverStringTokensEndingAtZeroEndIndex() throws MarmaladeExecutionException{
+    _testPositiveEndIteration("one,two,three", 0, 1);
   }
 
-  public void testDoExecute_ZeroEnd_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "0");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read 1", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverSingleObjectEndingAtZeroEndIndex() throws MarmaladeExecutionException{
+    _testPositiveEndIteration(new Integer(1), 0, 1);
   }
 
-  public void testDoExecute_MultiStep_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("step", "2");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverSingleObjectWhenEndingAtPositiveEndIndex() throws MarmaladeExecutionException{
+    _testPositiveEndIteration(new Integer(1), 1, 1);
   }
 
-  public void testDoExecute_MultiStep_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("step", "2");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
+  public void testShouldIterateOverArrayUsingNonOneStepping() throws MarmaladeExecutionException{
+    _testMultiStepIteration(new String[] {"one", "two", "three"}, 2, 2);
+  }
+
+  public void testShouldIterateOverCollectionUsingNonOneStepping() throws MarmaladeExecutionException{
     List items = new ArrayList();
     items.add("one");
     items.add("two");
     items.add("three");
     
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testMultiStepIteration(items, 2, 2);
   }
 
-  public void testDoExecute_MultiStep_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("step", "2");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+  public void testShouldIterateOverStringTokensUsingNonOneStepping() throws MarmaladeExecutionException{
+    _testMultiStepIteration("one,two,three", 2, 2);
   }
 
-  public void testDoExecute_MultiStep_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("step", "2");
+  public void testShouldIterateOverSingleObjectUsingNonOneStepping() throws MarmaladeExecutionException{
+    _testMultiStepIteration(new Integer(1), 2, 1);
+  }
+
+  private void _testSimpleIteration(Object iterationSubject, int expectedResult) throws MarmaladeExecutionException{
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "items", "#items");
+    attrs.addAttribute("", "var", "item");
     
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
+    OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
     
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(el);
+    
+    ForEachTag tag = new ForEachTag(ti);
+    
+    MarmaladeTagInfo counterTI = new MarmaladeTagInfo();
+    counterTI.setAttributes(new DefaultRawAttributes());
+    
+    CounterTestTag counter = new CounterTestTag(counterTI);
     
     counter.setParent(tag);
-    tag.child(counter);
+    tag.addChild(counter);
     
     DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
+    ctx.setVariable("items", iterationSubject);
     
     tag.execute(ctx);
-    assertEquals("Counter should read 1", 1, counter.counter());
     
-    attrsMock.verify();
-    counterAttrs.verify();
+    assertNull(ctx.getVariable("item", el));
+    assertEquals(expectedResult, counter.counter());
+  }
+
+  private void _testNonZeroBeginIteration(Object iterationSubject, int beginIdx, int expectedResult) throws MarmaladeExecutionException{
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "items", "#items");
+    attrs.addAttribute("", "var", "item");
+    attrs.addAttribute("", "begin", "" + beginIdx);
+    
+    OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+    
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(el);
+    
+    ForEachTag tag = new ForEachTag(ti);
+    
+    MarmaladeTagInfo counterTI = new MarmaladeTagInfo();
+    counterTI.setAttributes(new DefaultRawAttributes());
+    
+    CounterTestTag counter = new CounterTestTag(counterTI);
+    
+    counter.setParent(tag);
+    tag.addChild(counter);
+    
+    DefaultContext ctx = new DefaultContext();
+    ctx.setVariable("items", iterationSubject);
+    
+    tag.execute(ctx);
+    
+    assertNull(ctx.getVariable("item", el));
+    assertEquals(expectedResult, counter.counter());
+  }
+
+  private void _testPositiveEndIteration(Object iterationSubject, int endIdx, int expectedResult) throws MarmaladeExecutionException{
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "items", "#items");
+    attrs.addAttribute("", "var", "item");
+    attrs.addAttribute("", "end", "" + endIdx);
+    
+    OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+    
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(el);
+    
+    ForEachTag tag = new ForEachTag(ti);
+    
+    MarmaladeTagInfo counterTI = new MarmaladeTagInfo();
+    counterTI.setAttributes(new DefaultRawAttributes());
+    
+    CounterTestTag counter = new CounterTestTag(counterTI);
+    
+    counter.setParent(tag);
+    tag.addChild(counter);
+    
+    DefaultContext ctx = new DefaultContext();
+    ctx.setVariable("items", iterationSubject);
+    
+    tag.execute(ctx);
+    
+    assertNull(ctx.getVariable("item", el));
+    assertEquals(expectedResult, counter.counter());
+  }
+
+  private void _testMultiStepIteration(Object iterationSubject, int step, int expectedResult) throws MarmaladeExecutionException{
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "items", "#items");
+    attrs.addAttribute("", "var", "item");
+    attrs.addAttribute("", "step", "" + step);
+    
+    OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+    
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(el);
+    
+    ForEachTag tag = new ForEachTag(ti);
+    
+    MarmaladeTagInfo counterTI = new MarmaladeTagInfo();
+    counterTI.setAttributes(new DefaultRawAttributes());
+    
+    CounterTestTag counter = new CounterTestTag(counterTI);
+    
+    counter.setParent(tag);
+    tag.addChild(counter);
+    
+    DefaultContext ctx = new DefaultContext();
+    ctx.setVariable("items", iterationSubject);
+    
+    tag.execute(ctx);
+    
+    assertNull(ctx.getVariable("item", el));
+    assertEquals(expectedResult, counter.counter());
   }
 
 }

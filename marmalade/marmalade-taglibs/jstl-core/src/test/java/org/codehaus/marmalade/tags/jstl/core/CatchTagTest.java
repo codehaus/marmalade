@@ -4,10 +4,16 @@ package org.codehaus.marmalade.tags.jstl.core;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttribute;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.MissingAttributeException;
 import org.codehaus.marmalade.tags.jstl.core.CatchTag;
-import org.codehaus.marmalade.testing.AbstractTagTestCase;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
@@ -17,19 +23,38 @@ import org.jmock.Mock;
 /**
  * @author jdcasey
  */
-public class CatchTagTest extends AbstractTagTestCase{
+public class CatchTagTest extends TestCase{
+  
+  public void testShouldRequireVarAttribute() throws MarmaladeExecutionException {
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(new DefaultRawAttributes());
+    
+    CatchTag tag = new CatchTag(ti);
+    try {
+      tag.execute(new DefaultContext());
+      fail("var attribute should be required");
+    }
+    catch(MissingAttributeException e) {
+      // should catch this exception; "var" attribute should be required.
+    }
+  }
 
-  public void testDoExecuteWithException_NoClass() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Mock attrMock = attributesWithSingleAttribute("var", "exception");
+  public void testShouldCatchThrownExceptionWhenClassIsUnspecified() throws TagException, TagalogParseException, MarmaladeExecutionException{
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    DefaultRawAttributes tiAttrs = new DefaultRawAttributes();
+    tiAttrs.addAttribute(new DefaultRawAttribute("", "var", "exception"));
+    ti.setAttributes(tiAttrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
     
-    CatchTag tag = new CatchTag();
-    tag.begin("catch", (Attributes)attrMock.proxy());
+    CatchTag tag = new CatchTag(ti);
     
-    Mock attrMock2 = attributesEmpty();
+    MarmaladeTagInfo cti = new MarmaladeTagInfo();
+    DefaultRawAttributes ctiAttrs = new DefaultRawAttributes();
+    cti.setAttributes(ctiAttrs);
     
-    ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag();
-    errTag.begin("err", (Attributes)attrMock2.proxy());
-    tag.child(errTag);
+    ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(cti);
+    
+    tag.addChild(errTag);
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -46,26 +71,25 @@ public class CatchTagTest extends AbstractTagTestCase{
       "Exception should be UnsupportedOperationException", 
       t instanceof UnsupportedOperationException
     );
-    
-    attrMock.verify();
-    attrMock2.verify();
   }
 
-  public void testDoExecuteWithException_WithClass_Match() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("var", "exception");
-    attrs.put("class", "java.lang.UnsupportedOperationException");
+  public void testShouldCatchThrownAndMatchedExceptionClassWhenSpecified() throws TagException, TagalogParseException, MarmaladeExecutionException{
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    DefaultRawAttributes tiAttrs = new DefaultRawAttributes();
+    tiAttrs.addAttribute(new DefaultRawAttribute("", "var", "exception"));
+    tiAttrs.addAttribute(new DefaultRawAttribute("", "class", "java.lang.UnsupportedOperationException"));
+    ti.setAttributes(tiAttrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
     
-    Mock attrMock = attributesFromMap(attrs);
+    CatchTag tag = new CatchTag(ti);
     
-    CatchTag tag = new CatchTag();
-    tag.begin("catch", (Attributes)attrMock.proxy());
+    MarmaladeTagInfo cti = new MarmaladeTagInfo();
+    DefaultRawAttributes ctiAttrs = new DefaultRawAttributes();
+    cti.setAttributes(ctiAttrs);
     
-    Mock attrMock2 = attributesEmpty();
+    ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(cti);
     
-    ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag();
-    errTag.begin("err", (Attributes)attrMock2.proxy());
-    tag.child(errTag);
+    tag.addChild(errTag);
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -82,26 +106,25 @@ public class CatchTagTest extends AbstractTagTestCase{
       "Exception should be UnsupportedOperationException", 
       t instanceof UnsupportedOperationException
     );
-    
-    attrMock.verify();
-    attrMock2.verify();
   }
 
-  public void testDoExecuteWithException_WithClass_NoMatch() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("var", "exception");
-    attrs.put("class", "java.lang.IllegalArgumentException");
+  public void testShouldFailToCatchThrownAndUnmatchedExceptionClassWhenSpecified() throws TagException, TagalogParseException, MarmaladeExecutionException{
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    DefaultRawAttributes tiAttrs = new DefaultRawAttributes();
+    tiAttrs.addAttribute(new DefaultRawAttribute("", "var", "exception"));
+    tiAttrs.addAttribute(new DefaultRawAttribute("", "class", "java.lang.IllegalArgumentException"));
+    ti.setAttributes(tiAttrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
     
-    Mock attrMock = attributesFromMap(attrs);
+    CatchTag tag = new CatchTag(ti);
     
-    CatchTag tag = new CatchTag();
-    tag.begin("catch", (Attributes)attrMock.proxy());
+    MarmaladeTagInfo cti = new MarmaladeTagInfo();
+    DefaultRawAttributes ctiAttrs = new DefaultRawAttributes();
+    cti.setAttributes(ctiAttrs);
     
-    Mock attrMock2 = attributesEmpty();
+    ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(cti);
     
-    ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag();
-    errTag.begin("err", (Attributes)attrMock2.proxy());
-    tag.child(errTag);
+    tag.addChild(errTag);
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -113,9 +136,6 @@ public class CatchTagTest extends AbstractTagTestCase{
     
     Throwable t = (Throwable)ctx.getVariable("exception", null);
     assertNull("Should have caught an exception", t);
-    
-    attrMock.verify();
-    attrMock2.verify();
   }
 
 }

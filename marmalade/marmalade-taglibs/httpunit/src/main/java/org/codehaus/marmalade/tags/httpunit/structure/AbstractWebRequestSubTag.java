@@ -1,8 +1,8 @@
 /* Created on Apr 21, 2004 */
 package org.codehaus.marmalade.tags.httpunit.structure;
 
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
-import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -12,7 +12,7 @@ import com.meterware.httpunit.WebRequest;
 /**
  * @author jdcasey
  */
-public class AbstractWebRequestSubTag extends AbstractWebConversationSubTag{
+public class AbstractWebRequestSubTag extends AbstractWebConversationSubTag implements WebRequestSubTag{
   
   public static final String REQUEST_ATTRIBUTE = "request";
 
@@ -20,7 +20,7 @@ public class AbstractWebRequestSubTag extends AbstractWebConversationSubTag{
     super(tagInfo);
   }
 
-  protected WebRequest getRequest(MarmaladeExecutionContext context)
+  public WebRequest getRequest(MarmaladeExecutionContext context)
   throws MarmaladeExecutionException
   {
     MarmaladeAttributes attrs = getAttributes();

@@ -2,7 +2,6 @@
 package org.codehaus.marmalade.modelbuilder;
 
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
-import org.codehaus.tagalog.AbstractTagLibrary;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagLibrary;
 

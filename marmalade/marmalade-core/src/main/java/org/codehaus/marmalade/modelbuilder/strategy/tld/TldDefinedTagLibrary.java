@@ -2,8 +2,6 @@
 package org.codehaus.marmalade.modelbuilder.strategy.tld;
 
 import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
-import org.codehaus.marmalade.model.MarmaladeTag;
-import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
 
 
 /**

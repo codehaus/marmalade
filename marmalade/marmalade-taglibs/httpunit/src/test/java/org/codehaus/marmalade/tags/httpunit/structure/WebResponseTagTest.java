@@ -6,17 +6,20 @@ import java.util.TreeMap;
 
 import javax.servlet.jsp.el.ExpressionEvaluator;
 
-import org.codehaus.marmalade.IllegalAncestorException;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
+import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.MarmaladeTag;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.IllegalAncestorException;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.httpunit.TestingWebRequest;
 import org.codehaus.marmalade.tags.httpunit.TestingWebResponse;
-import org.codehaus.marmalade.testing.AbstractTagCGLibTestCase;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
+import org.jmock.MockObjectTestCase;
 import org.jmock.cglib.Mock;
 
 import com.meterware.httpunit.WebConversation;
@@ -27,7 +30,7 @@ import com.meterware.httpunit.WebResponse;
 /**
  * @author jdcasey
  */
-public class WebResponseTagTest extends AbstractTagCGLibTestCase{
+public class WebResponseTagTest extends MockObjectTestCase{
   
   public void testEmbeddedSuccess() throws TagException, TagalogParseException, MarmaladeExecutionException {
     Mock respMock = new Mock(TestingWebResponse.class);
@@ -45,7 +48,7 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
     
     Mock reqMock = new Mock(TestingWebRequest.class);
     
-    Mock reqTagMock = new Mock(AbstractWebRequestTag.class);
+    Mock reqTagMock = new Mock(WebRequestTag.class);
     reqTagMock.expects(once())
               .method("getRequest")
               .withNoArguments()
@@ -55,33 +58,26 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
               .withNoArguments()
               .will(returnValue(convTagMock.proxy()));
     
-    Mock respAttrMock = attributesEmpty();
-    WebResponseTag tag = new WebResponseTag();
-    tag.setParent((Tag)reqTagMock.proxy());
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(new DefaultRawAttributes());
+    mti.setElement("response");
     
-    tag.begin("response", (Attributes)respAttrMock.proxy());
+    DefaultWebResponseTag tag = new DefaultWebResponseTag(mti);
+    tag.setParent((MarmaladeTag)reqTagMock.proxy());
     
-    Mock childAttrMock = attributesEmpty();
-    TestResponseSubTag child = new TestResponseSubTag();
-    child.setParent(tag);
-    child.begin("test", (Attributes)childAttrMock.proxy());
-    child.end("test");
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(new DefaultRawAttributes());
+    mtiChild.setElement("child");
+    mtiChild.setParent(null);
     
-    tag.child(child);
-    tag.end("response");
+    TestResponseSubTag child = new TestResponseSubTag(mtiChild);
+    
+    tag.addChild(child);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     assertTrue("Child should have found response.", child.foundResponse());
-    
-    respMock.verify();
-    convMock.verify();
-    convTagMock.verify();
-    reqMock.verify();
-    reqTagMock.verify();
-    respAttrMock.verify();
-    childAttrMock.verify();
   }
   
   public void testEmbeddedMissingRequest() throws TagException, TagalogParseException, MarmaladeExecutionException {
@@ -97,20 +93,21 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
                .withNoArguments()
                .will(returnValue(null));
     
-    Mock respAttrMock = attributesEmpty();
-    WebResponseTag tag = new WebResponseTag();
-    tag.setParent((Tag)convTagMock.proxy());
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(new DefaultRawAttributes());
+    mti.setElement("response");
     
-    tag.begin("response", (Attributes)respAttrMock.proxy());
+    DefaultWebResponseTag tag = new DefaultWebResponseTag(mti);
+    tag.setParent((MarmaladeTag)convTagMock.proxy());
     
-    Mock childAttrMock = attributesEmpty();
-    TestResponseSubTag child = new TestResponseSubTag();
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(new DefaultRawAttributes());
+    mtiChild.setElement("child");
+    
+    TestResponseSubTag child = new TestResponseSubTag(mtiChild);
+    
     child.setParent(tag);
-    child.begin("test", (Attributes)childAttrMock.proxy());
-    child.end("test");
-    
-    tag.child(child);
-    tag.end("response");
+    tag.addChild(child);
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -120,11 +117,6 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
     catch(IllegalAncestorException e) {}
     
     assertFalse("Child should NOT have found response.", child.foundResponse());
-    
-    convMock.verify();
-    convTagMock.verify();
-    respAttrMock.verify();
-    childAttrMock.verify();
   }
   
   public void testEmbeddedMissingConversation() throws TagException, TagalogParseException, MarmaladeExecutionException {
@@ -134,20 +126,21 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
               .withNoArguments()
               .will(returnValue(null));
     
-    Mock respAttrMock = attributesEmpty();
-    WebResponseTag tag = new WebResponseTag();
-    tag.setParent((Tag)reqTagMock.proxy());
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(new DefaultRawAttributes());
+    mti.setElement("response");
     
-    tag.begin("response", (Attributes)respAttrMock.proxy());
+    DefaultWebResponseTag tag = new DefaultWebResponseTag(mti);
+    tag.setParent((MarmaladeTag)reqTagMock.proxy());
     
-    Mock childAttrMock = attributesEmpty();
-    TestResponseSubTag child = new TestResponseSubTag();
-    child.setParent(tag);
-    child.begin("test", (Attributes)childAttrMock.proxy());
-    child.end("test");
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(new DefaultRawAttributes());
+    mtiChild.setElement("child");
+    mtiChild.setParent(null);
     
-    tag.child(child);
-    tag.end("response");
+    TestResponseSubTag child = new TestResponseSubTag(mtiChild);
+    
+    tag.addChild(child);
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -157,9 +150,6 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
     catch(IllegalAncestorException e) {}
     
     assertFalse("Child should NOT have found response.", child.foundResponse());
-    
-    respAttrMock.verify();
-    childAttrMock.verify();
   }
   
   public void testSerialSuccess() throws TagException, TagalogParseException, MarmaladeExecutionException {
@@ -172,16 +162,16 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
     
     Mock reqMock = new Mock(TestingWebRequest.class);
     
-    Map attributes = new TreeMap();
-    attributes.put("var", "response");
-    attributes.put("conversation", "#conversation");
-    attributes.put("request", "#request");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", "var", "response"));
+    attributes.addAttribute(new DefaultRawAttribute("", "conversation", "#conversation"));
+    attributes.addAttribute(new DefaultRawAttribute("", "request", "#request"));
     
-    Mock respAttrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("response");
     
-    WebResponseTag tag = new WebResponseTag();
-    tag.begin("response", (Attributes)respAttrMock.proxy());
-    tag.end("response");
+    DefaultWebResponseTag tag = new DefaultWebResponseTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     ctx.setVariable("conversation", (WebConversation)convMock.proxy());
@@ -189,26 +179,21 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
     tag.execute(ctx);
     
     assertNotNull("Response variable should NOT be null.", ctx.getVariable("response", null));
-    
-    respMock.verify();
-    convMock.verify();
-    reqMock.verify();
-    respAttrMock.verify();
   }
 
   public void testSerialMissingConversation() throws TagException, TagalogParseException, MarmaladeExecutionException {
     Mock reqMock = new Mock(TestingWebRequest.class);
     
-    Map attributes = new TreeMap();
-    attributes.put("var", "response");
-    attributes.put("conversation", "#conversation");
-    attributes.put("request", "#request");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", "var", "response"));
+    attributes.addAttribute(new DefaultRawAttribute("", "conversation", "#conversation"));
+    attributes.addAttribute(new DefaultRawAttribute("", "request", "#request"));
     
-    Mock respAttrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("response");
     
-    WebResponseTag tag = new WebResponseTag();
-    tag.begin("response", (Attributes)respAttrMock.proxy());
-    tag.end("response");
+    DefaultWebResponseTag tag = new DefaultWebResponseTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     ctx.setVariable("request", (WebRequest)reqMock.proxy());
@@ -219,24 +204,21 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
     catch(IllegalAncestorException e) {}
     
     assertNull("Response variable should be null.", ctx.getVariable("response", null));
-    
-    reqMock.verify();
-    respAttrMock.verify();
   }
 
   public void testSerialMissingRequest() throws TagException, TagalogParseException, MarmaladeExecutionException {
     Mock convMock = new Mock(WebConversation.class);
     
-    Map attributes = new TreeMap();
-    attributes.put("var", "response");
-    attributes.put("conversation", "#conversation");
-    attributes.put("request", "#request");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", "var", "response"));
+    attributes.addAttribute(new DefaultRawAttribute("", "conversation", "#conversation"));
+    attributes.addAttribute(new DefaultRawAttribute("", "request", "#request"));
     
-    Mock respAttrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("response");
     
-    WebResponseTag tag = new WebResponseTag();
-    tag.begin("response", (Attributes)respAttrMock.proxy());
-    tag.end("response");
+    DefaultWebResponseTag tag = new DefaultWebResponseTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     ctx.setVariable("conversation", (WebConversation)convMock.proxy());
@@ -247,9 +229,6 @@ public class WebResponseTagTest extends AbstractTagCGLibTestCase{
     catch(IllegalAncestorException e) {}
     
     assertNull("Response variable should be null.", ctx.getVariable("response", null));
-    
-    convMock.verify();
-    respAttrMock.verify();
   }
 
 }

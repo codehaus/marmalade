@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.runtime.*;
+import org.codehaus.marmalade.runtime.DefaultContext;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 

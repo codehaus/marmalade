@@ -1,12 +1,17 @@
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttribute;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.jstl.core.ChooseTag;
 import org.codehaus.marmalade.tags.jstl.core.OtherwiseTag;
 import org.codehaus.marmalade.tags.jstl.core.WhenTag;
-import org.codehaus.marmalade.testing.AbstractTagTestCase;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
@@ -16,45 +21,64 @@ import org.jmock.Mock;
 /**
  * @author jdcasey
  */
-public class ChooseTagTest extends AbstractTagTestCase{
+public class ChooseTagTest extends TestCase{
   
-  public void testExecute_C1Fires() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Mock attrMock = attributesEmpty();
-    Mock attrMockC1 = attributesWithSingleAttribute("test", "true");
-    Mock attrMockC1F = attributesEmpty();
-    Mock attrMockC2 = attributesWithSingleAttribute("test", "true");
-    Mock attrMockC2F = attributesEmpty();
-    Mock attrMockO = attributesEmpty();
-    Mock attrMockOF = attributesEmpty();
+  public void testShouldExecuteFirstWhenChildWithTrueTestResultAndNoOthers_TTX() throws TagException, TagalogParseException, MarmaladeExecutionException {
+    MarmaladeTagInfo chooseTI = new MarmaladeTagInfo();
+    DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes();
+    chooseTI.setAttributes(chooseTIAttrs);
+    chooseTI.setElement("choose");
+    chooseTI.setScheme("marmalade");
+    chooseTI.setTaglib("jstl-core");
     
-    ChooseTag tag = new ChooseTag();
-    tag.begin("choose", (Attributes)attrMock.proxy());
+    ChooseTag tag = new ChooseTag(chooseTI);
     
-    WhenTag c1 = new WhenTag();
-    c1.begin("when", (Attributes)attrMockC1.proxy());
-    FlagChildTestTag c1f = new FlagChildTestTag();
-    c1f.begin("flag", (Attributes)attrMockC1F.proxy());
-    c1.child(c1f);
+    MarmaladeTagInfo c1TI = new MarmaladeTagInfo();
+    DefaultRawAttributes c1TIAttrs = new DefaultRawAttributes();
+    c1TIAttrs.addAttribute(new DefaultRawAttribute("", "test", "true"));
+    c1TI.setAttributes(c1TIAttrs);
+    c1TI.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag c1 = new WhenTag(c1TI);
+    
+    MarmaladeTagInfo c1fTI = new MarmaladeTagInfo();
+    c1fTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag c1f = new FlagChildTestTag(c1fTI);
+    c1.addChild(c1f);
     c1f.setParent(c1);
-    tag.child(c1);
+    tag.addChild(c1);
     c1.setParent(tag);
     
-    WhenTag c2 = new WhenTag();
-    c2.begin("when", (Attributes)attrMockC2.proxy());
-    FlagChildTestTag c2f = new FlagChildTestTag();
-    c2f.begin("flag", (Attributes)attrMockC2F.proxy());
-    c2.child(c2f);
+    MarmaladeTagInfo c2TI = new MarmaladeTagInfo();
+    DefaultRawAttributes c2TIAttrs = new DefaultRawAttributes();
+    c2TIAttrs.addAttribute(new DefaultRawAttribute("", "test", "true"));
+    c2TI.setAttributes(c2TIAttrs);
+    c2TI.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag c2 = new WhenTag(c2TI);
+    
+    MarmaladeTagInfo c2fTI = new MarmaladeTagInfo();
+    c2fTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag c2f = new FlagChildTestTag(c2fTI);
+    c2.addChild(c2f);
     c2f.setParent(c2);
-    tag.child(c2);
+    tag.addChild(c2);
     c2.setParent(tag);
     
-    OtherwiseTag o = new OtherwiseTag();
-    o.begin("otherwise", (Attributes)attrMockO.proxy());
-    FlagChildTestTag of = new FlagChildTestTag();
-    of.begin("flag", (Attributes)attrMockOF.proxy());
-    o.child(of);
+    MarmaladeTagInfo oTI = new MarmaladeTagInfo();
+    oTI.setAttributes(new DefaultRawAttributes());
+    
+    OtherwiseTag o = new OtherwiseTag(oTI);
+    
+    MarmaladeTagInfo ofTI = new MarmaladeTagInfo();
+    ofTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag of = new FlagChildTestTag(ofTI);
+    o.addChild(of);
     of.setParent(o);
-    tag.child(o);
+    tag.addChild(o);
     o.setParent(tag);
     
     DefaultContext ctx = new DefaultContext();
@@ -63,53 +87,61 @@ public class ChooseTagTest extends AbstractTagTestCase{
     assertTrue("Condition 1 should have fired.", c1f.fired());
     assertFalse("Condition 2 should NOT have fired.", c2f.fired());
     assertFalse("Otherwise should NOT have fired.", of.fired());
-    
-    attrMock.verify();
-    attrMockC1.verify();
-    attrMockC1F.verify();
-    attrMockC2.verify();
-    attrMockC2F.verify();
-    attrMockO.verify();
-    attrMockOF.verify();
   }
 
-  public void testExecute_C2Fires() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Mock attrMock = attributesEmpty();
-    Mock attrMockC1 = attributesWithSingleAttribute("test", "false");
-    Mock attrMockC1F = attributesEmpty();
-    Mock attrMockC2 = attributesWithSingleAttribute("test", "true");
-    Mock attrMockC2F = attributesEmpty();
-    Mock attrMockO = attributesEmpty();
-    Mock attrMockOF = attributesEmpty();
+  public void testShouldExecuteFirstWhenChildWithTrueTestResultAndNoOthers_FTX() throws TagException, TagalogParseException, MarmaladeExecutionException {
+    MarmaladeTagInfo chooseTI = new MarmaladeTagInfo();
+    DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes();
+    chooseTI.setAttributes(chooseTIAttrs);
     
-    ChooseTag tag = new ChooseTag();
-    tag.begin("choose", (Attributes)attrMock.proxy());
+    ChooseTag tag = new ChooseTag(chooseTI);
     
-    WhenTag c1 = new WhenTag();
-    c1.begin("when", (Attributes)attrMockC1.proxy());
-    FlagChildTestTag c1f = new FlagChildTestTag();
-    c1f.begin("flag", (Attributes)attrMockC1F.proxy());
-    c1.child(c1f);
+    MarmaladeTagInfo c1TI = new MarmaladeTagInfo();
+    DefaultRawAttributes c1TIAttrs = new DefaultRawAttributes();
+    c1TIAttrs.addAttribute(new DefaultRawAttribute("", "test", "false"));
+    c1TI.setAttributes(c1TIAttrs);
+    c1TI.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag c1 = new WhenTag(c1TI);
+    
+    MarmaladeTagInfo c1fTI = new MarmaladeTagInfo();
+    c1fTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag c1f = new FlagChildTestTag(c1fTI);
+    c1.addChild(c1f);
     c1f.setParent(c1);
-    tag.child(c1);
+    tag.addChild(c1);
     c1.setParent(tag);
     
-    WhenTag c2 = new WhenTag();
-    c2.begin("when", (Attributes)attrMockC2.proxy());
-    FlagChildTestTag c2f = new FlagChildTestTag();
-    c2f.begin("flag", (Attributes)attrMockC2F.proxy());
-    c2.child(c2f);
+    MarmaladeTagInfo c2TI = new MarmaladeTagInfo();
+    DefaultRawAttributes c2TIAttrs = new DefaultRawAttributes();
+    c2TIAttrs.addAttribute(new DefaultRawAttribute("", "test", "true"));
+    c2TI.setAttributes(c2TIAttrs);
+    c2TI.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag c2 = new WhenTag(c2TI);
+    
+    MarmaladeTagInfo c2fTI = new MarmaladeTagInfo();
+    c2fTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag c2f = new FlagChildTestTag(c2fTI);
+    c2.addChild(c2f);
     c2f.setParent(c2);
-    tag.child(c2);
+    tag.addChild(c2);
     c2.setParent(tag);
     
-    OtherwiseTag o = new OtherwiseTag();
-    o.begin("otherwise", (Attributes)attrMockO.proxy());
-    FlagChildTestTag of = new FlagChildTestTag();
-    of.begin("flag", (Attributes)attrMockOF.proxy());
-    o.child(of);
+    MarmaladeTagInfo oTI = new MarmaladeTagInfo();
+    oTI.setAttributes(new DefaultRawAttributes());
+    
+    OtherwiseTag o = new OtherwiseTag(oTI);
+    
+    MarmaladeTagInfo ofTI = new MarmaladeTagInfo();
+    ofTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag of = new FlagChildTestTag(ofTI);
+    o.addChild(of);
     of.setParent(o);
-    tag.child(o);
+    tag.addChild(o);
     o.setParent(tag);
     
     DefaultContext ctx = new DefaultContext();
@@ -118,53 +150,61 @@ public class ChooseTagTest extends AbstractTagTestCase{
     assertFalse("Condition 1 should NOT have fired.", c1f.fired());
     assertTrue("Condition 2 should have fired.", c2f.fired());
     assertFalse("Otherwise should NOT have fired.", of.fired());
-    
-    attrMock.verify();
-    attrMockC1.verify();
-    attrMockC1F.verify();
-    attrMockC2.verify();
-    attrMockC2F.verify();
-    attrMockO.verify();
-    attrMockOF.verify();
   }
 
-  public void testExecute_OFires() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Mock attrMock = attributesEmpty();
-    Mock attrMockC1 = attributesWithSingleAttribute("test", "false");
-    Mock attrMockC1F = attributesEmpty();
-    Mock attrMockC2 = attributesWithSingleAttribute("test", "false");
-    Mock attrMockC2F = attributesEmpty();
-    Mock attrMockO = attributesEmpty();
-    Mock attrMockOF = attributesEmpty();
+  public void testShouldExecuteOtherwiseIfNoWhenChildTestResultIsTrue() throws TagException, TagalogParseException, MarmaladeExecutionException {
+    MarmaladeTagInfo chooseTI = new MarmaladeTagInfo();
+    DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes();
+    chooseTI.setAttributes(chooseTIAttrs);
     
-    ChooseTag tag = new ChooseTag();
-    tag.begin("choose", (Attributes)attrMock.proxy());
+    ChooseTag tag = new ChooseTag(chooseTI);
     
-    WhenTag c1 = new WhenTag();
-    c1.begin("when", (Attributes)attrMockC1.proxy());
-    FlagChildTestTag c1f = new FlagChildTestTag();
-    c1f.begin("flag", (Attributes)attrMockC1F.proxy());
-    c1.child(c1f);
+    MarmaladeTagInfo c1TI = new MarmaladeTagInfo();
+    DefaultRawAttributes c1TIAttrs = new DefaultRawAttributes();
+    c1TIAttrs.addAttribute(new DefaultRawAttribute("", "test", "false"));
+    c1TI.setAttributes(c1TIAttrs);
+    c1TI.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag c1 = new WhenTag(c1TI);
+    
+    MarmaladeTagInfo c1fTI = new MarmaladeTagInfo();
+    c1fTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag c1f = new FlagChildTestTag(c1fTI);
+    c1.addChild(c1f);
     c1f.setParent(c1);
-    tag.child(c1);
+    tag.addChild(c1);
     c1.setParent(tag);
     
-    WhenTag c2 = new WhenTag();
-    c2.begin("when", (Attributes)attrMockC2.proxy());
-    FlagChildTestTag c2f = new FlagChildTestTag();
-    c2f.begin("flag", (Attributes)attrMockC2F.proxy());
-    c2.child(c2f);
+    MarmaladeTagInfo c2TI = new MarmaladeTagInfo();
+    DefaultRawAttributes c2TIAttrs = new DefaultRawAttributes();
+    c2TIAttrs.addAttribute(new DefaultRawAttribute("", "test", "false"));
+    c2TI.setAttributes(c2TIAttrs);
+    c2TI.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag c2 = new WhenTag(c2TI);
+    
+    MarmaladeTagInfo c2fTI = new MarmaladeTagInfo();
+    c2fTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag c2f = new FlagChildTestTag(c2fTI);
+    c2.addChild(c2f);
     c2f.setParent(c2);
-    tag.child(c2);
+    tag.addChild(c2);
     c2.setParent(tag);
     
-    OtherwiseTag o = new OtherwiseTag();
-    o.begin("otherwise", (Attributes)attrMockO.proxy());
-    FlagChildTestTag of = new FlagChildTestTag();
-    of.begin("flag", (Attributes)attrMockOF.proxy());
-    o.child(of);
+    MarmaladeTagInfo oTI = new MarmaladeTagInfo();
+    oTI.setAttributes(new DefaultRawAttributes());
+    
+    OtherwiseTag o = new OtherwiseTag(oTI);
+    
+    MarmaladeTagInfo ofTI = new MarmaladeTagInfo();
+    ofTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag of = new FlagChildTestTag(ofTI);
+    o.addChild(of);
     of.setParent(o);
-    tag.child(o);
+    tag.addChild(o);
     o.setParent(tag);
     
     DefaultContext ctx = new DefaultContext();
@@ -173,14 +213,81 @@ public class ChooseTagTest extends AbstractTagTestCase{
     assertFalse("Condition 1 should NOT have fired.", c1f.fired());
     assertFalse("Condition 2 should NOT have fired.", c2f.fired());
     assertTrue("Otherwise should have fired.", of.fired());
+  }
+
+  public void testShouldFirstWhenChildWithTrueTestResultAndNoOthers_FF() throws TagException, TagalogParseException, MarmaladeExecutionException {
+    MarmaladeTagInfo chooseTI = new MarmaladeTagInfo();
+    DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes();
+    chooseTI.setAttributes(chooseTIAttrs);
     
-    attrMock.verify();
-    attrMockC1.verify();
-    attrMockC1F.verify();
-    attrMockC2.verify();
-    attrMockC2F.verify();
-    attrMockO.verify();
-    attrMockOF.verify();
+    ChooseTag tag = new ChooseTag(chooseTI);
+    
+    MarmaladeTagInfo c1TI = new MarmaladeTagInfo();
+    DefaultRawAttributes c1TIAttrs = new DefaultRawAttributes();
+    c1TIAttrs.addAttribute(new DefaultRawAttribute("", "test", "false"));
+    c1TI.setAttributes(c1TIAttrs);
+    c1TI.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag c1 = new WhenTag(c1TI);
+    
+    MarmaladeTagInfo c1fTI = new MarmaladeTagInfo();
+    c1fTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag c1f = new FlagChildTestTag(c1fTI);
+    c1.addChild(c1f);
+    c1f.setParent(c1);
+    tag.addChild(c1);
+    c1.setParent(tag);
+    
+    MarmaladeTagInfo c2TI = new MarmaladeTagInfo();
+    DefaultRawAttributes c2TIAttrs = new DefaultRawAttributes();
+    c2TIAttrs.addAttribute(new DefaultRawAttribute("", "test", "false"));
+    c2TI.setAttributes(c2TIAttrs);
+    c2TI.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag c2 = new WhenTag(c2TI);
+    
+    MarmaladeTagInfo c2fTI = new MarmaladeTagInfo();
+    c2fTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag c2f = new FlagChildTestTag(c2fTI);
+    c2.addChild(c2f);
+    c2f.setParent(c2);
+    tag.addChild(c2);
+    c2.setParent(tag);
+    
+    DefaultContext ctx = new DefaultContext();
+    tag.execute(ctx);
+    
+    assertFalse("Condition 1 should NOT have fired.", c1f.fired());
+    assertFalse("Condition 2 should NOT have fired.", c2f.fired());
+  }
+
+  public void testShouldExecuteOtherwiseWhenNoWhenChildPresent() throws TagException, TagalogParseException, MarmaladeExecutionException {
+    MarmaladeTagInfo chooseTI = new MarmaladeTagInfo();
+    DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes();
+    chooseTI.setAttributes(chooseTIAttrs);
+    
+    ChooseTag tag = new ChooseTag(chooseTI);
+    
+    MarmaladeTagInfo oTI = new MarmaladeTagInfo();
+    oTI.setAttributes(new DefaultRawAttributes());
+    
+    OtherwiseTag o = new OtherwiseTag(oTI);
+    
+    MarmaladeTagInfo ofTI = new MarmaladeTagInfo();
+    ofTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag of = new FlagChildTestTag(ofTI);
+    o.addChild(of);
+    of.setParent(o);
+    tag.addChild(o);
+    o.setParent(tag);
+    
+    DefaultContext ctx = new DefaultContext();
+    tag.execute(ctx);
+    
+    assertTrue("Otherwise should have fired.", of.fired());
   }
 
 }

@@ -27,26 +27,39 @@ public abstract class AbstractOutputTag extends AbstractMarmaladeTag {
   throws MarmaladeExecutionException;
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
+    String value = (String)getBody(context, String.class);
+    
     MarmaladeAttributes attributes = getAttributes();
-    String value = (String)attributes.getValue(VALUE_ATTRIBUTE, String.class, context);
+    if(value == null || value.length() < 1) {
+      value = (String)attributes.getValue(VALUE_ATTRIBUTE, String.class, context);
+    }
+    
     if(value == null || value.length() < 1){
       value = (String)attributes.getValue(DEFAULT_ATTRIBUTE, String.class, context, "");
     }
     
-    Boolean escapeXml = (Boolean)attributes.getValue(
-      ESCAPE_XML_ATTRIBUTE, Boolean.class, context, Boolean.FALSE
-    );
-    
-    boolean escape = false;
-    if(escapeXml != null) {
-      escape = escapeXml.booleanValue();
+    if(value == null || value.length() < 1) {
+      throw new MarmaladeExecutionException(
+        "Message is null. Either specify the value or default " +
+        "attribute, or provide a non-null body for this tag."
+      );
     }
-    
-    if(escape){
-      value = XMLUtils.escapeXml(value);
+    else {
+      Boolean escapeXml = (Boolean)attributes.getValue(
+        ESCAPE_XML_ATTRIBUTE, Boolean.class, context, Boolean.FALSE
+      );
+      
+      boolean escape = false;
+      if(escapeXml != null) {
+        escape = escapeXml.booleanValue();
+      }
+      
+      if(escape){
+        value = XMLUtils.escapeXml(value);
+      }
+      
+      write(value, context);
     }
-    
-    write(value, context);
   }
 
 }

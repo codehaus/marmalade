@@ -2,7 +2,6 @@
 package org.codehaus.marmalade.modelbuilder.strategy.test;
 
 import org.codehaus.marmalade.model.MarmaladeTag;
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
 
 

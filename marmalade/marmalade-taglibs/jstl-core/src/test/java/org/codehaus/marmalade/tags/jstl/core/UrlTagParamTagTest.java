@@ -5,141 +5,108 @@ import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.jstl.core.ParamTag;
 import org.codehaus.marmalade.tags.jstl.core.UrlTag;
-import org.codehaus.marmalade.testing.AbstractTagTestCase;
-import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
-import org.jmock.Mock;
 
 
 /**
  * @author jdcasey
  */
-public class UrlTagParamTagTest extends AbstractTagTestCase{
-
-  public void testDoExecute_NoParams() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    String url = "http://www.google.com";
-    Map attrs = new TreeMap();
-    attrs.put("var", "url");
-    attrs.put("url", url);
+public class UrlTagParamTagTest extends TestCase{
+  
+  private void _testUrlTag(String url, ParamTag[] params, String checkUrl) throws MarmaladeExecutionException {
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "var", "url");
+    attrs.addAttribute("", "url", url);
     
-    Mock attrsMock = attributesFromMap(attrs);
-    UrlTag tag = new UrlTag();
-    tag.begin("url", (Attributes)attrsMock.proxy());
+    OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+    
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(el);
+    
+    UrlTag tag = new UrlTag(ti);
+    
+    if(params != null) {
+      for( int i = 0; i < params.length; i++ )
+      {
+        ParamTag paramTag = params[i];
+        tag.addChild(paramTag);
+        paramTag.setParent(tag);
+      }
+    }
     
     DefaultContext ctx = new DefaultContext();
-    assertNull("Nothing up this sleeve...", ctx.getVariable("url", null));
+    assertNull("url variable should be null", ctx.getVariable("url", el));
     tag.execute(ctx);
-    assertEquals(
-      "URL's external form should match the input url.", 
-      url, 
-      ((URL)ctx.getVariable("url", null)).toExternalForm()
-    );
+    URL test = (URL)ctx.getVariable("url", el);    
     
-    attrsMock.verify();
+    System.out.println("Original URL: " + url + "\tResulting URL: " + test.toExternalForm());
+    
+    assertEquals(checkUrl, test.toExternalForm());
   }
 
-  public void testDoExecute_NoParamsNewParam() throws TagException, TagalogParseException, MarmaladeExecutionException{
+  public void testShouldConstructURLObjectFromStringUrlWithNoParamsWithoutParamChildren() throws MarmaladeExecutionException{
     String url = "http://www.google.com";
-    Map attrs = new TreeMap();
-    attrs.put("var", "url");
-    attrs.put("url", url);
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    UrlTag tag = new UrlTag();
-    tag.begin("url", (Attributes)attrsMock.proxy());
-    
-    Map pAttrs = new TreeMap();
-    pAttrs.put("name", "test");
-    pAttrs.put("value", "value");
-    Mock pAttrsMock = attributesFromMap(pAttrs);
-    ParamTag param = new ParamTag();
-    param.begin("param", (Attributes)pAttrsMock.proxy());
-    
-    tag.child(param);
-    param.setParent(tag);
-    
-    DefaultContext ctx = new DefaultContext();
-    assertNull("Nothing up this sleeve...", ctx.getVariable("url", null));
-    tag.execute(ctx);
-    assertEquals(
-      "URL's external form should match the input url, plus the added param.", 
-      url + "?name=value", 
-      ((URL)ctx.getVariable("url", null)).toExternalForm() + "?name=value"
-    );
-    
-    attrsMock.verify();
-    pAttrsMock.verify();
+    _testUrlTag(url, null, url);
   }
 
-  public void testDoExecute_NoParamsNewParamWithSpace() throws TagException, TagalogParseException, MarmaladeExecutionException{
+  public void testShouldConstructURLObjectFromStringUrlWithNoParamsWithOneParamChild() throws MarmaladeExecutionException{
     String url = "http://www.google.com";
-    Map attrs = new TreeMap();
-    attrs.put("var", "url");
-    attrs.put("url", url);
+    String check = url + "?test=value";
     
-    Mock attrsMock = attributesFromMap(attrs);
-    UrlTag tag = new UrlTag();
-    tag.begin("url", (Attributes)attrsMock.proxy());
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "name", "test");
+    attrs.addAttribute("", "value", "value");
     
-    Map pAttrs = new TreeMap();
-    pAttrs.put("name", "test");
-    pAttrs.put("value", "value one");
-    Mock pAttrsMock = attributesFromMap(pAttrs);
-    ParamTag param = new ParamTag();
-    param.begin("param", (Attributes)pAttrsMock.proxy());
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
     
-    tag.child(param);
-    param.setParent(tag);
+    ParamTag param = new ParamTag(ti);
     
-    DefaultContext ctx = new DefaultContext();
-    assertNull("Nothing up this sleeve...", ctx.getVariable("url", null));
-    tag.execute(ctx);
-    assertEquals(
-      "URL's external form should match the input url, plus the added param.", 
-      url + "?name=value+one", 
-      ((URL)ctx.getVariable("url", null)).toExternalForm() + "?name=value+one"
-    );
-    
-    attrsMock.verify();
-    pAttrsMock.verify();
+    _testUrlTag(url, new ParamTag[] {param}, check);
   }
 
-  public void testDoExecute_HadParamNewParam() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    String url = "http://www.google.com?s=one+two+three";
-    Map attrs = new TreeMap();
-    attrs.put("var", "url");
-    attrs.put("url", url);
+  public void testShouldConstructURLObjectFromStringUrlWithNoParamsWithOneParamChildContainingSpaces() throws MarmaladeExecutionException{
+    String url = "http://www.google.com";
+    String check = url + "?test=test+value";
     
-    Mock attrsMock = attributesFromMap(attrs);
-    UrlTag tag = new UrlTag();
-    tag.begin("url", (Attributes)attrsMock.proxy());
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "name", "test");
+    attrs.addAttribute("", "value", "test value");
     
-    Map pAttrs = new TreeMap();
-    pAttrs.put("name", "test");
-    pAttrs.put("value", "value");
-    Mock pAttrsMock = attributesFromMap(pAttrs);
-    ParamTag param = new ParamTag();
-    param.begin("param", (Attributes)pAttrsMock.proxy());
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
     
-    tag.child(param);
-    param.setParent(tag);
+    ParamTag param = new ParamTag(ti);
     
-    DefaultContext ctx = new DefaultContext();
-    assertNull("Nothing up this sleeve...", ctx.getVariable("url", null));
-    tag.execute(ctx);
-    assertEquals(
-      "URL's external form should match the input url, plus the added param.", 
-      url + "&name=value", 
-      ((URL)ctx.getVariable("url", null)).toExternalForm() + "&name=value"
-    );
+    _testUrlTag(url, new ParamTag[] {param}, check);
+  }
+
+  public void testShouldConstructURLObjectFromStringUrlWithOneParamAndOneParamChild() throws MarmaladeExecutionException{
+    String url = "http://www.google.com?param=pValue";
+    String check = url + "&test=value";
     
-    attrsMock.verify();
-    pAttrsMock.verify();
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "name", "test");
+    attrs.addAttribute("", "value", "value");
+    
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    ParamTag param = new ParamTag(ti);
+    
+    _testUrlTag(url, new ParamTag[] {param}, check);
   }
 
 }

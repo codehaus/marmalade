@@ -1,11 +1,18 @@
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttribute;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.IllegalParentException;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.MissingAttributeException;
 import org.codehaus.marmalade.tags.jstl.core.ChooseTag;
 import org.codehaus.marmalade.tags.jstl.core.WhenTag;
-import org.codehaus.marmalade.testing.AbstractTagTestCase;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
@@ -15,58 +22,107 @@ import org.jmock.Mock;
 /**
  * @author jdcasey
  */
-public class WhenTagTest extends AbstractTagTestCase{
-
-  public void testDoExecute_NoParent() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Mock attrMock = attributesWithSingleAttribute("test", "true");
+public class WhenTagTest extends TestCase{
+  
+  public void testShouldRequireChooseParent() throws MarmaladeExecutionException {
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "test", "true"));
     
-    WhenTag tag = new WhenTag();
-    tag.begin("when", (Attributes)attrMock.proxy());
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
     
-    Mock attrMock2 = attributesEmpty();
+    WhenTag tag = new WhenTag(ti);
     
-    FlagChildTestTag flag = new FlagChildTestTag();
-    flag.begin("flag", (Attributes)attrMock2.proxy());
-    
-    tag.child(flag);
-    
-    DefaultContext context = new DefaultContext();
     try {
-      tag.execute(context);
-      fail("Tag should fail due to missing ChooseTag parent.");
+      tag.execute(new DefaultContext());
+      fail("should fail because of missing choose parent");
     }
-    catch(MarmaladeExecutionException e) {
+    catch(IllegalParentException e ) {
+      // should snag on the missing choose parent
     }
-    attrMock.verify();
-    attrMock2.verify();
   }
+  
+  public void testShouldRequireTestAttribute() throws MarmaladeExecutionException {
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(new DefaultRawAttributes());
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag tag = new WhenTag(ti);
 
-  public void testDoExecute_WithParent() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Mock zAttrMock = attributesEmpty();
-    ChooseTag parent = new ChooseTag();
-    parent.begin("choose", (Attributes)zAttrMock.proxy());
+    MarmaladeTagInfo parentTI = new MarmaladeTagInfo();
+    parentTI.setAttributes(new DefaultRawAttributes());
     
-    Mock attrMock = attributesWithSingleAttribute("test", "true");
-    WhenTag tag = new WhenTag();
-    tag.begin("when", (Attributes)attrMock.proxy());
+    ChooseTag parent = new ChooseTag(parentTI);
     
-    parent.child(tag);
+    parent.addChild(tag);
     tag.setParent(parent);
     
-    Mock attrMock2 = attributesEmpty();
-    FlagChildTestTag flag = new FlagChildTestTag();
-    flag.begin("flag", (Attributes)attrMock2.proxy());
+    try {
+      tag.execute(new DefaultContext());
+      fail("should fail because of missing test attribute");
+    }
+    catch(MissingAttributeException e ) {
+      // should snag on the missing test attribute
+    }
+  }
+
+  public void testShouldExecuteChildrenWhenTestResultIsTrue() throws TagException, TagalogParseException, MarmaladeExecutionException{
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "test", "true"));
     
-    tag.child(flag);
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag tag = new WhenTag(ti);
+    
+    MarmaladeTagInfo parentTI = new MarmaladeTagInfo();
+    parentTI.setAttributes(new DefaultRawAttributes());
+    
+    ChooseTag parent = new ChooseTag(parentTI);
+    parent.addChild(tag);
+    tag.setParent(parent);
+    
+    MarmaladeTagInfo flagTI = new MarmaladeTagInfo();
+
+    FlagChildTestTag flag = new FlagChildTestTag(flagTI);
+    
+    tag.addChild(flag);
     flag.setParent(tag);
     
     DefaultContext context = new DefaultContext();
     tag.execute(context);
     assertTrue("Child tag should have fired.", flag.fired());
+  }
+
+  public void testShouldNotExecuteChildrenWhenTestResultIsFalse() throws TagException, TagalogParseException, MarmaladeExecutionException{
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "test", "false"));
     
-    zAttrMock.verify();
-    attrMock.verify();
-    attrMock2.verify();
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+    
+    WhenTag tag = new WhenTag(ti);
+    
+    MarmaladeTagInfo parentTI = new MarmaladeTagInfo();
+    parentTI.setAttributes(new DefaultRawAttributes());
+    
+    ChooseTag parent = new ChooseTag(parentTI);
+    parent.addChild(tag);
+    tag.setParent(parent);
+    
+    MarmaladeTagInfo flagTI = new MarmaladeTagInfo();
+
+    FlagChildTestTag flag = new FlagChildTestTag(flagTI);
+    
+    tag.addChild(flag);
+    flag.setParent(tag);
+    
+    DefaultContext context = new DefaultContext();
+    tag.execute(context);
+    assertFalse("Child tag should NOT have fired.", flag.fired());
   }
 
 }

@@ -1,10 +1,8 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.modelbuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 import org.codehaus.tagalog.AbstractTag;
@@ -12,18 +10,37 @@ import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
-import org.codehaus.tagalog.TagalogParser;
 
 
 public class BuilderTag extends AbstractTag implements MarmaladeTagBuilder{
   
   private MarmaladeTagInfo tagInfo = new MarmaladeTagInfo();
   private MarmaladeTagLibrary tagLibrary;
+  private ExpressionEvaluator el;
+  private ExpressionEvaluatorFactory elFactory;
 
   public BuilderTag(String scheme, String taglib, MarmaladeTagLibrary tagLibrary){
     tagInfo.setScheme(scheme);
     tagInfo.setTaglib(taglib);
     this.tagLibrary = tagLibrary;
+    this.elFactory = new ExpressionEvaluatorFactory();
+  }
+  
+  public void setExpressionEvaluator(ExpressionEvaluator el) {
+    this.el = el;
+  }
+  
+  public ExpressionEvaluator getExpressionEvaluator() {
+      return el;
+  }
+  
+  public void setExpressionEvaluatorFactory(ExpressionEvaluatorFactory elFactory)
+  {
+    this.elFactory = elFactory;
+  }
+  
+  public ExpressionEvaluatorFactory getExpressionEvaluatorFactory() {
+      return elFactory;
   }
   
   public MarmaladeTagLibrary getTagLibrary() {
@@ -34,7 +51,15 @@ public class BuilderTag extends AbstractTag implements MarmaladeTagBuilder{
     return tagInfo;
   }
   
-  public MarmaladeTag build() {
+  public MarmaladeTag build() throws MarmaladeModelBuilderException{
+    if(tagLibrary == null) {
+      throw new MarmaladeTagLibraryNotFoundException(
+        tagInfo.getScheme(), tagInfo.getTaglib()
+      );
+    }
+    
+    tagInfo.setExpressionEvaluator(el);
+    
     return tagLibrary.createTag(tagInfo);
   }
 
@@ -51,15 +76,30 @@ public class BuilderTag extends AbstractTag implements MarmaladeTagBuilder{
   {
     DefaultRawAttributes attrs = new DefaultRawAttributes();
     for(int i=0; i<attributes.getAttributeCount(); i++) {
-      attrs.addAttribute(new DefaultRawAttribute(
-        attributes.getNamespaceUri(i), 
-        attributes.getName(i), 
-        attributes.getValue(i)
-      ));
+      String ns = attributes.getNamespaceUri(i);
+      String name = attributes.getName(i);
+      String value = attributes.getValue(i);
+      
+      // filter marmalade:XXX attributes from the set passed on...
+      if(!MarmaladeTagBuilder.MARMALADE_RESERVED_NS.equals(ns)) {
+        attrs.addAttribute(new DefaultRawAttribute(ns, name, value));
+      }
+      // potentially replace with controller config from reserved ns.
+      else if(MarmaladeTagBuilder.EXPRESSION_EVALUATOR_ATTRIBUTE.equals(name)){
+        ExpressionEvaluator el = null;
+        if(value != null && value.length() > 0) {
+          el = elFactory.getExpressionEvaluator(value);
+        }
+        
+        if(el != null) {
+          this.el = el;
+        }
+      }
     }
     
     tagInfo.setElement(elementName);
     tagInfo.setAttributes(attrs);
+    // will set the EL impl in the build() method, to accommodate late binding in the parse process.
   }
 
   public synchronized void text(char[] characters, int start, int length)
@@ -75,7 +115,9 @@ public class BuilderTag extends AbstractTag implements MarmaladeTagBuilder{
       );
     }
     else {
-      tagInfo.addChild((MarmaladeTagBuilder)child);
+      MarmaladeTagBuilder builder = (MarmaladeTagBuilder)child;
+      builder.setExpressionEvaluator(el);
+      tagInfo.addChild(builder);
     }
   }
 

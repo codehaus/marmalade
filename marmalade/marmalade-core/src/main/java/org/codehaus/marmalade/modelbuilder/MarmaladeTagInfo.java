@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.codehaus.marmalade.el.ExpressionEvaluator;
 
 
 
@@ -17,19 +17,20 @@ public class MarmaladeTagInfo{
   private String scheme;
   private String taglib;
   private String element;
-  private DefaultRawAttributes attributes;
+  private ModelBuilderAttributes attributes;
   private StringBuffer text;
   private MarmaladeTagBuilder parent;
   private List children = new ArrayList();
+  private ExpressionEvaluator el;
 
   public MarmaladeTagInfo(){
   }
 
-  public DefaultRawAttributes getAttributes(){
+  public ModelBuilderAttributes getAttributes(){
     return attributes;
   }
 
-  public void setAttributes(DefaultRawAttributes attributes){
+  public void setAttributes(ModelBuilderAttributes attributes){
     this.attributes = attributes;
   }
 
@@ -82,5 +83,13 @@ public class MarmaladeTagInfo{
     if(text == null) {text = new StringBuffer();}
     
     text.append(c, start, length);
+  }
+  
+  public void setExpressionEvaluator(ExpressionEvaluator el) {
+    this.el = el;
+  }
+
+  public ExpressionEvaluator getExpressionEvaluator(){
+    return el;
   }
 }

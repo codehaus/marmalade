@@ -47,6 +47,7 @@ public abstract class AbstractLoopingTag extends AbstractMarmaladeTag implements
   throws MarmaladeExecutionException
   {
     context.newScope();
+    
 OUTER:
     for (int i = 0; i < steps.length; i++) {
       LoopStep step = steps[i];

@@ -1,14 +1,19 @@
 /* Created on Apr 25, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
+import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.MarmaladeTag;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.httpunit.structure.DefaultWebResponseTag;
 import org.codehaus.marmalade.tags.httpunit.structure.WebResponseTag;
-import org.codehaus.marmalade.testing.AbstractTagCGLibTestCase;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
+import org.jmock.MockObjectTestCase;
 import org.jmock.cglib.Mock;
 
 import com.meterware.httpunit.WebResponse;
@@ -17,7 +22,7 @@ import com.meterware.httpunit.WebResponse;
 /**
  * @author jdcasey
  */
-public class HasTitleTagTest extends AbstractTagCGLibTestCase{
+public class HasTitleTagTest extends MockObjectTestCase{
 
   public void testSucceed() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String title = "This is the title";
@@ -28,25 +33,24 @@ public class HasTitleTagTest extends AbstractTagCGLibTestCase{
                 .withNoArguments()
                 .will(returnValue(title));
     
-    Mock rtMock = new Mock(WebResponseTag.class);
-    rtMock.expects(once())
-          .method("getResponse")
-          .withNoArguments()
-          .will(returnValue((WebResponse)responseMock.proxy()));
+    Mock parentMock = new Mock(WebResponseTag.class);
+    parentMock.expects(once())
+              .method("getResponse")
+              .withNoArguments()
+              .will(returnValue(responseMock.proxy()));
     
-    Mock attrMock = attributesWithSingleAttribute("withValue", title);
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "withValue", title));
     
-    HasTitleTag tag = new HasTitleTag();
-    tag.setParent((Tag)rtMock.proxy());
-    tag.begin("hasTitle", (Attributes)attrMock.proxy());
-    tag.end("hasTitle");
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attrs);
+    mti.setElement("hasTitle");
+    
+    HasTitleTag tag = new HasTitleTag(mti);
+    tag.setParent((MarmaladeTag)parentMock.proxy());
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
-    
-    responseMock.verify();
-    rtMock.verify();
-    attrMock.verify();
   }
   
   public void testFail() throws TagException, TagalogParseException, MarmaladeExecutionException {
@@ -59,18 +63,21 @@ public class HasTitleTagTest extends AbstractTagCGLibTestCase{
                 .withNoArguments()
                 .will(returnValue(title));
     
-    Mock rtMock = new Mock(WebResponseTag.class);
-    rtMock.expects(once())
-          .method("getResponse")
-          .withNoArguments()
-          .will(returnValue((WebResponse)responseMock.proxy()));
+    Mock parentMock = new Mock(WebResponseTag.class);
+    parentMock.expects(once())
+              .method("getResponse")
+              .withNoArguments()
+              .will(returnValue(responseMock.proxy()));
     
-    Mock attrMock = attributesWithSingleAttribute("withValue", title2);
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "withValue", title2));
     
-    HasTitleTag tag = new HasTitleTag();
-    tag.setParent((Tag)rtMock.proxy());
-    tag.begin("hasTitle", (Attributes)attrMock.proxy());
-    tag.end("hasTitle");
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attrs);
+    mti.setElement("hasTitle");
+    
+    HasTitleTag tag = new HasTitleTag(mti);
+    tag.setParent((MarmaladeTag)parentMock.proxy());
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -79,9 +86,5 @@ public class HasTitleTagTest extends AbstractTagCGLibTestCase{
     }
     catch(HttpAssertionFailedException e) {
     }
-    
-    responseMock.verify();
-    rtMock.verify();
-    attrMock.verify();
   }
 }

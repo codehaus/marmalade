@@ -1,16 +1,17 @@
 /* Created on May 20, 2004 */
 package org.codehaus.marmalade.modelbuilder.strategy;
 
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
-import org.codehaus.marmalade.modelbuilder.strategy.test.*;
-
 import junit.framework.TestCase;
+
+import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.codehaus.marmalade.modelbuilder.strategy.LiteralClassDefinitionStrategy;
+import org.codehaus.marmalade.modelbuilder.strategy.test.TestTaglibWithCorrectConstructor;
 
 
 /**
  * @author jdcasey
  */
-public class LiteralClassDefinitionStrategyTest extends TestCase implements TaglibDefinitionStrategyTest{
+public class LiteralClassDefinitionStrategyTest extends TestCase implements TaglibDefinitionStrategyTestTemplate{
   
   public void testShouldResolveTestTagLibrary() {
     LiteralClassDefinitionStrategy strat = new LiteralClassDefinitionStrategy();

@@ -33,7 +33,7 @@ import com.meterware.httpunit.WebResponse;
 public class GetRequestTagTest extends AbstractTagCGLibTestCase{
   
   public void testEmbeddedSuccess() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Mock convTagMock = new Mock(WebConversationTag.class);
+    Mock convTagMock = new Mock(DefaultWebConversationTag.class);
     
     Map attributes = new TreeMap();
     attributes.put("url", "http://localhost");

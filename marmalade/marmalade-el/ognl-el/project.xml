@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <extend>../../project.xml</extend>
+  <!-- v3 -->
+  <extend>${maven.repo.local}/marmalade/poms/marmalade-parent-0.1.pom</extend>
   <id>marmalade-el-ognl</id>
+
+  <!-- v4 -->
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>0.1</version>
+  </parent>
+  <artifactId>marmalade-el-ognl</artifactId>
+
   <name>OGNL Expression Library</name>
   
   <dependencies>
@@ -16,13 +26,6 @@
       <groupId>ognl</groupId>
       <artifactId>ognl</artifactId>
       <version>2.5.1</version>
-    </dependency>
-    
-    <!-- Testing dependencies -->
-    <dependency>
-      <groupId>marmalade</groupId>
-      <artifactId>marmalade-testing-tools</artifactId>
-      <version>0.1</version>
     </dependency>
     
   </dependencies>

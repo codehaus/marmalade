@@ -31,7 +31,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -57,7 +57,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -86,7 +86,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -115,7 +115,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -144,7 +144,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -173,7 +173,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -202,7 +202,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -231,7 +231,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -260,7 +260,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -289,7 +289,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -318,7 +318,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -347,7 +347,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -376,7 +376,7 @@ public class ClientPropertiesTagTest extends AbstractTagCGLibTestCase{
           .withNoArguments()
           .will(returnValue(props));
     
-    Mock wctMock = new Mock(WebConversationTag.class);
+    Mock wctMock = new Mock(DefaultWebConversationTag.class);
     wctMock.expects(once())
            .method("getConversation")
            .withNoArguments()

@@ -4,8 +4,8 @@ package org.codehaus.marmalade.tags.httpunit.structure;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
-import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -16,7 +16,7 @@ import com.meterware.httpunit.WebRequest;
  * @author jdcasey
  */
 public abstract class AbstractWebRequestTag extends AbstractWebConversationSubTag
-                                            implements HeaderParent
+                                            implements HeaderParent, WebRequestTag
 {
   
   public static final String VAR_ATTRIBUTE = "var";
@@ -59,7 +59,7 @@ public abstract class AbstractWebRequestTag extends AbstractWebConversationSubTa
     }
   }
   
-  protected WebRequest getRequest() {
+  public WebRequest getRequest() {
     return request;
   }
   
