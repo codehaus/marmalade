@@ -35,9 +35,8 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
  */
 public class ScopeTag extends AbstractJellyMarmaladeTag
 {
-    public ScopeTag( MarmaladeTagInfo tagInfo )
+    public ScopeTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

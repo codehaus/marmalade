@@ -51,9 +51,8 @@ public class ForEachTag extends AbstractLoopingTag
     private static final Integer DEFAULT_END = new Integer( -1 );
     private static final Integer DEFAULT_STEP = new Integer( 1 );
 
-    public ForEachTag( MarmaladeTagInfo tagInfo )
+    public ForEachTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

@@ -38,9 +38,8 @@ public class CatchTag extends AbstractJellyMarmaladeTag
     public static final String VAR_ATTRIBUTE = "var";
     public static final String CLASS_ATTRIBUTE = "class";
 
-    public CatchTag( MarmaladeTagInfo tagInfo )
+    public CatchTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

@@ -25,6 +25,7 @@
 package org.codehaus.marmalade.model;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.parsetime.ParserHint;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -51,8 +52,8 @@ public abstract class AbstractMarmaladeTagLibrary implements MarmaladeTagLibrary
         try
         {
             Class tagClass = ( Class ) registeredTags.get( tagInfo.getElement(  ) );
-            Object[] params = { tagInfo };
-            Class[] paramTypes = { MarmaladeTagInfo.class };
+            Object[] params = {  };
+            Class[] paramTypes = {  };
             Constructor constructor = tagClass.getConstructor( paramTypes );
 
             tag = ( MarmaladeTag ) constructor.newInstance( params );
@@ -88,5 +89,9 @@ public abstract class AbstractMarmaladeTagLibrary implements MarmaladeTagLibrary
     public void registerTag( String name, Class tagClass )
     {
         registeredTags.put( name, tagClass );
+    }
+
+    public ParserHint getParserHint(String name) {
+        return new ParserHint().parseChildren(true);
     }
 }

@@ -42,12 +42,10 @@ public class TagInstantiationException extends RuntimeException
     public TagInstantiationException( Throwable cause )
     {
         super( cause );
-        initCause( cause );
     }
 
     public TagInstantiationException( String message, Throwable cause )
     {
         super( message, cause );
-        initCause( cause );
     }
 }

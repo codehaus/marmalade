@@ -54,9 +54,8 @@ public class FileTag extends AbstractJellyOutputTag
     private static final String OUTPUT_MODE_XML = "XML";
     private static final String OUTPUT_MODE_HTML = "HTML";
 
-    public FileTag( MarmaladeTagInfo tagInfo )
+    public FileTag(  )
     {
-        super( tagInfo );
     }
 
     protected void write( String message, MarmaladeExecutionContext context )

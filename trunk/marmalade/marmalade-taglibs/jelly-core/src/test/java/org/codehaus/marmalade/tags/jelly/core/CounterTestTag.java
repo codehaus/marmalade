@@ -36,9 +36,8 @@ public class CounterTestTag extends AbstractMarmaladeTag
 {
     private int counter = 0;
 
-    public CounterTestTag( MarmaladeTagInfo tagInfo )
+    public CounterTestTag(  )
     {
-        super( tagInfo );
     }
 
     public int counter(  )

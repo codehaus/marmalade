@@ -33,9 +33,8 @@ import org.codehaus.marmalade.tags.AbstractOutputTag;
  */
 public class ErrTag extends AbstractOutputTag
 {
-    public ErrTag( MarmaladeTagInfo tagInfo )
+    public ErrTag(  )
     {
-        super( tagInfo );
     }
 
     protected void write( String message, MarmaladeExecutionContext context )

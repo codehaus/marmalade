@@ -31,7 +31,7 @@ import java.util.TreeMap;
 /**
  * @author jdcasey
  */
-public class DefaultRawAttributes implements ModelBuilderAttributes
+public class DefaultRawAttributes implements MetaAttributes
 {
     private Map parsedAttributes = new TreeMap(  );
 
@@ -42,8 +42,7 @@ public class DefaultRawAttributes implements ModelBuilderAttributes
 
     public String getNamespace( String name )
     {
-        ModelBuilderAttribute attr = ( ModelBuilderAttribute ) parsedAttributes
-            .get( name );
+        MetaAttribute attr = ( MetaAttribute ) parsedAttributes.get( name );
         String ns = attr.getNamespace(  );
 
         return ns;
@@ -53,8 +52,7 @@ public class DefaultRawAttributes implements ModelBuilderAttributes
     {
         String value = null;
 
-        ModelBuilderAttribute attr = ( ModelBuilderAttribute ) parsedAttributes
-            .get( name );
+        MetaAttribute attr = ( MetaAttribute ) parsedAttributes.get( name );
 
         if ( attr != null )
         {
@@ -68,11 +66,11 @@ public class DefaultRawAttributes implements ModelBuilderAttributes
     {
         String value = null;
 
-        ModelBuilderAttribute attr = ( ModelBuilderAttribute ) parsedAttributes
-            .get( name );
+        MetaAttribute attr = ( MetaAttribute ) parsedAttributes.get( name );
 
-        if ( ( attr != null ) && ( namespace != null )
-            && namespace.equals( attr.getNamespace(  ) ) )
+        if ( ( attr != null )
+            && ( ( namespace == null ) || ( namespace.length(  ) < 1 )
+            || namespace.equals( attr.getNamespace(  ) ) ) )
         {
             value = attr.getValue(  );
         }
@@ -80,14 +78,15 @@ public class DefaultRawAttributes implements ModelBuilderAttributes
         return value;
     }
 
-    public void addAttribute( ModelBuilderAttribute attribute )
+    public void addAttribute( MetaAttribute attribute )
     {
         this.parsedAttributes.put( attribute.getName(  ), attribute );
     }
 
-    public void addAttribute( String namespace, String name, String value )
+    public void addAttribute( String prefix, String namespace, String name,
+        String value )
     {
         this.parsedAttributes.put( name,
-            new DefaultRawAttribute( namespace, name, value ) );
+            new DefaultRawAttribute( prefix, namespace, name, value ) );
     }
 }

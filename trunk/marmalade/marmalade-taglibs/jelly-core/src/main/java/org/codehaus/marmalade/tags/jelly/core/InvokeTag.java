@@ -45,9 +45,8 @@ public class InvokeTag extends AbstractJellyMarmaladeTag implements ArgParent
     public static final String VAR_ATTRIBUTE = "var";
     private List args = new ArrayList(  );
 
-    public InvokeTag( MarmaladeTagInfo tagInfo )
+    public InvokeTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

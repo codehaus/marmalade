@@ -21,50 +21,39 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-/* Created on Apr 12, 2004 */
-package org.codehaus.marmalade.metamodel.strategy.tld.tags;
+/* Created on Apr 10, 2004 */
+package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.tagalog.AbstractTag;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
+import java.io.Reader;
+
+import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
+import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.util.RecordingReader;
 
 /**
  * @author jdcasey
  */
-public class TagTag extends AbstractTag
+public interface MarmaladeParsingContext
 {
-    private String name;
-    private Class tagClass;
+    
+    ExpressionEvaluator getDefaultExpressionEvaluator();
 
-    public TagTag(  )
-    {
-    }
+    ExpressionEvaluatorFactory getExpressionEvaluatorFactory();
 
-    void setName( String name )
-    {
-        this.name = name;
-    }
+    void setDefaultExpressionEvaluator(ExpressionEvaluator evaluator);
 
-    void setTagClass( Class tagClass )
-    {
-        this.tagClass = tagClass;
-    }
+    MarmaladeTaglibResolver getTaglibResolver();
+    
+    void setTaglibResolver(MarmaladeTaglibResolver resolver);
 
-    public Object end( String elementName )
-        throws TagException, TagalogParseException
-    {
-        TaglibTag parent = ( TaglibTag ) getParent(  );
+    RecordingReader getInput();
+    
+    void setInput(RecordingReader input);
 
-        parent.addTag( name, tagClass );
-
-        return null;
-    }
-
-    public boolean recycle(  )
-    {
-        this.name = null;
-        this.tagClass = null;
-
-        return true;
-    }
+    String getInputLocation();
+    
+    void setInputLocation(String inputLocation);
+    
 }

@@ -41,7 +41,15 @@ public interface MarmaladeAttributes
         MarmaladeExecutionContext context )
         throws ExpressionEvaluationException;
 
+    public Object getValue( String namespace, String name, Class type,
+            MarmaladeExecutionContext context )
+            throws ExpressionEvaluationException;
+
     public Object getValue( String name, Class type,
+            MarmaladeExecutionContext context, Object defaultVal )
+            throws ExpressionEvaluationException;
+
+    public Object getValue( String namespace, String name, Class type,
         MarmaladeExecutionContext context, Object defaultVal )
         throws ExpressionEvaluationException;
 
@@ -50,8 +58,15 @@ public interface MarmaladeAttributes
         throws ExpressionEvaluationException;
 
     /** Assume Object.class is the type. */
+    public Object getValue( String namespace, String name, MarmaladeExecutionContext context )
+        throws ExpressionEvaluationException;
+
+    /** Assume Object.class is the type. */
     public Object getValue( String name, MarmaladeExecutionContext context,
         Object defaultVal ) throws ExpressionEvaluationException;
+
+    public Object getValue( String namespace, String name, MarmaladeExecutionContext context,
+            Object defaultVal ) throws ExpressionEvaluationException;
 
     public Iterator iterator(  );
 }

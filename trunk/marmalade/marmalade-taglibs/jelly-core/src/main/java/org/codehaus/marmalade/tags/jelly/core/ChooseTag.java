@@ -41,9 +41,8 @@ public class ChooseTag extends AbstractJellyMarmaladeTag
 {
     private OtherwiseTag otherwise;
 
-    public ChooseTag( MarmaladeTagInfo tagInfo )
+    public ChooseTag(  )
     {
-        super( tagInfo );
     }
 
     public void processChildren( MarmaladeExecutionContext context )

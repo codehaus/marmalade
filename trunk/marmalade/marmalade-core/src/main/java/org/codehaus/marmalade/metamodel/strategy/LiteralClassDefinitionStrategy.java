@@ -53,12 +53,15 @@ public class LiteralClassDefinitionStrategy implements TaglibDefinitionStrategy
         // Ignore these, and return null.
         catch ( InstantiationException e )
         {
+            //TODO: log this exception
         }
         catch ( IllegalAccessException e )
         {
+            //TODO: log this exception
         }
         catch ( ClassNotFoundException e )
         {
+            //TODO: log this exception
         }
 
         return tlib;

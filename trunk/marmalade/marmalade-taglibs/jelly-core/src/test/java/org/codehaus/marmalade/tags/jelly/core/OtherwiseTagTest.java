@@ -37,9 +37,10 @@ public class OtherwiseTagTest extends TestCase
 {
     public void testDoExecute_NoParent(  )
     {
-        OtherwiseTag tag = new OtherwiseTag( new MarmaladeTagInfo(  ) );
+        OtherwiseTag tag = new OtherwiseTag(  );
+        tag.setTagInfo(new MarmaladeTagInfo());
 
-        FlagChildTestTag flag = new FlagChildTestTag( new MarmaladeTagInfo(  ) );
+        FlagChildTestTag flag = new FlagChildTestTag(  );
 
         flag.setParent( tag );
         tag.addChild( flag );
@@ -59,18 +60,15 @@ public class OtherwiseTagTest extends TestCase
     public void testDoExecute_WithParent(  )
         throws MarmaladeExecutionException
     {
-        ChooseTag parent = new ChooseTag( new MarmaladeTagInfo(  ) );
+        ChooseTag parent = new ChooseTag(  );
 
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setElement( "otherwise" );
-
-        OtherwiseTag tag = new OtherwiseTag( mti );
+        OtherwiseTag tag = new OtherwiseTag(  );
+        tag.setTagInfo(new MarmaladeTagInfo());
 
         parent.addChild( tag );
         tag.setParent( parent );
 
-        FlagChildTestTag flag = new FlagChildTestTag( new MarmaladeTagInfo(  ) );
+        FlagChildTestTag flag = new FlagChildTestTag(  );
 
         tag.addChild( flag );
         flag.setParent( tag );

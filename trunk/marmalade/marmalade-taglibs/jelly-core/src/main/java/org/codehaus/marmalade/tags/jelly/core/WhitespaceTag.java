@@ -25,8 +25,6 @@
 package org.codehaus.marmalade.tags.jelly.core;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttribute;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttributes;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
@@ -45,9 +43,8 @@ import java.util.Map;
  */
 public class WhitespaceTag extends AbstractJellyMarmaladeTag
 {
-    public WhitespaceTag( MarmaladeTagInfo tagInfo )
+    public WhitespaceTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )
@@ -69,8 +66,4 @@ public class WhitespaceTag extends AbstractJellyMarmaladeTag
         return false;
     }
 
-    protected boolean mapChildren(  )
-    {
-        return true;
-    }
 }

@@ -31,8 +31,8 @@ import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
  */
 public class TestConditionalTag extends AbstractConditionalTag
 {
-    public TestConditionalTag( MarmaladeTagInfo tagInfo )
+    public TestConditionalTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 }

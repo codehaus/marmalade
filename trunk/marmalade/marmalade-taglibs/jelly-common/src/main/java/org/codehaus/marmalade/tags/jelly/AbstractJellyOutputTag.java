@@ -38,9 +38,8 @@ public abstract class AbstractJellyOutputTag extends AbstractOutputTag
 {
     public static final String TRIM_ATTRIBUTE = "trim";
 
-    protected AbstractJellyOutputTag( MarmaladeTagInfo tagInfo )
+    protected AbstractJellyOutputTag(  )
     {
-        super( tagInfo );
     }
 
     protected boolean preserveBodyWhitespace( MarmaladeExecutionContext context )

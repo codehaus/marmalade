@@ -38,9 +38,8 @@ public class ArgTag extends AbstractJellyMarmaladeTag
 {
     public static final String VALUE_ATTRIBUTE = "value";
 
-    public ArgTag( MarmaladeTagInfo tagInfo )
+    public ArgTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

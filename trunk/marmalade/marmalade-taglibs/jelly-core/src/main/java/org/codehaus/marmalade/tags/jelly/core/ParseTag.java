@@ -24,17 +24,21 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.parsetime.DefaultParsingContext;
+import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsetime.MarmaladeParsingContext;
+import org.codehaus.marmalade.parsetime.ScriptBuilder;
 import org.codehaus.marmalade.parsetime.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
+import org.codehaus.marmalade.util.RecordingReader;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -53,9 +57,8 @@ public class ParseTag extends AbstractJellyMarmaladeTag
     public static final String VAR_ATTRIBUTE = "var";
     public static final String TEXT_ATTRIBUTE = "text";
 
-    public ParseTag( MarmaladeTagInfo tagInfo )
+    public ParseTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )
@@ -68,9 +71,6 @@ public class ParseTag extends AbstractJellyMarmaladeTag
 
         try
         {
-            MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
-            ScriptParser parser = new ScriptParser( resolver );
-
             String text = ( String ) attributes.getValue( TEXT_ATTRIBUTE,
                     context );
 
@@ -105,12 +105,26 @@ public class ParseTag extends AbstractJellyMarmaladeTag
                 }
 
                 StringReader reader = new StringReader( preparedText.toString(  ) );
-
+                
                 MarmaladeTagInfo ti = getTagInfo(  );
-                MarmaladeScript script = parser.parse( reader,
-                        "inline/internal script (file: " + ti.getSourceFile(  )
-                        + ", line: " + ti.getSourceLine(  ) + ")" );
 
+                MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
+                RecordingReader rreader = new RecordingReader(reader);
+                String location = "inline/internal script (file: " + ti.getSourceFile(  )
+                    + ", line: " + ti.getSourceLine(  ) + ")";
+                
+                MarmaladeParsingContext pContext = new DefaultParsingContext();
+                pContext.setTaglibResolver(resolver);
+                pContext.setInput(rreader);
+                pContext.setInputLocation(location);
+                pContext.setDefaultExpressionEvaluator(getExpressionEvaluator());
+                
+                ScriptParser parser = new ScriptParser(  );
+                
+                ScriptBuilder builder = parser.parse( pContext );
+
+                MarmaladeScript script = builder.build();
+                
                 String var = ( String ) attributes.getValue( VAR_ATTRIBUTE,
                         String.class, context );
 

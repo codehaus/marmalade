@@ -33,9 +33,9 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
  */
 public abstract class AbstractLoopControlTag extends AbstractConditionalTag
 {
-    protected AbstractLoopControlTag( MarmaladeTagInfo tagInfo )
+    protected AbstractLoopControlTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     public boolean conditionMatches( MarmaladeExecutionContext context )

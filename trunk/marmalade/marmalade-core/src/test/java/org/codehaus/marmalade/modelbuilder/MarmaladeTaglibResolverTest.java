@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.metamodel.strategy.TaglibDefinitionStrategy;
+import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 
@@ -105,7 +106,7 @@ public class MarmaladeTaglibResolverTest extends TestCase
         assertNull( taglib );
     }
 
-    public static class Taglib implements MarmaladeTagLibrary
+    public static class Taglib extends AbstractMarmaladeTagLibrary
     {
         public Taglib(  )
         {

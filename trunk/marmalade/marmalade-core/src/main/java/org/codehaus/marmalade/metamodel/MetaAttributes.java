@@ -21,46 +21,21 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-/* Created on Apr 12, 2004 */
-package org.codehaus.marmalade.metamodel.strategy.tld.tags;
+/* Created on Apr 10, 2004 */
+package org.codehaus.marmalade.metamodel;
 
-import org.codehaus.tagalog.AbstractTag;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
+import java.util.Iterator;
 
 /**
  * @author jdcasey
  */
-public class TlibversionTag extends AbstractTag
+public interface MetaAttributes
 {
-    private StringBuffer version = new StringBuffer(  );
+    Iterator iterator(  );
 
-    public TlibversionTag(  )
-    {
-    }
+    String getNamespace( String name );
 
-    public Object end( String elementName )
-        throws TagException, TagalogParseException
-    {
-        TaglibTag parent = ( TaglibTag ) getParent(  );
+    String getValue( String name );
 
-        parent.setTlibversion( version.toString(  ) );
-
-        return null;
-    }
-
-    public void text( char[] characters, int start, int length )
-        throws TagException, TagalogParseException
-    {
-        String add = String.valueOf( characters, start, length );
-
-        version.append( add.trim(  ) );
-    }
-
-    public boolean recycle(  )
-    {
-        version.setLength( 0 );
-
-        return true;
-    }
+    String getValue( String namespace, String name );
 }

@@ -34,9 +34,9 @@ import org.codehaus.marmalade.tags.AbstractConditionalTag;
  */
 public class IfTag extends AbstractConditionalTag
 {
-    public IfTag( MarmaladeTagInfo tagInfo )
+    public IfTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected boolean alwaysProcessChildren(  )
