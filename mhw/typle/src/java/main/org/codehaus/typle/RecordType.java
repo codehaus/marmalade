@@ -39,7 +39,7 @@ public final class RecordType implements Type {
         return (t == null)? null : t.getType();
     }
 
-    public String getName() {
+    public String getTypeName() {
         return "record {" + fields.signature() + "}";
     }
 

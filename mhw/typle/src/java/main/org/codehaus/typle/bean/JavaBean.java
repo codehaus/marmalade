@@ -99,13 +99,13 @@ public final class JavaBean {
         if (t instanceof JavaReferenceType) {
             JavaReferenceType javaType = (JavaReferenceType) t;
 
-            if (!t.getName().startsWith("java.lang.")) {
-                state.source.add(new Import(t.getName()));
+            if (!t.getTypeName().startsWith("java.lang.")) {
+                state.source.add(new Import(t.getTypeName()));
             }
             state.outputClass.add(new Field(javaType.getUnqualifiedName(),
                                             type.getName()));
         } else if (t instanceof JavaPrimitive) {
-            state.outputClass.add(new Field(type.getType().getName(),
+            state.outputClass.add(new Field(type.getType().getTypeName(),
                                             type.getName()));
         }
     }

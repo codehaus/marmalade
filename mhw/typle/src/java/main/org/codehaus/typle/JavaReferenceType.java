@@ -22,7 +22,7 @@ public final class JavaReferenceType extends TypeHelper implements Type {
     }
 
     public String getUnqualifiedName() {
-        String name = getName();
+        String name = getTypeName();
         return name.substring(name.lastIndexOf('.') + 1);
     }
 }

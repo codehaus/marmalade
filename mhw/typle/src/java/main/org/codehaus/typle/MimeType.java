@@ -41,13 +41,13 @@ public final class MimeType extends TypeHelper implements Type {
     private static Map mimeTypeMap = new java.util.HashMap();
 
     static {
-        mimeTypeMap.put(MimeType.APPLICATION_OCTET_STREAM.getName(),
+        mimeTypeMap.put(MimeType.APPLICATION_OCTET_STREAM.getTypeName(),
                         MimeType.APPLICATION_OCTET_STREAM);
-        mimeTypeMap.put(MimeType.TEXT_PLAIN.getName(),
+        mimeTypeMap.put(MimeType.TEXT_PLAIN.getTypeName(),
                         MimeType.TEXT_PLAIN);
-        mimeTypeMap.put(MimeType.TEXT_XML.getName(),
+        mimeTypeMap.put(MimeType.TEXT_XML.getTypeName(),
                         MimeType.TEXT_XML);
-        mimeTypeMap.put(MimeType.TEXT_HTML.getName(),
+        mimeTypeMap.put(MimeType.TEXT_HTML.getTypeName(),
                         MimeType.TEXT_HTML);
     }
 

@@ -40,7 +40,7 @@ public class Function implements Type {
         return formalParameters;
     }
 
-    public String getName() {
+    public String getTypeName() {
         return "(" + formalParameters.signature() + "): "
                + returnType.getSignature();
     }
