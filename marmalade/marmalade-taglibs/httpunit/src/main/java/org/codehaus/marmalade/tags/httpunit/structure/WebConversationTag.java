@@ -20,8 +20,6 @@ public class WebConversationTag extends AbstractMarmaladeTag implements HeaderPa
 
   public static final String USER_ATTRIBUTE = "user";
   public static final String PASSWORD_ATTRIBUTE = "password";
-  public static final String PROXY_HOST_ATTRIBUTE = "proxyHost";
-  public static final String PROXY_PORT_ATTRIBUTE = "proxyPort";
   public static final String FAIL_ON_ERROR_ATTRIBUTE = "failOnError";
   public static final String MAIN_WINDOW_ATTRIBUTE = "mainWindow";
   public static final String DIALOG_RESPONDER_ATTRIBUTE = "dialogResponder";
@@ -29,7 +27,7 @@ public class WebConversationTag extends AbstractMarmaladeTag implements HeaderPa
   private static final Integer DEFAULT_WEB_PORT = new Integer(80);
   private static final Boolean DEFAULT_FAIL_ON_ERROR = Boolean.TRUE;
   
-  private WebConversation conversation = new WebConversation();
+  private WebConversation conversation;
   
   public WebConversationTag(){
   }
@@ -39,6 +37,8 @@ public class WebConversationTag extends AbstractMarmaladeTag implements HeaderPa
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
+    conversation = new WebConversation();
+    
     MarmaladeAttributes attrs = getAttributes();
     String user = (String)attrs.getValue(USER_ATTRIBUTE, String.class, context);
     String password = (String)attrs.getValue(PASSWORD_ATTRIBUTE, String.class, context, "");
@@ -47,19 +47,12 @@ public class WebConversationTag extends AbstractMarmaladeTag implements HeaderPa
       conversation.setAuthorization(user, password);
     }
     
-    String proxyHost = (String)attrs.getValue(PROXY_HOST_ATTRIBUTE, String.class, context);
-    Integer proxyPort = (Integer)attrs.getValue(
-      PROXY_PORT_ATTRIBUTE, Integer.class, context, DEFAULT_WEB_PORT
-    );
-    
-    if(proxyHost != null && proxyHost.length() > 0) {
-      conversation.setProxyServer(proxyHost, proxyPort.intValue());
-    }
-    
     Boolean failOnError = (Boolean)attrs.getValue(
       FAIL_ON_ERROR_ATTRIBUTE, Boolean.class, context, DEFAULT_FAIL_ON_ERROR
     );
-    conversation.setExceptionsThrownOnErrorStatus(failOnError.booleanValue());
+    if(failOnError != null) {
+      conversation.setExceptionsThrownOnErrorStatus(failOnError.booleanValue());
+    }
     
     WebWindow window = (WebWindow)attrs.getValue(MAIN_WINDOW_ATTRIBUTE, WebWindow.class, context);
     if(window != null) {
@@ -81,7 +74,7 @@ public class WebConversationTag extends AbstractMarmaladeTag implements HeaderPa
   }
 
   protected void doReset(){
-    this.conversation = new WebConversation();
+    this.conversation = null;
     super.doReset();
   }
 

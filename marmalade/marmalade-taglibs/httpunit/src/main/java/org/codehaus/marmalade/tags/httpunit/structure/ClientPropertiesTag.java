@@ -47,12 +47,16 @@ public class ClientPropertiesTag extends AbstractWebConversationSubTag{
     Boolean acceptCookies = (Boolean)attrs.getValue(
       ACCEPT_COOKIES_ATTIBUTE, Boolean.class, context, DEFAULT_ACCEPT_COOKIES
     );
-    props.setAcceptCookies(acceptCookies.booleanValue());
+    if(acceptCookies != null) {
+      props.setAcceptCookies(acceptCookies.booleanValue());
+    }
     
     Boolean acceptGzip = (Boolean)attrs.getValue(
       ACCEPT_GZIP_ATTRIBUTE, Boolean.class, context, DEFAULT_ACCEPT_GZIP
     );
-    props.setAcceptGzip(acceptGzip.booleanValue());
+    if(acceptGzip != null) {
+      props.setAcceptGzip(acceptGzip.booleanValue());
+    }
     
     String appCodeName = (String)attrs.getValue(APPLICATION_CODE_NAME_ATTRIBUTE, String.class, context);
     if(appCodeName != null && appCodeName.length() > 0) {props.setApplicationCodeName(appCodeName);}
@@ -66,7 +70,9 @@ public class ClientPropertiesTag extends AbstractWebConversationSubTag{
     Boolean autoRedir = (Boolean)attrs.getValue(
       AUTO_REDIRECT_ATTRIBUTE, Boolean.class, context, DEFAULT_AUTO_REDIRECT
     );
-    props.setAutoRedirect(autoRedir.booleanValue());
+    if(autoRedir != null) {
+      props.setAutoRedirect(autoRedir.booleanValue());
+    }
     
     Integer width = (Integer)attrs.getValue(SCREEN_WIDTH_ATTRIBUTE, Integer.class, context);
     if(width != null) {props.setAvailableScreenWidth(width.intValue());}
@@ -84,7 +90,9 @@ public class ClientPropertiesTag extends AbstractWebConversationSubTag{
     Boolean iframeSupported = (Boolean)attrs.getValue(
       IFRAME_SUPPORTED_ATTRIBUTE, Boolean.class, context, DEFAULT_IFRAME_SUPPORTED
     );
-    props.setIframeSupported(iframeSupported.booleanValue());
+    if(iframeSupported != null) {
+      props.setIframeSupported(iframeSupported.booleanValue());
+    }
     
     String platform = (String)attrs.getValue(PLATFORM_ATTRIBUTE, String.class, context);
     if(platform != null && platform.length() > 0) {props.setPlatform(platform);}
