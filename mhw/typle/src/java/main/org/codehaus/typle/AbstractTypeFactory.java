@@ -69,7 +69,7 @@ public abstract class AbstractTypeFactory {
 
     private Type attemptLookup(String name) throws TypeLookupException {
         Object o;
-        BindingList newTypes;
+        String[] newTypes;
 
         o = typeMap.get(name);
         if (o == null) {
@@ -95,17 +95,12 @@ public abstract class AbstractTypeFactory {
      *
      * @param name The name of the type to load.
      */
-    protected abstract BindingList loadTypes(String name)
+    protected abstract String[] loadTypes(String name)
         throws TypeLookupException;
 
-    private void resolveTypes(BindingList types) throws TypeLookupException {
-        for (int i = 0; i < types.size(); i++) {
-            Binding b = types.get(i);
-            Type t = b.getType().resolvePlaceHolders();
-            if (t != null)
-                addType(b.getName(), t);
-            else
-                addType(b.getName(), b.getType());
+    private void resolveTypes(String[] types) throws TypeLookupException {
+        for (int i = 0; i < types.length; i++) {
+            ((Type) typeMap.get(types[i])).resolvePlaceHolders();
         }
     }
 }

@@ -40,7 +40,12 @@ public final class TypePlaceHolder implements Type {
         return type;
     }
 
-    public Type resolvePlaceHolders() throws TypeLookupException {
-        return Naming.lookup(name);
+    public void resolvePlaceHolders() throws TypeLookupException {
+        throw new TypeLookupException("attempt to resolve place-holders within "
+            + this);
+    }
+
+    public String toString() {
+        return "placeholder(" + name + ")";
     }
 }

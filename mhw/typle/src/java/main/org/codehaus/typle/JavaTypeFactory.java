@@ -38,9 +38,8 @@ final class JavaTypeFactory
         return namespace + "." + name;
     }
 
-    protected BindingList loadTypes(String name) {
+    protected String[] loadTypes(String name) {
         Type t = null;
-        BindingList bl = new BindingList();
 
         try {
             Class.forName(name);
@@ -49,8 +48,9 @@ final class JavaTypeFactory
             // ignore
         }
         if (t != null) {
-            bl = bl.add(new Binding(name, t));
+            addType(name, t);
+            return new String[] { name };
         }
-        return bl;
+        return new String[0];
     }
 }

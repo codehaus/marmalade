@@ -36,7 +36,6 @@ public abstract class TypeHelper {
         return null;
     }
 
-    public Type resolvePlaceHolders() throws TypeLookupException {
-        return null;
+    public void resolvePlaceHolders() throws TypeLookupException {
     }
 }
