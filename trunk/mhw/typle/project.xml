@@ -23,6 +23,10 @@
     Data model for type representation, and associated tools.
   </shortDescription>
 
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:outhaus/mhw/typle</connection>
+  </repository>
+
   <dependencies>
   </dependencies>
 
