@@ -57,9 +57,7 @@ public final class JavaBean {
         for (int i = 0; i < fields.size(); i++) {
             Type t = fields.get(i).getType();
             if (t instanceof JavaReferenceType) {
-                if (!t.getTypeName().startsWith("java.lang.")) {
-                    src.add(new Import(t.getTypeName()));
-                }
+                src.add(new Import(t.getTypeName()));
             }
         }
     }
