@@ -72,7 +72,7 @@ public class BeanBoundTagFactory
         return wrapper;
     }
 
-    private void configureBean( Object bean ) throws LateBoundTagPropertyException
+    private void configureBean( Object bean ) throws TagInstantiationException
     {
         for ( Iterator it = properties.keySet().iterator(); it.hasNext(); )
         {
@@ -81,6 +81,9 @@ public class BeanBoundTagFactory
 
             try
             {
+                if(el == null) {
+                    throw new TagInstantiationException("cannot assign properties when expression evaluator is null");
+                }
                 el.assign( bean, property, value );
             }
             catch ( ExpressionEvaluationException e )

@@ -3,7 +3,7 @@
 <project>
   <groupId>marmalade</groupId>
   <artifactId>marmalade-parent</artifactId>
-  <version>1.0-alpha2</version>
+  <version>1.0-alpha2-SNAPSHOT</version>
 
   <name>Marmalade Parent Project</name>
   <organization>

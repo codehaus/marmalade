@@ -54,21 +54,21 @@ public abstract class AbstractOutputTag
 
     protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
-        String value = (String) getBody( context, String.class );
+        Object value = getBody( context, Object.class );
 
         MarmaladeAttributes attributes = getAttributes();
 
-        if ( (value == null) || (value.length() < 1) )
+        if (value == null)
         {
-            value = (String) attributes.getValue( VALUE_ATTRIBUTE, String.class, context );
+            value = attributes.getValue( VALUE_ATTRIBUTE, Object.class, context );
         }
 
-        if ( (value == null) || (value.length() < 1) )
+        if (value == null)
         {
-            value = (String) attributes.getValue( DEFAULT_ATTRIBUTE, String.class, context, "" );
+            value = attributes.getValue( DEFAULT_ATTRIBUTE, Object.class, context );
         }
 
-        if ( (value == null) || (value.length() < 1) )
+        if (value == null)
         {
             throw new MarmaladeExecutionException( "Message is null. Either specify the value or default "
                 + "attribute, or provide a non-null body for this tag." );
@@ -86,12 +86,13 @@ public abstract class AbstractOutputTag
                 escape = escapeXml.booleanValue();
             }
 
+            String output = String.valueOf(value);
             if ( escape )
             {
-                value = XMLUtils.escapeXml( value );
+                output = XMLUtils.escapeXml( output );
             }
 
-            write( value, context );
+            write( output, context );
         }
     }
 }

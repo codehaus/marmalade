@@ -30,7 +30,7 @@ public class FileBasedViewSource
     {
         MarmaladeParsingContext ctx = new DefaultParsingContext();
 
-        ctx.setInputLocation( viewPath );
+        ctx.setInputLocation( sourceFile.getCanonicalPath() );
 
         ctx.setInput( new RecordingReader( new BufferedReader( new FileReader( sourceFile ) ) ) );
 

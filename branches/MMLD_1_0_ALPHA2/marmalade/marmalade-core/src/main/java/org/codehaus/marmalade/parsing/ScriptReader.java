@@ -32,6 +32,8 @@ public class ScriptReader
 
     public ScriptBuilder readScript( MarmaladeParsingContext context ) throws XmlPullParserException, IOException
     {
+        validateParsingContext(context);
+        
         XmlPullParserFactory xpp3Factory = XmlPullParserFactory.newInstance();
         XmlPullParser parser = xpp3Factory.newPullParser();
 
@@ -173,5 +175,15 @@ public class ScriptReader
         ScriptBuilder builder = new ScriptBuilder( context.getInputLocation(), currentBuilder );
 
         return builder;
+    }
+
+    private void validateParsingContext( MarmaladeParsingContext context )
+    {
+        if(context.getInput() == null) {
+            throw new IllegalStateException("context input cannot be null");
+        }
+        else if(!context.getTaglibResolver().hasStrategies()) {
+            context.addTaglibDefinitionStrategies(MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN);
+        }
     }
 }

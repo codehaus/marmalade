@@ -1,5 +1,5 @@
 /* Created on Aug 20, 2004 */
-package org.codehaus.marmalade.discovery;
+package org.codehaus.marmalade.lb.discovery;
 
 import org.codehaus.marmalade.lb.LateBoundLibraryNotFoundException;
 import org.codehaus.marmalade.lb.LateBoundTagNotFoundException;
@@ -34,13 +34,15 @@ public class LateBindingTagLibraryResolver
 
     public void registerTagLibrary( String prefix, String taglib, MarmaladeTagLibrary lib )
     {
+        String key = prefix + ":" + taglib;
+        
         taglibsByPrefixAndUri.put( prefix + ":" + taglib, lib );
     }
 
     public MarmaladeTag createTag( MarmaladeTagInfo tagInfo ) throws TagInstantiationException
     {
-        String key = tagInfo.getPrefix() + ":" + tagInfo.getTaglib();
-
+        String key = tagInfo.getScheme() + ":" + tagInfo.getTaglib();
+        
         MarmaladeTagLibrary tlib = (MarmaladeTagLibrary) taglibsByPrefixAndUri.get( key );
 
         if ( tlib == null )

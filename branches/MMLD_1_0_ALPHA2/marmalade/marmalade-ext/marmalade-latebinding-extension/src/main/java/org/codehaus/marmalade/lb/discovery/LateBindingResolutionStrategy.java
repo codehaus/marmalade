@@ -1,6 +1,7 @@
 /* Created on Aug 20, 2004 */
-package org.codehaus.marmalade.discovery;
+package org.codehaus.marmalade.lb.discovery;
 
+import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 
 /**
