@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "taglib" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib xmlns="http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+  <tlibversion></tlibversion>
+  <shortname></shortname>
+  <tag>
+    <name></name>
+    <tagclass></tagclass>
+  </tag>
+</taglib>
