@@ -24,16 +24,13 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.model;
 
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.util.Collections;
-
-import junit.framework.TestCase;
-
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
+
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 /**
  * @author jdcasey

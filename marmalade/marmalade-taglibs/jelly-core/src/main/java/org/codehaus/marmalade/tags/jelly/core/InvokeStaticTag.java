@@ -24,10 +24,9 @@
 /* Created on Apr 20, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 import org.codehaus.marmalade.util.Reflector;
 import org.codehaus.marmalade.util.ReflectorException;
@@ -70,7 +69,7 @@ public class InvokeStaticTag extends AbstractJellyMarmaladeTag
         }
         catch ( ClassNotFoundException e )
         {
-            throw new MarmaladeExecutionException( "Error loading class: "
+            throw new TagExecutionException( getTagInfo(), "Error loading class: "
                 + className, e );
         }
 
@@ -94,7 +93,7 @@ public class InvokeStaticTag extends AbstractJellyMarmaladeTag
         }
         catch ( ReflectorException e )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "Error instantiating method: " + methodName + " on class: "
                 + className, e );
         }

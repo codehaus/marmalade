@@ -2,8 +2,9 @@
 <project>
   <groupId>marmalade</groupId>
   <artifactId>marmalade-parent</artifactId>
-  <version>1.0-alpha2-SNAPSHOT</version>
+  <version>1.0-alpha2</version>
   <name>Marmalade Parent Project</name>
+  <packaging>pom</packaging>
   <distributionManagement>
     <repository>
       <id>repo1</id>
@@ -68,27 +69,27 @@
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-core</artifactId>
-        <version>1.0-alpha2-SNAPSHOT</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-el-ognl</artifactId>
-        <version>1.0-alpha2-SNAPSHOT</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-el-commons</artifactId>
-        <version>1.0-alpha2-SNAPSHOT</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-tags-jelly-common</artifactId>
-        <version>1.0-alpha2-SNAPSHOT</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-utils</artifactId>
-        <version>1.0-alpha2-SNAPSHOT</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>ognl</groupId>

@@ -4,16 +4,10 @@
   <parent>
     <groupId>marmalade</groupId>
     <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha2-SNAPSHOT</version>
+    <version>1.0-alpha2</version>
   </parent>
   <artifactId>marmalade-utils</artifactId>
 
   <name>Marmalade Utilities</name>
   
-  <dependencies>
-    <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-    </dependency>
-  </dependencies>
 </project>

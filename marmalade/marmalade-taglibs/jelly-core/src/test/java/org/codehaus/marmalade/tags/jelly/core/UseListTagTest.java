@@ -24,8 +24,6 @@
 /* Created on Jun 23, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import junit.framework.TestCase;
-
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -38,6 +36,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey

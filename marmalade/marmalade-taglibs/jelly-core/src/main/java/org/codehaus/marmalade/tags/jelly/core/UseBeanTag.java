@@ -24,12 +24,11 @@
 /* Created on Jun 23, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttribute;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 import java.util.Iterator;
@@ -67,7 +66,7 @@ public class UseBeanTag extends AbstractJellyMarmaladeTag
             }
             catch ( ClassNotFoundException e )
             {
-                throw new MarmaladeExecutionException( "invalid bean class", e );
+                throw new TagExecutionException( getTagInfo(), "invalid bean class", e );
             }
         }
 
@@ -77,11 +76,11 @@ public class UseBeanTag extends AbstractJellyMarmaladeTag
         }
         catch ( InstantiationException e )
         {
-            throw new MarmaladeExecutionException( "error instantiating bean", e );
+            throw new TagExecutionException( getTagInfo(), "error instantiating bean", e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new MarmaladeExecutionException( "error instantiating bean", e );
+            throw new TagExecutionException( getTagInfo(), "error instantiating bean", e );
         }
 
         MarmaladeAttributes attributes = getAttributes(  );

@@ -24,10 +24,9 @@
 /* Created on Jun 23, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 import java.util.ArrayList;
@@ -72,14 +71,14 @@ public class UseListTag extends AbstractJellyMarmaladeTag
             }
             catch ( ClassNotFoundException e )
             {
-                throw new MarmaladeExecutionException( "cannot load list class.",
+                throw new TagExecutionException( getTagInfo(), "cannot load list class.",
                     e );
             }
         }
 
         if ( !List.class.isAssignableFrom( collectionClass ) )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(), 
                 "specified class is not of type List" );
         }
 
@@ -100,11 +99,11 @@ public class UseListTag extends AbstractJellyMarmaladeTag
         }
         catch ( InstantiationException e )
         {
-            throw new MarmaladeExecutionException( "cannot instantiate list", e );
+            throw new TagExecutionException( getTagInfo(), "cannot instantiate list", e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new MarmaladeExecutionException( "cannot instantiate list", e );
+            throw new TagExecutionException( getTagInfo(), "cannot instantiate list", e );
         }
     }
 }

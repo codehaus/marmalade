@@ -1,14 +1,13 @@
 /* Created on Aug 21, 2004 */
 package org.codehaus.marmalade.el;
 
-import junit.framework.TestCase;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey

@@ -24,15 +24,12 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.AbstractLoopingTag;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyLoopingTag;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
