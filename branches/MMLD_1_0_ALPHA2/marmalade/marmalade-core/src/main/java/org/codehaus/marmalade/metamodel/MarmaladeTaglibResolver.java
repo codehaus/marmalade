@@ -95,22 +95,26 @@ public class MarmaladeTaglibResolver
     {
         MarmaladeTagLibrary tlib = null;
 
-        for ( Iterator it = strategies.iterator(); it.hasNext(); )
+        // if both the prefix and the taglib are empty, use the default if it's set.
+        if ( defaultTagLibrary != null && (prefix == null || prefix.trim().length() < 1)
+            && (taglib == null || taglib.trim().length() < 1) )
         {
-            TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
-
-            tlib = strategy.resolve( prefix, taglib );
-
-            if ( tlib != null )
-            {
-                break;
-            }
-        }
-
-        if ( tlib == null && defaultTagLibrary != null && 
-             ((prefix == null) || (prefix.trim().length() < 1)) )
-        {
+            // use the default taglib.
             tlib = defaultTagLibrary;
+        }
+        else
+        {
+            for ( Iterator it = strategies.iterator(); it.hasNext(); )
+            {
+                TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
+
+                tlib = strategy.resolve( prefix, taglib );
+
+                if ( tlib != null )
+                {
+                    break;
+                }
+            }
         }
 
         return tlib;
