@@ -1,42 +1,58 @@
+
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* Created on Apr 21, 2004 */
 package org.codehaus.marmalade.tags.httpunit.structure;
+
+import com.meterware.httpunit.WebRequest;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
-import com.meterware.httpunit.WebRequest;
-
-
 /**
  * @author jdcasey
  */
-public class AbstractWebRequestSubTag extends AbstractWebConversationSubTag implements WebRequestSubTag{
-  
-  public static final String REQUEST_ATTRIBUTE = "request";
+public class AbstractWebRequestSubTag extends AbstractWebConversationSubTag
+    implements WebRequestSubTag
+{
+    public static final String REQUEST_ATTRIBUTE = "request";
 
-  protected AbstractWebRequestSubTag(MarmaladeTagInfo tagInfo){
-    super(tagInfo);
-  }
-
-  public WebRequest getRequest(MarmaladeExecutionContext context)
-  throws MarmaladeExecutionException
-  {
-    MarmaladeAttributes attrs = getAttributes();
-    
-    WebRequest request = (WebRequest)attrs.getValue(
-      REQUEST_ATTRIBUTE, WebRequest.class, context
-    );
-    
-    if(request == null) {
-      AbstractWebRequestTag ancestor = (AbstractWebRequestTag)requireAncestor(
-        AbstractWebRequestTag.class
-      );
-      request = ancestor.getRequest();
+    protected AbstractWebRequestSubTag( MarmaladeTagInfo tagInfo )
+    {
+        super( tagInfo );
     }
-    
-    return request;
-  }
 
+    public WebRequest getRequest( MarmaladeExecutionContext context )
+        throws MarmaladeExecutionException
+    {
+        MarmaladeAttributes attrs = getAttributes(  );
+
+        WebRequest request = ( WebRequest ) attrs.getValue( REQUEST_ATTRIBUTE,
+                WebRequest.class, context );
+
+        if ( request == null )
+        {
+            WebRequestTag ancestor = ( WebRequestTag ) requireAncestor( WebRequestTag.class );
+
+            request = ancestor.getRequest(  );
+        }
+
+        return request;
+    }
 }

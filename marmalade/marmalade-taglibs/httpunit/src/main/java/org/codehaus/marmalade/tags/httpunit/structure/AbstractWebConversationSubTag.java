@@ -1,5 +1,24 @@
+
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* Created on Apr 21, 2004 */
 package org.codehaus.marmalade.tags.httpunit.structure;
+
+import com.meterware.httpunit.WebConversation;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
@@ -7,35 +26,34 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
-import com.meterware.httpunit.WebConversation;
-
-
 /**
  * @author jdcasey
  */
-public class AbstractWebConversationSubTag extends AbstractMarmaladeTag implements WebConversationSubTag{
+public class AbstractWebConversationSubTag extends AbstractMarmaladeTag
+    implements WebConversationSubTag
+{
+    public static final String CONVERSATION_ATTRIBUTE = "conversation";
 
-  public static final String CONVERSATION_ATTRIBUTE = "conversation";
-  
-  public AbstractWebConversationSubTag(MarmaladeTagInfo tagInfo){
-    super(tagInfo);
-  }
-  
-  public WebConversation getConversation(MarmaladeExecutionContext context)
-  throws MarmaladeExecutionException
-  {
-    MarmaladeAttributes attrs = getAttributes();
-    
-    WebConversation conversation = (WebConversation)attrs.getValue(
-      CONVERSATION_ATTRIBUTE, WebConversation.class, context
-    );
-    
-    if(conversation == null) {
-      DefaultWebConversationTag ancestor = (DefaultWebConversationTag)requireAncestor(DefaultWebConversationTag.class);
-      conversation = ancestor.getConversation();
+    public AbstractWebConversationSubTag( MarmaladeTagInfo tagInfo )
+    {
+        super( tagInfo );
     }
-    
-    return conversation;
-  }
 
+    public WebConversation getConversation( MarmaladeExecutionContext context )
+        throws MarmaladeExecutionException
+    {
+        MarmaladeAttributes attrs = getAttributes(  );
+
+        
+        WebConversation conversation = ( WebConversation ) attrs.getValue( CONVERSATION_ATTRIBUTE, WebConversation.class, context );
+
+        if ( conversation == null )
+        {
+            WebConversationTag ancestor = ( WebConversationTag ) requireAncestor( WebConversationTag.class );
+
+            conversation = ancestor.getConversation(  );
+        }
+
+        return conversation;
+    }
 }

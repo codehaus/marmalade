@@ -1,30 +1,51 @@
+
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* Created on Apr 26, 2004 */
 package org.codehaus.marmalade.tags.httpunit.structure;
+
+import com.meterware.httpunit.WebResponse;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
-import com.meterware.httpunit.WebResponse;
-
-
 /**
  * @author jdcasey
  */
-public class TestResponseSubTag extends AbstractWebResponseSubTag{
-  
-  private boolean foundResponse = false;
+public class TestResponseSubTag extends AbstractWebResponseSubTag
+{
+    private boolean foundResponse = false;
 
-  public TestResponseSubTag(MarmaladeTagInfo mti){
-    super(mti);
-  }
+    public TestResponseSubTag( MarmaladeTagInfo mti )
+    {
+        super( mti );
+    }
 
-  protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
-    WebResponse response = getResponse(context);
-    foundResponse = response != null;
-  }
-  
-  public boolean foundResponse() {
-    return foundResponse;
-  }
+    protected void doExecute( MarmaladeExecutionContext context )
+        throws MarmaladeExecutionException
+    {
+        WebResponse response = getResponse( context );
+
+        foundResponse = response != null;
+    }
+
+    public boolean foundResponse(  )
+    {
+        return foundResponse;
+    }
 }

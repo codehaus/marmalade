@@ -1,3 +1,20 @@
+
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* Created on Mar 25, 2004 */
 package org.codehaus.marmalade.util;
 
@@ -11,178 +28,238 @@ import java.util.Set;
 /**
  * @author jdcasey
  */
-public class ScopedMapEntriesSet implements Set {
-  
-  private Map superMap;
-  private Map thisMap;
-  private Boolean extractKey;
-  
-  private List entries = new ArrayList();
-  
-  public ScopedMapEntriesSet(Map superMap, Map thisMap, Boolean extractKey) {
-    this.superMap = superMap;
-    this.thisMap = thisMap;
-    this.extractKey = extractKey;
-    update();
-  }
-  
-  public Object extract(ScopedMapEntry entry){
-    if(extractKey == null){
-      return entry;
+public class ScopedMapEntriesSet implements Set
+{
+    private Map superMap;
+    private Map thisMap;
+    private Boolean extractKey;
+    private List entries = new ArrayList(  );
+
+    public ScopedMapEntriesSet( Map superMap, Map thisMap, Boolean extractKey )
+    {
+        this.superMap = superMap;
+        this.thisMap = thisMap;
+        this.extractKey = extractKey;
+        update(  );
     }
-    else if(Boolean.TRUE == extractKey){
-      return entry.getKey();
-    }
-    else{
-      return entry.getValue();
-    }
-  }
 
-  public int size() {
-    return entries.size();
-  }
-
-  public void clear() {
-    thisMap.clear();
-    for (Iterator it = entries.iterator(); it.hasNext();) {
-      ScopedMapEntry entry = (ScopedMapEntry)it.next();
-      if(entry.isMutable()){
-        it.remove();
-      }
-    }
-  }
-
-  public boolean isEmpty() {
-    return thisMap.isEmpty() && superMap.isEmpty();
-  }
-
-  public Object[] toArray() {
-    Object[] objects = new Object[entries.size()];
-    for (int i = 0; i < objects.length; i++) {
-      objects[i] = extract((ScopedMapEntry)entries.get(i));
-    }
-    return objects;
-  }
-
-  public boolean add(Object o) {
-    throw new UnsupportedOperationException("Add operation is not supported.");
-  }
-
-  public boolean contains(Object o) {
-    for (Iterator it = entries.iterator(); it.hasNext();) {
-      if(extract((ScopedMapEntry)it.next()).equals(o)){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean remove(Object o) {
-    for (Iterator it = entries.iterator(); it.hasNext();) {
-      ScopedMapEntry entry = (ScopedMapEntry)it.next();
-      if(extract(entry).equals(o)){
-        if(entry.isMutable()){
-          it.remove();
-          thisMap.remove(entry.getKey());
-          return true;
+    public Object extract( ScopedMapEntry entry )
+    {
+        if ( extractKey == null )
+        {
+            return entry;
         }
-        else{
-          return false;
+        else if ( Boolean.TRUE == extractKey )
+        {
+            return entry.getKey(  );
         }
-      }
+        else
+        {
+            return entry.getValue(  );
+        }
     }
-    
-    return false;
-  }
 
-  public boolean addAll(Collection c) {
-    throw new UnsupportedOperationException("Add-all operation is not supported.");
-  }
+    public int size(  )
+    {
+        return entries.size(  );
+    }
 
-  public boolean containsAll(Collection c) {
-    for (Iterator it = entries.iterator(); it.hasNext();) {
-      if(!c.contains(extract((ScopedMapEntry)it.next()))){
+    public void clear(  )
+    {
+        thisMap.clear(  );
+
+        for ( Iterator it = entries.iterator(  ); it.hasNext(  ); )
+        {
+            ScopedMapEntry entry = ( ScopedMapEntry ) it.next(  );
+
+            if ( entry.isMutable(  ) )
+            {
+                it.remove(  );
+            }
+        }
+    }
+
+    public boolean isEmpty(  )
+    {
+        return thisMap.isEmpty(  ) && superMap.isEmpty(  );
+    }
+
+    public Object[] toArray(  )
+    {
+        Object[] objects = new Object[entries.size(  )];
+
+        for ( int i = 0; i < objects.length; i++ )
+        {
+            objects[i] = extract( ( ScopedMapEntry ) entries.get( i ) );
+        }
+
+        return objects;
+    }
+
+    public boolean add( Object o )
+    {
+        throw new UnsupportedOperationException( 
+            "Add operation is not supported." );
+    }
+
+    public boolean contains( Object o )
+    {
+        for ( Iterator it = entries.iterator(  ); it.hasNext(  ); )
+        {
+            if ( extract( ( ScopedMapEntry ) it.next(  ) ).equals( o ) )
+            {
+                return true;
+            }
+        }
+
         return false;
-      }
     }
-    return true;
-  }
 
-  public boolean removeAll(Collection c) {
-    boolean changed = false;
-    for (Iterator it = entries.iterator(); it.hasNext();) {
-      ScopedMapEntry entry = (ScopedMapEntry)it.next();
-      if(c.contains(extract(entry))){
-        if(entry.isMutable()){
-          it.remove();
-          thisMap.remove(entry.getKey());
-          changed = true;
+    public boolean remove( Object o )
+    {
+        for ( Iterator it = entries.iterator(  ); it.hasNext(  ); )
+        {
+            ScopedMapEntry entry = ( ScopedMapEntry ) it.next(  );
+
+            if ( extract( entry ).equals( o ) )
+            {
+                if ( entry.isMutable(  ) )
+                {
+                    it.remove(  );
+                    thisMap.remove( entry.getKey(  ) );
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
-      }
-    }
-    
-    return changed;
-  }
 
-  public boolean retainAll(Collection c) {
-    boolean changed = false;
-    for (Iterator it = entries.iterator(); it.hasNext();) {
-      ScopedMapEntry entry = (ScopedMapEntry)it.next();
-      if(!c.contains(extract(entry))){
-        if(entry.isMutable()){
-          it.remove();
-          thisMap.remove(entry.getKey());
-          changed = true;
+        return false;
+    }
+
+    public boolean addAll( Collection c )
+    {
+        throw new UnsupportedOperationException( 
+            "Add-all operation is not supported." );
+    }
+
+    public boolean containsAll( Collection c )
+    {
+        for ( Iterator it = entries.iterator(  ); it.hasNext(  ); )
+        {
+            if ( !c.contains( extract( ( ScopedMapEntry ) it.next(  ) ) ) )
+            {
+                return false;
+            }
         }
-      }
-    }
-    
-    return changed;
-  }
-  
-  public Iterator iterator() {
-    return new ScopedMapEntriesIterator(this, extractKey);
-  }
 
-  public Object[] toArray(Object[] a) {
-    for (int i = 0; i < a.length; i++) {
-      a[i] = entries.get(i);
+        return true;
     }
-    
-    if(entries.size() > a.length){
-      throw new ArrayIndexOutOfBoundsException(a.length);
-    }
-    else{
-      return a;
-    }
-  }
 
-  Iterator entryIterator(){
-    return entries.iterator();
-  }
-  
-  void removeEntry(ScopedMapEntry entry){
-    if(entry.isMutable()){
-      entries.remove(entry);
-      thisMap.remove(entry.getKey());
-    }
-  }
-  
-  void update(){
-    for (Iterator it = superMap.entrySet().iterator(); it.hasNext();) {
-      Map.Entry entry = (Map.Entry)it.next();
-      Object key = entry.getKey();
-      if(!thisMap.containsKey(key)){
-        ScopedMapEntry sme = new ScopedMapEntry(entry, false);
-        entries.add(sme);
-      }
-    }
-    
-    for (Iterator it = thisMap.entrySet().iterator(); it.hasNext();) {
-      Map.Entry entry = (Map.Entry)it.next();
-      ScopedMapEntry sme = new ScopedMapEntry(entry, true);
-      entries.add(sme);
-    }
-  }
+    public boolean removeAll( Collection c )
+    {
+        boolean changed = false;
 
+        for ( Iterator it = entries.iterator(  ); it.hasNext(  ); )
+        {
+            ScopedMapEntry entry = ( ScopedMapEntry ) it.next(  );
+
+            if ( c.contains( extract( entry ) ) )
+            {
+                if ( entry.isMutable(  ) )
+                {
+                    it.remove(  );
+                    thisMap.remove( entry.getKey(  ) );
+                    changed = true;
+                }
+            }
+        }
+
+        return changed;
+    }
+
+    public boolean retainAll( Collection c )
+    {
+        boolean changed = false;
+
+        for ( Iterator it = entries.iterator(  ); it.hasNext(  ); )
+        {
+            ScopedMapEntry entry = ( ScopedMapEntry ) it.next(  );
+
+            if ( !c.contains( extract( entry ) ) )
+            {
+                if ( entry.isMutable(  ) )
+                {
+                    it.remove(  );
+                    thisMap.remove( entry.getKey(  ) );
+                    changed = true;
+                }
+            }
+        }
+
+        return changed;
+    }
+
+    public Iterator iterator(  )
+    {
+        return new ScopedMapEntriesIterator( this, extractKey );
+    }
+
+    public Object[] toArray( Object[] a )
+    {
+        for ( int i = 0; i < a.length; i++ )
+        {
+            a[i] = entries.get( i );
+        }
+
+        if ( entries.size(  ) > a.length )
+        {
+            throw new ArrayIndexOutOfBoundsException( a.length );
+        }
+        else
+        {
+            return a;
+        }
+    }
+
+    Iterator entryIterator(  )
+    {
+        return entries.iterator(  );
+    }
+
+    void removeEntry( ScopedMapEntry entry )
+    {
+        if ( entry.isMutable(  ) )
+        {
+            entries.remove( entry );
+            thisMap.remove( entry.getKey(  ) );
+        }
+    }
+
+    void update(  )
+    {
+        for ( Iterator it = superMap.entrySet(  ).iterator(  ); it.hasNext(  ); )
+        {
+            Map.Entry entry = ( Map.Entry ) it.next(  );
+            Object key = entry.getKey(  );
+
+            if ( !thisMap.containsKey( key ) )
+            {
+                ScopedMapEntry sme = new ScopedMapEntry( entry, false );
+
+                entries.add( sme );
+            }
+        }
+
+        for ( Iterator it = thisMap.entrySet(  ).iterator(  ); it.hasNext(  ); )
+        {
+            Map.Entry entry = ( Map.Entry ) it.next(  );
+            ScopedMapEntry sme = new ScopedMapEntry( entry, true );
+
+            entries.add( sme );
+        }
+    }
 }
