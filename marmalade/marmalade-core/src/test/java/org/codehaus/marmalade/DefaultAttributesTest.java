@@ -25,9 +25,9 @@ public class DefaultAttributesTest extends MockObjectTestCase{
   public void testGetValue_String_Context() throws ExpressionEvaluationException{
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("evaluate")
-          .with(eq("value"), isA(Map.class), same(Object.class))
-          .will(returnValue("value"));
+          .method("isExpression")
+          .with(eq("value"))
+          .will(returnValue(false));
     
     Mock attrMock = mock(Attributes.class);
     attrMock.expects(atLeastOnce())
@@ -71,9 +71,9 @@ public class DefaultAttributesTest extends MockObjectTestCase{
   public void testGetValue_String_Context_Object() throws ExpressionEvaluationException{
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("evaluate")
-          .with(eq("value"), isA(Map.class), same(Object.class))
-          .will(returnValue(null));
+          .method("isExpression")
+          .with(eq("value"))
+          .will(returnValue(false));
     
     Mock attrMock = mock(Attributes.class);
     attrMock.expects(atLeastOnce())
@@ -103,21 +103,23 @@ public class DefaultAttributesTest extends MockObjectTestCase{
            .withNoArguments()
            .will(returnValue(new HashMap()));
     
-    Object result = attrs.getValue("testKey", (MarmaladeExecutionContext)ctxMock.proxy(), "value2");
-    assertEquals("Wrong attribute value.", "value2", result);
+    Object result = attrs.getValue("testKey", (MarmaladeExecutionContext)ctxMock.proxy(), "value");
+    assertEquals("Wrong attribute value.", "value", result);
     
     elMock.verify();
     attrMock.verify();
     ctxMock.verify();
   }
 
-  /*
-   * Class to test for Object getValue(String, Class, MarmaladeExecutionContext)
-   */
+  
   public void testGetValue_String_Class_MarmaladeExecutionContext() throws ExpressionEvaluationException{
     Integer testVal = new Integer(10);
     
     Mock elMock = mock(ExpressionEvaluator.class);
+    elMock.expects(atLeastOnce())
+          .method("isExpression")
+          .with(eq("value"))
+          .will(returnValue(true));
     elMock.expects(atLeastOnce())
           .method("evaluate")
           .with(eq("value"), isA(Map.class), same(Object.class))
@@ -167,13 +169,15 @@ public class DefaultAttributesTest extends MockObjectTestCase{
     ctxMock.verify();
   }
 
-  /*
-   * Class to test for Object getValue(String, Class, MarmaladeExecutionContext, Object)
-   */
+  
   public void testGetValue_String_Class_MarmaladeExecutionContext_Object() throws ExpressionEvaluationException{
     Integer testVal = new Integer(10);
     
     Mock elMock = mock(ExpressionEvaluator.class);
+    elMock.expects(once())
+          .method("isExpression")
+          .with(eq("value"))
+          .will(returnValue(true));
     elMock.expects(once())
           .method("evaluate")
           .with(eq("value"), isA(Map.class), same(Object.class))
