@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttribute;
+import org.codehaus.marmalade.metamodel.MetaAttribute;
 
 import java.util.Iterator;
 
@@ -50,7 +50,7 @@ public class DefaultRawAttributesTest extends TestCase
 
         for ( Iterator it = ra.iterator(  ); it.hasNext(  ); )
         {
-            ModelBuilderAttribute attribute = ( ModelBuilderAttribute ) it.next(  );
+            MetaAttribute attribute = ( MetaAttribute ) it.next(  );
 
             counter++;
         }

@@ -28,6 +28,8 @@ import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
+import org.codehaus.marmalade.parsetime.MarmaladeTagBuilder;
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.Tag;

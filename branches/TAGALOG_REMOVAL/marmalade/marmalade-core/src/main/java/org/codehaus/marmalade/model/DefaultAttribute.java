@@ -26,7 +26,7 @@ package org.codehaus.marmalade.model;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttribute;
+import org.codehaus.marmalade.metamodel.MetaAttribute;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 
 /**
@@ -35,9 +35,9 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 public class DefaultAttribute implements MarmaladeAttribute
 {
     private ExpressionEvaluator el;
-    private ModelBuilderAttribute attribute;
+    private MetaAttribute attribute;
 
-    public DefaultAttribute( ModelBuilderAttribute attribute,
+    public DefaultAttribute( MetaAttribute attribute,
         ExpressionEvaluator el )
     {
         this.attribute = attribute;

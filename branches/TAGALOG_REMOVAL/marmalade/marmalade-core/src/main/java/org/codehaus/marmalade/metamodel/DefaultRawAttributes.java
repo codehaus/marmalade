@@ -31,7 +31,7 @@ import java.util.TreeMap;
 /**
  * @author jdcasey
  */
-public class DefaultRawAttributes implements ModelBuilderAttributes
+public class DefaultRawAttributes implements MetaAttributes
 {
     private Map parsedAttributes = new TreeMap(  );
 
@@ -42,7 +42,7 @@ public class DefaultRawAttributes implements ModelBuilderAttributes
 
     public String getNamespace( String name )
     {
-        ModelBuilderAttribute attr = ( ModelBuilderAttribute ) parsedAttributes
+        MetaAttribute attr = ( MetaAttribute ) parsedAttributes
             .get( name );
         String ns = attr.getNamespace(  );
 
@@ -53,7 +53,7 @@ public class DefaultRawAttributes implements ModelBuilderAttributes
     {
         String value = null;
 
-        ModelBuilderAttribute attr = ( ModelBuilderAttribute ) parsedAttributes
+        MetaAttribute attr = ( MetaAttribute ) parsedAttributes
             .get( name );
 
         if ( attr != null )
@@ -68,7 +68,7 @@ public class DefaultRawAttributes implements ModelBuilderAttributes
     {
         String value = null;
 
-        ModelBuilderAttribute attr = ( ModelBuilderAttribute ) parsedAttributes
+        MetaAttribute attr = ( MetaAttribute ) parsedAttributes
             .get( name );
 
         if ( ( attr != null ) && ( namespace != null )
@@ -80,7 +80,7 @@ public class DefaultRawAttributes implements ModelBuilderAttributes
         return value;
     }
 
-    public void addAttribute( ModelBuilderAttribute attribute )
+    public void addAttribute( MetaAttribute attribute )
     {
         this.parsedAttributes.put( attribute.getName(  ), attribute );
     }

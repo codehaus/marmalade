@@ -21,50 +21,31 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-/* Created on Apr 12, 2004 */
-package org.codehaus.marmalade.metamodel.strategy.tld.tags;
+/* Created on May 25, 2004 */
+package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.marmalade.metamodel.strategy.tld.TldDefinedTagLibrary;
-import org.codehaus.tagalog.AbstractTag;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 
 /**
  * @author jdcasey
  */
-public class TaglibTag extends AbstractTag
+public abstract class MarmaladeModelBuilderException extends Exception
 {
-    private TldDefinedTagLibrary taglib = new TldDefinedTagLibrary(  );
-
-    public TaglibTag(  )
+    protected MarmaladeModelBuilderException(  )
     {
     }
 
-    void setShortname( String shortName )
+    protected MarmaladeModelBuilderException( String message )
     {
-        taglib.setShortname( shortName );
+        super( message );
     }
 
-    void setTlibversion( String tlibversion )
+    protected MarmaladeModelBuilderException( Throwable cause )
     {
-        taglib.setTlibversion( tlibversion );
+        super( cause );
     }
 
-    void addTag( String name, Class tagClass )
+    protected MarmaladeModelBuilderException( String message, Throwable cause )
     {
-        taglib.registerTag( name, tagClass );
-    }
-
-    public Object end( String elementName )
-        throws TagException, TagalogParseException
-    {
-        return taglib;
-    }
-
-    public boolean recycle(  )
-    {
-        taglib = new TldDefinedTagLibrary(  );
-
-        return true;
+        super( message, cause );
     }
 }

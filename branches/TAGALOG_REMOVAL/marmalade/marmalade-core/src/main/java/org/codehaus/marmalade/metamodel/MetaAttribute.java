@@ -28,7 +28,7 @@ package org.codehaus.marmalade.metamodel;
 /**
  * @author jdcasey
  */
-public interface ModelBuilderAttribute
+public interface MetaAttribute
 {
     public abstract String getName(  );
 

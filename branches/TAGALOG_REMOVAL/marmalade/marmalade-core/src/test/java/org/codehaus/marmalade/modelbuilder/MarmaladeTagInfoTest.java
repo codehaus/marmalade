@@ -29,10 +29,10 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
-import org.codehaus.marmalade.metamodel.MarmaladeTagBuilder;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.codehaus.marmalade.parsetime.MarmaladeTagBuilder;
 
 /**
  * @author jdcasey

@@ -24,26 +24,23 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel.strategy;
 
-import org.codehaus.marmalade.metamodel.strategy.tld.tags.TldTagLibrary;
+import org.codehaus.marmalade.metamodel.strategy.tld.TldParser;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
-import org.codehaus.tagalog.ParserConfiguration;
-import org.codehaus.tagalog.TagalogParseException;
-import org.codehaus.tagalog.TagalogParser;
-import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlPullParserException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author jdcasey
  */
 public class PrefixedTldDefinitionStrategy implements TaglibDefinitionStrategy
 {
-    private TagalogSAXParserFactory factory;
-
     public PrefixedTldDefinitionStrategy(  )
     {
     }
@@ -63,23 +60,25 @@ public class PrefixedTldDefinitionStrategy implements TaglibDefinitionStrategy
 
             if ( tldStream != null )
             {
+                TldParser parser = new TldParser(  );
+
                 try
                 {
-                    ensureTldParserInited(  );
-
-                    TagalogParser parser = factory.createParser( tldStream );
-
-                    tlib = ( MarmaladeTagLibrary ) parser.parse(  );
+                    tlib = parser.parse( new InputStreamReader( tldStream,
+                                "UTF-8" ) );
                 }
 
-                // Ignore these and return null.
-                catch ( ParserConfigurationException e )
+                // Intercept and ignore...return null.
+                catch ( UnsupportedEncodingException e )
                 {
                 }
-                catch ( SAXException e )
+                catch ( XmlPullParserException e )
                 {
                 }
-                catch ( TagalogParseException e )
+                catch ( IOException e )
+                {
+                }
+                catch ( ClassNotFoundException e )
                 {
                 }
             }
@@ -99,15 +98,5 @@ public class PrefixedTldDefinitionStrategy implements TaglibDefinitionStrategy
         }
 
         return tlib;
-    }
-
-    private void ensureTldParserInited(  )
-    {
-        ParserConfiguration config = new ParserConfiguration(  );
-
-        config.setDefaultNamespace( TldTagLibrary.NS_URL );
-        config.addTagLibrary( TldTagLibrary.NS_URL, new TldTagLibrary(  ) );
-
-        this.factory = new TagalogSAXParserFactory( config );
     }
 }
