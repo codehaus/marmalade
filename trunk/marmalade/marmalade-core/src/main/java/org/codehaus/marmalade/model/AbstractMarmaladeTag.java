@@ -216,7 +216,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         return formatWhitespace( tagInfo.getText(  ), context );
     }
 
-    protected final String formatWhitespace( String src,
+    protected String formatWhitespace( String src,
         MarmaladeExecutionContext context )
         throws ExpressionEvaluationException
     {
