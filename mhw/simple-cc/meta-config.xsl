@@ -3,15 +3,17 @@
 <cruisecontrol xsl:version="1.0"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:for-each select="/projects/project">
-    <project name="{@name}">
+    <xsl:variable name="srcdir">
       <xsl:choose>
-	<xsl:when test="srcdir">
-	  <xsl:param name="srcdir" select="fred"/>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:param name="srcdir">fred</xsl:param>
-	</xsl:otherwise>
+        <xsl:when test="srcdir">
+          <xsl:value-of select="srcdir"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="@name"/>
+        </xsl:otherwise>
       </xsl:choose>
+    </xsl:variable>
+    <project name="{@name}">
       <bootstrappers>
 	<currentbuildstatusbootstrapper 
 	    file="logs/{@name}/currentbuildstatus.txt"/>
