@@ -4,7 +4,7 @@
 
 package org.codehaus.tagalog.acceptance.people;
 
-import org.codehaus.tagalog.Tag;
+import org.codehaus.tagalog.AbstractTag;
 
 /**
  * PeopleTag
@@ -12,6 +12,24 @@ import org.codehaus.tagalog.Tag;
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @version $Revision$
  */
-public class PeopleTag implements Tag {
+public class PeopleTag extends AbstractTag {
+    private People people;
 
+    public void begin(String elementName) {
+        people = new People();
+    }
+
+    public void child(Object child) {
+        Person person = (Person) child;
+        people.addPerson(person);
+    }
+
+    public Object end(String elementName) {
+        return people;
+    }
+
+    public boolean recycle() {
+        people = null;
+        return true;
+    }
 }
