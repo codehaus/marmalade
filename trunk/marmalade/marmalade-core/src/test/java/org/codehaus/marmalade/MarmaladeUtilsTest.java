@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.codehaus.marmalade.abstractions.*;
+import org.codehaus.marmalade.defaults.*;
 
 import junit.framework.TestCase;
 

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.marmalade.abstractions.*;
+import org.codehaus.marmalade.defaults.*;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.jmock.Mock;

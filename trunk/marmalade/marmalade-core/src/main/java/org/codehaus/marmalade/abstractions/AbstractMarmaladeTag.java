@@ -14,6 +14,7 @@ import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
 import org.codehaus.marmalade.MarmaladeTag;
 import org.codehaus.marmalade.MissingAttributeException;
+import org.codehaus.marmalade.defaults.*;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
