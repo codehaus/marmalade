@@ -16,4 +16,7 @@ These are just some notes to improve Marmalade.
     
     - Cannot set values in the sysprops scope
 
-
+[jdcasey 7/2/2004]:
+* Bring HTTPUnit taglib up to speed with tagalog-less marmalade-core.
+    - Not considered "core" functionality (no current need for HTTPUnit 
+      taglib), so will fix later.

@@ -24,9 +24,13 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.parsetime;
 
+import java.io.Reader;
+
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.util.RecordingReader;
 
 /**
  * @author jdcasey
@@ -34,10 +38,22 @@ import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
 public interface MarmaladeParsingContext
 {
     
-    public ExpressionEvaluator getDefaultExpressionEvaluator();
+    ExpressionEvaluator getDefaultExpressionEvaluator();
 
-    public ExpressionEvaluatorFactory getExpressionEvaluatorFactory();
+    ExpressionEvaluatorFactory getExpressionEvaluatorFactory();
 
-    public void setDefaultExpressionEvaluator(ExpressionEvaluator evaluator);
+    void setDefaultExpressionEvaluator(ExpressionEvaluator evaluator);
+
+    MarmaladeTaglibResolver getTaglibResolver();
+    
+    void setTaglibResolver(MarmaladeTaglibResolver resolver);
+
+    RecordingReader getInput();
+    
+    void setInput(RecordingReader input);
+
+    String getInputLocation();
+    
+    void setInputLocation(String inputLocation);
     
 }

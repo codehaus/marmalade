@@ -25,13 +25,14 @@
 package org.codehaus.marmalade.modelbuilder.strategy.test;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 
 /**
  * @author jdcasey
  */
-public class TestTaglibWithCorrectConstructor implements MarmaladeTagLibrary
+public class TestTaglibWithCorrectConstructor extends AbstractMarmaladeTagLibrary
 {
     public TestTaglibWithCorrectConstructor(  )
     {

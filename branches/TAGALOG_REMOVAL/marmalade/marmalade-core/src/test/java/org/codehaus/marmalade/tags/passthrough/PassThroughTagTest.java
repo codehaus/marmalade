@@ -34,10 +34,12 @@ import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.parsetime.DefaultParsingContext;
 import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsetime.MarmaladeParsingContext;
 import org.codehaus.marmalade.parsetime.ScriptBuilder;
 import org.codehaus.marmalade.parsetime.ScriptParser;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.util.RecordingReader;
 
 import junit.framework.TestCase;
 
@@ -98,12 +100,18 @@ public class PassThroughTagTest extends TestCase
 
     private String parseAndExecute(String script) throws MarmaladeExecutionException, MarmaladeParsetimeException, MarmaladeModelBuilderException {
         StringReader reader = new StringReader(script);
-        
         MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver(MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN);
+        String location = "test location";
         
-        ScriptParser parser = new ScriptParser(resolver);
+        MarmaladeParsingContext pCtx = new DefaultParsingContext();
+        pCtx.setTaglibResolver(resolver);
+        pCtx.setInput(new RecordingReader(reader));
+        pCtx.setInputLocation(location);
         
-        ScriptBuilder mmldBuilder = parser.parse(reader, "test location");
+        ScriptParser parser = new ScriptParser();
+        
+        ScriptBuilder mmldBuilder = parser.parse(pCtx);
+        
         MarmaladeScript mmld = mmldBuilder.build();
         
         StringWriter sWriter = new StringWriter();
