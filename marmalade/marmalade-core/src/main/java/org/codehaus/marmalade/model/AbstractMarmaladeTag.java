@@ -51,7 +51,6 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     private boolean childrenProcessed = false;
     private List children = new ArrayList(  );
     private MarmaladeTag parent;
-    private boolean preserveBodyWhitespace = true;
     
     private Map childMap;
 
@@ -136,12 +135,6 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     public final void execute( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
     {
-        // decide from "native attribute" whether to preserve body whitespace.
-        Boolean preserveWS = (Boolean)getAttributes().getValue(PRESERVE_BODY_WHITESPACE_ATTRIBUTE, Boolean.class, context);
-        if(preserveWS != null) {
-            this.preserveBodyWhitespace = preserveWS.booleanValue();
-        }
-        
         doExecute( context );
 
         if ( !childrenProcessed && alwaysProcessChildren(  ) )
@@ -209,22 +202,30 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         return _getBody( context, targetType );
     }
     
-    protected final String getRawBody(MarmaladeExecutionContext context)
+    protected final String getRawBody(MarmaladeExecutionContext context) throws ExpressionEvaluationException
     {
         return formatWhitespace(tagInfo.getText(), context);
     }
     
-    protected final String formatWhitespace(String src, MarmaladeExecutionContext context) {
+    protected final String formatWhitespace(String src, MarmaladeExecutionContext context) 
+    throws ExpressionEvaluationException
+    {
         String formatted = src;
         
         Boolean preserveWSOverride = context.preserveWhitespaceOverride();
         boolean presWSOver = (preserveWSOverride != null)?(preserveWSOverride.booleanValue()):(false);
         
-        if(!presWSOver && !preserveBodyWhitespace) {
+        if(!presWSOver && !preserveBodyWhitespace(context)) {
             formatted = formatted.replaceAll("\\s", " ");
         }
         
         return formatted;
+    }
+    
+    protected boolean preserveBodyWhitespace(MarmaladeExecutionContext context) throws ExpressionEvaluationException {
+        // decide from "native attribute" whether to preserve body whitespace.
+        Boolean preserveWS = (Boolean)getAttributes().getValue(PRESERVE_BODY_WHITESPACE_ATTRIBUTE, Boolean.class, context, Boolean.FALSE);
+        return preserveWS.booleanValue();
     }
 
     private Object _getBody( MarmaladeExecutionContext context, Class targetType )
@@ -351,11 +352,4 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         }
     }
     
-    protected final boolean preserveBodyWhitespace() {
-        return preserveBodyWhitespace;
-    }
-
-    protected final void preserveBodyWhitespace(boolean preserveBodyWhitespace) {
-        this.preserveBodyWhitespace = preserveBodyWhitespace;
-    }
 }

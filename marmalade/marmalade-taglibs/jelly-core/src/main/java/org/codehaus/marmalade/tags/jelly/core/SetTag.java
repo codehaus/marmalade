@@ -26,7 +26,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class SetTag extends AbstractMarmaladeTag
+public class SetTag extends AbstractJellyMarmaladeTag
 {
     public static final String VAR_ATTRIBUTE = "var";
     public static final String VALUE_ATTRIBUTE = "value";

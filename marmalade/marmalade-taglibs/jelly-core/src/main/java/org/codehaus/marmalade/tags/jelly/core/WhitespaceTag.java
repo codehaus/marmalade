@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * @author jdcasey
  */
-public class WhitespaceTag extends AbstractMarmaladeTag
+public class WhitespaceTag extends AbstractJellyMarmaladeTag
 {
     public WhitespaceTag( MarmaladeTagInfo tagInfo )
     {

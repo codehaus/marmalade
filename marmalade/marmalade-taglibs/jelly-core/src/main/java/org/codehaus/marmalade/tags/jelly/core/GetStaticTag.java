@@ -29,7 +29,7 @@ import java.lang.reflect.Field;
 /**
  * @author jdcasey
  */
-public class GetStaticTag extends AbstractMarmaladeTag
+public class GetStaticTag extends AbstractJellyMarmaladeTag
 {
     public static final String CLASS_NAME_ATTRIBUTE = "className";
     public static final String FIELD_ATTRIBUTE = "field";

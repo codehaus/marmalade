@@ -37,7 +37,7 @@ import java.net.URL;
 /**
  * @author jdcasey
  */
-public class ParseTag extends AbstractMarmaladeTag
+public class ParseTag extends AbstractJellyMarmaladeTag
 {
     public static final String XML_READER_ATTRIBUTE = "XMLReader";
     public static final String JELLY_PARSER_ATTRIBUTE = "jellyParser";
