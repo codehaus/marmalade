@@ -33,8 +33,11 @@
           <filesystem>
             <xsl:attribute name="folder">
               <xsl:text>/eng/cruisecontrol/src/</xsl:text>
+              <xsl:variable name="project" select="."/>
               <xsl:call-template name="srcdir">
-                <xsl:with-param name="project" select="."/>
+                <xsl:with-param
+                    name="project"
+                    select="/projects/project[@name = $project]"/>
               </xsl:call-template>
             </xsl:attribute>
           </filesystem>
@@ -79,14 +82,14 @@
 </xsl:template>
 
 <xsl:template name="srcdir">
-  <xsl:param name="project">foo</xsl:param>
-  <xsl:variable name="p" select="/projects/project[@name = $project]"/>
+  <xsl:param name="project"/>
+<!--  <xsl:value-of select="$project"/> -->
   <xsl:choose>
-    <xsl:when test="$p/srcdir">
-      <xsl:value-of select="$p/srcdir"/>
+    <xsl:when test="$project/srcdir">
+      <xsl:value-of select="$project/srcdir"/>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:value-of select="$project"/>
+      <xsl:value-of select="$project/@name"/>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
