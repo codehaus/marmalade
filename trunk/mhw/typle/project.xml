@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+
+  <groupId>typle</groupId>
+  <artifactId>typle</artifactId>
+  <id>typle</id>
+  <name>typle</name>
+  <currentVersion>0.1</currentVersion>
+
+  <organization>
+    <name>Codehaus</name>
+    <url>http://www.codehaus.org/</url>
+    <logo>/images/codehaus-small.gif</logo>
+  </organization>
+
+  <inceptionYear>2003</inceptionYear>
+  <package>org.codehaus.typle</package>
+
+  <shortDescription>
+    Data model for type representation, and associated tools.
+  </shortDescription>
+
+  <dependencies>
+  </dependencies>
+
+  <developers>
+   <developer>
+      <name>Mark H. Wilkinson</name>
+      <id>mhw</id>
+      <email>mhw@kremvax.net</email>
+      <roles>
+        <role>project lead</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <build>
+    <nagEmailAddress>mhw@kremvax.net</nagEmailAddress>
+    <sourceDirectory>src/java/main</sourceDirectory>
+    <unitTestSourceDirectory>src/java/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+  </build>
+
+</project>
