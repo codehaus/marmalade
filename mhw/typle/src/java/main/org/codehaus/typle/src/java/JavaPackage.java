@@ -21,6 +21,8 @@ public final class JavaPackage
     private final String packageName;
 
     public JavaPackage(String packageName) {
+        if (packageName == null)
+            throw new NullPointerException("package name is null");
         this.packageName = packageName;
     }
 
@@ -32,7 +34,9 @@ public final class JavaPackage
      * @see org.codehaus.typle.src.SourceArtefact#write(java.io.Writer)
      */
     public void write(PrintWriter writer) throws IOException {
-        writer.println("package " + packageName + ";");
-        writer.println();
+        if (!packageName.equals("")) {
+            writer.println("package " + packageName + ";");
+            writer.println();
+        }
     }
 }
