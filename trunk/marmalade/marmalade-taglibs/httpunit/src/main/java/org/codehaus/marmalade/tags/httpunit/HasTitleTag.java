@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.WebResponse;
 
@@ -24,10 +25,10 @@ public class HasTitleTag extends AbstractAssertionTag{
     String value = (String)requireTagAttribute(WITH_VALUE_ATTRIBUTE, String.class, context);
     WebResponse response = getResponse(context);
     try{
-      return response.getText().indexOf(value) > -1;
+      return response.getTitle().indexOf(value) > -1;
     }
-    catch(IOException e){
-      throw new MarmaladeExecutionException("Error reading web response.", e);
+    catch(SAXException e){
+      throw new MarmaladeExecutionException("Error parsing title from web response.", e);
     }
   }
 

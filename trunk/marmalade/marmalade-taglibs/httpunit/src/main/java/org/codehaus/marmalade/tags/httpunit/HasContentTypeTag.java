@@ -11,11 +11,11 @@ import com.meterware.httpunit.WebResponse;
 /**
  * @author jdcasey
  */
-public class HasContentType extends AbstractAssertionTag{
+public class HasContentTypeTag extends AbstractAssertionTag{
   
   public static final String WITH_VALUE_ATTRIBUTE = "withValue";
 
-  public HasContentType(){
+  public HasContentTypeTag(){
   }
 
   protected boolean test(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

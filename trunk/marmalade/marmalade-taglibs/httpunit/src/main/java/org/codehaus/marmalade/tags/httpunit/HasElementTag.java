@@ -40,8 +40,7 @@ public class HasElementTag extends AbstractAssertionTag{
         throw new MarmaladeExecutionException("Error parsing web response.", e);
       }
     }
-    
-    if(!result) {
+    else {
       String name = (String)attributes.getValue(WITH_NAME_ATTRIBUTE, String.class, context);
       if(name != null && name.length() > 0) {
         try{
@@ -68,27 +67,34 @@ public class HasElementTag extends AbstractAssertionTag{
   throws MarmaladeExecutionException
   {
     boolean result = true;
-    String className = (String)attributes.getValue(WITH_CLASSNAME_ATTRIBUTE, String.class, context);
-    if(className != null && className.length() > 0) {
-      String eClass = element.getClassName();
-      if(eClass == null || eClass.length() < 1 || !eClass.equals(className)) {result = false;}
+    if(element == null) {
+      result = false;
     }
-    
-    String title = (String)attributes.getValue(WITH_TITLE_ATTRIBUTE, String.class, context);
-    if(title != null && title.length() > 0) {
-      String eTitle = element.getTitle();
-      if(eTitle == null || eTitle.length() < 1 || !eTitle.equals(title)) {result = false;}
-    }
-    
-    if(testName) {
-      String name = (String)attributes.getValue(WITH_NAME_ATTRIBUTE, String.class, context);
-      if(name != null && name.length() > 0) {
-        String eName = element.getName();
-        if(eName == null || eName.length() < 1 || !eName.equals(name)) {result = false;}
+    else {
+      String className = (String)attributes.getValue(WITH_CLASSNAME_ATTRIBUTE, String.class, context);
+      if(className != null && className.length() > 0) {
+        String eClass = element.getClassName();
+        if(eClass == null || eClass.length() < 1 || !eClass.equals(className)) {
+          result = false;
+        }
+      }
+      
+      String title = (String)attributes.getValue(WITH_TITLE_ATTRIBUTE, String.class, context);
+      if(title != null && title.length() > 0) {
+        String eTitle = element.getTitle();
+        if(eTitle == null || eTitle.length() < 1 || !eTitle.equals(title)) {result = false;}
+      }
+      
+      if(testName) {
+        String name = (String)attributes.getValue(WITH_NAME_ATTRIBUTE, String.class, context);
+        if(name != null && name.length() > 0) {
+          String eName = element.getName();
+          if(eName == null || eName.length() < 1 || !eName.equals(name)) {result = false;}
+        }
       }
     }
     
-    return false;
+    return result;
   }
 
 }
