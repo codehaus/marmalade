@@ -4,6 +4,8 @@
 
 package org.codehaus.tagalog.sax;
 
+import java.io.IOException;
+
 import javax.xml.parsers.SAXParser;
 
 import org.xml.sax.Attributes;
@@ -15,6 +17,7 @@ import org.xml.sax.XMLReader;
 
 import org.codehaus.tagalog.AbstractParser;
 import org.codehaus.tagalog.ParserConfiguration;
+import org.codehaus.tagalog.TagalogParseException;
 
 /**
  * TagalogSAXParser
@@ -27,7 +30,8 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
 
     private InputSource inputSource;
 
-    TagalogSAXParser(ParserConfiguration configuration, SAXParser saxParser, InputSource inputSource) {
+    TagalogSAXParser(ParserConfiguration configuration, SAXParser saxParser,
+                     InputSource inputSource) {
         super(configuration);
         if (saxParser == null)
             throw new NullPointerException("sax parser is null");
@@ -37,100 +41,104 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         this.inputSource = inputSource;
     }
 
-    public void parse() throws Exception {
-        XMLReader xmlReader;
-
-        xmlReader = saxParser.getXMLReader();
-        xmlReader.setContentHandler(this);
-        xmlReader.parse(inputSource);
+    /**
+     * Subclass of <code>SAXException<code> that we use to propogate a
+     * {@link TagalogParseException} through the SAX parser.
+     */
+    private static final class SAXExceptionWrappingTagalogParseException
+        extends SAXException
+    {
+        SAXExceptionWrappingTagalogParseException(TagalogParseException e) {
+            super(e);
+        }
     }
 
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#endDocument()
-     */
-    public void endDocument() throws SAXException {
-        // TODO Auto-generated method stub
-        
+    protected void doParse() throws TagalogParseException {
+        try {
+            XMLReader xmlReader;
+
+            xmlReader = saxParser.getXMLReader();
+            xmlReader.setContentHandler(this);
+            xmlReader.parse(inputSource);
+        } catch (SAXExceptionWrappingTagalogParseException e) {
+            throw (TagalogParseException) e.getException();
+        } catch (SAXException e) {
+            throw new TagalogParseException(e);
+        } catch (IOException e) {
+            throw new TagalogParseException(e);
+        }
     }
 
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#startDocument()
+    /*
+     * JDK 1.4's Crimson SAX parser swallows the exception detail
+     * from RuntimeExceptions thrown by the ContentHandler methods.
+     * As these errors are likely to be caused by Tag implementations
+     * we'd like to preserve the exception with its stack trace, so
+     * in the following methods we wrap thrown RuntimeExceptions in
+     * a TagalogParseException so they propogate out to the top level.
      */
+    
+    public void startElement(String namespaceUri, String localName,
+                             String qName, Attributes atts)
+        throws SAXException
+    {
+        try {
+            startElement(namespaceUri, localName);
+        } catch (TagalogParseException e) {
+            throw new SAXExceptionWrappingTagalogParseException(e);
+        } catch (RuntimeException e) {
+            throw new SAXExceptionWrappingTagalogParseException(
+                                                new TagalogParseException(e));
+        }
+    }
+
+    public void characters(char[] ch, int start, int length)
+        throws SAXException
+    {
+        try {
+            text(ch, start, length);
+        } catch (TagalogParseException e) {
+            throw new SAXExceptionWrappingTagalogParseException(e);
+        } catch (RuntimeException e) {
+            throw new SAXExceptionWrappingTagalogParseException(
+                    new TagalogParseException(e));
+        }
+    }
+
+    public void endElement(String namespaceUri, String localName, String qName)
+        throws SAXException
+    {
+        try {
+            endElement(namespaceUri, localName);
+        } catch (TagalogParseException e) {
+            throw new SAXExceptionWrappingTagalogParseException(e);
+        } catch (RuntimeException e) {
+            throw new SAXExceptionWrappingTagalogParseException(
+                    new TagalogParseException(e));
+        }
+    }
+
     public void startDocument() throws SAXException {
-        // TODO Auto-generated method stub
-        
     }
 
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#characters(char[], int, int)
-     */
-    public void characters(char[] ch, int start, int length) throws SAXException {
-        // TODO Auto-generated method stub
-        
+    public void endDocument() throws SAXException {
     }
 
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
-     */
-    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
-     */
-    public void endPrefixMapping(String prefix) throws SAXException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
-     */
-    public void skippedEntity(String name) throws SAXException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
-     */
-    public void setDocumentLocator(Locator locator) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
-     */
-    public void processingInstruction(String target, String data) throws SAXException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
-     */
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
-        // TODO Auto-generated method stub
-        
     }
 
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-        // TODO Auto-generated method stub
-        
+    public void endPrefixMapping(String prefix) throws SAXException {
     }
 
-    /* (non-Javadoc)
-     * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
-     */
-    public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-        // TODO Auto-generated method stub
-        
+    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
     }
 
+    public void skippedEntity(String name) throws SAXException {
+    }
+
+    public void setDocumentLocator(Locator locator) {
+    }
+
+    public void processingInstruction(String target, String data) throws SAXException {
+    }
 }
