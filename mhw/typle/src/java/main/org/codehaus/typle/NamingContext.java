@@ -16,7 +16,7 @@ package org.codehaus.typle;
  * @author Mark H. Wilkinson
  * @version $Revision$
  */
-public final class NamingContext {
+final class NamingContext {
     private final NamingContext next;
     private final String namespace;
 
