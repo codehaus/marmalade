@@ -4,6 +4,8 @@
 
 package org.codehaus.typle.src.java;
 
+import org.codehaus.typle.Binding;
+import org.codehaus.typle.Function;
 import org.codehaus.typle.JavaNames;
 import org.codehaus.typle.src.BoilerPlateComment;
 import org.codehaus.typle.src.SourceContainer;
@@ -42,5 +44,17 @@ public final class JavaHelper {
         JavaClass srcClass = new JavaClass(JavaNames.className(className));
         source.add(srcClass);
         return srcClass;
+    }
+
+    public static void addGetter(SourceContainer source, Binding field) {
+        String methodName;
+        Function signature;
+        String body;
+
+        methodName = JavaNames.toCamelCase(field.getName());
+        methodName = "get" + JavaNames.upperCaseFirstLetter(methodName);
+        signature = new Function(field.getType(), null);
+        body = "return " + field.getName() + ";";
+        source.add(new Method(methodName, signature, body));
     }
 }
