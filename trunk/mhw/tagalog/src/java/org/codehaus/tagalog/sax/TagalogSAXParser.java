@@ -41,18 +41,6 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         this.inputSource = inputSource;
     }
 
-    /**
-     * Subclass of <code>SAXException<code> that we use to propogate a
-     * {@link TagalogParseException} through the SAX parser.
-     */
-    private static final class SAXExceptionWrappingTagalogParseException
-        extends SAXException
-    {
-        SAXExceptionWrappingTagalogParseException(TagalogParseException e) {
-            super(e);
-        }
-    }
-
     protected void doParse() throws TagalogParseException {
         try {
             XMLReader xmlReader;
@@ -60,23 +48,16 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
             xmlReader = saxParser.getXMLReader();
             xmlReader.setContentHandler(this);
             xmlReader.parse(inputSource);
-        } catch (SAXExceptionWrappingTagalogParseException e) {
-            throw (TagalogParseException) e.getException();
         } catch (SAXException e) {
-            throw new TagalogParseException(e);
+            Exception cause = e.getException();
+            if (cause != null && cause instanceof TagalogParseException)
+                throw (TagalogParseException) cause;
+            else
+                throw new TagalogParseException(e);
         } catch (IOException e) {
             throw new TagalogParseException(e);
         }
     }
-
-    /*
-     * JDK 1.4's Crimson SAX parser swallows the exception detail
-     * from RuntimeExceptions thrown by the ContentHandler methods.
-     * As these errors are likely to be caused by Tag implementations
-     * we'd like to preserve the exception with its stack trace, so
-     * in the following methods we wrap thrown RuntimeExceptions in
-     * a TagalogParseException so they propogate out to the top level.
-     */
     
     public void startElement(String namespaceUri, String localName,
                              String qName, Attributes atts)
@@ -85,10 +66,7 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         try {
             startElement(namespaceUri, localName, new SAXAttributes(atts));
         } catch (TagalogParseException e) {
-            throw new SAXExceptionWrappingTagalogParseException(e);
-        } catch (RuntimeException e) {
-            throw new SAXExceptionWrappingTagalogParseException(
-                                                new TagalogParseException(e));
+            throw new SAXException(e);
         }
     }
 
@@ -98,10 +76,7 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         try {
             text(ch, start, length);
         } catch (TagalogParseException e) {
-            throw new SAXExceptionWrappingTagalogParseException(e);
-        } catch (RuntimeException e) {
-            throw new SAXExceptionWrappingTagalogParseException(
-                    new TagalogParseException(e));
+            throw new SAXException(e);
         }
     }
 
@@ -111,10 +86,7 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         try {
             endElement(namespaceUri, localName);
         } catch (TagalogParseException e) {
-            throw new SAXExceptionWrappingTagalogParseException(e);
-        } catch (RuntimeException e) {
-            throw new SAXExceptionWrappingTagalogParseException(
-                    new TagalogParseException(e));
+            throw new SAXException(e);
         }
     }
 
