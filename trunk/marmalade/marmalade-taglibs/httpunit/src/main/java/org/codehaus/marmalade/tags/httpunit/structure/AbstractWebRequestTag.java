@@ -26,13 +26,13 @@ public abstract class AbstractWebRequestTag extends AbstractWebConversationSubTa
   
   private WebRequest request;
 
-  public AbstractWebRequestTag(){
+  protected AbstractWebRequestTag(){
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
     MarmaladeAttributes attrs = getAttributes();
     
-    String url = (String)attrs.getValue(URL_ATTRIBUTE, String.class, context, "/");
+    String url = (String)requireTagAttribute(URL_ATTRIBUTE, String.class, context);
     String target = (String)attrs.getValue(TARGET_ATTRIBUTE, String.class, context);
     Object base = attrs.getValue(BASE_URL_ATTRIBUTE, context);
     URL baseUrl = null;
@@ -51,6 +51,10 @@ public abstract class AbstractWebRequestTag extends AbstractWebConversationSubTa
     }
     
     request = createRequest(baseUrl, url, target);
+    String var = (String)attrs.getValue(VAR_ATTRIBUTE, String.class, context);
+    if(var != null && var.length() > 0) {
+      context.setVariable(var, request);
+    }
   }
   
   protected WebRequest getRequest() {

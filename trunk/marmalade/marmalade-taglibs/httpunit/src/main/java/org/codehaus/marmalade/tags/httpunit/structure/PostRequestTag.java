@@ -21,17 +21,20 @@ public class PostRequestTag extends AbstractWebRequestTag{
   protected WebRequest createRequest(URL baseUrl, String url, String target)
   throws MarmaladeExecutionException
   {
+    PostMethodWebRequest request = null;
     if(baseUrl != null) {
       if(target == null || target.length() < 1) {
-        return new PostMethodWebRequest(baseUrl.toExternalForm() + url);
+        request = new PostMethodWebRequest(baseUrl.toExternalForm() + url);
       }
       else {
-        return new PostMethodWebRequest(baseUrl, url, target);
+        request = new PostMethodWebRequest(baseUrl, url, target);
       }
     }
     else {
-      return new PostMethodWebRequest(url);
+      request = new PostMethodWebRequest(url);
     }
+    
+    return request;
   }
 
 }
