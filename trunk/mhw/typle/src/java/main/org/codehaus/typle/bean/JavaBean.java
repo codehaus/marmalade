@@ -86,5 +86,9 @@ public final class JavaBean {
     }
 
     private void addSetMethods(RecordType record, SourceContainer src) {
+        BindingList fields = record.getFields();
+        for (int i = 0; i < fields.size(); i++) {
+            JavaHelper.addSetter(src, fields.get(i));
+        }
     }
 }

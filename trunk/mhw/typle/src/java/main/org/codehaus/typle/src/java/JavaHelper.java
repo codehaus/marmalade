@@ -6,6 +6,7 @@ package org.codehaus.typle.src.java;
 
 import org.codehaus.typle.Binding;
 import org.codehaus.typle.Function;
+import org.codehaus.typle.Java;
 import org.codehaus.typle.JavaNames;
 import org.codehaus.typle.src.BoilerPlateComment;
 import org.codehaus.typle.src.SourceContainer;
@@ -46,6 +47,12 @@ public final class JavaHelper {
         return srcClass;
     }
 
+    /**
+     * Add a JavaBean-style getter method for the supplied field binding.
+     *
+     * @param source Container to add the method to.
+     * @param field Field to generate the getter for.
+     */
     public static void addGetter(SourceContainer source, Binding field) {
         String methodName;
         Function signature;
@@ -55,6 +62,24 @@ public final class JavaHelper {
         methodName = "get" + JavaNames.upperCaseFirstLetter(methodName);
         signature = new Function(field.getType(), null);
         body = "return " + field.getName() + ";";
+        source.add(new Method(methodName, signature, body));
+    }
+
+    /**
+     * Add a JavaBean-style setter method for the supplied field binding.
+     *
+     * @param source Container to add the method to.
+     * @param field Field to generate the setter for.
+     */
+    public static void addSetter(SourceContainer source, Binding field) {
+        String methodName;
+        Function signature;
+        String body;
+
+        methodName = JavaNames.toCamelCase(field.getName());
+        methodName = "set" + JavaNames.upperCaseFirstLetter(methodName);
+        signature = new Function(Java.VOID_TYPE, new Binding[] { field });
+        body = "this." + field.getName() + " = " + field.getName() + ";";
         source.add(new Method(methodName, signature, body));
     }
 }
