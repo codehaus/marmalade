@@ -50,12 +50,12 @@
   </tag>
   <tag>
     <name>response</name>
-    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.WebResponseTag</tagclass>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.DefaultWebResponseTag</tagclass>
     <info>Generate/save a HTTPUnit response object by submitting a request.</info>
   </tag>
   <tag>
     <name>conversation</name>
-    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.WebConversationTag</tagclass>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.DefaultWebConversationTag</tagclass>
     <info>Setup/save a HTTPUnit web conversation (like a session).</info>
   </tag>
   <tag>

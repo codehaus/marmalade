@@ -1,39 +1,63 @@
+
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
+
+import junit.framework.TestCase;
+import junit.framework.TestResult;
+import junit.framework.TestSuite;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
-import junit.framework.TestCase;
-import junit.framework.TestResult;
-import junit.framework.TestSuite;
-
 /**
  * @author jdcasey
  */
-public class HttpTestSuiteTag extends AbstractMarmaladeTag{
-  
-  public static final String VAR_ATTRIBUTE = "var";
+public class HttpTestSuiteTag extends AbstractMarmaladeTag
+{
+    public static final String VAR_ATTRIBUTE = "var";
+    private TestSuite suite = new TestSuite(  );
 
-  private TestSuite suite = new TestSuite();
-  
-  public HttpTestSuiteTag(MarmaladeTagInfo tagInfo){
-    super(tagInfo);
-  }
-  
-  public void addTest(TestCase test) {
-    suite.addTest(test);
-  }
-
-  protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
-    TestResult result = new TestResult();
-    suite.run(result);
-    
-    String var = (String)getAttributes().getValue(VAR_ATTRIBUTE, String.class, context);
-    if(var != null && var.length() > 0) {
-      context.setVariable(var, result);
+    public HttpTestSuiteTag( MarmaladeTagInfo tagInfo )
+    {
+        super( tagInfo );
     }
-  }
+
+    public void addTest( TestCase test )
+    {
+        suite.addTest( test );
+    }
+
+    protected void doExecute( MarmaladeExecutionContext context )
+        throws MarmaladeExecutionException
+    {
+        TestResult result = new TestResult(  );
+
+        suite.run( result );
+
+        String var = ( String ) getAttributes(  ).getValue( VAR_ATTRIBUTE,
+                String.class, context );
+
+        if ( ( var != null ) && ( var.length(  ) > 0 ) )
+        {
+            context.setVariable( var, result );
+        }
+    }
 }

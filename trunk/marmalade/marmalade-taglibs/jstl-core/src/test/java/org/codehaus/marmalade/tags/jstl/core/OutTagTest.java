@@ -1,147 +1,189 @@
+
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
-import org.codehaus.marmalade.modelbuilder.DefaultRawAttribute;
-import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
-import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
+import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.marmalade.runtime.MissingAttributeException;
-import org.codehaus.marmalade.tags.jstl.core.OutTag;
-import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
-import org.jmock.Mock;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author jdcasey
  */
-public class OutTagTest extends TestCase{
-  
-  public void testShouldFailWithMissingValueAndDefaultAttributesAndMissingBody() throws MarmaladeExecutionException {
-    MarmaladeTagInfo ti = new MarmaladeTagInfo();
-    ti.setAttributes(new DefaultRawAttributes());
-    
-    OutTag tag = new OutTag(ti);
-    
-    try
+public class OutTagTest extends TestCase
+{
+    public void testShouldFailWithMissingValueAndDefaultAttributesAndMissingBody(  )
+        throws MarmaladeExecutionException
     {
-      tag.execute( new DefaultContext() );
-      fail("should fail because of missing value attribute (default attribute and body are missing also)");
+        MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+        ti.setAttributes( new DefaultRawAttributes(  ) );
+
+        OutTag tag = new OutTag( ti );
+
+        try
+        {
+            tag.execute( new DefaultContext(  ) );
+            fail( 
+                "should fail because of missing value attribute (default attribute and body are missing also)" );
+        }
+        catch ( MarmaladeExecutionException e )
+        {
+            // should snag on missing value attribute when default attribute and body are missing
+        }
     }
-    catch( MarmaladeExecutionException e )
+
+    public void testShouldSucceedWithSpecifiedValueAttribute(  )
+        throws MarmaladeExecutionException
     {
-      // should snag on missing value attribute when default attribute and body are missing
+        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
+
+        attrs.addAttribute( new DefaultRawAttribute( "", "value", "message" ) );
+
+        MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+        ti.setAttributes( attrs );
+
+        OutTag tag = new OutTag( ti );
+
+        tag.execute( new DefaultContext(  ) );
     }
-  }
 
-  public void testShouldSucceedWithSpecifiedValueAttribute() throws MarmaladeExecutionException {
-    DefaultRawAttributes attrs = new DefaultRawAttributes();
-    attrs.addAttribute(new DefaultRawAttribute("", "value", "message"));
-    
-    MarmaladeTagInfo ti = new MarmaladeTagInfo();
-    ti.setAttributes(attrs);
-    
-    OutTag tag = new OutTag(ti);
-    tag.execute( new DefaultContext() );
-  }
+    public void testShouldSucceedWithSpecifiedBody(  )
+        throws MarmaladeExecutionException
+    {
+        MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-  public void testShouldSucceedWithSpecifiedBody() throws MarmaladeExecutionException {
-    MarmaladeTagInfo ti = new MarmaladeTagInfo();
-    ti.setAttributes(new DefaultRawAttributes());
-    ti.appendText("test".toCharArray(), 0, "test".length());
-    
-    OutTag tag = new OutTag(ti);
-    tag.execute( new DefaultContext() );
-  }
+        ti.setAttributes( new DefaultRawAttributes(  ) );
+        ti.appendText( "test".toCharArray(  ), 0, "test".length(  ) );
 
-  public void testShouldSucceedWithSpecifiedDefaultAttribute() throws MarmaladeExecutionException {
-    DefaultRawAttributes attrs = new DefaultRawAttributes();
-    attrs.addAttribute(new DefaultRawAttribute("", "default", "message"));
-    
-    MarmaladeTagInfo ti = new MarmaladeTagInfo();
-    ti.setAttributes(attrs);
-    
-    OutTag tag = new OutTag(ti);
-    tag.execute( new DefaultContext() );
-  }
+        OutTag tag = new OutTag( ti );
 
-  public void testShouldReproduceBodyToOutWriterBeforeEvaluatingValueOrDefaultAttributes() throws MarmaladeExecutionException{
-    String message = "test message";
-    String message2 = "test message 2";
-    String message3 = "test message 3";
-    
-    DefaultRawAttributes attrs = new DefaultRawAttributes();
-    attrs.addAttribute(new DefaultRawAttribute("", "value", message2));
-    attrs.addAttribute(new DefaultRawAttribute("", "default", message3));
-    
-    MarmaladeTagInfo ti = new MarmaladeTagInfo();
-    ti.setAttributes(attrs);
-    ti.appendText(message.toCharArray(), 0, message.length());
-    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
-    
-    StringWriter out = new StringWriter();
-    
-    OutTag tag = new OutTag(ti);
-    
-    DefaultContext context = new DefaultContext();
-    context.setOutWriter(new PrintWriter(out));
-    tag.execute(context);
-    
-    assertEquals(message, out.getBuffer().toString());
-  }
+        tag.execute( new DefaultContext(  ) );
+    }
 
-  public void testShouldReproduceValueAttributeResultToOutWriterBeforeEvaluatingDefaultAttribute() throws MarmaladeExecutionException{
-    String message = "test message";
-    String message2 = "test message 2";
-    
-    DefaultRawAttributes attrs = new DefaultRawAttributes();
-    attrs.addAttribute(new DefaultRawAttribute("", "value", message));
-    attrs.addAttribute(new DefaultRawAttribute("", "default", message2));
-    
-    MarmaladeTagInfo ti = new MarmaladeTagInfo();
-    ti.setAttributes(attrs);
-    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
-    
-    StringWriter out = new StringWriter();
-    
-    OutTag tag = new OutTag(ti);
-    
-    DefaultContext context = new DefaultContext();
-    context.setOutWriter(new PrintWriter(out));
-    tag.execute(context);
-    
-    assertEquals(message, out.getBuffer().toString());
-  }
+    public void testShouldSucceedWithSpecifiedDefaultAttribute(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-  public void testShouldProperlyEscapeXmlWhenEnabled() throws MarmaladeExecutionException {
-    String message = "<test attr=\"message\"/>";
-    String escapedMessage = "&lt;test attr=\"message\"/&gt;";
-    
-    DefaultRawAttributes attrs = new DefaultRawAttributes();
-    attrs.addAttribute(new DefaultRawAttribute("", "value", message));
-    attrs.addAttribute(new DefaultRawAttribute("", "escapeXml", "true"));
-    
-    MarmaladeTagInfo ti = new MarmaladeTagInfo();
-    ti.setAttributes(attrs);
-    ti.setExpressionEvaluator(new OgnlExpressionEvaluator());
-    
-    StringWriter out = new StringWriter();
-    
-    OutTag tag = new OutTag(ti);
-    
-    DefaultContext context = new DefaultContext();
-    context.setOutWriter(new PrintWriter(out));
-    tag.execute(context);
-    
-    assertEquals(escapedMessage, out.getBuffer().toString());
-  }
+        attrs.addAttribute( new DefaultRawAttribute( "", "default", "message" ) );
 
+        MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+        ti.setAttributes( attrs );
+
+        OutTag tag = new OutTag( ti );
+
+        tag.execute( new DefaultContext(  ) );
+    }
+
+    public void testShouldReproduceBodyToOutWriterBeforeEvaluatingValueOrDefaultAttributes(  )
+        throws MarmaladeExecutionException
+    {
+        String message = "test message";
+        String message2 = "test message 2";
+        String message3 = "test message 3";
+
+        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
+
+        attrs.addAttribute( new DefaultRawAttribute( "", "value", message2 ) );
+        attrs.addAttribute( new DefaultRawAttribute( "", "default", message3 ) );
+
+        MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+        ti.setAttributes( attrs );
+        ti.appendText( message.toCharArray(  ), 0, message.length(  ) );
+        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+
+        StringWriter out = new StringWriter(  );
+
+        OutTag tag = new OutTag( ti );
+
+        DefaultContext context = new DefaultContext(  );
+
+        context.setOutWriter( new PrintWriter( out ) );
+        tag.execute( context );
+
+        assertEquals( message, out.getBuffer(  ).toString(  ) );
+    }
+
+    public void testShouldReproduceValueAttributeResultToOutWriterBeforeEvaluatingDefaultAttribute(  )
+        throws MarmaladeExecutionException
+    {
+        String message = "test message";
+        String message2 = "test message 2";
+
+        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
+
+        attrs.addAttribute( new DefaultRawAttribute( "", "value", message ) );
+        attrs.addAttribute( new DefaultRawAttribute( "", "default", message2 ) );
+
+        MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+        ti.setAttributes( attrs );
+        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+
+        StringWriter out = new StringWriter(  );
+
+        OutTag tag = new OutTag( ti );
+
+        DefaultContext context = new DefaultContext(  );
+
+        context.setOutWriter( new PrintWriter( out ) );
+        tag.execute( context );
+
+        assertEquals( message, out.getBuffer(  ).toString(  ) );
+    }
+
+    public void testShouldProperlyEscapeXmlWhenEnabled(  )
+        throws MarmaladeExecutionException
+    {
+        String message = "<test attr=\"message\"/>";
+        String escapedMessage = "&lt;test attr=\"message\"/&gt;";
+
+        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
+
+        attrs.addAttribute( new DefaultRawAttribute( "", "value", message ) );
+        attrs.addAttribute( new DefaultRawAttribute( "", "escapeXml", "true" ) );
+
+        MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+        ti.setAttributes( attrs );
+        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+
+        StringWriter out = new StringWriter(  );
+
+        OutTag tag = new OutTag( ti );
+
+        DefaultContext context = new DefaultContext(  );
+
+        context.setOutWriter( new PrintWriter( out ) );
+        tag.execute( context );
+
+        assertEquals( escapedMessage, out.getBuffer(  ).toString(  ) );
+    }
 }
