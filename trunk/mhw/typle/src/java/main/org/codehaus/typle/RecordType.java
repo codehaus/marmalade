@@ -39,16 +39,10 @@ public final class RecordType implements Type {
         return (t == null)? null : t.getType();
     }
 
-    /**
-     * @see com.fintricity.messaging.type.Type#getName()
-     */
     public String getName() {
         return "record {" + fields.signature() + "}";
     }
 
-    /**
-     * @see com.fintricity.messaging.type.Type#getName()
-     */
     public String getSignature() {
         return "{" + fields.signature() + "}";
     }
