@@ -1,11 +1,12 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
  * @author jdcasey
@@ -17,7 +18,8 @@ public class SetTag extends AbstractMarmaladeTag {
   public static final String PROPERTY_ATTRIBUTE = "property";
   public static final String TARGET_ATTRIBUTE = "target";
 
-  public SetTag() {
+  public SetTag(MarmaladeTagInfo tagInfo) {
+      super(tagInfo);
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {

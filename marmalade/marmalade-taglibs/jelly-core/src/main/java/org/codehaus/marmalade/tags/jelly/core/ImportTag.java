@@ -5,13 +5,16 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.MarmaladeParseException;
-import org.codehaus.marmalade.MarmaladeScript;
-import org.codehaus.marmalade.MarmaladeUtils;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
+import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsetime.ScriptParser;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
  * @author jdcasey
@@ -22,7 +25,8 @@ public class ImportTag extends AbstractMarmaladeTag {
   public static final String VAR_ATTRIBUTE = "var";
   public static final String PARSE_ONLY_ATTRIBUTE = "parse-only";
 
-  public ImportTag() {
+  public ImportTag(MarmaladeTagInfo tagInfo) {
+      super(tagInfo);
   }
   
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
@@ -54,7 +58,9 @@ public class ImportTag extends AbstractMarmaladeTag {
     }
     
     try{
-      MarmaladeScript script = MarmaladeUtils.parse(resource);
+        MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver(MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN);
+        ScriptParser parser = new ScriptParser(resolver);
+        MarmaladeScript script = parser.parse(resource);
       MarmaladeAttributes attrs = getAttributes();
       Boolean parseOnly = (Boolean)attrs.getValue(PARSE_ONLY_ATTRIBUTE, Boolean.class, context, "false");
       boolean shouldExec = (parseOnly == null)?(true):(!parseOnly.booleanValue());
@@ -72,11 +78,14 @@ public class ImportTag extends AbstractMarmaladeTag {
           context.setVariable(var, script);
         }
       }
-    }
-    catch(MarmaladeParseException e){
-      throw new MarmaladeExecutionException(
-        "Error parsing script from: " + resource.toExternalForm(), e
-      );
+    } catch (MarmaladeParsetimeException e) {
+        throw new MarmaladeExecutionException(
+            "Error parsing script from: " + resource.toExternalForm(), e
+        );
+    } catch (MarmaladeModelBuilderException e) {
+        throw new MarmaladeExecutionException(
+            "Error parsing script from: " + resource.toExternalForm(), e
+        );
     }
   }
 }

@@ -8,10 +8,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractOutputTag;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.AbstractOutputTag;
 import org.codehaus.marmalade.util.XMLUtils;
 
 
@@ -31,7 +32,8 @@ public class FileTag extends AbstractOutputTag{
   private static final String OUTPUT_MODE_XML = "XML";
   private static final String OUTPUT_MODE_HTML = "HTML";
 
-  public FileTag(){
+  public FileTag(MarmaladeTagInfo tagInfo){
+      super(tagInfo);
   }
 
   protected void write(String message, MarmaladeExecutionContext context)
