@@ -45,7 +45,7 @@ import java.util.Iterator;
 /**
  * @author jdcasey
  */
-public class ChooseTag extends AbstractMarmaladeTag
+public class ChooseTag extends AbstractJellyMarmaladeTag
 {
     private OtherwiseTag otherwise;
 

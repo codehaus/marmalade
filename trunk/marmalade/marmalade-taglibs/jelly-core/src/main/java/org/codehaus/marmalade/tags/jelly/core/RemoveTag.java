@@ -56,7 +56,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class RemoveTag extends AbstractMarmaladeTag
+public class RemoveTag extends AbstractJellyMarmaladeTag
 {
     public static final String VAR_ATTRIBUTE = "var";
 

@@ -10,7 +10,7 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
-public class UseBeanTag extends AbstractMarmaladeTag implements TargetObjectOwner{
+public class UseBeanTag extends AbstractJellyMarmaladeTag implements TargetObjectOwner{
     
     public static final String CLASS_ATTRIBUTE = "class";
     public static final String VAR_ATTRIBUTE = "var";

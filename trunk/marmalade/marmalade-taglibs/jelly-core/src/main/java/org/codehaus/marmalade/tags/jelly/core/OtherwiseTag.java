@@ -41,7 +41,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class OtherwiseTag extends AbstractMarmaladeTag
+public class OtherwiseTag extends AbstractJellyMarmaladeTag
 {
     public OtherwiseTag( MarmaladeTagInfo tagInfo )
     {

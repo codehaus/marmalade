@@ -44,7 +44,7 @@ import java.util.Iterator;
 /**
  * @author jdcasey
  */
-public class SwitchTag extends AbstractMarmaladeTag
+public class SwitchTag extends AbstractJellyMarmaladeTag
 {
     public static final String ON_ATTRIBUTE = "on";
     private DefaultTag def;

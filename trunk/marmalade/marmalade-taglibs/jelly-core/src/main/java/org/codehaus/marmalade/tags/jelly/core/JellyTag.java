@@ -39,7 +39,7 @@ import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 /** This is just an aggregator for marmalade tags
  * @author jdcasey
  */
-public class JellyTag extends AbstractMarmaladeTag
+public class JellyTag extends AbstractJellyMarmaladeTag
 {
     public JellyTag( MarmaladeTagInfo tagInfo )
     {

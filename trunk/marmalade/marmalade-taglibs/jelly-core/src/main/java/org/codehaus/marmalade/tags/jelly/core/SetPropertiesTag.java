@@ -10,7 +10,7 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
-public class SetPropertiesTag extends AbstractMarmaladeTag {
+public class SetPropertiesTag extends AbstractJellyMarmaladeTag {
     
     public static final String OBJECT_ATTRIBUTE = "object";
 

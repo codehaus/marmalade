@@ -41,7 +41,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class CatchTag extends AbstractMarmaladeTag
+public class CatchTag extends AbstractJellyMarmaladeTag
 {
     public static final String VAR_ATTRIBUTE = "var";
     public static final String CLASS_ATTRIBUTE = "class";

@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author jdcasey
  */
-public class NewTag extends AbstractMarmaladeTag implements ArgParent
+public class NewTag extends AbstractJellyMarmaladeTag implements ArgParent
 {
     public static final String CLASS_NAME_ATTRIBUTE = "className";
     public static final String USE_CTX_CLOADER_ATTRIBUTE = "useContextClassLoader";

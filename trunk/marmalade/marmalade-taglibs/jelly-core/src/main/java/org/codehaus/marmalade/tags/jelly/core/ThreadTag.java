@@ -52,7 +52,7 @@ import java.io.PrintWriter;
 /**
  * @author jdcasey
  */
-public class ThreadTag extends AbstractMarmaladeTag
+public class ThreadTag extends AbstractJellyMarmaladeTag
 {
     public static final String FILE_ATTRIBUTE = "file";
     public static final String NAME_ATTRIBUTE = "name";

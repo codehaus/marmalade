@@ -38,7 +38,7 @@ import org.codehaus.marmalade.tags.AbstractConditionalTag;
 /**
  * @author jdcasey
  */
-public class IncludeTag extends AbstractConditionalTag
+public class IncludeTag extends AbstractJellyConditionalTag
 {
     public static final String URI_ATTRIBUTE = "uri";
     public static final String FILE_ATTRIBUTE = "file";

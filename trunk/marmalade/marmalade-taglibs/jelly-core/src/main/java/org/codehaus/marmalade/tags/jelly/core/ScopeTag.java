@@ -41,7 +41,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class ScopeTag extends AbstractMarmaladeTag
+public class ScopeTag extends AbstractJellyMarmaladeTag
 {
     public ScopeTag( MarmaladeTagInfo tagInfo )
     {

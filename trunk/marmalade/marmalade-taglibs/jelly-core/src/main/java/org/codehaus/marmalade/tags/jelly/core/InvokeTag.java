@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author jdcasey
  */
-public class InvokeTag extends AbstractMarmaladeTag implements ArgParent
+public class InvokeTag extends AbstractJellyMarmaladeTag implements ArgParent
 {
     public static final String METHOD_ATTRIBUTE = "method";
     public static final String ON_ATTRIBUTE = "on";

@@ -13,7 +13,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class UseListTag extends AbstractMarmaladeTag {
+public class UseListTag extends AbstractJellyMarmaladeTag {
     
     public static final String ITEMS_ATTRIBUTE = "items";
     public static final String CLASS_ATTRIBUTE = "class";

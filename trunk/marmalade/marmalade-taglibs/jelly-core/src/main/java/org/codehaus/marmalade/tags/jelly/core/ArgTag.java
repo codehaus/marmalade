@@ -42,7 +42,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class ArgTag extends AbstractMarmaladeTag
+public class ArgTag extends AbstractJellyMarmaladeTag
 {
     public static final String VALUE_ATTRIBUTE = "value";
 

@@ -52,7 +52,7 @@ import java.net.URL;
 /**
  * @author jdcasey
  */
-public class ImportTag extends AbstractMarmaladeTag
+public class ImportTag extends AbstractJellyMarmaladeTag
 {
     public static final String URL_ATTRIBUTE = "url";
     public static final String VAR_ATTRIBUTE = "var";

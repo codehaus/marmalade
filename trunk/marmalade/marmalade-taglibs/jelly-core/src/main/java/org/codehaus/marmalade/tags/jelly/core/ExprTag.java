@@ -43,7 +43,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class ExprTag extends AbstractMarmaladeTag
+public class ExprTag extends AbstractJellyMarmaladeTag
 {
     public static final String VALUE_ATTRIBUTE = "value";
 
