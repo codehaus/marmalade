@@ -13,11 +13,11 @@ import com.meterware.httpunit.WebResponse;
 /**
  * @author jdcasey
  */
-public class HasBodyPatternTag extends AbstractAssertionTag{
+public class HasTitlePatternTag extends AbstractAssertionTag{
   
   public static final String WITH_PATTERN_ATTRIBUTE = "withPattern";
 
-  public HasBodyPatternTag(){
+  public HasTitlePatternTag(){
   }
 
   protected boolean test(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
