@@ -5,12 +5,12 @@
 package org.codehaus.typle.src.java;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Iterator;
 
 import org.codehaus.typle.src.AbstractSourceContainer;
 import org.codehaus.typle.src.SourceArtefact;
 import org.codehaus.typle.src.SourceContainer;
+import org.codehaus.typle.src.SourceFileWriter;
 
 /**
  * @author Mark H. Wilkinson
@@ -70,7 +70,7 @@ public final class JavaClass
         return className;
     }
 
-    public void write(PrintWriter writer) throws IOException {
+    public void write(SourceFileWriter writer) throws IOException {
         String mods = Modifier.toString(modifiers);
         String space = (mods.length() == 0)? "" : " ";
 

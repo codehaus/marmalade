@@ -5,10 +5,10 @@
 package org.codehaus.typle.gen.bean;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.codehaus.typle.Type;
 import org.codehaus.typle.src.SourceFile;
+import org.codehaus.typle.src.SourceFileWriter;
 import org.codehaus.typle.src.java.JavaClass;
 import org.codehaus.typle.src.java.JavaHelper;
 import org.codehaus.typle.src.java.JavaSource;
@@ -19,7 +19,7 @@ import org.codehaus.typle.src.java.JavaSource;
  */
 public final class JavaBeanGenerator {
 
-    public void generate(Type type, PrintWriter writer)
+    public void generate(Type type, SourceFileWriter writer)
         throws IOException
     {
         JavaBean annotation;

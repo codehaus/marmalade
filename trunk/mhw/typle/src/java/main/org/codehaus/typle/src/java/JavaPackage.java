@@ -5,10 +5,10 @@
 package org.codehaus.typle.src.java;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.codehaus.typle.src.AbstractSourceArtefact;
 import org.codehaus.typle.src.SourceArtefact;
+import org.codehaus.typle.src.SourceFileWriter;
 
 /**
  * @author Mark H. Wilkinson
@@ -33,7 +33,7 @@ public final class JavaPackage
     /* (non-Javadoc)
      * @see org.codehaus.typle.src.SourceArtefact#write(java.io.Writer)
      */
-    public void write(PrintWriter writer) throws IOException {
+    public void write(SourceFileWriter writer) throws IOException {
         if (!packageName.equals("")) {
             writer.println("package " + packageName + ";");
             writer.println();

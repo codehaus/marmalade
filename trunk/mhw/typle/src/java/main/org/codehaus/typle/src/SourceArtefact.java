@@ -5,10 +5,9 @@
 package org.codehaus.typle.src;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
- * Common interface for artefacts that will go into a {@link SourcContainer}.
+ * Common interface for artefacts that will go into a {@link SourceContainer}.
  *
  * @author Mark H. Wilkinson
  * @version $Revision$
@@ -19,11 +18,11 @@ public interface SourceArtefact {
     SourceContainer getContainer();
 
     /**
-     * Write the artefact to a {@link Writer}.
+     * Write the artefact to a {@link SourceFileWriter}.
      *
-     * @param writer the <code>Writer</code> to write to.
+     * @param writer the <code>SourceFileWriter</code> to write to.
      * @throws IOException if there are problems writing to the
-     *                     <code>Writer</code>.
+     *                     <code>SourceFileWriter</code>.
      */
-    void write(PrintWriter writer) throws IOException;
+    void write(SourceFileWriter writer) throws IOException;
 }

@@ -5,7 +5,6 @@
 package org.codehaus.typle.src;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * @author Mark H. Wilkinson
@@ -22,7 +21,7 @@ public abstract class VerbatimSourceArtefact extends AbstractSourceArtefact {
         return source;
     }
 
-    public void write(PrintWriter writer) throws IOException {
+    public void write(SourceFileWriter writer) throws IOException {
         writer.print(source);
     }
 }

@@ -22,10 +22,13 @@ public final class JavaHelper {
     private JavaHelper() {
     }
 
-    private static final String BOILERPLATE_COMMENT
-        = "/*\n"
-        + " * Automatically generated. Do not edit.\n"
-        + " */\n\n";
+    private static final String[] BOILERPLATE_COMMENT = 
+            new String[] {
+                "/*",
+                " * Automatically generated. Do not edit.",
+                " */",
+                ""
+            };
 
     /**
      * Create the basic contents of a Java source file. This comprises
