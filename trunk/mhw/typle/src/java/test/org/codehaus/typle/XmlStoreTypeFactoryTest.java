@@ -16,8 +16,6 @@ import junit.framework.TestCase;
 public class XmlStoreTypeFactoryTest extends TestCase {
     private static final String NS = "tests";
 
-    private static final String TEST_FILE = "xml.store.test.xml";
-
     protected void setUp() throws Exception {
         super.setUp();
         URL testDirUrl = XmlStoreTypeFactoryTest.class.getResource("/");
