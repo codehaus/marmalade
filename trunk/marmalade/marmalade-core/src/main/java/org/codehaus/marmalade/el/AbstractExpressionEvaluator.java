@@ -84,7 +84,9 @@ public abstract class AbstractExpressionEvaluator implements ExpressionEvaluator
         return result;
     }
 
-    protected abstract Pattern getExpressionPattern(  );
+    protected Pattern getExpressionPattern(  ) {
+        return EXPRESSION_PATTERN;
+    }
 
     protected abstract Object doEval( String expression, Map context,
         Class expectedType ) throws ExpressionEvaluationException;

@@ -23,6 +23,12 @@
     </dependency>
     
     <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-utils</artifactId>
+      <version>0.2</version>
+    </dependency>
+    
+    <dependency>
       <groupId>commons-el</groupId>
       <artifactId>commons-el</artifactId>
       <version>1.0</version>

@@ -17,6 +17,7 @@ package org.codehaus.marmalade.compat.jelly;
 
 import java.util.HashMap;
 
+import org.codehaus.marmalade.compat.jelly.model.JellyCompatMarmaladeTaglib;
 import org.codehaus.marmalade.compat.jelly.runtime.MarmaladeCompatJellyContext;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.commonsEl.CommonsElExpressionEvaluator;
@@ -36,8 +37,9 @@ public class MarmaladeCompatJellyContextTest extends TestCase
     {
         DefaultContext ctx = new DefaultContext();
         ExpressionEvaluator el = new CommonsElExpressionEvaluator();
+        JellyCompatMarmaladeTaglib tl = new JellyCompatMarmaladeTaglib();
         
-        MarmaladeCompatJellyContext jc = new MarmaladeCompatJellyContext(ctx, el);
+        MarmaladeCompatJellyContext jc = new MarmaladeCompatJellyContext(ctx, el, tl);
 
         assertNotNull( "Initial variable of context is incorrect", jc.getVariable( "context" ) );
 

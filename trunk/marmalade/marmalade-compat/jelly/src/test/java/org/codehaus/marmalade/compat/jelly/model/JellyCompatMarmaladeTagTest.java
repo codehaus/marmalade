@@ -19,16 +19,17 @@ import junit.framework.TestCase;
 public class JellyCompatMarmaladeTagTest extends TestCase {
     
     public void testShouldConstructWithTagLibrary() {
-        TagLibrary taglib = new MarmaladeTaglibWrapperCompatTestTagLibrary();
+        JellyCompatMarmaladeTaglib taglib = new JellyCompatMarmaladeTaglib();
         JellyCompatMarmaladeTag tag = new JellyCompatMarmaladeTag(taglib);
     }
     
     public void testShouldSetJellyTagAttribute() throws MarmaladeExecutionException {
-        TagLibrary taglib = new MarmaladeTaglibWrapperCompatTestTagLibrary();
+        JellyCompatMarmaladeTaglib taglib = new JellyCompatMarmaladeTaglib();
         JellyCompatMarmaladeTag tag = new JellyCompatMarmaladeTag(taglib);
         
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
         ti.setElement("test");
+        ti.setTaglib("test");
         
         DefaultRawAttributes attrs = new DefaultRawAttributes();
         attrs.addAttribute("", "", "attribute", "value");
@@ -47,13 +48,14 @@ public class JellyCompatMarmaladeTagTest extends TestCase {
     }
 
     public void testShouldExecuteParentBodyRelationship() throws MarmaladeExecutionException {
-        TagLibrary taglib = new MarmaladeTaglibWrapperCompatTestTagLibrary();
+        JellyCompatMarmaladeTaglib taglib = new JellyCompatMarmaladeTaglib();
         ExpressionEvaluator el = new CommonsElExpressionEvaluator();
         
         JellyCompatMarmaladeTag parent = new JellyCompatMarmaladeTag(taglib);
         
         MarmaladeTagInfo pti = new MarmaladeTagInfo();
         pti.setElement("parentTest");
+        pti.setTaglib("test");
         
         parent.setTagInfo(pti);
         parent.setAttributes(new DefaultAttributes());
@@ -63,6 +65,7 @@ public class JellyCompatMarmaladeTagTest extends TestCase {
         
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
         ti.setElement("test");
+        ti.setTaglib("test");
         
         tag.setExpressionEvaluator(el);
         tag.setTagInfo(ti);

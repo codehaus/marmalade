@@ -29,7 +29,7 @@ public class MarmaladeCompatBodyScriptTest extends TestCase {
         String secondComponent = "test";
         String check = firstComponent + secondComponent;
         
-        MarmaladeTaglibWrapperCompatTestTagLibrary taglib = new MarmaladeTaglibWrapperCompatTestTagLibrary();
+        JellyCompatMarmaladeTaglib taglib = new JellyCompatMarmaladeTaglib();
         
         DefaultContext ctx = new DefaultContext();
         ExpressionEvaluator el = new CommonsElExpressionEvaluator();
@@ -42,13 +42,14 @@ public class MarmaladeCompatBodyScriptTest extends TestCase {
         JellyCompatMarmaladeTag owner = new JellyCompatMarmaladeTag(taglib);
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
         ti.setElement("test");
+        ti.setTaglib("test");
         owner.setAttributes(new DefaultAttributes());
         
-        MarmaladeCompatBodyScript script = new MarmaladeCompatBodyScript(owner, ctx, bodyItems);
+        MarmaladeCompatBodyScript script = new MarmaladeCompatBodyScript(owner, ctx, el, bodyItems);
         
         StringWriter writer = new StringWriter();
         XMLOutput output = XMLOutput.createXMLOutput(writer);
-        MarmaladeCompatJellyContext jellyCtx = new MarmaladeCompatJellyContext(ctx, el);
+        MarmaladeCompatJellyContext jellyCtx = new MarmaladeCompatJellyContext(ctx, el, taglib);
         
         script.run(jellyCtx, output);
         
@@ -56,7 +57,7 @@ public class MarmaladeCompatBodyScriptTest extends TestCase {
     }
 
     public void testShouldExecuteMarmaladeTagChildren() throws JellyTagException {
-        MarmaladeTaglibWrapperCompatTestTagLibrary taglib = new MarmaladeTaglibWrapperCompatTestTagLibrary();
+        JellyCompatMarmaladeTaglib taglib = new JellyCompatMarmaladeTaglib();
         
         TestTag tag = new TestTag();
         
@@ -69,13 +70,14 @@ public class MarmaladeCompatBodyScriptTest extends TestCase {
         JellyCompatMarmaladeTag owner = new JellyCompatMarmaladeTag(taglib);
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
         ti.setElement("test");
+        ti.setTaglib("test");
         owner.setAttributes(new DefaultAttributes());
         
-        MarmaladeCompatBodyScript script = new MarmaladeCompatBodyScript(owner, ctx, bodyItems);
+        MarmaladeCompatBodyScript script = new MarmaladeCompatBodyScript(owner, ctx, el, bodyItems);
         
         StringWriter writer = new StringWriter();
         XMLOutput output = XMLOutput.createXMLOutput(writer);
-        MarmaladeCompatJellyContext jellyCtx = new MarmaladeCompatJellyContext(ctx, el);
+        MarmaladeCompatJellyContext jellyCtx = new MarmaladeCompatJellyContext(ctx, el, taglib);
         
         script.run(jellyCtx, output);
         

@@ -42,6 +42,7 @@ public class GetStaticTag extends AbstractJellyMarmaladeTag
     public static final String CLASS_NAME_ATTRIBUTE = "className";
     public static final String FIELD_ATTRIBUTE = "field";
     public static final String VAR_ATTRIBUTE = "var";
+    private Reflector reflector = new Reflector();
 
     public GetStaticTag(  )
     {
@@ -63,7 +64,7 @@ public class GetStaticTag extends AbstractJellyMarmaladeTag
         {
             targetClass = Class.forName( className );
 
-            Object result = Reflector.getStaticField( targetClass, fieldName );
+            Object result = reflector.getStaticField( targetClass, fieldName );
 
             if ( result != null )
             {

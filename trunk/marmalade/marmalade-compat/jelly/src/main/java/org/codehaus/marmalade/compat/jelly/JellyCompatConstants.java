@@ -15,6 +15,8 @@ public final class JellyCompatConstants
 {
     public static final String JELLY_TAGLIB_PREFIX = "jelly";
     
+    public static final String JELLY_XML_OUTPUT_CONTEXT_VARIABLE = "$$jelly-output$$";
+    
     public static final TaglibDefinitionStrategy[] JELLY_INCLUSIVE_TAGLIB_DEF_STRATEGY =
         {
             new JellyCompatTaglibDefinitionStrategy(  ),

@@ -6,8 +6,11 @@ import org.apache.commons.jelly.JellyException;
 import org.apache.commons.jelly.Tag;
 import org.apache.commons.jelly.TagLibrary;
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.expression.Expression;
+import org.codehaus.marmalade.compat.jelly.JellyCompatConstants;
 import org.codehaus.marmalade.compat.jelly.JellyCompatUncheckedException;
 import org.codehaus.marmalade.compat.jelly.runtime.MarmaladeCompatJellyContext;
+import org.codehaus.marmalade.compat.jelly.runtime.MarmaladeCompatJellyExpression;
 import org.codehaus.marmalade.compat.jelly.util.SAXAttributesWrapper;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
@@ -28,12 +31,12 @@ import java.util.List;
  */
 public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
 {
-    private TagLibrary tagLibrary;
     private Tag jellyTag;
+    private final JellyCompatMarmaladeTaglib marmaladeTaglib;
 
-    public JellyCompatMarmaladeTag( TagLibrary tagLibrary )
+    public JellyCompatMarmaladeTag( JellyCompatMarmaladeTaglib marmaladeTaglib )
     {
-        this.tagLibrary = tagLibrary;
+        this.marmaladeTaglib = marmaladeTaglib;
     }
 
     protected void doExecute( MarmaladeExecutionContext context )
@@ -44,11 +47,13 @@ public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
             // create the jelly tag from the jelly tag library passed in via the
             // constructor
             MarmaladeTagInfo mti = getTagInfo(  );
+            
             MarmaladeAttributes attributes = getAttributes(  );
             SAXAttributesWrapper attrs = new SAXAttributesWrapper( attributes );
 
+            TagLibrary tagLibrary = marmaladeTaglib.getTagLibrary(mti.getTaglib());
             this.jellyTag = tagLibrary.createTag( mti.getElement(  ), attrs );
-
+            
             if ( jellyTag == null )
             {
                 super.doExecute( context );
@@ -75,11 +80,22 @@ public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
                         }
                         catch ( ExpressionEvaluationException e )
                         {
-                            //TODO: we're skipping this for now, but we need to at least log it.
-                            if ( jellyTag instanceof DynaTag )
+                            // Try it as an Expression.
+                            Expression expr = new MarmaladeCompatJellyExpression(value);
+                            try
                             {
-                                ( ( DynaTag ) jellyTag ).setAttribute( name,
-                                    value );
+                                el.assign( jellyTag, name, expr );
+                            }
+                            catch ( ExpressionEvaluationException eInner )
+                            {
+                            
+                                //TODO: we're skipping this for now, but we need to at least log it.
+                                
+                                if ( jellyTag instanceof DynaTag )
+                                {
+                                    ( ( DynaTag ) jellyTag ).setAttribute( name,
+                                        value );
+                                }
                             }
                         }
                         catch ( Throwable e )
@@ -117,18 +133,22 @@ public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
                     bodyItems.add( it.next(  ) );
                 }
 
-                MarmaladeCompatBodyScript body = new MarmaladeCompatBodyScript( this,
-                        context, bodyItems );
-
-                jellyTag.setBody( body );
-
                 // setup the jelly tag JellyContext wrapper around the marmalade 
                 // context
-                jellyTag.setContext( new MarmaladeCompatJellyContext( context,
-                        el ) );
+                MarmaladeCompatJellyContext jellyCtx = new MarmaladeCompatJellyContext(context, el, marmaladeTaglib);
+                
+                jellyTag.setContext( jellyCtx );
 
-                XMLOutput output = XMLOutput.createXMLOutput( context
-                        .getOutWriter(  ) );
+                XMLOutput output = (XMLOutput) context.getVariable(JellyCompatConstants.JELLY_XML_OUTPUT_CONTEXT_VARIABLE, null);
+                if(output == null) {
+                    output = XMLOutput.createXMLOutput( context.getOutWriter(  ) );
+                    context.setVariable(JellyCompatConstants.JELLY_XML_OUTPUT_CONTEXT_VARIABLE, output);
+                }
+
+                MarmaladeCompatBodyScript body = new MarmaladeCompatBodyScript( this,
+                        context, el, bodyItems );
+
+                jellyTag.setBody( body );
 
                 // execute the jelly tag.
                 jellyTag.doTag( output );
@@ -176,5 +196,9 @@ public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
     protected boolean alwaysProcessChildren(  )
     {
         return false;
+    }
+    
+    public String toString() {
+        return "Jelly-compatible tag@" + hashCode() + " [wrapping: " + ((jellyTag == null)?("unresolved"):(String.valueOf(jellyTag))) + "]";
     }
 }
