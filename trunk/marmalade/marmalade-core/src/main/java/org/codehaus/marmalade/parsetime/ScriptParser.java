@@ -8,13 +8,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.codehaus.marmalade.model.MarmaladeScript;
-import org.codehaus.marmalade.modelbuilder.*;
-import org.codehaus.marmalade.parsetime.*;
+import org.codehaus.marmalade.modelbuilder.MarmaladeModelBuilderException;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagBuilder;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTaglibResolver;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.TagalogParser;
@@ -33,7 +33,7 @@ public class ScriptParser {
   }
   
   public MarmaladeScript parse(File input)
-  throws MarmaladeParsetimeException
+  throws MarmaladeParsetimeException, MarmaladeModelBuilderException
   {
     BufferedInputStream in = null;
     try{
@@ -44,7 +44,7 @@ public class ScriptParser {
       return new MarmaladeScript(input.getAbsolutePath(), result.build());
     }
     catch(FileNotFoundException e){
-      throw new MarmaladeParsetimeException("Cannot find script file: " + input.getAbsolutePath(), e);
+      throw new MarmaladeScriptNotFoundException(input.getAbsolutePath());
     }
     finally {
       if(in != null) {
@@ -54,7 +54,7 @@ public class ScriptParser {
   }
   
   public MarmaladeScript parse(URL input)
-  throws MarmaladeParsetimeException
+  throws MarmaladeParsetimeException, MarmaladeModelBuilderException
   {
     BufferedInputStream in = null;
     try{
@@ -65,7 +65,7 @@ public class ScriptParser {
       return new MarmaladeScript(input.toExternalForm(), result.build());
     }
     catch(IOException e){
-      throw new MarmaladeParsetimeException("Cannot find script file: " + input.toExternalForm(), e);
+      throw new MarmaladeScriptNotFoundException(input.toExternalForm());
     }
     finally {
       if(in != null) {
@@ -91,21 +91,17 @@ public class ScriptParser {
       result = (MarmaladeTagBuilder)parser.parse();
     }
     catch(ParserConfigurationException e){
-      throw new MarmaladeParsetimeException("Problem with mis-configured ParserConfiguration.", e);
+      throw new MarmaladeParsetimeException(e);
     }
     catch(SAXException e){
-      throw new MarmaladeParsetimeException(
-        "Error parsing XML script at location: " + location, e
-      );
+      throw new MarmaladeParsetimeException(e);
     }
     catch(TagalogParseException e){
-      throw new MarmaladeParsetimeException(
-        "Error parsing XML script at location: " + location, e
-      );
+      throw new MarmaladeParsetimeException(e);
     }
     
     if(result == null) {
-      throw new MarmaladeParsetimeException(
+      throw new EmptyScriptException(
         "Error parsing script at: " + 
         location + 
         ". Reason: resulting root tag was null."

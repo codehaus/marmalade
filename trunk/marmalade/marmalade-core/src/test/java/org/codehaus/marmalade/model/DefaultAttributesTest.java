@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.modelbuilder.*;
-import org.codehaus.marmalade.runtime.*;
-import org.codehaus.tagalog.Attributes;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttribute;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
@@ -31,26 +31,11 @@ public class DefaultAttributesTest extends MockObjectTestCase{
           .with(eq("value"), isA(Map.class), isA(Class.class))
           .will(returnValue("value"));
     
-    Mock attrMock = mock(Attributes.class);
-    attrMock.expects(atLeastOnce())
-            .method("getAttributeCount")
-            .withNoArguments()
-            .will(returnValue(1));
-    attrMock.expects(atLeastOnce())
-            .method("getValue")
-            .with(eq(0))
-            .will(returnValue("value"));
-    attrMock.expects(atLeastOnce())
-            .method("getNamespaceUri")
-            .with(eq(0))
-            .will(returnValue(null));
-    attrMock.expects(atLeastOnce())
-            .method("getName")
-            .with(eq(0))
-            .will(returnValue("testKey"));
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute(null, "testKey", "value"));
     
     DefaultAttributes attrs = new DefaultAttributes(
-      (ExpressionEvaluator)elMock.proxy(), (Attributes)attrMock.proxy()
+      (ExpressionEvaluator)elMock.proxy(), attributes
     );
     
     Mock ctxMock = mock(MarmaladeExecutionContext.class);
@@ -62,9 +47,6 @@ public class DefaultAttributesTest extends MockObjectTestCase{
     Object result = attrs.getValue("testKey", (MarmaladeExecutionContext)ctxMock.proxy());
     assertEquals("Wrong attribute value.", "value", result);
     
-    elMock.verify();
-    attrMock.verify();
-    ctxMock.verify();
   }
 
   /*
@@ -77,26 +59,11 @@ public class DefaultAttributesTest extends MockObjectTestCase{
           .with(eq("value"), isA(Map.class), isA(Class.class))
           .will(returnValue("value"));
     
-    Mock attrMock = mock(Attributes.class);
-    attrMock.expects(atLeastOnce())
-            .method("getAttributeCount")
-            .withNoArguments()
-            .will(returnValue(1));
-    attrMock.expects(atLeastOnce())
-            .method("getValue")
-            .with(eq(0))
-            .will(returnValue("value"));
-    attrMock.expects(atLeastOnce())
-            .method("getNamespaceUri")
-            .with(eq(0))
-            .will(returnValue(null));
-    attrMock.expects(atLeastOnce())
-            .method("getName")
-            .with(eq(0))
-            .will(returnValue("testKey"));
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute(null, "testKey", "value"));
     
     DefaultAttributes attrs = new DefaultAttributes(
-      (ExpressionEvaluator)elMock.proxy(), (Attributes)attrMock.proxy()
+      (ExpressionEvaluator)elMock.proxy(), attributes
     );
     
     Mock ctxMock = mock(MarmaladeExecutionContext.class);
@@ -107,10 +74,6 @@ public class DefaultAttributesTest extends MockObjectTestCase{
     
     Object result = attrs.getValue("testKey", (MarmaladeExecutionContext)ctxMock.proxy(), "value");
     assertEquals("Wrong attribute value.", "value", result);
-    
-    elMock.verify();
-    attrMock.verify();
-    ctxMock.verify();
   }
 
   
@@ -123,26 +86,11 @@ public class DefaultAttributesTest extends MockObjectTestCase{
           .with(eq("value"), isA(Map.class), isA(Class.class))
           .will(returnValue(null));
     
-    Mock attrMock = mock(Attributes.class);
-    attrMock.expects(atLeastOnce())
-            .method("getAttributeCount")
-            .withNoArguments()
-            .will(returnValue(1));
-    attrMock.expects(atLeastOnce())
-            .method("getValue")
-            .with(eq(0))
-            .will(returnValue("value"));
-    attrMock.expects(atLeastOnce())
-            .method("getNamespaceUri")
-            .with(eq(0))
-            .will(returnValue(null));
-    attrMock.expects(atLeastOnce())
-            .method("getName")
-            .with(eq(0))
-            .will(returnValue("testKey"));
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute(null, "testKey", "value"));
     
     DefaultAttributes attrs = new DefaultAttributes(
-      (ExpressionEvaluator)elMock.proxy(), (Attributes)attrMock.proxy()
+      (ExpressionEvaluator)elMock.proxy(), attributes
     );
     
     Mock ctxMock = mock(MarmaladeExecutionContext.class);
@@ -154,10 +102,6 @@ public class DefaultAttributesTest extends MockObjectTestCase{
     Object result = attrs.getValue("testKey", Integer.class, (MarmaladeExecutionContext)ctxMock.proxy(), new Integer(2));
     assertFalse("Wrong attribute value.", testVal.equals(result));
     assertEquals("Should equal default value", 2, ((Integer)result).intValue());
-    
-    elMock.verify();
-    attrMock.verify();
-    ctxMock.verify();
   }
 
 }

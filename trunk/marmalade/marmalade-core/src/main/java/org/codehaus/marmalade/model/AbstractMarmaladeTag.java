@@ -4,20 +4,19 @@ package org.codehaus.marmalade.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
-import org.codehaus.marmalade.*;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
-import org.codehaus.marmalade.runtime.*;
-import org.codehaus.tagalog.AbstractTag;
+import org.codehaus.marmalade.runtime.ConfigurationException;
+import org.codehaus.marmalade.runtime.IllegalAncestorException;
+import org.codehaus.marmalade.runtime.IllegalParentException;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.MissingAttributeException;
 import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.Tag;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 
 /** Base class implementing common marmalade tag features.
  * 
@@ -27,8 +26,6 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag {
   
   public static final String MARMALADE_EL_PI_NAMESPACE = "marmalade-el";
   public static final String MARMALADE_EL_ATTRIBUTE = "marmalade:el";
-  
-  private String element;
   
   private ExpressionEvaluator el;
   private MarmaladeAttributes attributes;
@@ -40,6 +37,12 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag {
 
   protected AbstractMarmaladeTag(MarmaladeTagInfo tagInfo) {
     this.tagInfo = tagInfo;
+    this.el = tagInfo.getExpressionEvaluator();
+    this.attributes = new DefaultAttributes(el, tagInfo.getAttributes());
+  }
+  
+  protected final MarmaladeTagInfo getTagInfo() {
+    return tagInfo;
   }
   
   public final void setParent(MarmaladeTag parent) {
@@ -58,6 +61,9 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag {
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
   }
   
+  protected void doValidate(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
+  }
+  
   protected boolean alwaysProcessChildren() {
     return true;
   }
@@ -71,6 +77,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag {
   
 // ------------------ MARMALADE TAG IMPLEMENTATION DETAILS ------------------ //
   public final void execute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
+    doValidate(context);
     doExecute(context);
     if(!childrenProcessed && alwaysProcessChildren()){
       processChildren(context);
@@ -130,61 +137,26 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag {
   private Object _getBody(MarmaladeExecutionContext context, Class targetType)
   throws ExpressionEvaluationException
   {
-    String expression = tagInfo.getText().toString();
+    String expression = tagInfo.getText();
     Object result = null;
-    if(el == null) {
-      if(targetType.isAssignableFrom(String.class)) {
-        result = expression;
+    if(expression != null && expression.length() > 0) {
+      if(el == null) {
+        if(targetType.isAssignableFrom(String.class)) {
+          result = expression;
+        }
+        else {
+          throw new ExpressionEvaluationException(
+            "Expression cannot be evaluated and is not an instance of " + targetType.getName()
+          );
+        }
       }
       else {
-        throw new ExpressionEvaluationException(
-          "Expression cannot be evaluated and is not an instance of " + targetType.getName()
-        );
+        result = el.evaluate(expression, context.unmodifiableVariableMap(), targetType);
       }
     }
-    result = el.evaluate(expression, context.unmodifiableVariableMap(), targetType);
     
     return result;
   }
-
-  private void loadExpressionEvaluator(Attributes parseAttrs) 
-  throws ConfigurationException
-  {
-    if(el == null){
-      //First, try to pull an attribute with the el.
-      String elType = parseAttrs.getValue(MARMALADE_EL_ATTRIBUTE);
-    
-      //Then, start searching...try to get the parent's evaluator.
-      if(elType == null || elType.length() < 1){
-        MarmaladeTag parent = getParent();
-        el = parent.getExpressionEvaluator();
-      
-        //If we cannot find an evaluator for the parent, check the processing instructions.
-/*        
-        if(el == null){
-          Map processingInstructions = (Map)context.get(TagalogParser.PROCESSING_INSTRUCTIONS);
-          if(processingInstructions != null){
-            List piSet = (List)processingInstructions.get(MARMALADE_EL_PI_NAMESPACE);
-            if(piSet != null && !piSet.isEmpty()){
-              elType = (String)piSet.get(0);
-            }
-          }
-        }
-*/        
-      }
-    
-      if(el == null){
-        if(elType == null || elType.length() < 1){
-          el = ExpressionEvaluatorFactory.getDefaultExpressionEvaluator();
-        }
-        else{
-          el = ExpressionEvaluatorFactory.getExpressionEvaluator(elType);
-        }
-      }
-    }
-  }
-
-
 
   protected Object requireTagAttribute(String name, Class type, MarmaladeExecutionContext context)
   throws MissingAttributeException, ExpressionEvaluationException
@@ -203,7 +175,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag {
   {
     Object result = attributes.getValue(name, type, context);
     if(result == null){
-      throw new MissingAttributeException(element, name);
+      throw new MissingAttributeException(tagInfo.getElement(), name);
     }
     else{
       return result;
@@ -215,11 +187,11 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag {
     MarmaladeTag parent = getParent();
     if(parent != null) {
       if(!cls.isAssignableFrom(parent.getClass())){
-        throw new IllegalParentException(element, cls);
+        throw new IllegalParentException(tagInfo.getElement(), cls);
       }
     }
     else {
-      throw new IllegalParentException(element, cls);
+      throw new IllegalParentException(tagInfo.getElement(), cls);
     }
     
     return parent;
@@ -235,7 +207,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag {
     }
     
     if(parent == null) {
-      throw new IllegalAncestorException(element, cls);
+      throw new IllegalAncestorException(tagInfo.getElement(), cls);
     }
     else {
       return parent;

@@ -9,30 +9,35 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
-import org.codehaus.marmalade.testing.AbstractTagCGLibTestCase;
+import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
+import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
+import org.jmock.MockObjectTestCase;
 import org.jmock.cglib.Mock;
 
 
 /**
  * @author jdcasey
  */
-public class HttpTestSuiteTagTest extends AbstractTagCGLibTestCase{
+public class HttpTestSuiteTagTest extends MockObjectTestCase{
 
   public void testSuccess() throws TagException, TagalogParseException, MarmaladeExecutionException {
     DummyTC tc = new DummyTC(false, false);
     
-    Mock attrMock = attributesWithSingleAttribute("var", "testResult");
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "var", "testResult"));
     
-    HttpTestSuiteTag tag = new HttpTestSuiteTag();
-    tag.begin("testSuite", (Attributes)attrMock.proxy());
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attrs);
+    mti.setElement("httpTestSuite");
+    
+    HttpTestSuiteTag tag = new HttpTestSuiteTag(mti);
     tag.addTest(tc);
-    tag.end("testSuite");
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
@@ -54,19 +59,20 @@ public class HttpTestSuiteTagTest extends AbstractTagCGLibTestCase{
     assertEquals("Should have 0 failures", 0, result.failureCount());
     assertEquals("Should have 1 run", 1, result.runCount());
     assertTrue("Test Result should have passed", result.wasSuccessful());
-    
-    attrMock.verify();
   }
 
   public void testFailure() throws TagException, TagalogParseException, MarmaladeExecutionException {
     DummyTC tc = new DummyTC(false, true);
     
-    Mock attrMock = attributesWithSingleAttribute("var", "testResult");
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "var", "testResult"));
     
-    HttpTestSuiteTag tag = new HttpTestSuiteTag();
-    tag.begin("testSuite", (Attributes)attrMock.proxy());
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attrs);
+    mti.setElement("httpTestSuite");
+    
+    HttpTestSuiteTag tag = new HttpTestSuiteTag(mti);
     tag.addTest(tc);
-    tag.end("testSuite");
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
@@ -88,19 +94,20 @@ public class HttpTestSuiteTagTest extends AbstractTagCGLibTestCase{
     assertEquals("Should have 1 failures", 1, result.failureCount());
     assertEquals("Should have 1 run", 1, result.runCount());
     assertFalse("Test Result should NOT have passed", result.wasSuccessful());
-    
-    attrMock.verify();
   }
 
   public void testError() throws TagException, TagalogParseException, MarmaladeExecutionException {
     DummyTC tc = new DummyTC(true, false);
     
-    Mock attrMock = attributesWithSingleAttribute("var", "testResult");
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "var", "testResult"));
     
-    HttpTestSuiteTag tag = new HttpTestSuiteTag();
-    tag.begin("testSuite", (Attributes)attrMock.proxy());
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attrs);
+    mti.setElement("httpTestSuite");
+    
+    HttpTestSuiteTag tag = new HttpTestSuiteTag(mti);
     tag.addTest(tc);
-    tag.end("testSuite");
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
@@ -122,8 +129,6 @@ public class HttpTestSuiteTagTest extends AbstractTagCGLibTestCase{
     assertEquals("Should have 0 failures", 0, result.failureCount());
     assertEquals("Should have 1 run", 1, result.runCount());
     assertFalse("Test Result should NOT have passed", result.wasSuccessful());
-    
-    attrMock.verify();
   }
 
 

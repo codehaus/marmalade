@@ -1,13 +1,15 @@
 /* Created on May 20, 2004 */
 package org.codehaus.marmalade.modelbuilder;
 
-import java.util.Iterator;
+import junit.framework.TestCase;
 
+import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
-import org.codehaus.tagalog.Attributes;
-
-import junit.framework.TestCase;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttribute;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagBuilder;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
 
 
 /**
@@ -69,6 +71,8 @@ public class MarmaladeTagInfoTest extends TestCase{
   
   public void testShouldStoreRetrieveAttributes() {
     DefaultRawAttributes ra = new DefaultRawAttributes();
+    ra.addAttribute(new DefaultRawAttribute("testNS", "testAttribute", "testValue"));
+    
     MarmaladeTagInfo taginfo = new MarmaladeTagInfo();
     taginfo.setAttributes(ra);
     
@@ -89,6 +93,15 @@ public class MarmaladeTagInfoTest extends TestCase{
     }
 
     public MarmaladeTag build(){
+      return null;
+    }
+
+    public void setExpressionEvaluator( ExpressionEvaluator el )
+    {
+    }
+
+    public ExpressionEvaluator getExpressionEvaluator()
+    {
       return null;
     }
     

@@ -1,14 +1,13 @@
 /* Created on May 8, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
-import org.codehaus.marmalade.defaults.DefaultContext;
-import org.codehaus.marmalade.testing.AbstractTagCGLibTestCase;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
+import org.jmock.MockObjectTestCase;
 import org.jmock.cglib.Mock;
 
 import com.meterware.httpunit.WebLink;
@@ -17,14 +16,10 @@ import com.meterware.httpunit.WebLink;
 /**
  * @author jdcasey
  */
-public class AbstractAssertionTagTest extends AbstractTagCGLibTestCase{
+public class AbstractAssertionTagTest extends MockObjectTestCase{
   
   public void testShouldSucceedOnPositiveTestResult() throws TagException, TagalogParseException, MarmaladeExecutionException{
     TestLinkSubTag tlst = new TestLinkSubTag(true);
-    
-    Mock aMock = attributesEmpty();
-    tlst.begin("tlst", (Attributes)aMock.proxy());
-    tlst.end("tlst");
     
     DefaultContext ctx = new DefaultContext();
     tlst.execute(ctx);
@@ -32,10 +27,6 @@ public class AbstractAssertionTagTest extends AbstractTagCGLibTestCase{
   
   public void testShouldFailWithHttpAssertionFailedExceptionOnNegativeTestResult() throws TagException, TagalogParseException, MarmaladeExecutionException{
     TestLinkSubTag tlst = new TestLinkSubTag(false);
-    
-    Mock aMock = attributesEmpty();
-    tlst.begin("tlst", (Attributes)aMock.proxy());
-    tlst.end("tlst");
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -50,6 +41,7 @@ public class AbstractAssertionTagTest extends AbstractTagCGLibTestCase{
     private boolean shouldSucceed;
 
     TestLinkSubTag(boolean shouldSucceed){
+      super(null);
       this.shouldSucceed = shouldSucceed;
     }
 

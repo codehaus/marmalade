@@ -1,9 +1,10 @@
 /* Created on Apr 14, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 
 /**
@@ -13,7 +14,8 @@ public class CounterTestTag extends AbstractMarmaladeTag{
   
   private int counter = 0;
 
-  public CounterTestTag(){
+  public CounterTestTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
   
   public int counter() {

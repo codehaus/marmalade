@@ -1,12 +1,9 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.modelbuilder;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.codehaus.tagalog.Attributes;
 
 /**
  * @author jdcasey
@@ -28,13 +25,33 @@ public class DefaultRawAttributes implements ModelBuilderAttributes{
   
   public String getValue(String name)
   {
+    String value = null;
+    
     ModelBuilderAttribute attr = (ModelBuilderAttribute)parsedAttributes.get(name);
-    String value = attr.getValue();
+    if(attr != null) {
+      value = attr.getValue();
+    }
+    return value;
+  }
+
+  public String getValue(String namespace, String name)
+  {
+    String value = null;
+    
+    ModelBuilderAttribute attr = (ModelBuilderAttribute)parsedAttributes.get(name);
+    if(attr != null && namespace != null && namespace.equals(attr.getNamespace())) {
+      value = attr.getValue();
+    }
+    
     return value;
   }
 
   public void addAttribute(ModelBuilderAttribute attribute){
     this.parsedAttributes.put(attribute.getName(), attribute);
+  }
+  
+  public void addAttribute(String namespace, String name, String value) {
+    this.parsedAttributes.put(name, new DefaultRawAttribute(namespace, name, value));
   }
   
 }

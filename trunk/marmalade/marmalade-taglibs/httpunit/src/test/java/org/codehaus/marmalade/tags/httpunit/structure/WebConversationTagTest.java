@@ -4,13 +4,16 @@ package org.codehaus.marmalade.tags.httpunit.structure;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.testing.AbstractTagCGLibTestCase;
+import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
+import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
+import org.jmock.MockObjectTestCase;
 import org.jmock.cglib.Mock;
 
 import com.meterware.httpunit.DialogResponder;
@@ -20,133 +23,125 @@ import com.meterware.httpunit.WebConversation;
 /**
  * @author jdcasey
  */
-public class WebConversationTagTest extends AbstractTagCGLibTestCase{
+public class WebConversationTagTest extends MockObjectTestCase{
   
   public void testEmbeddedSuccess_NoAttributes() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Mock attrMock = attributesEmpty();
-    Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    TestConversationSubTag child = new TestConversationSubTag();
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
     
-    child.setParent(tag);
-    child.begin("child", (Attributes)childAttrMock.proxy());
-    child.end("child");
-    tag.child(child);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
+    mti.setParent(null);
     
-    tag.end("conversation");
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
+    
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(attributes);
+    mtiChild.setElement("child");
+    
+    TestConversationSubTag child = new TestConversationSubTag(mtiChild);
+    
+    tag.addChild(child);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     assertNotNull("conversation should be bound to context.", (WebConversation)ctx.getVariable("testresult", null));
-    
-    attrMock.verify();
-    childAttrMock.verify();
   }
 
   public void testEmbeddedSuccess_UserPassword() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.USER_ATTRIBUTE, "testEmbeddedusr");
-    attributes.put(WebConversationTag.PASSWORD_ATTRIBUTE, "testEmbeddedpass");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.USER_ATTRIBUTE, "testEmbeddedusr"));
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.PASSWORD_ATTRIBUTE, "testEmbeddedpass"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    TestConversationSubTag child = new TestConversationSubTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
-    child.setParent(tag);
-    child.begin("child", (Attributes)childAttrMock.proxy());
-    child.end("child");
-    tag.child(child);
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(attributes);
+    mtiChild.setElement("child");
     
-    tag.end("conversation");
+    TestConversationSubTag child = new TestConversationSubTag(mtiChild);
+    
+    tag.addChild(child);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     WebConversation conv = (WebConversation)ctx.getVariable("testresult", null);
     assertNotNull("conversation should be bound to context.", conv);
-    
-    attrMock.verify();
-    childAttrMock.verify();
   }
 
   public void testEmbeddedSuccess_UserNoPassword() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.USER_ATTRIBUTE, "testEmbeddedusr");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.USER_ATTRIBUTE, "testEmbeddedusr"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    TestConversationSubTag child = new TestConversationSubTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
-    child.setParent(tag);
-    child.begin("child", (Attributes)childAttrMock.proxy());
-    child.end("child");
-    tag.child(child);
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(attributes);
+    mtiChild.setElement("child");
     
-    tag.end("conversation");
+    TestConversationSubTag child = new TestConversationSubTag(mtiChild);
+    
+    tag.addChild(child);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     WebConversation conv = (WebConversation)ctx.getVariable("testresult", null);
     assertNotNull("conversation should be bound to context.", conv);
-    
-    attrMock.verify();
-    childAttrMock.verify();
   }
 
   public void testEmbeddedSuccess_NoUserPassword() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.PASSWORD_ATTRIBUTE, "testEmbeddedpass");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.PASSWORD_ATTRIBUTE, "testEmbeddedpass"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    TestConversationSubTag child = new TestConversationSubTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
-    child.setParent(tag);
-    child.begin("child", (Attributes)childAttrMock.proxy());
-    child.end("child");
-    tag.child(child);
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(attributes);
+    mtiChild.setElement("child");
     
-    tag.end("conversation");
+    TestConversationSubTag child = new TestConversationSubTag(mtiChild);
+    
+    tag.addChild(child);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     WebConversation conv = (WebConversation)ctx.getVariable("testresult", null);
     assertNotNull("conversation should be bound to context.", conv);
-    
-    attrMock.verify();
-    childAttrMock.verify();
   }
   
   public void testEmbeddedSuccess_FailOnError() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.FAIL_ON_ERROR_ATTRIBUTE, "true");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.FAIL_ON_ERROR_ATTRIBUTE, "true"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    TestConversationSubTag child = new TestConversationSubTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
-    child.setParent(tag);
-    child.begin("child", (Attributes)childAttrMock.proxy());
-    child.end("child");
-    tag.child(child);
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(attributes);
+    mtiChild.setElement("child");
     
-    tag.end("conversation");
+    TestConversationSubTag child = new TestConversationSubTag(mtiChild);
+    
+    tag.addChild(child);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
@@ -154,20 +149,17 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
     WebConversation conv = (WebConversation)ctx.getVariable("testresult", null);
     assertNotNull("conversation should be bound to context.", conv);
     assertTrue("Conversation should be set to fail on error", conv.getExceptionsThrownOnErrorStatus());
-    
-    attrMock.verify();
-    childAttrMock.verify();
   }
   
   public void testEmbeddedFail_BadFailOnError() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.FAIL_ON_ERROR_ATTRIBUTE, "invalid");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.FAIL_ON_ERROR_ATTRIBUTE, "true"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    tag.end("conversation");
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -175,27 +167,25 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
       fail("Should have throw an expression error for the bad failOnError attribute value");
     }
     catch(ExpressionEvaluationException e) {}
-    
-    attrMock.verify();
   }
   
   public void testEmbeddedSuccess_DialogResponder() throws TagException, TagalogParseException, MarmaladeExecutionException {
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.DIALOG_RESPONDER_ATTRIBUTE, "#reponder");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.DIALOG_RESPONDER_ATTRIBUTE, "#reponder"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    TestConversationSubTag child = new TestConversationSubTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
-    child.setParent(tag);
-    child.begin("child", (Attributes)childAttrMock.proxy());
-    child.end("child");
-    tag.child(child);
+    MarmaladeTagInfo mtiChild = new MarmaladeTagInfo();
+    mtiChild.setAttributes(attributes);
+    mtiChild.setElement("child");
     
-    tag.end("conversation");
+    TestConversationSubTag child = new TestConversationSubTag(mtiChild);
+    
+    tag.addChild(child);
     
     Mock dlgRespMock = new Mock(DialogResponder.class);
     
@@ -211,10 +201,6 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
       "Warning!!! Cannot properly verify that the dialog responder was set. " +
       "API does not provide the means."
     );
-    
-    attrMock.verify();
-    childAttrMock.verify();
-    dlgRespMock.verify();
   }
   
 /* 4/29/2004: Commenting out, because HTTPUnit's proxy settings are currently global to the VM.
@@ -223,13 +209,13 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
  * more intuitive.
   public void testEmbeddedSuccess_ProxyHostPort() throws TagException, TagalogParseException, MarmaladeExecutionException {
     Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.PROXY_HOST_ATTRIBUTE, "proxy.net");
-    attributes.put(WebConversationTag.PROXY_PORT_ATTRIBUTE, "80");
+    attributes.put(DefaultWebConversationTag.PROXY_HOST_ATTRIBUTE, "proxy.net");
+    attributes.put(DefaultWebConversationTag.PROXY_PORT_ATTRIBUTE, "80");
     
     Mock attrMock = attributesFromMap(attributes);
     
     Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag();
     tag.begin("conversation", (Attributes)attrMock.proxy());
     TestConversationSubTag child = new TestConversationSubTag();
     
@@ -254,12 +240,12 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
 
   public void testEmbeddedSuccess_ProxyHostNoPort() throws TagException, TagalogParseException, MarmaladeExecutionException {
     Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.PROXY_HOST_ATTRIBUTE, "proxy.net");
+    attributes.put(DefaultWebConversationTag.PROXY_HOST_ATTRIBUTE, "proxy.net");
     
     Mock attrMock = attributesFromMap(attributes);
     
     Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag();
     tag.begin("conversation", (Attributes)attrMock.proxy());
     TestConversationSubTag child = new TestConversationSubTag();
     
@@ -285,12 +271,12 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
   public void testEmbeddedSuccess_ProxyNoHostPort() throws TagException, TagalogParseException, MarmaladeExecutionException {
     System.out.println("testEmbeddedSuccess_ProxyNoHostPort");
     Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.PROXY_PORT_ATTRIBUTE, "80");
+    attributes.put(DefaultWebConversationTag.PROXY_PORT_ATTRIBUTE, "80");
     
     Mock attrMock = attributesFromMap(attributes);
     
     Mock childAttrMock = attributesEmpty();
-    WebConversationTag tag = new WebConversationTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag();
     tag.begin("conversation", (Attributes)attrMock.proxy());
     TestConversationSubTag child = new TestConversationSubTag();
     
@@ -318,94 +304,92 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
 
   public void testSerialSuccess_NoAttributes() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
-    Mock attrMock = attributesWithSingleAttribute(WebConversationTag.VAR_ATTRIBUTE, var);
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    tag.end("conversation");
+    
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.VAR_ATTRIBUTE, var));
+    
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
+    
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     assertNotNull("conversation should be bound to context.", (WebConversation)ctx.getVariable(var, null));
-    
-    attrMock.verify();
   }
 
   public void testSerialSuccess_UserPassword() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.USER_ATTRIBUTE, "testSerialusr");
-    attributes.put(WebConversationTag.PASSWORD_ATTRIBUTE, "testSerialpass");
     
-    Mock attrMock = attributesFromMap(attributes);
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.VAR_ATTRIBUTE, var));
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.USER_ATTRIBUTE, "testSerialusr"));
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.PASSWORD_ATTRIBUTE, "testSerialpass"));
     
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    tag.end("conversation");
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
+    
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     WebConversation conv = (WebConversation)ctx.getVariable(var, null);
     assertNotNull("conversation should be bound to context.", conv);
-    
-    attrMock.verify();
   }
 
   public void testSerialSuccess_UserNoPassword() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.USER_ATTRIBUTE, "testSerialusr");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.VAR_ATTRIBUTE, var));
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.USER_ATTRIBUTE, "testSerialusr"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    tag.end("conversation");
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     WebConversation conv = (WebConversation)ctx.getVariable(var, null);
     assertNotNull("conversation should be bound to context.", conv);
-    
-    attrMock.verify();
   }
 
   public void testSerialSuccess_NoUserPassword() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.PASSWORD_ATTRIBUTE, "testSerialpass");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.VAR_ATTRIBUTE, var));
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.PASSWORD_ATTRIBUTE, "testSerialpass"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    tag.end("conversation");
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
     
     WebConversation conv = (WebConversation)ctx.getVariable(var, null);
     assertNotNull("conversation should be bound to context.", conv);
-    
-    attrMock.verify();
   }
   
   public void testSerialSuccess_FailOnError() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.FAIL_ON_ERROR_ATTRIBUTE, "true");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.VAR_ATTRIBUTE, var));
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.FAIL_ON_ERROR_ATTRIBUTE, "true"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    tag.end("conversation");
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
@@ -413,21 +397,19 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
     WebConversation conv = (WebConversation)ctx.getVariable(var, null);
     assertNotNull("conversation should be bound to context.", conv);
     assertTrue("Conversation should be set to fail on error", conv.getExceptionsThrownOnErrorStatus());
-    
-    attrMock.verify();
   }
   
   public void testSerialFail_BadFailOnError() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.FAIL_ON_ERROR_ATTRIBUTE, "invalid");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.VAR_ATTRIBUTE, var));
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.FAIL_ON_ERROR_ATTRIBUTE, "true"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    tag.end("conversation");
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
     DefaultContext ctx = new DefaultContext();
     try {
@@ -435,21 +417,19 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
       fail("Should have throw an expression error for the bad failOnError attribute value");
     }
     catch(ExpressionEvaluationException e) {}
-    
-    attrMock.verify();
   }
   
   public void testSerialSuccess_DialogResponder() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
-    Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.DIALOG_RESPONDER_ATTRIBUTE, "#reponder");
+    DefaultRawAttributes attributes = new DefaultRawAttributes();
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.VAR_ATTRIBUTE, var));
+    attributes.addAttribute(new DefaultRawAttribute("", DefaultWebConversationTag.DIALOG_RESPONDER_ATTRIBUTE, "#responder"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attributes);
+    mti.setElement("conversation");
     
-    WebConversationTag tag = new WebConversationTag();
-    tag.begin("conversation", (Attributes)attrMock.proxy());
-    tag.end("conversation");
+    DefaultWebConversationTag tag = new DefaultWebConversationTag(mti);
     
     Mock dlgRespMock = new Mock(DialogResponder.class);
     
@@ -465,9 +445,6 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
       "Warning!!! Cannot properly verify that the dialog responder was set. " +
       "API does not provide the means."
     );
-    
-    attrMock.verify();
-    dlgRespMock.verify();
   }
   
 /* 4/29/2004: Commenting out, because HTTPUnit's proxy settings are currently global to the VM.
@@ -477,13 +454,13 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
   public void testSerialSuccess_ProxyHostPort() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
     Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.PROXY_HOST_ATTRIBUTE, "proxy.net");
-    attributes.put(WebConversationTag.PROXY_PORT_ATTRIBUTE, "80");
+    attributes.put(DefaultWebConversationTag.VAR_ATTRIBUTE, var);
+    attributes.put(DefaultWebConversationTag.PROXY_HOST_ATTRIBUTE, "proxy.net");
+    attributes.put(DefaultWebConversationTag.PROXY_PORT_ATTRIBUTE, "80");
     
     Mock attrMock = attributesFromMap(attributes);
     
-    WebConversationTag tag = new WebConversationTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag();
     tag.begin("conversation", (Attributes)attrMock.proxy());
     tag.end("conversation");
     
@@ -501,12 +478,12 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
   public void testSerialSuccess_ProxyHostNoPort() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
     Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.PROXY_HOST_ATTRIBUTE, "proxy.net");
+    attributes.put(DefaultWebConversationTag.VAR_ATTRIBUTE, var);
+    attributes.put(DefaultWebConversationTag.PROXY_HOST_ATTRIBUTE, "proxy.net");
     
     Mock attrMock = attributesFromMap(attributes);
     
-    WebConversationTag tag = new WebConversationTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag();
     tag.begin("conversation", (Attributes)attrMock.proxy());
     tag.end("conversation");
     
@@ -524,12 +501,12 @@ public class WebConversationTagTest extends AbstractTagCGLibTestCase{
   public void testSerialSuccess_ProxyNoHostPort() throws TagException, TagalogParseException, MarmaladeExecutionException {
     String var = "conversation";
     Map attributes = new TreeMap();
-    attributes.put(WebConversationTag.VAR_ATTRIBUTE, var);
-    attributes.put(WebConversationTag.PROXY_PORT_ATTRIBUTE, "80");
+    attributes.put(DefaultWebConversationTag.VAR_ATTRIBUTE, var);
+    attributes.put(DefaultWebConversationTag.PROXY_PORT_ATTRIBUTE, "80");
     
     Mock attrMock = attributesFromMap(attributes);
     
-    WebConversationTag tag = new WebConversationTag();
+    DefaultWebConversationTag tag = new DefaultWebConversationTag();
     tag.begin("conversation", (Attributes)attrMock.proxy());
     tag.end("conversation");
     

@@ -2,12 +2,11 @@
 package org.codehaus.marmalade.model;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.modelbuilder.ModelBuilderAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
-import org.codehaus.tagalog.Attributes;
 
 /**
  * @author jdcasey
@@ -15,22 +14,11 @@ import org.codehaus.tagalog.Attributes;
 public class DefaultAttributes implements MarmaladeAttributes {
   
   private ExpressionEvaluator el;
-  private Map parsedAttributes = new TreeMap();
+  private ModelBuilderAttributes attributes;
 
-  public DefaultAttributes(ExpressionEvaluator el, Attributes attributes) {
+  public DefaultAttributes(ExpressionEvaluator el, ModelBuilderAttributes attributes) {
     this.el = el;
-    
-    int attrCount = attributes.getAttributeCount();
-    for(int i=0; i < attrCount; i++) {
-      String name = attributes.getName(i);
-      String ns = attributes.getNamespaceUri(i);
-      String value = attributes.getValue(i);
-      
-      DefaultAttribute attr = new DefaultAttribute(
-        ns, name, value
-      );
-      parsedAttributes.put(name, attr);
-    }
+    this.attributes = attributes;
   }
 
   public ExpressionEvaluator getExpressionEvaluator() {
@@ -65,10 +53,7 @@ public class DefaultAttributes implements MarmaladeAttributes {
   private Object _getValue(String name, Class type, Map context, Object defaultVal)
   throws ExpressionEvaluationException
   {
-    DefaultAttribute attr = (DefaultAttribute)parsedAttributes.get(name);
-    if(attr == null) {return null;}
-    
-    String expression = attr.getValue();
+    String expression = attributes.getValue(name);
     Object result = null;
     if(expression != null && expression.length() > 0){
       if(el != null){

@@ -7,21 +7,24 @@ import java.util.TreeMap;
 
 import junit.framework.TestResult;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.MarmaladeTag;
-import org.codehaus.marmalade.defaults.DefaultContext;
-import org.codehaus.marmalade.testing.AbstractTagCGLibTestCase;
+import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
+import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.MarmaladeTag;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
+import org.jmock.MockObjectTestCase;
 import org.jmock.cglib.Mock;
 
 
 /**
  * @author jdcasey
  */
-public class HttpTestTagTest extends AbstractTagCGLibTestCase{
+public class HttpTestTagTest extends MockObjectTestCase{
   
   public void testSuccess() throws TagException, TagalogParseException, MarmaladeExecutionException {
     Mock childMock = new Mock(MarmaladeTag.class);
@@ -30,16 +33,17 @@ public class HttpTestTagTest extends AbstractTagCGLibTestCase{
              .with(isA(MarmaladeExecutionContext.class))
              .isVoid();
     
-    Map attributes = new TreeMap();
-    attributes.put("name", "UnitTest");
-    attributes.put("var", "testResult");
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "name", "UnitTest"));
+    attrs.addAttribute(new DefaultRawAttribute("", "var", "testResult"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attrs);
+    mti.setElement("httpTest");
     
-    HttpTestTag tag = new HttpTestTag();
-    tag.begin("test", (Attributes)attrMock.proxy());
-    tag.child(childMock.proxy());
-    tag.end("test");
+    HttpTestTag tag = new HttpTestTag(mti);
+    
+    tag.addChild((MarmaladeTag)childMock.proxy());
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
@@ -61,9 +65,6 @@ public class HttpTestTagTest extends AbstractTagCGLibTestCase{
     assertEquals("Should have 0 failures", 0, result.failureCount());
     assertEquals("Should have 1 run", 1, result.runCount());
     assertTrue("Test Result should have passed", result.wasSuccessful());
-    
-    childMock.verify();
-    attrMock.verify();
   }
 
   public void testFailure() throws TagException, TagalogParseException, MarmaladeExecutionException {
@@ -73,16 +74,17 @@ public class HttpTestTagTest extends AbstractTagCGLibTestCase{
              .with(isA(MarmaladeExecutionContext.class))
              .will(throwException(new HttpAssertionFailedException()));
     
-    Map attributes = new TreeMap();
-    attributes.put("name", "UnitTest");
-    attributes.put("var", "testResult");
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "name", "UnitTest"));
+    attrs.addAttribute(new DefaultRawAttribute("", "var", "testResult"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attrs);
+    mti.setElement("httpTest");
     
-    HttpTestTag tag = new HttpTestTag();
-    tag.begin("test", (Attributes)attrMock.proxy());
-    tag.child(childMock.proxy());
-    tag.end("test");
+    HttpTestTag tag = new HttpTestTag(mti);
+    
+    tag.addChild((MarmaladeTag)childMock.proxy());
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
@@ -104,9 +106,6 @@ public class HttpTestTagTest extends AbstractTagCGLibTestCase{
     assertEquals("Should have 1 failures", 1, result.failureCount());
     assertEquals("Should have 1 run", 1, result.runCount());
     assertFalse("Test Result should NOT have passed", result.wasSuccessful());
-    
-    childMock.verify();
-    attrMock.verify();
   }
 
   public void testError() throws TagException, TagalogParseException, MarmaladeExecutionException {
@@ -116,16 +115,17 @@ public class HttpTestTagTest extends AbstractTagCGLibTestCase{
              .with(isA(MarmaladeExecutionContext.class))
              .will(throwException(new NullPointerException()));
     
-    Map attributes = new TreeMap();
-    attributes.put("name", "UnitTest");
-    attributes.put("var", "testResult");
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute(new DefaultRawAttribute("", "name", "UnitTest"));
+    attrs.addAttribute(new DefaultRawAttribute("", "var", "testResult"));
     
-    Mock attrMock = attributesFromMap(attributes);
+    MarmaladeTagInfo mti = new MarmaladeTagInfo();
+    mti.setAttributes(attrs);
+    mti.setElement("httpTest");
     
-    HttpTestTag tag = new HttpTestTag();
-    tag.begin("test", (Attributes)attrMock.proxy());
-    tag.child(childMock.proxy());
-    tag.end("test");
+    HttpTestTag tag = new HttpTestTag(mti);
+    
+    tag.addChild((MarmaladeTag)childMock.proxy());
     
     DefaultContext ctx = new DefaultContext();
     tag.execute(ctx);
@@ -147,9 +147,6 @@ public class HttpTestTagTest extends AbstractTagCGLibTestCase{
     assertEquals("Should have 0 failures", 0, result.failureCount());
     assertEquals("Should have 1 run", 1, result.runCount());
     assertFalse("Test Result should NOT have passed", result.wasSuccessful());
-    
-    childMock.verify();
-    attrMock.verify();
   }
 
 }

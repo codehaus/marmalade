@@ -33,7 +33,7 @@ public class CookieTagTest extends AbstractTagCGLibTestCase{
           .with(eq("testkey"), eq("testval"))
           .isVoid();
     
-    Mock wrtMock = new Mock(WebConversationTag.class);
+    Mock wrtMock = new Mock(DefaultWebConversationTag.class);
     wrtMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -61,7 +61,7 @@ public class CookieTagTest extends AbstractTagCGLibTestCase{
           .with(eq("testkey"), eq("testval"))
           .isVoid();
     
-    Mock wrtMock = new Mock(WebConversationTag.class);
+    Mock wrtMock = new Mock(DefaultWebConversationTag.class);
     wrtMock.expects(once())
            .method("getConversation")
            .withNoArguments()
@@ -92,7 +92,7 @@ public class CookieTagTest extends AbstractTagCGLibTestCase{
           .with(eq("testkey"), eq("testval"))
           .isVoid();
     
-    Mock wrtMock = new Mock(WebConversationTag.class);
+    Mock wrtMock = new Mock(DefaultWebConversationTag.class);
     wrtMock.expects(once())
            .method("getConversation")
            .withNoArguments()

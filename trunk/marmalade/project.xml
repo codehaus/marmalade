@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <pomVersion>3</pomVersion>
-  <id>marmalade-site</id>
-  <name>Marmalade</name>
-  <groupId>marmalade</groupId>
+  <!-- v3 -->
+  <id>marmalade-parent</id>
   <currentVersion>0.1</currentVersion>
+  <!-- v4 -->
+  <groupId>marmalade</groupId>
+  <artifactId>marmalade-parent</artifactId>
+  <version>0.1</version>
+
+  <name>Marmalade Parent Project</name>
   <organization>
     <name>Codehaus</name>
     <url>http://www.codehaus.org</url>
@@ -14,8 +18,9 @@
   <package>org.codehaus.marmalade</package>
   
   <description>
-      Marmalade is a scripting language, implemented in XML, with pluggable expression languages and
-      tag libraries via XML Namespaces. Initially, Marmalade will focus on supporting a syntax like JSP or Jelly.
+      Marmalade is a scripting language, implemented in XML, with pluggable
+      expression languages and tag libraries via XML Namespaces. Initially,
+      Marmalade will focus on supporting a syntax like JSP or Jelly.
   </description>
   
   <shortDescription>Marmalade is an XML-based scripting language.</shortDescription>
@@ -67,8 +72,14 @@
     <!-- Testing dependencies -->
     <dependency>
       <groupId>jmock</groupId>
-      <artifactId>jmock-core</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <artifactId>jmock</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
     </dependency>
     <!-- /Testing dependencies -->
   </dependencies>

@@ -32,7 +32,8 @@ public class PrefixedTldDefinitionStrategy implements TaglibDefinitionStrategy{
     InputStream tldStream = null;
     
     try{
-      tldStream = cloader.getResourceAsStream("META-INF/" + prefix + "/" + taglib + ".tld");
+      String tldFile = "META-INF/" + prefix + "/" + taglib + ".tld";
+      tldStream = cloader.getResourceAsStream(tldFile);
       
       if(tldStream != null) {
         try{
@@ -46,8 +47,6 @@ public class PrefixedTldDefinitionStrategy implements TaglibDefinitionStrategy{
         catch(TagalogParseException e){}
       }
     }
-    
-    // Ignore and return null.
     finally {
       if(tldStream != null) {
         try {tldStream.close();} catch(IOException e) {}

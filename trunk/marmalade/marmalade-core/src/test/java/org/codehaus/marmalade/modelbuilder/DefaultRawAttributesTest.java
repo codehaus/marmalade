@@ -2,8 +2,10 @@
 package org.codehaus.marmalade.modelbuilder;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttribute;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.ModelBuilderAttribute;
 
 import junit.framework.TestCase;
 

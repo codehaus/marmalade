@@ -4,10 +4,14 @@ package org.codehaus.marmalade.tags.jstl.core;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.jstl.core.ForTokensTag;
-import org.codehaus.marmalade.testing.AbstractTagTestCase;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
@@ -17,122 +21,55 @@ import org.jmock.Mock;
 /**
  * @author jdcasey
  */
-public class ForTokensTagTest extends AbstractTagTestCase{
+public class ForTokensTagTest extends TestCase{
+  
+  private void _testTokenIteration(String delim, String value, int expectedResult) throws MarmaladeExecutionException {
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    attrs.addAttribute("", "items", value);
+    attrs.addAttribute("", "delims", delim);
+    attrs.addAttribute("", "var", "item");
+    
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(attrs);
+    ti.setExpressionEvaluator(new PassThroughExpressionEvaluator());
+    
+    ForTokensTag tag = new ForTokensTag(ti);
+    
+    MarmaladeTagInfo counterTI = new MarmaladeTagInfo();
+    counterTI.setAttributes(new DefaultRawAttributes());
+    
+    CounterTestTag counter = new CounterTestTag(counterTI);
+    
+    counter.setParent(tag);
+    tag.addChild(counter);
+    
+    tag.execute(new DefaultContext());
+    
+    assertEquals(expectedResult, counter.counter());
+  }
 
   public void testDoExecute_SingleDelim_SingleValue()
   throws TagException, TagalogParseException, MarmaladeExecutionException
   {
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("delims", ",");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForTokensTag tag = new ForTokensTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testTokenIteration(",", "one", 1);
   }
 
   public void testDoExecute_SingleDelim_MultiValue()
   throws TagException, TagalogParseException, MarmaladeExecutionException
   {
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("delims", ",");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForTokensTag tag = new ForTokensTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testTokenIteration(",", "one,two", 2);
   }
 
   public void testDoExecute_MultiDelim_SingleValue()
   throws TagException, TagalogParseException, MarmaladeExecutionException
   {
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("delims", ",:");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForTokensTag tag = new ForTokensTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testTokenIteration(",;", "one", 1);
   }
 
   public void testDoExecute_MultiDelim_MultiValue()
   throws TagException, TagalogParseException, MarmaladeExecutionException
   {
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("delims", ",.");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForTokensTag tag = new ForTokensTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one.a,two");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read three", 3, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
+    _testTokenIteration(",;", "one,two;three", 3);
   }
 
 }

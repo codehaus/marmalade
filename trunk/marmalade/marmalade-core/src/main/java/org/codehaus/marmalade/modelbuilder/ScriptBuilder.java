@@ -10,14 +10,14 @@ import org.codehaus.marmalade.model.MarmaladeScript;
 public class ScriptBuilder{
 
   private String filename;
-  private BuilderTag root;
+  private MarmaladeTagBuilder root;
 
-  public ScriptBuilder(String filename, BuilderTag root){
+  public ScriptBuilder(String filename, MarmaladeTagBuilder root){
     this.filename = filename;
     this.root = root;
   }
   
-  public MarmaladeScript build() {
+  public MarmaladeScript build() throws MarmaladeModelBuilderException{
     return new MarmaladeScript(filename, root.build());
   }
   

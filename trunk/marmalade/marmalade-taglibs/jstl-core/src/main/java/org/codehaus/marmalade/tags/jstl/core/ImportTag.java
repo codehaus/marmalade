@@ -8,6 +8,7 @@ import java.net.URL;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.modelbuilder.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
 import org.codehaus.marmalade.modelbuilder.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
@@ -70,24 +71,25 @@ public class ImportTag extends AbstractMarmaladeTag {
     try{
       ScriptParser parser = new ScriptParser(resolver);
       MarmaladeScript script = parser.parse(resource);
-      Boolean parseOnly = (Boolean)attributes.getValue(PARSE_ONLY_ATTRIBUTE, Boolean.class, context, "false");
+      Boolean parseOnly = (Boolean)attributes.getValue(PARSE_ONLY_ATTRIBUTE, Boolean.class, context, Boolean.FALSE);
       boolean shouldExec = (parseOnly == null)?(true):(!parseOnly.booleanValue());
       
       if(shouldExec) {
         script.execute(context);
-        String var = (String)attributes.getValue(VAR_ATTRIBUTE, String.class, context);
-        if(var != null && var.length() > 0) {
-          context.setVariable(var, script);
-        }
       }
-      else {
-        String var = (String)requireTagAttribute(VAR_ATTRIBUTE, String.class, context);
-        if(var != null && var.length() > 0) {
-          context.setVariable(var, script);
-        }
+      
+      String var = (String)attributes.getValue(VAR_ATTRIBUTE, String.class, context);
+      if(var != null && var.length() > 0) {
+        context.setVariable(var, script);
       }
     }
     catch(MarmaladeParsetimeException e){
+      throw new MarmaladeExecutionException(
+        "Error parsing script from: " + resource.toExternalForm(), e
+      );
+    }
+    catch( MarmaladeModelBuilderException e )
+    {
       throw new MarmaladeExecutionException(
         "Error parsing script from: " + resource.toExternalForm(), e
       );

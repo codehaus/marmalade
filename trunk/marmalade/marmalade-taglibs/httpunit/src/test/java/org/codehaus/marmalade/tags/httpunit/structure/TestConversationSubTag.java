@@ -1,9 +1,9 @@
 /* Created on Apr 29, 2004 */
 package org.codehaus.marmalade.tags.httpunit.structure;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 import com.meterware.httpunit.WebConversation;
 
@@ -13,7 +13,8 @@ import com.meterware.httpunit.WebConversation;
  */
 public class TestConversationSubTag extends AbstractWebConversationSubTag{
 
-  public TestConversationSubTag(){
+  public TestConversationSubTag(MarmaladeTagInfo mti){
+    super(mti);
   }
   
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

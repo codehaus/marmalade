@@ -5,10 +5,9 @@ import junit.framework.TestCase;
 
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.modelbuilder.strategy.TaglibDefinitionStrategy;
-import org.codehaus.marmalade.modelbuilder.strategy.tld.TldDefinedTagLibrary;
-import org.codehaus.tagalog.Tag;
-import org.codehaus.tagalog.TagLibrary;
 
 
 /**

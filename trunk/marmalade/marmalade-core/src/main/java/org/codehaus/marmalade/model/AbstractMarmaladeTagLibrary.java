@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
-import org.codehaus.tagalog.AbstractTagLibrary;
 
 /** Represents base-level common functionality for all marmalade tag libraries.
  * 

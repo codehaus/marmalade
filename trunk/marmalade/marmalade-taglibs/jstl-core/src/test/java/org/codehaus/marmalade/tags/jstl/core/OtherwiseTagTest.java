@@ -1,11 +1,15 @@
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.modelbuilder.DefaultRawAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.IllegalParentException;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.jstl.core.ChooseTag;
 import org.codehaus.marmalade.tags.jstl.core.WhenTag;
-import org.codehaus.marmalade.testing.AbstractTagTestCase;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
@@ -15,57 +19,54 @@ import org.jmock.Mock;
 /**
  * @author jdcasey
  */
-public class OtherwiseTagTest extends AbstractTagTestCase{
+public class OtherwiseTagTest extends TestCase{
 
-  public void testDoExecute_NoParent() throws TagException, TagalogParseException{
-    Mock attrMock = attributesEmpty();
-    WhenTag tag = new WhenTag();
-    tag.begin("othewise", (Attributes)attrMock.proxy());
+  public void testShouldFailWithMissingChooseParent() throws MarmaladeExecutionException {
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(new DefaultRawAttributes());
     
-    Mock attrMock2 = attributesEmpty();
+    OtherwiseTag tag = new OtherwiseTag(ti);
     
-    FlagChildTestTag flag = new FlagChildTestTag();
-    flag.begin("flag", (Attributes)attrMock2.proxy());
+    MarmaladeTagInfo flagTI = new MarmaladeTagInfo();
+    flagTI.setAttributes(new DefaultRawAttributes());
     
-    tag.child(flag);
+    FlagChildTestTag flag = new FlagChildTestTag(flagTI);
     
-    DefaultContext context = new DefaultContext();
-    try {
-      tag.execute(context);
-      fail("Tag should fail due to missing ChooseTag parent.");
-    }
-    catch(MarmaladeExecutionException e) {
-    }
-    attrMock.verify();
-    attrMock2.verify();
-  }
-
-  public void testDoExecute_WithParent() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Mock zAttrMock = attributesEmpty();
-    ChooseTag parent = new ChooseTag();
-    parent.begin("choose", (Attributes)zAttrMock.proxy());
-    
-    Mock attrMock = attributesEmpty();
-    WhenTag tag = new WhenTag();
-    tag.begin("otherwise", (Attributes)attrMock.proxy());
-    
-    parent.child(tag);
-    tag.setParent(parent);
-    
-    Mock attrMock2 = attributesEmpty();
-    FlagChildTestTag flag = new FlagChildTestTag();
-    flag.begin("flag", (Attributes)attrMock2.proxy());
-    
-    tag.child(flag);
+    tag.addChild(flag);
     flag.setParent(tag);
     
-    DefaultContext context = new DefaultContext();
-    tag.execute(context);
-    assertTrue("Child tag should have fired.", flag.fired());
+    try {
+      tag.execute(new DefaultContext());
+      fail("Tag should fail due to missing ChooseTag parent.");
+    }
+    catch(IllegalParentException e) {
+    }
+  }
+
+  public void testShouldExecuteWhenLoneChildInChooseParent() throws MarmaladeExecutionException{
+    MarmaladeTagInfo ti = new MarmaladeTagInfo();
+    ti.setAttributes(new DefaultRawAttributes());
     
-    zAttrMock.verify();
-    attrMock.verify();
-    attrMock2.verify();
+    OtherwiseTag tag = new OtherwiseTag(ti);
+    
+    MarmaladeTagInfo parentTI = new MarmaladeTagInfo();
+    parentTI.setAttributes(new DefaultRawAttributes());
+    
+    ChooseTag parent = new ChooseTag(parentTI);
+    
+    tag.setParent(parent);
+    parent.addChild(tag);
+    
+    MarmaladeTagInfo flagTI = new MarmaladeTagInfo();
+    flagTI.setAttributes(new DefaultRawAttributes());
+    
+    FlagChildTestTag flag = new FlagChildTestTag(flagTI);
+    
+    tag.addChild(flag);
+    flag.setParent(tag);
+    
+    tag.execute(new DefaultContext());
+    assertTrue("Child tag should have fired.", flag.fired());
   }
 
 }

@@ -24,21 +24,19 @@ public final class ExpressionEvaluatorFactory {
 
   /** Factory; deny construction.
    */
-  private ExpressionEvaluatorFactory() {
+  public ExpressionEvaluatorFactory() {
   }
   
   /** Return the default expression evaluator implementation.
    */
   public static ExpressionEvaluator getDefaultExpressionEvaluator() 
-  throws ConfigurationException
   {
-    return getExpressionEvaluator(DEFAULT_EL_TYPE);
+    return new ExpressionEvaluatorFactory().getExpressionEvaluator(DEFAULT_EL_TYPE);
   }
   
   /** Return the expression evaluator implementation for the specified EL type.
    */
-  public static ExpressionEvaluator getExpressionEvaluator(String type) 
-  throws ConfigurationException
+  public ExpressionEvaluator getExpressionEvaluator(String type) 
   {
     // lock only for the specified type of EL...let everything else happen.
     synchronized(type.intern()){
@@ -54,18 +52,16 @@ public final class ExpressionEvaluatorFactory {
         }
         else{
           String className = null;
-          
+          BufferedReader in = null;
           try{
-            BufferedReader in = new BufferedReader(new InputStreamReader(res));
+            in = new BufferedReader(new InputStreamReader(res));
             className = in.readLine();
             in.close();
           }
           catch(IOException e){
-            throw new ConfigurationException(
-              "Error reading Expression Evaluator implementation class name for type: \'" + 
-              type + "\' from \'" + elResource + "\'.",
-              e
-            );
+          }
+          finally {
+            if(in != null) {try {in.close();}catch(IOException e) {}}
           }
           
           if(className != null && className.length() > 0) {
@@ -75,21 +71,12 @@ public final class ExpressionEvaluatorFactory {
               evaluators.put(type, evaluator);
             }
             catch (ClassNotFoundException e) {
-              throw new ConfigurationException(
-                "Expression evaluator class: \'" + className + "\' for type: \'" + 
-                type + "\' not found.",
-                e
-              );
             }
             catch (InstantiationException e) {
-              throw new ConfigurationException("Error instantiating expression evaluator.", e);
             }
             catch (IllegalAccessException e) {
-              throw new ConfigurationException("Error instantiating expression evaluator.", e);
             }
             catch(UndeclaredThrowableException e){
-              Throwable t = e.getUndeclaredThrowable();
-              throw new ConfigurationException("Error instantiating expression evaluator.", t);
             }
           }
         }

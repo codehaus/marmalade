@@ -3,7 +3,7 @@ package org.codehaus.marmalade.tags.httpunit;
 
 import java.io.IOException;
 
-import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.xml.sax.SAXException;
