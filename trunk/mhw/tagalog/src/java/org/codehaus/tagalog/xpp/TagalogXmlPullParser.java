@@ -11,6 +11,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import org.codehaus.tagalog.AbstractParser;
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.Location;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 
@@ -87,7 +88,9 @@ final class TagalogXmlPullParser extends AbstractParser {
         }
     }
 
-    protected int getErrorLineNumber() {
-        return xpp.getLineNumber();
+    public Location getLocation() {
+        return new Location(null,
+                            xpp.getLineNumber(),
+                            xpp.getColumnNumber());
     }
 }

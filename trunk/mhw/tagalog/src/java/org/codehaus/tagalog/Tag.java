@@ -16,8 +16,9 @@ import java.util.Map;
  * An instance of the tag is constructed using either its default
  * constructor, or a non-default constructor invoked by a {@link TagFactory}.
  * <li>
- * The {@link #setContext} and {@link #setParent} methods are called to
- * connect the tag instance to the shared parse context and the tag's parent.
+ * The {@link #setParser}, {@link #setContext} and {@link #setParent} methods
+ * are called to connect the tag instance to the parser, the shared parse
+ * context and the tag's parent.
  * If the tag is processing the root element of the document then
  * <code>setParent</code> will not be called.
  * <li>
@@ -33,9 +34,10 @@ import java.util.Map;
  * The {@link #end} method is called. The return value of this method will
  * be passed to the <code>child</code> method of the parent tag.
  * <li>
- * The {@link #setContext} and {@link #setParent} methods are called with
- * the parameter <code>null</code> to disconnect the tag instance from the
- * shared parse context and the tag's parent.
+ * The {@link #setContext}, {@link #setParent} and {@link #setParser}
+ * methods are called with the parameter <code>null</code> to disconnect
+ * the tag instance from the shared parse context, the tag's parent and
+ * the parser.
  * If the tag is processing the root element of the document then
  * <code>setParent</code> will not be called.
  * <li>
@@ -50,6 +52,8 @@ import java.util.Map;
  * @version $Revision$
  */
 public interface Tag {
+    void setParser(TagalogParser parser);
+
     void setContext(Map context);
 
     void setParent(Tag parent);
