@@ -14,5 +14,57 @@ parsers;
 new adaptors can be built quite simply.
 </p>
 
+<p>
+Which parser is more suitable will depend on the kind of environment your
+aiming at.
+The Java runtime has included a SAX parser from release 1.4,
+so if you can guarantee that your code is running on JRE 1.4 the SAX
+parser is probably the easier one to manage as it requires no additional
+JAR files.
+You might want to consider using XPP3 if you're targetting earlier
+JRE releases where you might have trouble getting the SAX machinery
+to work reliably.
+XPP3 might also be faster, although we haven't done any performance
+testing to determine whether performance differences between SAX and
+XPP3 are noticeable when using Tagalog.
+</p>
+
+<h2>Using SAX</h2>
+
+<p>
+Tagalog will use the system default SAX parser if you create the
+<code>TagalogParser</code> using the
+<a href="apidocs/org/codehaus/tagalog/sax/TagalogSAXParserFactory.html">TagalogSAXParserFactory</a>.
+For a concrete self-contained example look at the
+<a href="xref-test/org/codehaus/tagalog/acceptance/sax/BasicSAXTest.html">BasicSAXTest.java</a>.
+</p>
+
+<h2>Using XPP3</h2>
+
+<p>
+Tagalog will use XPP3 if you create the
+<code>TagalogParser</code> using the
+<a href="apidocs/org/codehaus/tagalog/xpp/TagalogXmlPullParserFactory.html">TagalogXmlPullParserFactory</a>.
+For a concrete self-contained example look at the
+<a href="xref-test/org/codehaus/tagalog/acceptance/xpp/BasicXmlPullTest.html">BasicXmlPullTest.java</a>.
+</p>
+
+<h2>Behavioural Differences</h2>
+
+<p>
+Exception handling differs slightly between the SAX and XPP3 parsers.
+When using the XPP3 parser, <code>RuntimeException</code>s thrown by
+<code>Tag</code>s (or by Tagalog itself for that matter) pass straight
+through the XPP3 parser unmodified.
+The Crimson SAX parser that is included with JRE 1.4 catches these
+exceptions internally and wraps them in a <code>SAXParseException</code>
+that includes information about the position in the parse where the
+error occured; Tagalog will then wrap the <code>SAXParseException</code>
+in a <code>TagalogParseException</code>.
+We could make this consistent but that would mean unwrapping the
+<code>SAXParseException</code> and throwing away the information
+about where the error occurred.
+</p>
+
 </body>
 </html>
