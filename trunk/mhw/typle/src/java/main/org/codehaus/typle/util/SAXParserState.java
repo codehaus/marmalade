@@ -7,6 +7,13 @@ package org.codehaus.typle.util;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
 /**
  * SAXParserState encapsulates a stack-based representation of the state
  * of a SAX ContentHandler. It allows the client to enquire whether the
@@ -32,6 +39,19 @@ public final class SAXParserState {
     private StringBuffer content = null;
 
     private boolean contentSignificant = false;
+
+    public static XMLReader createXMLReader()
+        throws ParserConfigurationException, SAXException
+    {
+        SAXParserFactory factory;
+        SAXParser parser;
+        XMLReader xmlReader;
+
+        factory = javax.xml.parsers.SAXParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        parser = factory.newSAXParser();
+        return parser.getXMLReader();
+    }
 
     /**
      * Reset the parser state so it can begin parsing a new document.
