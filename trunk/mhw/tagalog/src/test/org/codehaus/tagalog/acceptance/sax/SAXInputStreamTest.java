@@ -13,7 +13,7 @@ import org.codehaus.tagalog.acceptance.AbstractParserTest;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 
 /**
- * SAXParserFactoryTest
+ * Test the {@link TagalogSAXParser} while reading <code>InputStream</code>s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @version $Revision$
