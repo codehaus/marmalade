@@ -30,6 +30,10 @@ public final class RecordType implements Type {
         return new RecordType(fields.add(new NamedType(name, type)));
     }
 
+    public NamedTypeList getFields() {
+        return fields;
+    }
+
     public Type getField(String name) {
         NamedType t = fields.get(name);
         return (t == null)? null : t.getType();
