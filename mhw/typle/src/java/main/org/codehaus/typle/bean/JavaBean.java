@@ -19,7 +19,7 @@ import org.codehaus.typle.src.java.Field;
 import org.codehaus.typle.src.java.Import;
 import org.codehaus.typle.src.java.JavaClass;
 import org.codehaus.typle.src.java.JavaSource;
-import org.codehaus.typle.src.java.Package;
+import org.codehaus.typle.src.java.JavaPackage;
 
 /**
  * @author Mark H. Wilkinson
@@ -77,8 +77,8 @@ public final class JavaBean {
      */
     private void visit(RecordType record, State state) {
         state.source.add(new BoilerPlateComment("/*\n * $" + "Id$\n */\n\n", 1));
-        state.source.add(new Package("net.kremvax"));
-        state.source.add(new Package("foo.kremvax"));
+        state.source.add(new JavaPackage("net.kremvax"));
+        state.source.add(new JavaPackage("foo.kremvax"));
         state.source.add(new Import("org.codehaus.plexus.Plexus"));
         state.source.add(new Import("javax.servlet.Servlet"));
 

@@ -65,12 +65,12 @@ public class JavaSourceTest extends TestCase {
      * Check that package declarations work.
      */
     public void testPackage() {
-        src.add(new Package("abc.def.ghi"));
+        src.add(new JavaPackage("abc.def.ghi"));
 
         Iterator iter = src.iterator();
-        Package p;
+        JavaPackage p;
         assertTrue(iter.hasNext());
-        p = (Package) iter.next();
+        p = (JavaPackage) iter.next();
         assertEquals("abc.def.ghi", p.getPackageName());
         assertFalse(iter.hasNext());
     }
@@ -79,21 +79,21 @@ public class JavaSourceTest extends TestCase {
      * Check that duplication package declarations override each other.
      */
     public void testPackageDuplication() {
-        src.add(new Package("abc.def.ghi"));
-        src.add(new Package("def.pqr.xyz"));
+        src.add(new JavaPackage("abc.def.ghi"));
+        src.add(new JavaPackage("def.pqr.xyz"));
 
         Iterator iter = src.iterator();
-        Package p;
+        JavaPackage p;
         assertTrue(iter.hasNext());
-        p = (Package) iter.next();
+        p = (JavaPackage) iter.next();
         assertEquals("def.pqr.xyz", p.getPackageName());
         assertFalse(iter.hasNext());
 
-        src.add(new Package("abc.def.pqr"));
+        src.add(new JavaPackage("abc.def.pqr"));
 
         iter = src.iterator();
         assertTrue(iter.hasNext());
-        p = (Package) iter.next();
+        p = (JavaPackage) iter.next();
         assertEquals("abc.def.pqr", p.getPackageName());
         assertFalse(iter.hasNext());
     }
@@ -151,7 +151,7 @@ public class JavaSourceTest extends TestCase {
         src.add(new JavaClass(Modifier.PRIVATE, "Abc"));
         src.add(new JavaClass("Xyz"));
         src.add(new Import("org.codehaus.Foo"));
-        src.add(new Package("org.codehaus.typle"));
+        src.add(new JavaPackage("org.codehaus.typle"));
         src.add(new BoilerPlateComment("/* Header */", 1));
 
         Iterator iter = src.iterator();
@@ -162,7 +162,7 @@ public class JavaSourceTest extends TestCase {
         assertEquals(BoilerPlateComment.class, o.getClass());
         assertTrue(iter.hasNext());
         o = iter.next();
-        assertEquals(Package.class, o.getClass());
+        assertEquals(JavaPackage.class, o.getClass());
         assertTrue(iter.hasNext());
         o = iter.next();
         assertEquals(Import.class, o.getClass());

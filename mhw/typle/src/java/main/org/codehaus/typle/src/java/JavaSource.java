@@ -17,7 +17,7 @@ public final class JavaSource implements Comparator {
 
     private static final Class[] artefactOrder = new Class[] {
         BoilerPlateComment.class,
-        Package.class,
+        JavaPackage.class,
         Import.class,
         JavaClass.class,
         Field.class,
@@ -37,8 +37,8 @@ public final class JavaSource implements Comparator {
         if (o1 instanceof BoilerPlateComment) {
             return boilerPlateCommentCompare((BoilerPlateComment) o1,
                                              (BoilerPlateComment) o2);
-        } else if (o1 instanceof Package) {
-            return packageCompare((Package) o1, (Package) o2);
+        } else if (o1 instanceof JavaPackage) {
+            return packageCompare((JavaPackage) o1, (JavaPackage) o2);
         } else if (o1 instanceof Import) {
             return importCompare((Import) o1, (Import) o2);
         } else if (o1 instanceof JavaClass) {
@@ -80,7 +80,7 @@ public final class JavaSource implements Comparator {
     /**
      * @return 0, because all packages are considered equal. 
      */
-    private int packageCompare(Package o1, Package o2) {
+    private int packageCompare(JavaPackage o1, JavaPackage o2) {
         return 0;
     }
 

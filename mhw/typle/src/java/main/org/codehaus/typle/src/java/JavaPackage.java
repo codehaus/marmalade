@@ -14,13 +14,13 @@ import org.codehaus.typle.src.SourceArtefact;
  * @author Mark H. Wilkinson
  * @version $Revision$
  */
-public final class Package
+public final class JavaPackage
     extends AbstractSourceArtefact
     implements SourceArtefact
 {
     private final String packageName;
 
-    public Package(String packageName) {
+    public JavaPackage(String packageName) {
         this.packageName = packageName;
     }
 
