@@ -1,5 +1,5 @@
 /* Created on Apr 11, 2004 */
-package org.codehaus.marmalade.generics;
+package org.codehaus.marmalade;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.util.ScopedMap;

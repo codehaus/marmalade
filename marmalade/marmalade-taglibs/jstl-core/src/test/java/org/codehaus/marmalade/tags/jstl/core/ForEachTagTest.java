@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.codehaus.marmalade.DefaultContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.generics.DefaultContext;
 import org.codehaus.marmalade.tags.jstl.core.ForEachTag;
 import org.codehaus.marmalade.testing.AbstractTagTestCase;
 import org.codehaus.tagalog.Attributes;
