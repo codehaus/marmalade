@@ -28,6 +28,9 @@
   </repository>
 
   <dependencies>
+    <!-- Only needed at run-time if you use the org.codehaus.tagalog.xpp
+      -  package.
+      -->
     <dependency>
       <groupId>xpp3</groupId>
       <artifactId>xpp3</artifactId>
