@@ -4,24 +4,11 @@
 
 package org.codehaus.typle;
 
-import java.io.File;
-import java.net.URL;
-
-import junit.framework.TestCase;
-
 /**
  * @author Mark H. Wilkinson
  * @version $Revision$
  */
-public class XmlStoreTypeFactoryTest extends TestCase {
-    private static final String NS = "tests";
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        URL testDirUrl = XmlStoreTypeFactoryTest.class.getResource("/");
-        File testDir = new File(testDirUrl.getFile());
-        Naming.addNamespaceFactory(NS, new XmlStoreTypeFactory(testDir));
-    }
+public class XmlStoreTypeFactoryTest extends AbstractTypleTest {
 
     public void testLookupFailure() throws Exception {
         Type t;
@@ -34,11 +21,13 @@ public class XmlStoreTypeFactoryTest extends TestCase {
         Type t;
         RecordType r;
 
-        t = Naming.lookup(NS, "xml.store.test.SingleField");
+        t = Naming.lookup(NS, "org.codehaus.typle.test.SingleField");
         assertNotNull(t);
-        assertTrue("SingleField not record", t instanceof RecordType);
-        assertEquals("xml.store.test.SingleField", t.getTypeName());
+        assertTrue("SingleField not annotated", t instanceof AnnotatedType);
+        assertEquals("org.codehaus.typle.test.SingleField", t.getTypeName());
         assertEquals("[int theField]", t.toString());
+        t = ((AnnotatedType) t).getAnnotatedType();
+        assertTrue("SingleField not record", t instanceof RecordType);
         r = (RecordType) t;
         assertEquals(1, r.getFields().size());
         assertEquals(Java.INT_TYPE, r.getField("theField"));
@@ -49,10 +38,12 @@ public class XmlStoreTypeFactoryTest extends TestCase {
         RecordType r;
         Type f;
 
-        t = Naming.lookup(NS, "xml.store.test.MultipleField");
+        t = Naming.lookup(NS, "org.codehaus.typle.test.MultipleField");
         assertNotNull(t);
+        assertTrue("MultipleField not annotated", t instanceof AnnotatedType);
+        assertEquals("org.codehaus.typle.test.MultipleField", t.getTypeName());
+        t = ((AnnotatedType) t).getAnnotatedType();
         assertTrue("MultipleField not record", t instanceof RecordType);
-        assertEquals("xml.store.test.MultipleField", t.getTypeName());
         r = (RecordType) t;
         assertEquals(3, r.getFields().size());
         f = r.getField("fieldOne");
