@@ -43,6 +43,12 @@
       </roles>
     </developer>
   </developers>
+  <modules>
+    <module>marmalade-core</module>
+    <module>marmalade-utils</module>
+    <module>marmalade-el/ognl-el</module>
+    <module>marmalade-compat/ant</module>
+  </modules>
   <dependencies>
     <dependency>
       <groupId>xpp3</groupId>
