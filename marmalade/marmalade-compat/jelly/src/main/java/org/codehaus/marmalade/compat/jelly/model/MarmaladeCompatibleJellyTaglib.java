@@ -36,11 +36,15 @@ public class MarmaladeCompatibleJellyTaglib implements MarmaladeTagLibrary
         try
         {
             stream = Jelly.class.getResourceAsStream( JELLY_NATIVE_TAGLIBS_DEFINITION );
-            natives.load( stream );
+
+            if ( stream != null )
+            {
+                natives.load( stream );
+            }
         }
         catch ( IOException e )
         {
-            //TODO: Report failure to load "native" jelly taglibs.
+            throw new JellyCompatUncheckedException( e );
         }
         finally
         {
