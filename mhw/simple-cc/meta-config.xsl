@@ -25,6 +25,7 @@
             localworkingcopy="src/{$srcdir}"/>
       </bootstrappers>
       <modificationset>
+        <filesystem folder="/eng/cruisecontrol/force-build/{@name}"/>
         <xsl:for-each select="repo-dependency">
 	  <filesystem folder="/eng/cruisecontrol/.maven/repository/{.}"/>
 	</xsl:for-each>
