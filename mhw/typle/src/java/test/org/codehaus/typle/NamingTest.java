@@ -16,7 +16,7 @@ public class NamingTest extends TestCase {
     /*
      * Test for Type lookup(String)
      */
-    public void testLookupString() {
+    public void testLookupString() throws Exception {
         Type t;
 
         t = Naming.lookup("java:int");
@@ -38,7 +38,7 @@ public class NamingTest extends TestCase {
     /*
      * Test for Type lookup(String, String)
      */
-    public void testLookupStringString() {
+    public void testLookupStringString() throws Exception {
         Type t;
 
         t = Naming.lookup("java", "int");

@@ -26,7 +26,7 @@ public abstract class AbstractTypeFactory {
         typeMap.put(name, type);
     }
 
-    public Type lookup(String name) {
+    public Type lookup(String name) throws TypeLookupException {
         Object o;
         Type t = null;
 
@@ -47,5 +47,5 @@ public abstract class AbstractTypeFactory {
      * @param name The name of the type to resolve.
      * @return Instantiated <code>Type</code>.
      */
-    protected abstract Type resolveType(String name);
+    protected abstract Type resolveType(String name) throws TypeLookupException;
 }
