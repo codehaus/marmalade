@@ -14,15 +14,8 @@ import java.util.Iterator;
  * @version $Revision$
  */
 public final class SourceFile extends AbstractSourceContainer {
-    private final PrintWriter output;
-
-    public SourceFile(PrintWriter output, Comparator artefactOrder) {
+    public SourceFile(Comparator artefactOrder) {
         super(artefactOrder);
-        this.output = output;
-    }
-
-    public void writeOutput() throws IOException {
-        write(output);
     }
 
     public void write(PrintWriter writer) throws IOException {

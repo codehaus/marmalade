@@ -4,8 +4,6 @@
 
 package org.codehaus.typle.src;
 
-import java.io.PrintWriter;
-
 import junit.framework.TestCase;
 
 /**
@@ -22,8 +20,7 @@ public final class BoilerPlateCommentTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         comment = new BoilerPlateComment("/* foo */", 5);
-        src = new SourceFile(new PrintWriter(System.out),
-                             SimpleSourceOrdering.COMPARATOR);
+        src = new SourceFile(SimpleSourceOrdering.COMPARATOR);
     }
 
     /**
