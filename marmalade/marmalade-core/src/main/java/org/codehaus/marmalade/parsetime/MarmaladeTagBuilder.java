@@ -21,50 +21,30 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-/* Created on Apr 12, 2004 */
-package org.codehaus.marmalade.metamodel.strategy.tld.tags;
+/* Created on May 18, 2004 */
+package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.tagalog.AbstractTag;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
+import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.MarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 
 /**
  * @author jdcasey
  */
-public class TagTag extends AbstractTag
+public interface MarmaladeTagBuilder
 {
-    private String name;
-    private Class tagClass;
+    public static final String MARMALADE_RESERVED_NS = "marmalade";
+    public static final String EXPRESSION_EVALUATOR_ATTRIBUTE = "el";
 
-    public TagTag(  )
-    {
-    }
+    public MarmaladeTagLibrary getTagLibrary(  );
 
-    void setName( String name )
-    {
-        this.name = name;
-    }
+    public MarmaladeTagInfo getTagInfo(  );
 
-    void setTagClass( Class tagClass )
-    {
-        this.tagClass = tagClass;
-    }
+    public MarmaladeTag build(  )
+        throws MarmaladeModelBuilderException;
 
-    public Object end( String elementName )
-        throws TagException, TagalogParseException
-    {
-        TaglibTag parent = ( TaglibTag ) getParent(  );
+    public void setExpressionEvaluator( ExpressionEvaluator el );
 
-        parent.addTag( name, tagClass );
-
-        return null;
-    }
-
-    public boolean recycle(  )
-    {
-        this.name = null;
-        this.tagClass = null;
-
-        return true;
-    }
+    public ExpressionEvaluator getExpressionEvaluator(  );
 }

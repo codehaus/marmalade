@@ -22,20 +22,53 @@
  *
  */
 /* Created on Apr 10, 2004 */
-package org.codehaus.marmalade.metamodel;
+package org.codehaus.marmalade.parsetime;
 
-import java.util.Iterator;
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
+import org.codehaus.marmalade.el.ExpressionEvaluator;
+
+import java.io.PrintWriter;
+import java.io.Reader;
+
+import java.util.Map;
 
 /**
  * @author jdcasey
  */
-public interface ModelBuilderAttributes
+public interface MarmaladeParsingContext
 {
-    Iterator iterator(  );
+    public Object getVariable( Object key, ExpressionEvaluator el )
+        throws ExpressionEvaluationException;
 
-    String getNamespace( String name );
+    public Object setVariable( Object key, Object value );
+    
+    public void setVariables( Map vars );
 
-    String getValue( String name );
+    public Object removeVariable( Object key );
 
-    String getValue( String namespace, String name );
+    public Map unmodifiableVariableMap(  );
+
+    public void newScope(  );
+
+    public Map lastScope(  );
+
+    public Map lastScope( boolean export );
+
+    public void setOutWriter( PrintWriter out );
+
+    public void setErrWriter( PrintWriter err );
+
+    public void setInReader( Reader in );
+
+    public PrintWriter getErrWriter(  );
+
+    public PrintWriter getOutWriter(  );
+
+    public Reader getInReader(  );
+
+    public Boolean preserveWhitespaceOverride(  );
+
+    public void preserveWhitespaceOverride( Boolean shouldOverride );
+
+    public void importContext( MarmaladeParsingContext context );
 }

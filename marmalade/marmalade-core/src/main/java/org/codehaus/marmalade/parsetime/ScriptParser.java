@@ -24,10 +24,7 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
-import org.codehaus.marmalade.metamodel.MarmaladeTagBuilder;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;

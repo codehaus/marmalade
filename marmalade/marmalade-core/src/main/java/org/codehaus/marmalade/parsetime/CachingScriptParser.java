@@ -1,9 +1,7 @@
 /* Created on Jun 28, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-import org.codehaus.marmalade.metamodel.ScriptBuilder;
 
 import java.io.File;
 import java.io.InputStream;

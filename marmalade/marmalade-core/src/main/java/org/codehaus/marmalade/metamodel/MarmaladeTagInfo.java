@@ -25,6 +25,7 @@
 package org.codehaus.marmalade.metamodel;
 
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.parsetime.MarmaladeTagBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +39,8 @@ public class MarmaladeTagInfo
     private String scheme;
     private String taglib;
     private String element;
-    private ModelBuilderAttributes attributes;
+    private String prefix;
+    private MetaAttributes attributes;
     private StringBuffer text;
     private MarmaladeTagBuilder parent;
     private List children = new ArrayList(  );
@@ -57,12 +59,12 @@ public class MarmaladeTagInfo
     {
     }
 
-    public ModelBuilderAttributes getAttributes(  )
+    public MetaAttributes getAttributes(  )
     {
         return attributes;
     }
 
-    public void setAttributes( ModelBuilderAttributes attributes )
+    public void setAttributes( MetaAttributes attributes )
     {
         this.attributes = attributes;
     }
@@ -116,6 +118,16 @@ public class MarmaladeTagInfo
     public void setTaglib( String taglib )
     {
         this.taglib = taglib;
+    }
+
+    public String getPrefix(  )
+    {
+        return prefix;
+    }
+
+    public void setPrefix( String prefix )
+    {
+        this.prefix = prefix;
     }
 
     public String getText(  )
@@ -175,4 +187,5 @@ public class MarmaladeTagInfo
     {
         return sourceFile;
     }
+    
 }

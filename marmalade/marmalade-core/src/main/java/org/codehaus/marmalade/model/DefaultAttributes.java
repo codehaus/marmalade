@@ -26,8 +26,8 @@ package org.codehaus.marmalade.model;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttribute;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttributes;
+import org.codehaus.marmalade.metamodel.MetaAttribute;
+import org.codehaus.marmalade.metamodel.MetaAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 
 import java.util.Collections;
@@ -43,11 +43,11 @@ import java.util.Set;
 public class DefaultAttributes implements MarmaladeAttributes
 {
     private ExpressionEvaluator el;
-    private ModelBuilderAttributes attributes;
+    private MetaAttributes attributes;
     private transient Set attributesSet;
 
     public DefaultAttributes( ExpressionEvaluator el,
-        ModelBuilderAttributes attributes )
+        MetaAttributes attributes )
     {
         this.el = el;
         this.attributes = ( attributes != null ) ? ( attributes )
@@ -124,7 +124,7 @@ public class DefaultAttributes implements MarmaladeAttributes
 
                 for ( Iterator it = attributes.iterator(  ); it.hasNext(  ); )
                 {
-                    ModelBuilderAttribute raw = ( ModelBuilderAttribute ) it
+                    MetaAttribute raw = ( MetaAttribute ) it
                         .next(  );
 
                     attributesSet.add( new DefaultAttribute( raw, el ) );

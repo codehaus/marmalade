@@ -28,7 +28,7 @@ package org.codehaus.marmalade.metamodel;
 /**
  * @author jdcasey
  */
-public class DefaultRawAttribute implements ModelBuilderAttribute
+public class DefaultRawAttribute implements MetaAttribute
 {
     private String namespace;
     private String name;

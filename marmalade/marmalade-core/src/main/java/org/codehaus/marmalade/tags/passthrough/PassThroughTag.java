@@ -25,8 +25,8 @@
 package org.codehaus.marmalade.tags.passthrough;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttribute;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttributes;
+import org.codehaus.marmalade.metamodel.MetaAttribute;
+import org.codehaus.marmalade.metamodel.MetaAttributes;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
@@ -60,11 +60,11 @@ public class PassThroughTag extends AbstractMarmaladeTag
         out.print( " xmlns=\"" + tagInfo.getScheme(  ) + ":"
             + tagInfo.getTaglib(  ) + "\"" );
 
-        ModelBuilderAttributes attributes = tagInfo.getAttributes(  );
+        MetaAttributes attributes = tagInfo.getAttributes(  );
 
         for ( Iterator it = attributes.iterator(  ); it.hasNext(  ); )
         {
-            ModelBuilderAttribute attribute = ( ModelBuilderAttribute ) it.next(  );
+            MetaAttribute attribute = ( MetaAttribute ) it.next(  );
 
             out.print( " " );
 

@@ -26,9 +26,7 @@ package org.codehaus.marmalade.parsetime;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
