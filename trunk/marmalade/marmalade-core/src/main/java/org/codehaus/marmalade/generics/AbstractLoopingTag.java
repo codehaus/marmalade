@@ -1,18 +1,44 @@
 /* Created on Apr 10, 2004 */
-package org.codehaus.marmalade;
+package org.codehaus.marmalade.generics;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.codehaus.marmalade.LoopStatus;
+import org.codehaus.marmalade.LoopingTag;
+import org.codehaus.marmalade.MarmaladeExecutionContext;
+import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.MarmaladeTag;
+
 
 /**
  * @author jdcasey
  */
-public abstract class AbstractLoopingTag extends AbstractMarmaladeTag {
+public abstract class AbstractLoopingTag extends AbstractMarmaladeTag implements LoopingTag {
+  
+  private boolean shouldBreak = false;
+  private boolean shouldContinue = false;
 
   protected AbstractLoopingTag() {
+  }
+  
+  public final void breakLoop() {
+    shouldBreak = true;
+  }
+  
+  public final void continueLoop() {
+    shouldContinue = true;
+  }
+  
+  protected final boolean alwaysProcessChildren(){
+    return false;
+  }
+  
+  protected void doReset(){
+    shouldBreak = false;
+    shouldContinue = false;
   }
   
   protected final void executeLoop(LoopStep[] steps, String itemBinding, String statusBinding, 
@@ -20,6 +46,7 @@ public abstract class AbstractLoopingTag extends AbstractMarmaladeTag {
   throws MarmaladeExecutionException
   {
     context.newScope();
+OUTER:
     for (int i = 0; i < steps.length; i++) {
       LoopStep step = steps[i];
       Object item = step.getItem();
@@ -29,7 +56,18 @@ public abstract class AbstractLoopingTag extends AbstractMarmaladeTag {
         context.setVariable(statusBinding, step);
       }
       
-      processChildren(context);
+      List children = children();
+      for(Iterator it = children.iterator(); it.hasNext();){
+        MarmaladeTag child = (MarmaladeTag)it.next();
+        child.execute(context);
+        if(shouldBreak) {
+          break OUTER;
+        }
+        else if(shouldContinue) {
+          shouldContinue = false;
+          continue OUTER;
+        }
+      }
     }
     context.lastScope();
   }
@@ -117,5 +155,4 @@ public abstract class AbstractLoopingTag extends AbstractMarmaladeTag {
       return step;
     }
   }
-
 }

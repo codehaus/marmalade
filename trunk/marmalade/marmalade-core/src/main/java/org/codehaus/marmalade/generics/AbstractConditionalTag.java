@@ -1,5 +1,8 @@
 /* Created on Apr 10, 2004 */
-package org.codehaus.marmalade;
+package org.codehaus.marmalade.generics;
+
+import org.codehaus.marmalade.MarmaladeExecutionContext;
+import org.codehaus.marmalade.MarmaladeExecutionException;
 
 
 /**

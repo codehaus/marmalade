@@ -1,11 +1,18 @@
 /* Created on Mar 24, 2004 */
-package org.codehaus.marmalade;
+package org.codehaus.marmalade.generics;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.codehaus.marmalade.ConfigurationException;
+import org.codehaus.marmalade.IllegalParentException;
+import org.codehaus.marmalade.MarmaladeAttributes;
+import org.codehaus.marmalade.MarmaladeExecutionContext;
+import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.MarmaladeTag;
+import org.codehaus.marmalade.MissingAttributeException;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
@@ -96,9 +103,39 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
   {
     return el;
   }
+  
+  public final Object getBody(MarmaladeExecutionContext context)
+  throws ExpressionEvaluationException
+  {
+    return _getBody(context, Object.class);
+  }
 
-  public final String getBodyText() {
-    return bodyText.toString();
+  public final Object getBody(MarmaladeExecutionContext context, Class targetType)
+  throws ExpressionEvaluationException
+  {
+    return _getBody(context, targetType);
+  }
+
+  private Object _getBody(MarmaladeExecutionContext context, Class targetType)
+  throws ExpressionEvaluationException
+  {
+    String expression = bodyText.toString();
+    Object result = null;
+    if(el == null) {
+      if(targetType.isAssignableFrom(String.class)) {
+        result = expression;
+      }
+      else {
+        throw new ExpressionEvaluationException(
+          "Expression cannot be evaluated and is not an instance of " + targetType.getName()
+        );
+      }
+    }
+    else {
+      result = el.evaluate(expression, context.unmodifiableVariableMap(), targetType);
+    }
+    
+    return result;
   }
 
   private void loadExpressionEvaluator(Attributes parseAttrs) 

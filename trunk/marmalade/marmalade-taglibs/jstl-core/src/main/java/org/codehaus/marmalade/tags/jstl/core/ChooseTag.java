@@ -3,11 +3,11 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import java.util.Iterator;
 
-import org.codehaus.marmalade.AbstractConditionalTag;
-import org.codehaus.marmalade.AbstractMarmaladeTag;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
 import org.codehaus.marmalade.MarmaladeTag;
+import org.codehaus.marmalade.generics.AbstractConditionalTag;
+import org.codehaus.marmalade.generics.AbstractMarmaladeTag;
 
 /**
  * @author jdcasey

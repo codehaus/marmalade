@@ -1,6 +1,7 @@
 /* Created on Mar 24, 2004 */
 package org.codehaus.marmalade;
 
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 
 /** Represents a marmalade tag. Simply used as a common place to specify behavior in the future.
@@ -9,7 +10,11 @@ import org.codehaus.marmalade.el.ExpressionEvaluator;
  */
 public interface MarmaladeTag {
   
-  public String getBodyText();
+  public Object getBody(MarmaladeExecutionContext context)
+  throws ExpressionEvaluationException;
+
+  public Object getBody(MarmaladeExecutionContext context, Class targetType)
+  throws ExpressionEvaluationException;
   
   public MarmaladeAttributes getAttributes();
   
