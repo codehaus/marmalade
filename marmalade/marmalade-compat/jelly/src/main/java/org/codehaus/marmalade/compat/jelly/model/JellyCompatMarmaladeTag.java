@@ -49,10 +49,8 @@ public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
 
             this.jellyTag = tagLibrary.createTag( mti.getElement(  ), attrs );
 
-            System.out.println("Jelly tag: " + jellyTag);
             if ( jellyTag == null )
             {
-                System.out.println("Cannot find jelly tag for: " + mti.getElement() + "; will delegate to super.");
                 super.doExecute( context );
             }
             else

@@ -31,6 +31,8 @@ public class FullScaleJellyScriptTest extends TestCase {
         InputStream resourceStream = cloader.getResourceAsStream(PLUGIN_RESOURCE);
         
         MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver(JellyCompatConstants.JELLY_INCLUSIVE_TAGLIB_DEF_STRATEGY);
+        resolver.setDefaultPrefix(JellyCompatConstants.JELLY_TAGLIB_PREFIX);
+        
         ExpressionEvaluator el = new CommonsElExpressionEvaluator();
         
         DefaultParsingContext context = new DefaultParsingContext();
@@ -51,6 +53,8 @@ public class FullScaleJellyScriptTest extends TestCase {
         ctx.setVariable("basedir", baseDir);
         
         script.execute(ctx);
+        
+        ctx.getOutWriter().flush();
     }
 
 }

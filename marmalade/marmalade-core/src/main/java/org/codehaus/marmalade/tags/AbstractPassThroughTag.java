@@ -61,9 +61,23 @@ public abstract class AbstractPassThroughTag extends AbstractMarmaladeTag
             XmlSerializer serializer = context.getXmlSerializer();
             
             MarmaladeTagInfo tagInfo = getTagInfo(  );
+            String scheme = tagInfo.getScheme();
+            String taglib = tagInfo.getTaglib();
             
-            String tagNamespace = tagInfo.getScheme() + ":" + tagInfo.getTaglib();
-            serializer.startTag(tagNamespace, tagInfo.getElement());
+            String prefix = tagInfo.getPrefix();
+            String oldPrefix = null;
+            
+            String ns = null;
+            if(scheme != null && taglib != null) {
+                ns = scheme + ":" + taglib;
+                
+                if(prefix != null) {
+                    serializer.setPrefix(prefix, ns);
+                    oldPrefix = serializer.getPrefix(ns, false);
+                }
+            }
+            
+            serializer.startTag(ns, tagInfo.getElement());
     
             MarmaladeAttributes attributes = getAttributes();
             for ( Iterator it = attributes.iterator(  ); it.hasNext(  ); )
@@ -93,8 +107,11 @@ public abstract class AbstractPassThroughTag extends AbstractMarmaladeTag
                     }
                 }
             }
-            serializer.endTag(tagNamespace, tagInfo.getElement());
+            serializer.endTag(ns, tagInfo.getElement());
     
+            if(oldPrefix != null && ns != null) {
+                serializer.setPrefix(oldPrefix, ns);
+            }
         }
         catch (XmlPullParserException e) {
             throw new MarmaladeExecutionException(e);

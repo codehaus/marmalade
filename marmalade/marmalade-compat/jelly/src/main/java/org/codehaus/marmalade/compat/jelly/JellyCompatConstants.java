@@ -13,6 +13,8 @@ import org.codehaus.marmalade.metamodel.strategy.TaglibDefinitionStrategy;
  */
 public final class JellyCompatConstants
 {
+    public static final String JELLY_TAGLIB_PREFIX = "jelly";
+    
     public static final TaglibDefinitionStrategy[] JELLY_INCLUSIVE_TAGLIB_DEF_STRATEGY =
         {
             new JellyCompatTaglibDefinitionStrategy(  ),
