@@ -21,6 +21,7 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.AbstractLoopingTag;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyLoopingTag;
 
 import java.util.Collection;
 import java.util.Iterator;

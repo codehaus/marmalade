@@ -35,6 +35,7 @@ package org.codehaus.marmalade.tags.jelly.core;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 /** This is just an aggregator for marmalade tags
  * @author jdcasey

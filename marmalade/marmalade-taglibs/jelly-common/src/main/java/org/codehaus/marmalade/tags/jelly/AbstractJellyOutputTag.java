@@ -1,5 +1,5 @@
 /* Created on Jun 26, 2004 */
-package org.codehaus.marmalade.tags.jelly.core;
+package org.codehaus.marmalade.tags.jelly;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;

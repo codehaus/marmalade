@@ -21,6 +21,7 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.AbstractOutputTag;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyOutputTag;
 import org.codehaus.marmalade.util.XMLUtils;
 
 import java.io.BufferedWriter;

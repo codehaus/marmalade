@@ -39,6 +39,7 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
