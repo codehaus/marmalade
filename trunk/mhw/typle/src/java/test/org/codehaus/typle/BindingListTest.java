@@ -42,6 +42,19 @@ public class BindingListTest extends TestCase {
     }
 
     /**
+     * Test the single argument constructor.
+     */
+    public void testConstructor() {
+        BindingList list;
+        
+        list = new BindingList(foo);
+        assertEquals(1, list.size());
+        assertEquals(foo, list.get(0));
+        list = list.add(bar);
+        assertEquals(2, list.size());
+    }
+
+    /**
      * Test addition of elements to list.
      */
     public void testAdd() {

@@ -19,6 +19,17 @@ public final class BindingList {
     }
 
     /**
+     * Create a new binding list that contains a single binding. This is
+     * equivalent to calling {@link #fromArray} with a an array containing
+     * one element, but is syntactically tidier.
+     *
+     * @param binding Content for the new binding list.
+     */
+    public BindingList(Binding binding) {
+        this.list = new Binding[] { binding };
+    }
+
+    /**
      * Construct a <code>BindingList</code> from an array of
      * <code>Binding</code>s. This is a private contructor used internally
      * to create new instances; it does not verify that the object
