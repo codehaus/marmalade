@@ -22,7 +22,7 @@ import java.util.Map;
  * <code>setParent</code> will not be called.
  * <li>
  * The {@link #begin} method is called. Tags should instantiate any state
- * they need to maintain within this method.
+ * they need to maintain and process attribute values within this method.
  * <li>
  * The {@link #text} and {@link #child} methods are called as the text
  * content and child elements are processed. <code>child</code> is called
@@ -56,7 +56,8 @@ public interface Tag {
 
     Tag getParent();
 
-    void begin(String elementName) throws TagalogParseException;
+    void begin(String elementName, Attributes attributes)
+        throws TagalogParseException;
 
     void text(char[] characters, int start, int length)
         throws TagalogParseException;

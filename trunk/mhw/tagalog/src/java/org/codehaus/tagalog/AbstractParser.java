@@ -45,7 +45,8 @@ public abstract class AbstractParser implements TagalogParser {
 
     protected abstract void doParse() throws TagalogParseException;
 
-    protected void startElement(String namespaceUri, String elementName)
+    protected void startElement(String namespaceUri, String elementName,
+                                Attributes attributes)
         throws TagalogParseException
     {
         TagLibrary tagLibrary = configuration.findTagLibrary(namespaceUri);
@@ -54,7 +55,7 @@ public abstract class AbstractParser implements TagalogParser {
         if (currentTag != null)
             tag.setParent(currentTag);
         currentTag = tag;
-        tag.begin(elementName);
+        tag.begin(elementName, attributes);
     }
 
     protected void text(char[] characters, int start, int length)

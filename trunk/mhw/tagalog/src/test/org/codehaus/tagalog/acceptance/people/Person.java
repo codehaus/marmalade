@@ -11,10 +11,20 @@ package org.codehaus.tagalog.acceptance.people;
  * @version $Revision$
  */
 public final class Person {
+    private String userId;
+
     private String firstName;
 
     private String lastName;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    
     public String getFirstName() {
         return firstName;
     }

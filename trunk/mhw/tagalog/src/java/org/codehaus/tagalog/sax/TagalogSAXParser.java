@@ -83,7 +83,7 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         throws SAXException
     {
         try {
-            startElement(namespaceUri, localName);
+            startElement(namespaceUri, localName, new SAXAttributes(atts));
         } catch (TagalogParseException e) {
             throw new SAXExceptionWrappingTagalogParseException(e);
         } catch (RuntimeException e) {
