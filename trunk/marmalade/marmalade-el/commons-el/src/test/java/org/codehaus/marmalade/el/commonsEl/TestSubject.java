@@ -8,6 +8,7 @@ package org.codehaus.marmalade.el.commonsEl;
 public class TestSubject{
   
   private String id;
+  private TestSubjectName name = new TestSubjectName();
 
   public TestSubject(String id){
     this.id = id;
@@ -19,6 +20,25 @@ public class TestSubject{
   
   public void setId(String id) {
     this.id = id;
+  }
+  
+  public TestSubjectName getName() {
+    return name;
+  }
+  
+  public static class TestSubjectName{
+    private String firstName;
+    public String lastName;
+    
+    TestSubjectName(){}
+    
+    public void setFirstName(String name) {
+      this.firstName = name;
+    }
+    
+    public String getFirstName() {
+      return firstName;
+    }
   }
 
 }

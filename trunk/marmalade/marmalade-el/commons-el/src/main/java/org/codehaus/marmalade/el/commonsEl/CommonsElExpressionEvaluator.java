@@ -4,6 +4,7 @@ package org.codehaus.marmalade.el.commonsEl;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -77,7 +78,9 @@ public class CommonsElExpressionEvaluator implements ExpressionEvaluator {
       if(lastDot > -1) {
         String expr = "${target." + property.substring(0, lastDot) + "}";
         Map ctx = new TreeMap();
+        ctx.put("target", target);
         target = eval(expr, ctx, Object.class);
+        property = property.substring(lastDot+1);
       }
       
       result = set(target, property, value);
@@ -102,7 +105,10 @@ public class CommonsElExpressionEvaluator implements ExpressionEvaluator {
       }
       else {
         Field field = target.getClass().getField(property);
-        if(field.isAccessible() && field.getType().isAssignableFrom(value.getClass())) {
+        int fieldModifiers = field.getModifiers();
+        if(Modifier.isPublic(fieldModifiers) &&
+            !Modifier.isFinal(fieldModifiers) &&
+            field.getType().isAssignableFrom(value.getClass())) {
           field.set(target, value);
           result = value;
         }
