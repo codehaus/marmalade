@@ -25,12 +25,6 @@ import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.jstl.core.ChooseTag;
-import org.codehaus.marmalade.tags.jstl.core.WhenTag;
-import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
-import org.jmock.Mock;
 
 /**
  * @author jdcasey
