@@ -38,6 +38,7 @@
                     name="project"
                     select="/projects/project[@name = $project]"/>
               </xsl:call-template>
+              <xsl:text>/target</xsl:text>
             </xsl:attribute>
           </filesystem>
         </xsl:for-each>
