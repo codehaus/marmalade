@@ -18,15 +18,15 @@ public class JavaTypesTest extends TestCase {
      * Test the names given to the primitives.
      */
     public void testPrimitiveNames() {
-        assertEquals("boolean", Java.BOOLEAN_TYPE.getName());
-        assertEquals("byte", Java.BYTE_TYPE.getName());
-        assertEquals("char", Java.CHAR_TYPE.getName());
-        assertEquals("short", Java.SHORT_TYPE.getName());
-        assertEquals("int", Java.INT_TYPE.getName());
-        assertEquals("long", Java.LONG_TYPE.getName());
-        assertEquals("float", Java.FLOAT_TYPE.getName());
-        assertEquals("double", Java.DOUBLE_TYPE.getName());
-        assertEquals("void", Java.VOID_TYPE.getName());
+        assertEquals("boolean", Java.BOOLEAN_TYPE.getTypeName());
+        assertEquals("byte", Java.BYTE_TYPE.getTypeName());
+        assertEquals("char", Java.CHAR_TYPE.getTypeName());
+        assertEquals("short", Java.SHORT_TYPE.getTypeName());
+        assertEquals("int", Java.INT_TYPE.getTypeName());
+        assertEquals("long", Java.LONG_TYPE.getTypeName());
+        assertEquals("float", Java.FLOAT_TYPE.getTypeName());
+        assertEquals("double", Java.DOUBLE_TYPE.getTypeName());
+        assertEquals("void", Java.VOID_TYPE.getTypeName());
     }
 
     /**

@@ -26,9 +26,9 @@ public abstract class TypeHelper {
     }
 
     /**
-     * @see Type#getName()
+     * @see Type#getTypeName()
      */
-    public String getName() {
+    public String getTypeName() {
         return name;
     }
 

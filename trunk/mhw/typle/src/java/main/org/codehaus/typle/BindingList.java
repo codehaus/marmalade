@@ -104,7 +104,7 @@ public final class BindingList {
             if (i > 0) {
                 buf.append(", ");
             }
-            buf.append(list[i].getType().getName());
+            buf.append(list[i].getType().getTypeName());
             buf.append(" ");
             buf.append(list[i].getName());
         }

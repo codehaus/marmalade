@@ -53,7 +53,7 @@ public class RecordTypeTest extends TestCase {
         fields = type.getFields();
         assertEquals(1, fields.size());
         assertEquals("foo", fields.get(0).getName());
-        assertEquals("Foo", fields.get("foo").getType().getName());
+        assertEquals("Foo", fields.get("foo").getType().getTypeName());
     }
 
     public void testGetSignature() {
