@@ -51,6 +51,25 @@ public class OgnlExpressionEvaluatorTest extends TestCase {
     assertEquals("Id should come through unchanged.", id, result);
   }
   
+  public void testEvaluateStaticField() throws ExpressionEvaluationException{
+      Map context = new TreeMap();
+      OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+      Object result = el.evaluate("@org.codehaus.marmalade.el.ognl.TestSubject@TEST_STATIC_VALUE", context, String.class);
+      assertEquals("Static field value should come through unchanged.", TestSubject.TEST_STATIC_VALUE, result);
+    }
+    
+  public void testEvaluateStaticMethod() throws ExpressionEvaluationException{
+      String id = "testId";
+      TestSubject subject = new TestSubject(id);
+      
+      Map context = new TreeMap();
+      context.put("subject", subject);
+      
+      OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+      Object result = el.evaluate("@org.codehaus.marmalade.el.ognl.TestSubject@getTestStaticValue(\"testVal\")", context, String.class);
+      assertEquals("Static method results should come through unchanged.", TestSubject.getTestStaticValue("testVal"), result);
+    }
+    
   public void testAssign() throws ExpressionEvaluationException{
     String id = "testId";
     TestSubject subject = new TestSubject("otherId");
