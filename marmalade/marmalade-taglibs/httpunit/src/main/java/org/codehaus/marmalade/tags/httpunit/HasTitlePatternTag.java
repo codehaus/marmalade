@@ -1,9 +1,9 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.WebResponse;
@@ -16,7 +16,8 @@ public class HasTitlePatternTag extends AbstractAssertionTag{
   
   public static final String WITH_PATTERN_ATTRIBUTE = "withPattern";
 
-  public HasTitlePatternTag(){
+  public HasTitlePatternTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected boolean test(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

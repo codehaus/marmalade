@@ -1,9 +1,9 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit.structure;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 import com.meterware.httpunit.WebRequest;
 
@@ -16,7 +16,8 @@ public class ParameterTag extends AbstractWebRequestSubTag{
   public static final String NAME_ATTRIBUTE = "name";
   public static final String VALUE_ATTRIBUTE = "value";
 
-  public ParameterTag(){
+  public ParameterTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

@@ -1,11 +1,11 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit.link;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.httpunit.AbstractAssertionTag;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
 import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.WebLink;
@@ -24,7 +24,8 @@ public class HasLinkTag extends AbstractAssertionTag{
   
   private WebLink link;
   
-  public HasLinkTag(){
+  public HasLinkTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected void setUp(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

@@ -3,9 +3,9 @@ package org.codehaus.marmalade.tags.httpunit;
 
 import java.io.IOException;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.WebResponse;
@@ -18,7 +18,8 @@ public class HasTitleTag extends AbstractAssertionTag{
   
   public static final String WITH_VALUE_ATTRIBUTE = "withValue";
 
-  public HasTitleTag(){
+  public HasTitleTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected boolean test(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

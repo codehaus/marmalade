@@ -15,8 +15,8 @@ import javax.servlet.jsp.el.VariableResolver;
 
 import org.apache.commons.el.Coercions;
 import org.apache.commons.el.ExpressionEvaluatorImpl;
+import org.codehaus.marmalade.el.AbstractExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.abstractions.AbstractExpressionEvaluator;
 
 /**
  * @author jdcasey

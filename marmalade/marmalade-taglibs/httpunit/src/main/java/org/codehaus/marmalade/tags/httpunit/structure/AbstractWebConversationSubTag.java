@@ -1,10 +1,11 @@
 /* Created on Apr 21, 2004 */
 package org.codehaus.marmalade.tags.httpunit.structure;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 import com.meterware.httpunit.WebConversation;
 
@@ -16,7 +17,8 @@ public class AbstractWebConversationSubTag extends AbstractMarmaladeTag{
 
   public static final String CONVERSATION_ATTRIBUTE = "conversation";
   
-  public AbstractWebConversationSubTag(){
+  public AbstractWebConversationSubTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
   
   protected WebConversation getConversation(MarmaladeExecutionContext context)

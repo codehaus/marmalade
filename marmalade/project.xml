@@ -14,12 +14,8 @@
   <package>org.codehaus.marmalade</package>
   
   <description>
-    <p>
       Marmalade is a scripting language, implemented in XML, with pluggable expression languages and
-      tag libraries via XML Namespaces. Initially, Marmalade will focus on supporting a syntax like
-      <a href="http://java.sun.com/products/jsp">JSP</a> or 
-      <a href="http://jakarta.apache.org/commons/jelly">Jelly</a>.
-    </p>
+      tag libraries via XML Namespaces. Initially, Marmalade will focus on supporting a syntax like JSP or Jelly.
   </description>
   
   <shortDescription>Marmalade is an XML-based scripting language.</shortDescription>

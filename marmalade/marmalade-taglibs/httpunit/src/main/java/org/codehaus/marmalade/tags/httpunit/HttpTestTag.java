@@ -1,15 +1,15 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
 
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeTag;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
-
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
-import org.codehaus.tagalog.Tag;
-
 
 /**
  * @author jdcasey
@@ -19,14 +19,15 @@ public class HttpTestTag extends AbstractMarmaladeTag{
   public static final String NAME_ATTRIBUTE = "name";
   public static final String VAR_ATTRIBUTE = "var";
 
-  public HttpTestTag(){
+  public HttpTestTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
     String name = (String)requireTagAttribute(NAME_ATTRIBUTE, String.class, context);
     ScriptedTest test = new ScriptedTest(name, context);
     
-    Tag parent = getParent();
+    MarmaladeTag parent = getParent();
     if(parent != null && (parent instanceof HttpTestSuiteTag)) {
       ((HttpTestSuiteTag)parent).addTest(test);
     }

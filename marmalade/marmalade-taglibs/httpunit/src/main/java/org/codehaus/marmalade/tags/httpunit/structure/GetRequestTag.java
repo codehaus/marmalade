@@ -3,8 +3,8 @@ package org.codehaus.marmalade.tags.httpunit.structure;
 
 import java.net.URL;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.WebRequest;
@@ -15,7 +15,8 @@ import com.meterware.httpunit.WebRequest;
  */
 public class GetRequestTag extends AbstractWebRequestTag{
 
-  public GetRequestTag(){
+  public GetRequestTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected WebRequest createRequest(URL baseUrl, String url, String target)

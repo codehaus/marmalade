@@ -1,11 +1,9 @@
  /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit.link;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.httpunit.link.*;
-import org.codehaus.marmalade.tags.httpunit.structure.*;
-
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
  * @author jdcasey
@@ -15,7 +13,8 @@ public class LinkHasParamTag extends AbstractLinkSubAssertionTag{
   public static final String WITH_NAME_ATTRIBUTE = "withName";
   public static final String WITH_VALUE_ATTRIBUTE = "withValue";
 
-  public LinkHasParamTag(){
+  public LinkHasParamTag(MarmaladeTagInfo tagInfo){
+    super(tagInfo);
   }
 
   protected boolean test(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

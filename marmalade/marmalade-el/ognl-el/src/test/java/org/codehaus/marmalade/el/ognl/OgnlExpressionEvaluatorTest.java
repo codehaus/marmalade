@@ -7,13 +7,12 @@ import java.util.TreeMap;
 import junit.framework.TestCase;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.el.ExpressionEvaluatorTest;
 
 
 /**
  * @author jdcasey
  */
-public class OgnlExpressionEvaluatorTest extends TestCase implements ExpressionEvaluatorTest{
+public class OgnlExpressionEvaluatorTest extends TestCase {
 
   public void testEvaluate() throws ExpressionEvaluationException{
     String id = "testId";

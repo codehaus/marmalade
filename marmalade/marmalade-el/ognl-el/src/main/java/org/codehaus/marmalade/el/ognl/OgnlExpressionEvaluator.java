@@ -10,7 +10,7 @@ import ognl.Ognl;
 import ognl.OgnlException;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.abstractions.AbstractExpressionEvaluator;
+import org.codehaus.marmalade.el.AbstractExpressionEvaluator;
 
 /**
  * @author jdcasey
