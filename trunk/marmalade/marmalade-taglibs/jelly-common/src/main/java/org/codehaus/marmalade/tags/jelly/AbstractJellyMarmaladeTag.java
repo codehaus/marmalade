@@ -47,6 +47,6 @@ public abstract class AbstractJellyMarmaladeTag extends AbstractMarmaladeTag
         Boolean preserveWS = ( Boolean ) getAttributes(  ).getValue( TRIM_ATTRIBUTE,
                 Boolean.class, context, Boolean.FALSE );
 
-        return preserveWS.booleanValue(  );
+        return !preserveWS.booleanValue(  );
     }
 }

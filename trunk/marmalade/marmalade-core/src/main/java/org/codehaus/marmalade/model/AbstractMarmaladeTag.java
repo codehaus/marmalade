@@ -228,7 +228,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
 
         if ( !presWSOver && !preserveBodyWhitespace( context ) )
         {
-            formatted = formatted.replaceAll( "\\s", " " );
+            formatted = formatted.replaceAll( "\\s+", " " ).trim();
         }
 
         return formatted;
@@ -239,7 +239,7 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     {
         // decide from "native attribute" whether to preserve body whitespace.
         Boolean preserveWS = ( Boolean ) getAttributes(  ).getValue( PRESERVE_BODY_WHITESPACE_ATTRIBUTE,
-                Boolean.class, context, Boolean.FALSE );
+                Boolean.class, context, Boolean.TRUE );
 
         return preserveWS.booleanValue(  );
     }
