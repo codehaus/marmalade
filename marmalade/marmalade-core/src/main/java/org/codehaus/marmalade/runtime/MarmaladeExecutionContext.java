@@ -41,6 +41,8 @@ public interface MarmaladeExecutionContext
         throws ExpressionEvaluationException;
 
     public Object setVariable( Object key, Object value );
+    
+    public void setVariables( Map vars );
 
     public Object removeVariable( Object key );
 
