@@ -39,6 +39,8 @@ public class XmlStoreTypeFactoryTest extends TestCase {
         t = Naming.lookup(NS, "xml.store.test.SingleField");
         assertNotNull(t);
         assertTrue("SingleField not record", t instanceof RecordType);
+        assertEquals("xml.store.test.SingleField", t.getTypeName());
+        assertEquals("[int theField]", t.toString());
         r = (RecordType) t;
         assertEquals(1, r.getFields().size());
         assertEquals(Java.INT_TYPE, r.getField("theField"));
@@ -52,6 +54,7 @@ public class XmlStoreTypeFactoryTest extends TestCase {
         t = Naming.lookup(NS, "xml.store.test.MultipleField");
         assertNotNull(t);
         assertTrue("MultipleField not record", t instanceof RecordType);
+        assertEquals("xml.store.test.MultipleField", t.getTypeName());
         r = (RecordType) t;
         assertEquals(3, r.getFields().size());
         f = r.getField("fieldOne");

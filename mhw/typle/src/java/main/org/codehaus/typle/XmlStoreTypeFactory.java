@@ -146,25 +146,40 @@ public final class XmlStoreTypeFactory
             } else if (state.inElement(FIELD, TYPE)) {
                 state.put(TYPE, new TypePlaceHolder(state.getCharacters()));
             } else if (state.inElement(FIELD)) {
-                String name = (String) state.get(NAME);
-                Type type = (Type) state.get(TYPE);
-                Binding b = new Binding(name, type);
-                state.closeScope();
-
-                BindingList fields = (BindingList) state.get(FIELD);
-                state.replace(FIELD, fields.add(b));
+                buildField();
             } else if (state.inElement(RECORD, NAME)) {
                 state.put(NAME, state.getCharacters());
             } else if (state.inElement(RECORD)) {
-                String name = (String) state.get(NAME);
-                BindingList fields = (BindingList) state.get(FIELD);
-                RecordType t = new RecordType(fields.toArray());
-                name = namespace + "." + name;
-                addType(name, t);
-                newTypes.add(name);
-                state.closeScope();
+                buildType();
             }
             state.endElement(uri, localName, qName);
+        }
+
+        private void buildField() {
+            String name;
+            Type type;
+            Binding binding;
+            BindingList fields;
+
+            name = (String) state.get(NAME);
+            type = (Type) state.get(TYPE);
+            state.closeScope();
+            binding = new Binding(name, type);
+            fields = (BindingList) state.get(FIELD);
+            state.replace(FIELD, fields.add(binding));
+        }
+
+        private void buildType() {
+            String name;
+            BindingList fields;
+            RecordType type;
+
+            name = namespace + "." + (String) state.get(NAME);
+            fields = (BindingList) state.get(FIELD);
+            type = new RecordType(name, fields.toArray());
+            addType(name, type);
+            newTypes.add(name);
+            state.closeScope();
         }
 
         public void characters(char[] ch, int start, int length)
