@@ -70,19 +70,11 @@ public final class JavaClass
         return className;
     }
 
-    /* (non-Javadoc)
-     * @see org.codehaus.typle.src.SourceArtefact#write(java.io.PrintWriter)
-     */
     public void write(PrintWriter writer) throws IOException {
-        String mods;
-        String space;
+        String mods = Modifier.toString(modifiers);
+        String space = (mods.length() == 0)? "" : " ";
 
         writer.println();
-        mods = Modifier.toString(modifiers);
-        if (mods.length() == 0)
-            space = "";
-        else
-            space = " ";
         writer.println(mods + space + "class " + className + " {");
         Iterator iter = iterator();
         while (iter.hasNext()) {
