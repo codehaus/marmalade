@@ -2,6 +2,7 @@
 package org.codehaus.marmalade;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
@@ -13,11 +14,19 @@ import org.codehaus.tagalog.Attributes;
 public class DefaultAttributes implements MarmaladeAttributes {
   
   private ExpressionEvaluator el;
-  private Attributes parsedAttributes;
+  private Map parsedAttributes = new TreeMap();
 
-  public DefaultAttributes(ExpressionEvaluator el, Attributes parsedAttributes) {
+  public DefaultAttributes(ExpressionEvaluator el, Attributes attributes) {
     this.el = el;
-    this.parsedAttributes = parsedAttributes;
+    
+    int attrCount = attributes.getAttributeCount();
+    for(int i=0; i < attrCount; i++) {
+      String name = attributes.getName(i);
+      DefaultAttribute attr = new DefaultAttribute(
+        attributes.getNamespaceUri(i), name, attributes.getValue(i)
+      );
+      parsedAttributes.put(name, attr);
+    }
   }
 
   public ExpressionEvaluator getExpressionEvaluator() {
@@ -52,8 +61,10 @@ public class DefaultAttributes implements MarmaladeAttributes {
   private Object _getValue(String name, Class type, Map context, Object defaultVal)
   throws ExpressionEvaluationException
   {
-    String expression = parsedAttributes.getValue(name);
-    Object result = defaultVal;
+    DefaultAttribute attr = (DefaultAttribute)parsedAttributes.get(name);
+    String expression = attr.getValue();
+    
+    Object result = null;
     if(expression != null && expression.length() > 0){
       if(el != null){
         result = el.evaluate(expression, context, Object.class);
@@ -63,7 +74,54 @@ public class DefaultAttributes implements MarmaladeAttributes {
       }
     }
     
+    if(result != null && !type.isAssignableFrom(result.getClass())) {
+      throw new ExpressionEvaluationException(
+        "Expression: \'" + 
+        expression + 
+        "\' for attribute: " + 
+        name + 
+        " returned result of type: " + 
+        result.getClass().getName() + 
+        "; expected: " + 
+        type.getName()
+      );
+    }
+    
+    if(result == null) {
+      result = defaultVal;
+    }
+    
     return result;
+  }
+  
+  private static final class DefaultAttribute{
+    private String namespace;
+    private String name;
+    private String value;
+    
+    DefaultAttribute(String namespace, String name, String value){
+      this.namespace = namespace;
+      this.name = name;
+      this.value = value;
+    }
+    /**
+     * @return Returns the name.
+     */
+    public String getName(){
+      return name;
+    }
+    /**
+     * @return Returns the namespace.
+     */
+    public String getNamespace(){
+      return namespace;
+    }
+    /**
+     * @return Returns the value.
+     */
+    public String getValue(){
+      return value;
+    }
   }
 
 }

@@ -1,0 +1,4 @@
+These are just some notes to improve Marmalade.
+
+1. Cache resolved attributes in the execution context.
+    - Flush cache upon execution termination.
