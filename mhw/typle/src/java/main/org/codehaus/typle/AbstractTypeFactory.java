@@ -16,9 +16,9 @@ import java.util.Map;
  */
 public abstract class AbstractTypeFactory {
 
-    private static Map typeMap = new java.util.HashMap();
+    private Map typeMap = new java.util.HashMap();
 
-    protected static void addType(String name, Type type) {
+    protected void addType(String name, Type type) {
         if (name == null)
             throw new NullPointerException("name is null");
         if (type == null)

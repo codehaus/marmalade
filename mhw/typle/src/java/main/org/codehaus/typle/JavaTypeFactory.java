@@ -14,7 +14,7 @@ final class JavaTypeFactory
     extends AbstractTypeFactory
     implements TypeFactory
 {
-    static {
+    {
         addType(Java.BOOLEAN_TYPE.getTypeName(), Java.BOOLEAN_TYPE);
         addType(Java.BYTE_TYPE.getTypeName(), Java.BYTE_TYPE);
         addType(Java.CHAR_TYPE.getTypeName(), Java.CHAR_TYPE);
