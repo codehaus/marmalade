@@ -35,6 +35,8 @@ public final class Import
      * @see org.codehaus.typle.src.SourceArtefact#write(java.io.Writer)
      */
     public void write(PrintWriter writer) throws IOException {
-        writer.println("import " + importSpecification + ";");
+        if (!(importSpecification.startsWith("java.lang."))) {
+            writer.println("import " + importSpecification + ";");
+        }
     }
 }
