@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <extend>../../project.xml</extend>
+  <id>marmalade-el-commons</id>
+  <name>Commons-El Expression Library</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-core</artifactId>
+      <version>0.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-el</groupId>
+      <artifactId>commons-el</artifactId>
+      <version>1.0</version>
+    </dependency>
+    
+    <dependency>
+      <id>servletapi</id>
+      <version>2.4-20030804.000000</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>tomcat</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>5.0.18</version>
+    </dependency>
+    
+    <dependency>
+      <id>commons-logging</id>
+      <version>1.0.3</version>
+    </dependency>
+    
+    <!-- Testing dependencies -->
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-testing-tools</artifactId>
+      <version>0.1</version>
+    </dependency>
+    
+  </dependencies>
+</project>
