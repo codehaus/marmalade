@@ -52,4 +52,8 @@ public class Function implements Type {
     public String toString() {
         return getTypeName();
     }
+
+    public Type resolvePlaceHolders() {
+        return null;
+    }
 }

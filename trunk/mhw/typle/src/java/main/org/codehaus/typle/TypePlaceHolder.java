@@ -40,7 +40,7 @@ public final class TypePlaceHolder implements Type {
         return type;
     }
 
-    public void resolve() throws TypeLookupException {
-        type = Naming.lookup(name);
+    public Type resolvePlaceHolders() throws TypeLookupException {
+        return Naming.lookup(name);
     }
 }

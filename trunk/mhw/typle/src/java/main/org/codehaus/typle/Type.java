@@ -28,4 +28,9 @@ public interface Type {
      * @return
      */
     Type getWrappedType();
+
+    /**
+     * @return
+     */
+    Type resolvePlaceHolders() throws TypeLookupException;
 }
