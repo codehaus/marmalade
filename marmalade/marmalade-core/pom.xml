@@ -4,10 +4,10 @@
   <parent>
     <groupId>marmalade</groupId>
     <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha2</version>
+    <version>1.0-alpha-2</version>
   </parent>
   <artifactId>marmalade-core</artifactId>
-  <version>1.0-alpha2</version>
+  <version>1.0-alpha-2</version>
 
   <name>Marmalade Core</name>
   
