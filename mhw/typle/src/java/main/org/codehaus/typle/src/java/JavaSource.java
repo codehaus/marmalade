@@ -110,6 +110,12 @@ public final class JavaSource implements Comparator {
     }
 
     private int methodCompare(Method o1, Method o2) {
-        return o1.getMethodName().compareTo(o2.getMethodName());
+        int c;
+
+        c = o1.getMethodName().compareTo(o2.getMethodName());
+        if (c != 0)
+            return c;
+        throw new UnsupportedOperationException(
+                                            "comparison of overloaded methods");
     }
 }

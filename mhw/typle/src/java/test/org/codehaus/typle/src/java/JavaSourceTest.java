@@ -8,6 +8,9 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.codehaus.typle.Binding;
+import org.codehaus.typle.Function;
+import org.codehaus.typle.Java;
 import org.codehaus.typle.src.BoilerPlateComment;
 import org.codehaus.typle.src.SourceFile;
 
@@ -244,6 +247,30 @@ public class JavaSourceTest extends TestCase {
         assertTrue(iter.hasNext());
         c = (JavaClass) iter.next();
         assertEquals("Abc", c.getClassName());
+        assertFalse(iter.hasNext());
+    }
+
+    public void testMethodOrdering1() {
+        JavaHelper.addSetter(src, new Binding("bah", Java.INT_TYPE));
+        JavaHelper.addGetter(src, new Binding("humbug", Java.INT_TYPE));
+
+        Binding[] params = new Binding[] {
+            new Binding("arg1", Java.INT_TYPE),
+            new Binding("arg2", Java.INT_TYPE),
+        };
+        Function f = new Function(Java.VOID_TYPE, params);
+//        src.add(new Method("setBah", f, "hey"));
+
+        Iterator iter = src.iterator();
+        assertTrue(iter.hasNext());
+        Method m = (Method) iter.next();
+        assertEquals("getHumbug", m.getMethodName());
+        assertTrue(iter.hasNext());
+        m = (Method) iter.next();
+        assertEquals("setBah", m.getMethodName());
+//        assertTrue(iter.hasNext());
+//        m = (Method) iter.next();
+//        assertEquals("setBah", m.getMethodName());
         assertFalse(iter.hasNext());
     }
 }
