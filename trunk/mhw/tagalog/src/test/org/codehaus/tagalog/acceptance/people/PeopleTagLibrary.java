@@ -16,6 +16,7 @@ public final class PeopleTagLibrary extends AbstractTagLibrary {
     public static final String NS_URI = "tagalog:people";
 
     public PeopleTagLibrary() {
+        registerTag("people", PeopleTag.class);
         registerTag("person", PersonTag.class);
         registerTag("first-name", AttributeTag.class);
         registerTag("last-name", AttributeTag.class);
