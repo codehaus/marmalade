@@ -49,9 +49,8 @@ public final class ExpressionEvaluatorFactory {
         
         InputStream res = cloader.getResourceAsStream(elResource);
         if(res == null){
-          throw new ConfigurationException(
-            "No ExpressionEvaluator implementation found for EL type: " + type
-          );
+          // DO NOT cache this...it is only for emergency cases, to enable minimal functionality.
+          return new PassThroughExpressionEvaluator();
         }
         else{
           String className = null;
