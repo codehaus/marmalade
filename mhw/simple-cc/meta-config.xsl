@@ -11,14 +11,11 @@
 
 <xsl:template match="project">
     <xsl:variable name="srcdir">
-      <xsl:choose>
-        <xsl:when test="srcdir">
-          <xsl:value-of select="srcdir"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="@name"/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:call-template name="srcdir">
+        <xsl:with-param
+            name="project"
+            select="."/>
+      </xsl:call-template>
     </xsl:variable>
     <project name="{@name}">
       <bootstrappers>
