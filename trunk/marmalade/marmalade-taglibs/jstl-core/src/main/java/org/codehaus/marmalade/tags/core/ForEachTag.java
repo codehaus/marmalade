@@ -71,17 +71,13 @@ public class ForEachTag extends AbstractLoopingTag {
       getItemsFromCollection(((Collection)items), itemList, begin, end, step);
     }
     else if(items.getClass().isArray()) {
-      System.out.println("AAA Starting array item collection. begin = " + begin + " end = " + end + " step = " + step);
       Object[] itemArray = (Object[])items;
-      System.out.println("test");
-      
       for(int i = 0; i < itemArray.length; i++){
         Object item = itemArray[i];
-        if(i < begin || i > end || end < 0 || (i % step != 0)){
+        if(i < begin || (i > end && end > 0) || (i % step != 0)){
           continue;
         }
         else{
-          System.out.println("Adding item: " + item + "{index: " + i + "}");
           itemList.add(new LoopStep(item, begin, end, step, i));
         }
       }
@@ -98,7 +94,6 @@ public class ForEachTag extends AbstractLoopingTag {
     if(!itemList.isEmpty()){
       String varStatus = (String)attributes.getValue(VAR_STATUS_ATTRIBUTE, String.class, context);
       LoopStep[] steps = (LoopStep[])itemList.toArray(new LoopStep[itemList.size()]);
-      System.out.println("Iterating over " + steps.length + " steps.");
       executeLoop(steps, var, varStatus, context);
     }
   }
@@ -110,7 +105,7 @@ public class ForEachTag extends AbstractLoopingTag {
     for (Iterator it = items.iterator(); it.hasNext();) {
       Object item = it.next();
       
-      if(i < begin || i > end || end < 0 || (i % step != 0)){
+      if(i < begin || (i > end && end > 0) || (i % step != 0)){
         continue;
       }
       else{
