@@ -1,6 +1,9 @@
 /* Created on Apr 11, 2004 */
-package org.codehaus.marmalade;
+package org.codehaus.marmalade.generics;
 
+import org.codehaus.marmalade.MarmaladeAttributes;
+import org.codehaus.marmalade.MarmaladeExecutionContext;
+import org.codehaus.marmalade.MarmaladeExecutionException;
 import org.codehaus.marmalade.util.XMLUtils;
 
 /**

@@ -1,9 +1,9 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.AbstractMarmaladeTag;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.generics.AbstractMarmaladeTag;
 
 /**
  * @author jdcasey

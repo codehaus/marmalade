@@ -1,6 +1,8 @@
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade;
 
+import org.codehaus.marmalade.generics.*;
+
 
 /**
  * @author jdcasey

@@ -1,8 +1,8 @@
 /* Created on Apr 14, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.DefaultContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.generics.DefaultContext;
 import org.codehaus.marmalade.tags.jstl.core.RemoveTag;
 import org.codehaus.marmalade.testing.AbstractTagTestCase;
 import org.codehaus.tagalog.Attributes;

@@ -5,13 +5,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.codehaus.marmalade.AbstractMarmaladeTag;
 import org.codehaus.marmalade.MarmaladeAttributes;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
 import org.codehaus.marmalade.MarmaladeParseException;
 import org.codehaus.marmalade.MarmaladeScript;
 import org.codehaus.marmalade.MarmaladeUtils;
+import org.codehaus.marmalade.generics.AbstractMarmaladeTag;
 
 /**
  * @author jdcasey

@@ -1,7 +1,7 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.tld;
 
-import org.codehaus.marmalade.AbstractMarmaladeTagLibrary;
+import org.codehaus.marmalade.generics.AbstractMarmaladeTagLibrary;
 
 
 /**

@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.codehaus.marmalade.AbstractLoopingTag;
 import org.codehaus.marmalade.MarmaladeAttributes;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.generics.AbstractLoopingTag;
 
 /**
  * @author jdcasey
@@ -30,10 +30,6 @@ public class ForEachTag extends AbstractLoopingTag {
   private static final Integer DEFAULT_STEP = new Integer(1);
   
   public ForEachTag() {
-  }
-
-  protected boolean alwaysProcessChildren() {
-    return false;
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {

@@ -6,9 +6,9 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.codehaus.marmalade.AbstractMarmaladeTag;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.generics.AbstractMarmaladeTag;
 
 /**
  * @author jdcasey

@@ -1,6 +1,7 @@
 /* Created on Mar 24, 2004 */
-package org.codehaus.marmalade;
+package org.codehaus.marmalade.generics;
 
+import org.codehaus.marmalade.MarmaladeTagLibrary;
 import org.codehaus.tagalog.AbstractTagLibrary;
 
 /** Represents base-level common functionality for all marmalade tag libraries.

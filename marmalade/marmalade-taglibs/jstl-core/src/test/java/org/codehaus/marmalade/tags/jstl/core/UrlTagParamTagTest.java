@@ -5,8 +5,8 @@ import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.codehaus.marmalade.DefaultContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.generics.DefaultContext;
 import org.codehaus.marmalade.tags.jstl.core.ParamTag;
 import org.codehaus.marmalade.tags.jstl.core.UrlTag;
 import org.codehaus.marmalade.testing.AbstractTagTestCase;

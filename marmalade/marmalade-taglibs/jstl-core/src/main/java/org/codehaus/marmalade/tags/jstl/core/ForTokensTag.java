@@ -4,10 +4,10 @@ package org.codehaus.marmalade.tags.jstl.core;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.codehaus.marmalade.AbstractLoopingTag;
 import org.codehaus.marmalade.MarmaladeAttributes;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
+import org.codehaus.marmalade.generics.AbstractLoopingTag;
 
 /**
  * @author jdcasey
