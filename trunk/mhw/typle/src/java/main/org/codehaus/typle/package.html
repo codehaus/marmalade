@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!--
+  $Id$
+-->
+</head>
+<body bgcolor="white">
+
+Provides a collection of classes that can be used to model types and
+type systems. The package provides the following services to its
+clients:
+<ul>
+<li>Representation of data types, such as Java primitives, records
+and functions.
+<li>Naming services, allowing data types to be found by name.
+</ul>
+
+<h2>Type Model</h2>
+
+<p>
+Types are modelled as instances of the {@link Type} interface.
+Classes that implement this interface are expected to be
+immutable, making it easy to use them in applications.
+
+<h2>Bindings</h2>
+
+<p>
+A {@link Binding} is the association of a name with a type in some
+namespace.
+This general concept is used in a number of places in the
+data model:
+for example, a {@link RecordType} is a collection of bindings
+between field names and their types,
+while {@link Function} formal parameters are bindings between
+formal parameters and their types.
+
+<h2>Naming</h2>
+
+<p>
+<code>typle</code> provides a naming service that can be used
+to find types by name.
+A type name has two parts, a <i>namespace</i> and a local part.
+The namespace is a short string,
+such as <code>"java"</code> or <code>"xsd"</code>.
+The syntax of the local part varies between namespaces.
+
+<p>
+Not all types will have names, and so not all types can be
+accessed through the naming service.
+In general, a type that has been found through the naming service
+should have a name (as returned by {@link Type#getTypeName}) that
+is the local part of the name it was found by,
+but this cannot be relied upon for all data types.
+For example, a record might have field that is of an unnamed type,
+and which is not accessible through the naming system.
+
+</body>
+</html>
