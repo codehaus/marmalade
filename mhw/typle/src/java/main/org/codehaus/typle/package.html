@@ -22,6 +22,23 @@ and functions.
 Types are modelled as instances of the {@link Type} interface.
 Classes that implement this interface are expected to be
 immutable, making it easy to use them in applications.
+They must also correctly implement the {@link Object#equals}
+and {@link Object#hashcode} methods.
+
+<p>
+All types have a <i>type name</i>, returned by the
+{@link Type#getTypeName} method.
+For some types this name will be the name that the type is
+known by within an existing type system.
+For example, the {@link JavaPrimitive} instances have names that
+are the same as the corresponding Java primitive types.
+Other types may not have meaningful names within an existing
+type system, and so their <code>getTypeName</code> methods cannot
+be expected to return values that are useful in other contexts.
+For these types the <code>getTypeName</code> method is similar to the
+<code>toString</code> method.
+{@link Function} returns a value that describes the signature of
+the function (its formal parameters and return type), for example.
 
 <h2>Bindings</h2>
 
