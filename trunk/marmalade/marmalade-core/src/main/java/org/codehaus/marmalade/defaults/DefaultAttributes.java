@@ -73,13 +73,13 @@ public class DefaultAttributes implements MarmaladeAttributes {
     Object result = null;
     if(expression != null && expression.length() > 0){
       if(el != null){
-        result = el.evaluate(expression, context, Object.class);
+        result = el.evaluate(expression, context, type);
       }
       else{
         result = expression;
       }
     }
-    
+/*    
     if(result != null && !type.isAssignableFrom(result.getClass())) {
       throw new ExpressionEvaluationException(
         "Expression: \'" + 
@@ -92,7 +92,7 @@ public class DefaultAttributes implements MarmaladeAttributes {
         type.getName()
       );
     }
-    
+*/    
     if(result == null) {
       result = defaultVal;
     }

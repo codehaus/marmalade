@@ -16,4 +16,11 @@ public class PassThroughTagLibrary extends AbstractMarmaladeTagLibrary{
   public Tag getTag(String element){
     return new PassThroughTag();
   }
+
+  public String listUnreleasedTags(){
+    return "";
+  }
+  
+  public void releaseTag(String arg0, Tag arg1){
+  }
 }

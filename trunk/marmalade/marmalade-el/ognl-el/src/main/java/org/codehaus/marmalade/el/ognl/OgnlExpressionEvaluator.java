@@ -2,6 +2,7 @@
 package org.codehaus.marmalade.el.ognl;
 
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import ognl.DefaultTypeConverter;
@@ -15,6 +16,8 @@ import org.codehaus.marmalade.abstractions.AbstractExpressionEvaluator;
  * @author jdcasey
  */
 public class OgnlExpressionEvaluator extends AbstractExpressionEvaluator {
+  
+  public static final Pattern EXPRESSION_PATTERN = Pattern.compile("#[^ ]+");
 
   public OgnlExpressionEvaluator() {
   }
@@ -23,8 +26,7 @@ public class OgnlExpressionEvaluator extends AbstractExpressionEvaluator {
   throws ExpressionEvaluationException
   {
     try {
-      Ognl.setTypeConverter(context, new DefaultTypeConverter());
-      Object result = Ognl.getValue(expression, context, (Object)null, expectedType);
+      Object result = Ognl.getValue(expression, context, (Object)null);
       return result;
     }
     catch (OgnlException e) {
@@ -44,8 +46,8 @@ public class OgnlExpressionEvaluator extends AbstractExpressionEvaluator {
     }
   }
 
-  protected boolean trimExpressionDelimiters(){
-    return true;
+  protected Pattern getExpressionPattern(){
+    return EXPRESSION_PATTERN;
   }
   
 }

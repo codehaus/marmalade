@@ -22,6 +22,8 @@ import org.codehaus.marmalade.abstractions.AbstractExpressionEvaluator;
  * @author jdcasey
  */
 public class CommonsElExpressionEvaluator extends AbstractExpressionEvaluator {
+  
+  public static final Pattern EXPRESSION_PATTERN = Pattern.compile("\\$\\{.*\\}");
 
   private ExpressionEvaluatorImpl elImpl = new ExpressionEvaluatorImpl(true);
 
@@ -188,8 +190,8 @@ public class CommonsElExpressionEvaluator extends AbstractExpressionEvaluator {
     }
   }
 
-  protected boolean trimExpressionDelimiters(){
-    return false;
+  protected Pattern getExpressionPattern(){
+    return EXPRESSION_PATTERN;
   }
 
 }

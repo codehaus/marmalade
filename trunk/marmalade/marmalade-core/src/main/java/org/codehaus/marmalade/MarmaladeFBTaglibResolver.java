@@ -16,14 +16,12 @@ public class MarmaladeFBTaglibResolver extends MarmaladeTaglibResolver
   public static final String DEFAULT_PREFIX = "marmalade";
   
   private PassThroughTagLibrary passThroughTaglib = new PassThroughTagLibrary();
-  private String prefix;
 
   public MarmaladeFBTaglibResolver(){
   }
 
   public MarmaladeFBTaglibResolver(String prefix){
     super(prefix);
-    this.prefix = prefix;
   }
 
   public MarmaladeFBTaglibResolver(boolean usePassThrough){
@@ -32,10 +30,10 @@ public class MarmaladeFBTaglibResolver extends MarmaladeTaglibResolver
 
   public MarmaladeFBTaglibResolver(String prefix, boolean usePassThrough){
     super(prefix, usePassThrough);
-    this.prefix = prefix;
   }
 
   public TagLibrary resolve(String taglib){
+    String prefix = uriPrefix();
     if(taglib == null || !taglib.startsWith(prefix)) {return passThroughTaglib;}
     
     int colonIdx = taglib.indexOf(':');

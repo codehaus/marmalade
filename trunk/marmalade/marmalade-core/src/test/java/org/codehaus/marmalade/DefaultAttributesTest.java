@@ -114,66 +114,13 @@ public class DefaultAttributesTest extends MockObjectTestCase{
   }
 
   
-  public void testGetValue_String_Class_MarmaladeExecutionContext() throws ExpressionEvaluationException{
-    Integer testVal = new Integer(10);
-    
-    Mock elMock = mock(ExpressionEvaluator.class);
-    elMock.expects(atLeastOnce())
-          .method("evaluate")
-          .with(eq("value"), isA(Map.class), same(Object.class))
-          .will(returnValue(testVal));
-    
-    Mock attrMock = mock(Attributes.class);
-    attrMock.expects(atLeastOnce())
-            .method("getAttributeCount")
-            .withNoArguments()
-            .will(returnValue(1));
-    attrMock.expects(atLeastOnce())
-            .method("getValue")
-            .with(eq(0))
-            .will(returnValue("value"));
-    attrMock.expects(atLeastOnce())
-            .method("getNamespaceUri")
-            .with(eq(0))
-            .will(returnValue(null));
-    attrMock.expects(atLeastOnce())
-            .method("getName")
-            .with(eq(0))
-            .will(returnValue("testKey"));
-    
-    DefaultAttributes attrs = new DefaultAttributes(
-      (ExpressionEvaluator)elMock.proxy(), (Attributes)attrMock.proxy()
-    );
-    
-    Mock ctxMock = mock(MarmaladeExecutionContext.class);
-    ctxMock.expects(atLeastOnce())
-           .method("unmodifiableVariableMap")
-           .withNoArguments()
-           .will(returnValue(new HashMap()));
-    
-    try {
-      Object result = attrs.getValue("testKey", String.class, (MarmaladeExecutionContext)ctxMock.proxy());
-      fail("Should not allow specification of String.class and return type of Integer.class.");
-    }
-    catch(ExpressionEvaluationException e ) {
-    }
-    
-    Object result = attrs.getValue("testKey", Integer.class, (MarmaladeExecutionContext)ctxMock.proxy());
-    assertEquals("Wrong attribute value.", testVal, result);
-    
-    elMock.verify();
-    attrMock.verify();
-    ctxMock.verify();
-  }
-
-  
   public void testGetValue_String_Class_MarmaladeExecutionContext_Object() throws ExpressionEvaluationException{
     Integer testVal = new Integer(10);
     
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
           .method("evaluate")
-          .with(eq("value"), isA(Map.class), same(Object.class))
+          .with(eq("value"), isA(Map.class), isA(Class.class))
           .will(returnValue(null));
     
     Mock attrMock = mock(Attributes.class);
