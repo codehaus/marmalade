@@ -35,4 +35,24 @@ public class JavaNamesTest extends TestCase {
     public void testClassName() {
         assertEquals(className, JavaNames.className(fullyQualifiedClass));
     }
+
+    public void testToCamelCase() {
+        assertEquals("testToCamelCase",
+                            JavaNames.toCamelCase("test-to-camel-case"));
+        assertEquals("testToCamelCase",
+                            JavaNames.toCamelCase("testToCamel-case"));
+        assertEquals("int", JavaNames.toCamelCase("int"));
+    }
+
+    public void testUpperCaseFirstLetter() {
+        assertEquals("Foo", JavaNames.upperCaseFirstLetter("foo"));
+        assertEquals("Foo", JavaNames.upperCaseFirstLetter("Foo"));
+        assertEquals("FoO", JavaNames.upperCaseFirstLetter("foO"));
+    }
+
+    public void testLowerCaseFirstLetter() {
+        assertEquals("foo", JavaNames.lowerCaseFirstLetter("foo"));
+        assertEquals("foo", JavaNames.lowerCaseFirstLetter("Foo"));
+        assertEquals("foO", JavaNames.lowerCaseFirstLetter("foO"));
+    }
 }
