@@ -56,6 +56,13 @@
 
       <resources>
         <resource>
+          <directory>src/test</directory>
+          <includes>
+            <include>**/*.xml</include>
+          </includes>
+        </resource>
+
+        <resource>
           <directory>src/test-input</directory>
           <includes>
             <include>**/*.xml</include>
