@@ -4,7 +4,9 @@
 
 package org.codehaus.tagalog;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * AbstractParser
@@ -25,7 +27,7 @@ public abstract class AbstractParser implements TagalogParser {
      * Construct an <code>AbstractParser</code> that uses the specified
      * parser configuration.
      *
-     * @param resolver The fallback tag library resolver.
+     * @param configuration Object holding the parser configuration.
      */
     protected AbstractParser(ParserConfiguration configuration) {
         this.configuration = configuration;
@@ -53,49 +55,124 @@ public abstract class AbstractParser implements TagalogParser {
         Tag tag;
 
         tagLibrary = configuration.findTagLibrary(namespaceUri);
-        if (tagLibrary == null)
-            throw tagResolutionException("no tag library", namespaceUri);
+        if (tagLibrary == null) {
+            tagLibrary = NullTagLibrary.INSTANCE;
+            noTagLibrary(namespaceUri);
+        }
         tag = tagLibrary.getTag(elementName);
-        if (tag == null)
-            throw tagResolutionException("no tag '" + elementName
-                                         + "' in tag library", namespaceUri);
+        if (tag == null) {
+            tag = NullTagLibrary.INSTANCE.getTag(elementName);
+            noTag(elementName, namespaceUri);
+        }
         tag.setContext(context);
         if (currentTag != null)
             tag.setParent(currentTag);
         currentTag = tag;
-        tag.begin(elementName, attributes);
-    }
-
-    private TagalogParseException tagResolutionException(String message,
-                                                         String namespaceUri)
-    {
-        if (namespaceUri == null || namespaceUri.length() == 0)
-            namespaceUri = configuration.getDefaultNamespace();
-        return new TagalogParseException(message + " for namespace '"
-                                                 + namespaceUri + "'");
+        try {
+            tag.begin(elementName, attributes);
+        } catch (TagException e) {
+            error(e);
+        }
     }
 
     protected void text(char[] characters, int start, int length)
         throws TagalogParseException
     {
-        currentTag.text(characters, start, length);
+        try {
+            currentTag.text(characters, start, length);
+        } catch (TagException e) {
+            error(e);
+        }
     }
 
     protected void endElement(String namespaceUri, String elementName)
         throws TagalogParseException
     {
-        TagLibrary tagLibrary = configuration.findTagLibrary(namespaceUri);
-        Tag tag = currentTag;
-        Tag parentTag = tag.getParent();
-        Object value = tag.end(elementName);
+        TagLibrary tagLibrary;
+        Tag tag;
+        Tag parentTag;
+        Object value = null;
+
+        tagLibrary = configuration.findTagLibrary(namespaceUri);
+        if (tagLibrary == null) {
+            tagLibrary = NullTagLibrary.INSTANCE;
+            // we've already reported the error when we handled the start tag
+        }
+        tag = currentTag;
+        if (tag instanceof NullTagLibrary.NullTag)
+            tagLibrary = NullTagLibrary.INSTANCE;
+        parentTag = tag.getParent();
+        try {
+            value = tag.end(elementName);
+        } catch (TagException e) {
+            error(e);
+        }
         tag.setContext(null);
         if (parentTag != null)
             tag.setParent(null);
         currentTag = parentTag;
         tagLibrary.releaseTag(elementName, tag);
-        if (parentTag == null)
+        if (parentTag == null) {
             parseResult = value;
+        } else {
+            try {
+                parentTag.child(value);
+            } catch (TagException e) {
+                error(e);
+            }
+        }
+    }
+
+    //
+    // Error handling.
+    //
+
+    protected abstract int getErrorLineNumber();
+
+    private List parseErrors = new java.util.LinkedList();
+
+    public ParseError[] parseErrors() {
+        if (parseErrors.size() == 0)
+            return null;
+        return (ParseError[]) parseErrors.toArray(ParseError.EMPTY_ARRAY);
+    }
+
+    private void error(String message) {
+        parseErrors.add(new ParseError(message, getErrorLineNumber()));
+    }
+
+    private void error(TagException e) {
+        error(e.getMessage());
+    }
+
+    private Set reportedResolutionFailures = new java.util.HashSet();
+
+    private void noTagLibrary(String namespaceUri) {
+        namespaceUri = getActualNamespace(namespaceUri);
+        if (reportedResolutionFailures.contains(namespaceUri))
+            return;
         else
-            parentTag.child(value);
+            reportedResolutionFailures.add(namespaceUri);
+        error("no tag library for namespace '" + namespaceUri + "'");
+    }
+
+    private void noTag(String tag, String namespaceUri) {
+        String tagAndNamespace;
+
+        namespaceUri = getActualNamespace(namespaceUri);
+        tagAndNamespace = tag + " " + namespaceUri;
+        if (reportedResolutionFailures.contains(tagAndNamespace))
+            return;
+        else
+            reportedResolutionFailures.add(tagAndNamespace);
+        error("no tag '" + tag + "' in tag library"
+              + " for namespace '" + namespaceUri + "'");
+    }
+
+    private String getActualNamespace(String namespaceUri) {
+        if (namespaceUri == null || namespaceUri.length() == 0)
+            return configuration.getDefaultNamespace();
+        else
+            return namespaceUri;
     }
 }
