@@ -18,6 +18,8 @@ import java.util.Map;
  * @version $Revision$
  */
 public final class ParserConfiguration {
+    private String defaultNamespaceUri;
+
     private FallbackTagLibraryResolver fallbackResolver;
 
     private Map prefixResolvers = new java.util.TreeMap();
@@ -39,6 +41,16 @@ public final class ParserConfiguration {
      */
     public ParserConfiguration(FallbackTagLibraryResolver resolver) {
         fallbackResolver = resolver;
+    }
+
+    /**
+     * Set the namespace that will be used if the document does not
+     * specify a namespace itself.
+     *
+     * @param namespaceUri The URI of the default namespace.
+     */
+    public void setDefaultNamespace(String namespaceUri) {
+        defaultNamespaceUri = namespaceUri;
     }
 
     /**
@@ -75,8 +87,13 @@ public final class ParserConfiguration {
         TagLibrary tagLibrary = null;
         int colon;
 
-        if (uri.length() == 0)
-            throw new IllegalArgumentException("uri is empty");
+        if (uri.length() == 0) {
+            if (defaultNamespaceUri != null)
+                uri = defaultNamespaceUri;
+            else
+                throw new IllegalArgumentException("uri is empty,"
+                                       + " and no default has been specified");
+        }
         colon = uri.indexOf(':');
         if (colon != -1) {
             String prefix = uri.substring(0, colon);
