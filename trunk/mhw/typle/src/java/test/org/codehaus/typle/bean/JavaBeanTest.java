@@ -55,12 +55,22 @@ public class JavaBeanTest extends TestCase {
         InputStreamReader r = new InputStreamReader(s);
         BufferedReader expected = new BufferedReader(r);
         String[] contentLines = content.split("\n");
-        for (int i = 0; i < contentLines.length; i++) {
-            String contentLine = contentLines[i];
-            String expectedLine = expected.readLine();
-            assertNotNull(expectedLine);
-            assertEquals(expectedLine, contentLine);
+        boolean pass = false;
+
+        try {
+            for (int i = 0; i < contentLines.length; i++) {
+                String contentLine = contentLines[i];
+                String expectedLine = expected.readLine();
+                assertNotNull(expectedLine);
+                assertEquals(expectedLine, contentLine);
+            }
+            assertNull(expected.readLine());
+            pass = true;
+        } finally {
+            if (!pass) {
+                System.err.println("Content mismatch. Actual output was:");
+                System.err.println(content);
+            }
         }
-        assertNull(expected.readLine());
     }
 }
