@@ -1,6 +1,8 @@
 /* Created on May 20, 2004 */
 package org.codehaus.marmalade.modelbuilder;
 
+import java.util.Iterator;
+
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 import org.codehaus.tagalog.Attributes;
@@ -66,42 +68,12 @@ public class MarmaladeTagInfoTest extends TestCase{
   }
   
   public void testShouldStoreRetrieveAttributes() {
-    TestAttributes ta = new TestAttributes();
-    RawAttributes ra = new RawAttributes(ta);
+    DefaultRawAttributes ra = new DefaultRawAttributes();
     MarmaladeTagInfo taginfo = new MarmaladeTagInfo();
     taginfo.setAttributes(ra);
     
     assertEquals(ra, taginfo.getAttributes());
     assertEquals("testValue", taginfo.getAttributes().getValue("testAttribute"));
-  }
-  
-  public static class TestAttributes implements Attributes{
-    TestAttributes(){}
-
-    public int getAttributeCount(){
-      return 1;
-    }
-
-    public String getNamespaceUri(int attributeIndex){
-      return "marmalade:testlib";
-    }
-
-    public String getName(int attributeIndex){
-      return "testAttribute";
-    }
-
-    public String getValue(int attributeIndex){
-      return "testValue";
-    }
-
-    public String getValue(String attributeName){
-      return "testValue";
-    }
-
-    public String getValue(String namespaceUri, String attributeName){
-      return "testValue";
-    }
-    
   }
   
   public static class TestBuilder implements MarmaladeTagBuilder{

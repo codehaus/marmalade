@@ -49,8 +49,17 @@ public class BuilderTag extends AbstractTag implements MarmaladeTagBuilder{
   public void begin(String elementName, Attributes attributes)
   throws TagException, TagalogParseException
   {
+    DefaultRawAttributes attrs = new DefaultRawAttributes();
+    for(int i=0; i<attributes.getAttributeCount(); i++) {
+      attrs.addAttribute(new DefaultRawAttribute(
+        attributes.getNamespaceUri(i), 
+        attributes.getName(i), 
+        attributes.getValue(i)
+      ));
+    }
+    
     tagInfo.setElement(elementName);
-    tagInfo.setAttributes(new RawAttributes(attributes));
+    tagInfo.setAttributes(attrs);
   }
 
   public synchronized void text(char[] characters, int start, int length)
