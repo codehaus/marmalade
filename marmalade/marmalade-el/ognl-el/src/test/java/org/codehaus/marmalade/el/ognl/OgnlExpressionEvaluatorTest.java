@@ -25,6 +25,12 @@ public class OgnlExpressionEvaluatorTest extends TestCase{
     Object result = el.evaluate("#subject.id", context, String.class);
     assertEquals("Id should come through unchanged.", id, result);
   }
+  
+  public void testIsExpression() {
+    OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+    assertFalse("\'somestring\' should not be a valid expression.", el.isExpression("somestring"));
+    assertTrue("\'true\' should be a valid expression.", el.isExpression("true"));
+  }
 
   public void testAssign() throws ExpressionEvaluationException{
     String id = "testId";

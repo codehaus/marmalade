@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public interface ExpressionEvaluator {
   
+  public boolean isExpression(String src);
+  
   public Object evaluate(String expression, Map context, Class expectedReturnType)
   throws ExpressionEvaluationException;
   

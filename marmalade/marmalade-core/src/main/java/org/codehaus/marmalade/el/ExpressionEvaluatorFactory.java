@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.codehaus.marmalade.ConfigurationException;
-import org.commonjava.reflection.FinderException;
-import org.commonjava.reflection.ImplFinder;
 
 /** Provide factory methods to retrieve specific implementations for various dynamic elements of
  * the marmalade system.
@@ -47,7 +45,7 @@ public final class ExpressionEvaluatorFactory {
     synchronized(type.intern()){
       ExpressionEvaluator evaluator = (ExpressionEvaluator)evaluators.get(type);
       if(evaluator == null){
-        String elResource = "META-INF/el/" + type;
+        String elResource = "META-INF/marmalade/el/" + type;
         ClassLoader cloader = ExpressionEvaluatorFactory.class.getClassLoader();
         
         InputStream res = cloader.getResourceAsStream(elResource);
@@ -61,7 +59,7 @@ public final class ExpressionEvaluatorFactory {
           
           try{
             BufferedReader in = new BufferedReader(new InputStreamReader(res));
-            in.readLine();
+            className = in.readLine();
             in.close();
           }
           catch(IOException e){
@@ -72,27 +70,29 @@ public final class ExpressionEvaluatorFactory {
             );
           }
           
-          try {
-            Class elClass = cloader.loadClass(className);
-            evaluator = (ExpressionEvaluator)elClass.newInstance();
-            evaluators.put(type, evaluator);
-          }
-          catch (ClassNotFoundException e) {
-            throw new ConfigurationException(
-              "Expression evaluator class: \'" + className + "\' for type: \'" + 
-              type + "\' not found.",
-              e
-            );
-          }
-          catch (InstantiationException e) {
-            throw new ConfigurationException("Error instantiating expression evaluator.", e);
-          }
-          catch (IllegalAccessException e) {
-            throw new ConfigurationException("Error instantiating expression evaluator.", e);
-          }
-          catch(UndeclaredThrowableException e){
-            Throwable t = e.getUndeclaredThrowable();
-            throw new ConfigurationException("Error instantiating expression evaluator.", t);
+          if(className != null && className.length() > 0) {
+            try {
+              Class elClass = cloader.loadClass(className);
+              evaluator = (ExpressionEvaluator)elClass.newInstance();
+              evaluators.put(type, evaluator);
+            }
+            catch (ClassNotFoundException e) {
+              throw new ConfigurationException(
+                "Expression evaluator class: \'" + className + "\' for type: \'" + 
+                type + "\' not found.",
+                e
+              );
+            }
+            catch (InstantiationException e) {
+              throw new ConfigurationException("Error instantiating expression evaluator.", e);
+            }
+            catch (IllegalAccessException e) {
+              throw new ConfigurationException("Error instantiating expression evaluator.", e);
+            }
+            catch(UndeclaredThrowableException e){
+              Throwable t = e.getUndeclaredThrowable();
+              throw new ConfigurationException("Error instantiating expression evaluator.", t);
+            }
           }
         }
       }
