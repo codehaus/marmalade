@@ -26,7 +26,7 @@ final class JavaTypeFactory
         addType(Java.VOID_TYPE.getTypeName(), Java.VOID_TYPE);
     }
 
-    protected Type resolveType(String name) {
+    protected void resolveType(String name) {
         Type t = null;
 
         if (name.indexOf('.') != -1) {
@@ -45,6 +45,7 @@ final class JavaTypeFactory
                 }
             }
         }
-        return t;
+        if (t != null)
+            addType(name, t);
     }
 }
