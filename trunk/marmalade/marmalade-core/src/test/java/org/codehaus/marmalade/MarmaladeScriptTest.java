@@ -2,7 +2,7 @@
 package org.codehaus.marmalade;
 
 import org.jmock.Mock;
-import org.jmock.cglib.MockObjectTestCase;
+import org.jmock.MockObjectTestCase;
 
 
 /**
@@ -27,14 +27,11 @@ public class MarmaladeScriptTest extends MockObjectTestCase{
     String location = "/etc";
     
     Mock tagMock = mock(MarmaladeTag.class);
-    tagMock.expects(never());
     
     MarmaladeTag root = (MarmaladeTag)tagMock.proxy();
     MarmaladeScript script = new MarmaladeScript(location, root);
     
     assertEquals("Mock tag should come back as the root of the script", root, script.getRoot());
-    
-    tagMock.verify();
   }
 
   public void testExecute() throws MarmaladeExecutionException{
@@ -49,7 +46,7 @@ public class MarmaladeScriptTest extends MockObjectTestCase{
            .isVoid();
     
     MarmaladeTag root = (MarmaladeTag)tagMock.proxy();
-    MarmaladeExecutionContext ctx = (MarmaladeExecutionContext)ctxMock;
+    MarmaladeExecutionContext ctx = (MarmaladeExecutionContext)ctxMock.proxy();
     
     MarmaladeScript script = new MarmaladeScript(location, root);
     

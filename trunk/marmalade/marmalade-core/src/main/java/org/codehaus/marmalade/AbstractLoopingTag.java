@@ -4,7 +4,6 @@ package org.codehaus.marmalade;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.codehaus.marmalade.tags.core.LoopStatus;
 
 /**
  * @author jdcasey

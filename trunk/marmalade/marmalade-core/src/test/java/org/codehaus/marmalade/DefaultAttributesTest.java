@@ -4,8 +4,6 @@ package org.codehaus.marmalade;
 import java.util.HashMap;
 import java.util.Map;
 
-import ognl.Evaluation;
-
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.tagalog.Attributes;
@@ -32,10 +30,22 @@ public class DefaultAttributesTest extends MockObjectTestCase{
           .will(returnValue("value"));
     
     Mock attrMock = mock(Attributes.class);
-    attrMock.expects(once())
+    attrMock.expects(atLeastOnce())
+            .method("getAttributeCount")
+            .withNoArguments()
+            .will(returnValue(1));
+    attrMock.expects(atLeastOnce())
             .method("getValue")
-            .with(eq("testKey"))
+            .with(eq(0))
             .will(returnValue("value"));
+    attrMock.expects(atLeastOnce())
+            .method("getNamespaceUri")
+            .with(eq(0))
+            .will(returnValue(null));
+    attrMock.expects(atLeastOnce())
+            .method("getName")
+            .with(eq(0))
+            .will(returnValue("testKey"));
     
     DefaultAttributes attrs = new DefaultAttributes(
       (ExpressionEvaluator)elMock.proxy(), (Attributes)attrMock.proxy()
@@ -66,10 +76,22 @@ public class DefaultAttributesTest extends MockObjectTestCase{
           .will(returnValue(null));
     
     Mock attrMock = mock(Attributes.class);
-    attrMock.expects(once())
+    attrMock.expects(atLeastOnce())
+            .method("getAttributeCount")
+            .withNoArguments()
+            .will(returnValue(1));
+    attrMock.expects(atLeastOnce())
             .method("getValue")
-            .with(eq("testKey"))
+            .with(eq(0))
             .will(returnValue("value"));
+    attrMock.expects(atLeastOnce())
+            .method("getNamespaceUri")
+            .with(eq(0))
+            .will(returnValue(null));
+    attrMock.expects(atLeastOnce())
+            .method("getName")
+            .with(eq(0))
+            .will(returnValue("testKey"));
     
     DefaultAttributes attrs = new DefaultAttributes(
       (ExpressionEvaluator)elMock.proxy(), (Attributes)attrMock.proxy()
@@ -103,9 +125,21 @@ public class DefaultAttributesTest extends MockObjectTestCase{
     
     Mock attrMock = mock(Attributes.class);
     attrMock.expects(atLeastOnce())
+            .method("getAttributeCount")
+            .withNoArguments()
+            .will(returnValue(1));
+    attrMock.expects(atLeastOnce())
             .method("getValue")
-            .with(eq("testKey"))
+            .with(eq(0))
             .will(returnValue("value"));
+    attrMock.expects(atLeastOnce())
+            .method("getNamespaceUri")
+            .with(eq(0))
+            .will(returnValue(null));
+    attrMock.expects(atLeastOnce())
+            .method("getName")
+            .with(eq(0))
+            .will(returnValue("testKey"));
     
     DefaultAttributes attrs = new DefaultAttributes(
       (ExpressionEvaluator)elMock.proxy(), (Attributes)attrMock.proxy()
@@ -146,10 +180,22 @@ public class DefaultAttributesTest extends MockObjectTestCase{
           .will(returnValue(null));
     
     Mock attrMock = mock(Attributes.class);
-    attrMock.expects(once())
+    attrMock.expects(atLeastOnce())
+            .method("getAttributeCount")
+            .withNoArguments()
+            .will(returnValue(1));
+    attrMock.expects(atLeastOnce())
             .method("getValue")
-            .with(eq("testKey"))
+            .with(eq(0))
             .will(returnValue("value"));
+    attrMock.expects(atLeastOnce())
+            .method("getNamespaceUri")
+            .with(eq(0))
+            .will(returnValue(null));
+    attrMock.expects(atLeastOnce())
+            .method("getName")
+            .with(eq(0))
+            .will(returnValue("testKey"));
     
     DefaultAttributes attrs = new DefaultAttributes(
       (ExpressionEvaluator)elMock.proxy(), (Attributes)attrMock.proxy()
