@@ -143,14 +143,14 @@ public final class ParserConfiguration {
     /**
      * Set the processing instruction handler for the parser configuration.
      * Tagalog provides some useful processing instruction handlers in the
-     * {@link org.codehaus.tagalog.pi} package.
+     * {@link <a href="pi/package-summary.html">org.codehaus.tagalog.pi</a>}
+     * package.
      * If this method is not called, or the parser configuration handler
      * is <code>null</code>, processing instructions are ignored.
      *
      * @param handler Processing instruction handler to use.
      */
-    public void setProcessingInstructionHandler(PIHandler handler)
-    {
+    public void setProcessingInstructionHandler(PIHandler handler) {
         processingInstructionHandler = handler;
     }
 
