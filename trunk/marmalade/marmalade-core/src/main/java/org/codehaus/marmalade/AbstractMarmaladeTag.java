@@ -69,11 +69,15 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
   public void processChildren(MarmaladeExecutionContext context)
   throws MarmaladeExecutionException
   {
-    for (Iterator it = children.iterator(); it.hasNext();) {
-      MarmaladeTag child = (MarmaladeTag)it.next();
-      child.execute(context);
+    try {
+      for (Iterator it = children.iterator(); it.hasNext();) {
+        MarmaladeTag child = (MarmaladeTag)it.next();
+        child.execute(context);
+      }
     }
-    childrenProcessed = true;
+    finally {
+      childrenProcessed = true;
+    }
   }
   
   protected final List children(){
@@ -92,7 +96,6 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
   public final ExpressionEvaluator getExpressionEvaluator() 
   throws ConfigurationException
   {
-    loadExpressionEvaluator();
     return el;
   }
 
@@ -100,38 +103,42 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
     return bodyText.toString();
   }
 
-  private void loadExpressionEvaluator() throws ConfigurationException {
+  private void loadExpressionEvaluator(Attributes parseAttrs) 
+  throws ConfigurationException
+  {
     if(el == null){
       //First, try to pull an attribute with the el.
-//      String elType = attributes.getValue(MARMALADE_EL_ATTRIBUTE);
+      String elType = parseAttrs.getValue(MARMALADE_EL_ATTRIBUTE);
     
       //Then, start searching...try to get the parent's evaluator.
-//      if(elType == null || elType.length() < 1){
-//        Tag parent = getParent();
-//        if(parent != null && (parent instanceof MarmaladeTag)){
-//          el = ((MarmaladeTag)parent).getExpressionEvaluator();
-//        }
-//      
+      if(elType == null || elType.length() < 1){
+        Tag parent = getParent();
+        if(parent != null && (parent instanceof MarmaladeTag)){
+          el = ((MarmaladeTag)parent).getExpressionEvaluator();
+        }
+      
         //If we cannot find an evaluator for the parent, check the processing instructions.
-//        if(el == null){
-//          Map processingInstructions = (Map)context.get(TagalogParser.PROCESSING_INSTRUCTIONS);
-//          if(processingInstructions != null){
-//            List piSet = (List)processingInstructions.get(MARMALADE_EL_PI_NAMESPACE);
-//            if(piSet != null && !piSet.isEmpty()){
-//              elType = (String)piSet.get(0);
-//            }
-//          }
-//        }
-//      }
-//    
-//      if(el == null){
-//        if(elType != null && elType.length() < 1){
-//          el = ExpressionEvaluatorFactory.getDefaultExpressionEvaluator();
-//        }
-//        else{
-//          el = ExpressionEvaluatorFactory.getExpressionEvaluator(elType);
-//        }
-//      }
+/*        
+        if(el == null){
+          Map processingInstructions = (Map)context.get(TagalogParser.PROCESSING_INSTRUCTIONS);
+          if(processingInstructions != null){
+            List piSet = (List)processingInstructions.get(MARMALADE_EL_PI_NAMESPACE);
+            if(piSet != null && !piSet.isEmpty()){
+              elType = (String)piSet.get(0);
+            }
+          }
+        }
+*/        
+      }
+    
+      if(el == null){
+        if(elType == null || elType.length() < 1){
+          el = ExpressionEvaluatorFactory.getDefaultExpressionEvaluator();
+        }
+        else{
+          el = ExpressionEvaluatorFactory.getExpressionEvaluator(elType);
+        }
+      }
     }
   }
 
@@ -144,7 +151,7 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
     this.element = element;
     
     try{
-      loadExpressionEvaluator();
+      loadExpressionEvaluator(parseAttrs);
     }
     catch(ConfigurationException e){
       throw new TagException("Cannot retrieve expression evaluator.", e);
@@ -209,7 +216,13 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
   
   protected void requireParent(Class cls) throws IllegalParentException
   {
-    if(!cls.isAssignableFrom(getParent().getClass())){
+    Tag parent = getParent();
+    if(parent != null) {
+      if(!cls.isAssignableFrom(parent.getClass())){
+        throw new IllegalParentException(element, cls);
+      }
+    }
+    else {
       throw new IllegalParentException(element, cls);
     }
   }

@@ -26,11 +26,16 @@ public abstract class AbstractOutputTag extends AbstractMarmaladeTag {
       value = (String)attributes.getValue(DEFAULT_ATTRIBUTE, String.class, context, "");
     }
     
-    boolean escapeXml = ((Boolean)attributes.getValue(
+    Boolean escapeXml = (Boolean)attributes.getValue(
       ESCAPE_XML_ATTRIBUTE, Boolean.class, context, Boolean.FALSE
-    )).booleanValue();
+    );
     
-    if(escapeXml){
+    boolean escape = false;
+    if(escapeXml != null) {
+      escape = escapeXml.booleanValue();
+    }
+    
+    if(escape){
       value = XMLUtils.escapeXml(value);
     }
     

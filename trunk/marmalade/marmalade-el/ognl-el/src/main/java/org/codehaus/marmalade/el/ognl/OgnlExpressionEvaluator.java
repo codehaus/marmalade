@@ -14,6 +14,9 @@ import ognl.OgnlException;
  */
 public class OgnlExpressionEvaluator implements ExpressionEvaluator {
 
+  private static final String EXPRESSION_PATTERNS = 
+    "null|true|false|(.*\\?.*:.*)|[0-9]+|0x[a-f]+|(.*[#{}].*)";
+
   public OgnlExpressionEvaluator() {
   }
 
@@ -46,6 +49,10 @@ public class OgnlExpressionEvaluator implements ExpressionEvaluator {
     catch (OgnlException e) {
       throw new ExpressionEvaluationException(property, e);
     }
+  }
+
+  public boolean isExpression(String src){
+    return src.matches(EXPRESSION_PATTERNS);
   }
 
 }

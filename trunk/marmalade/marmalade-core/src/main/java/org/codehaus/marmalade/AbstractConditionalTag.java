@@ -17,15 +17,16 @@ public abstract class AbstractConditionalTag extends AbstractMarmaladeTag {
   public boolean conditionMatches(MarmaladeExecutionContext context)
   throws MarmaladeExecutionException
   {
-    Object value = requireTagAttribute(TEST_ATTRIBUTE, context);
-    boolean result = false;
+    Object value = requireTagAttribute(TEST_ATTRIBUTE, Boolean.class, context);
     
+    boolean result = false;
     if(value != null){
       if(value instanceof Boolean){
         result = ((Boolean)value).booleanValue();
       }
       else{
-        result = Boolean.getBoolean(String.valueOf(value));
+        String test = String.valueOf(value);
+        result = Boolean.getBoolean(test);
       }
     }
     
