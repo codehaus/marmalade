@@ -11,4 +11,8 @@ private int theField;
 public int getTheField() {
 return theField;
 }
+
+public void setTheField(int theField) {
+this.theField = theField;
+}
 }
