@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <!-- v3 -->
+  <extend>${maven.repo.local}/marmalade/poms/marmalade-parent-0.2.pom</extend>
+  <id>marmalade-compat-jelly</id>
+
+  <!-- v4 -->
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>0.2</version>
+  </parent>
+  <artifactId>marmalade-compat-jelly</artifactId>
+
+  <name>Jelly Compatibility Layer</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-core</artifactId>
+      <version>0.2</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-utils</artifactId>
+      <version>0.2</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-jelly</groupId>
+      <artifactId>commons-jelly</artifactId>
+      <version>1.0-beta-4-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.4</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>2.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+    
+    <!-- Testing dependencies -->
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-el-commons</artifactId>
+      <version>0.2</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-el</groupId>
+      <artifactId>commons-el</artifactId>
+      <version>1.0</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
+      <version>2.4-20030804.000000</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>tomcat</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>5.0.18</version>
+    </dependency>
+    
+    <!-- /Testing dependencies -->
+  </dependencies>
+</project>
