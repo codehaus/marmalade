@@ -6,9 +6,10 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
  * @author jdcasey
@@ -20,7 +21,8 @@ public class UrlTag extends AbstractMarmaladeTag {
   
   private Properties params = new Properties();
 
-  public UrlTag() {
+  public UrlTag(MarmaladeTagInfo tagInfo) {
+    super(tagInfo);
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {

@@ -1,16 +1,18 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
  * @author jdcasey
  */
 public class OtherwiseTag extends AbstractMarmaladeTag {
 
-  public OtherwiseTag() {
+  public OtherwiseTag(MarmaladeTagInfo tagInfo) {
+    super(tagInfo);
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
