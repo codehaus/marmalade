@@ -24,7 +24,6 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;

@@ -28,8 +28,9 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import junit.framework.TestCase;
+
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-import org.codehaus.marmalade.model.MarmaladeControlDefinitions;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.parsetime.DefaultParsingContext;
 import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
@@ -40,8 +41,6 @@ import org.codehaus.marmalade.parsetime.ScriptParser;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.util.RecordingReader;
-
-import junit.framework.TestCase;
 
 /**
  * @author jdcasey

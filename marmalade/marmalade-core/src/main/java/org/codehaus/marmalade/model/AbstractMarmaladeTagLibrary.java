@@ -24,14 +24,13 @@
 /* Created on Mar 24, 2004 */
 package org.codehaus.marmalade.model;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.parsetime.ParserHint;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.parsetime.ParserHint;
 
 /** Represents base-level common functionality for all marmalade tag libraries.
  *

@@ -1,31 +1,29 @@
 /* Created on Jun 28, 2004 */
 package org.codehaus.marmalade.compat.jelly.model;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
+
 import org.apache.commons.jelly.Jelly;
 import org.apache.commons.jelly.TagLibrary;
 import org.codehaus.marmalade.compat.jelly.JellyCompatUncheckedException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.model.MarmaladeTag;
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
 
 /**
  * @author jdcasey
  */
-public class MarmaladeCompatibleJellyTaglib extends AbstractMarmaladeTagLibrary
+public class JellyCompatMarmaladeTaglib extends AbstractMarmaladeTagLibrary
 {
     public static final String JELLY_NATIVE_TAGLIBS_DEFINITION = "jelly.properties";
     private Properties natives = new Properties(  );
     private Map taglibCache = new TreeMap(  );
 
-    public MarmaladeCompatibleJellyTaglib(  )
+    public JellyCompatMarmaladeTaglib(  )
     {
         loadJellyNativeTaglibs(  );
     }
@@ -100,6 +98,7 @@ public class MarmaladeCompatibleJellyTaglib extends AbstractMarmaladeTagLibrary
                     throw new JellyCompatUncheckedException( e );
                 }
             }
+            
         }
 
         return new JellyCompatMarmaladeTag( tlib );

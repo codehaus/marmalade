@@ -9,20 +9,22 @@ import org.apache.commons.jelly.JellyException;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
+import org.codehaus.marmalade.compat.jelly.JellyCompatUncheckedException;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.xml.sax.SAXException;
 
 /**
  * @author jdcasey
  */
-public class MarmaladeCompatibleBodyScript implements Script {
+public class MarmaladeCompatBodyScript implements Script {
 
     private final List bodyItems;
     private final MarmaladeExecutionContext context;
     private final JellyCompatMarmaladeTag owner;
 
-    public MarmaladeCompatibleBodyScript(JellyCompatMarmaladeTag owner, MarmaladeExecutionContext context, List bodyItems) {
+    public MarmaladeCompatBodyScript(JellyCompatMarmaladeTag owner, MarmaladeExecutionContext context, List bodyItems) {
         this.owner = owner;
         this.context = context;
         this.bodyItems = bodyItems;
@@ -43,7 +45,12 @@ public class MarmaladeCompatibleBodyScript implements Script {
                 else {
                     String content = String.valueOf(item);
                     content = owner.formatWhitespace(content, context);
-                    context.getOutWriter().print(content);
+                    try {
+                        output.write(content);
+                    }
+                    catch (SAXException e) {
+                        throw new JellyCompatUncheckedException("Error writing to XMLOutput.", e);
+                    }
                 }
             }
         }

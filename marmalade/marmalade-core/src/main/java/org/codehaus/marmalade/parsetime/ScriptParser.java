@@ -24,27 +24,10 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
+import java.io.IOException;
+
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.xmlpull.v1.XmlPullParserException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-
-import java.net.URL;
 
 /**
  * @author jdcasey

@@ -24,23 +24,22 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.runtime;
 
-import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.util.ScopedMap;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-import org.xmlpull.v1.XmlSerializer;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
+import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.util.ScopedMap;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+import org.xmlpull.v1.XmlSerializer;
 
 /**
  * @author John Casey

@@ -24,11 +24,8 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import java.io.Reader;
-
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
-import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.util.RecordingReader;
 

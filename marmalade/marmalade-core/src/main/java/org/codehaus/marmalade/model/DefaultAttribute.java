@@ -73,7 +73,7 @@ public class DefaultAttribute implements MarmaladeAttribute
         String expression = attribute.getValue(  );
         Object result = expression;
 
-        if ( ( expression != null ) && ( expression.length(  ) > 0 ) )
+        if ( ( el != null ) && ( expression != null ) && ( expression.length(  ) > 0 ) )
         {
             result = el.evaluate( expression,
                     context.unmodifiableVariableMap(  ), returnType );

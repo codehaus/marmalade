@@ -1,6 +1,10 @@
 /* Created on Jun 29, 2004 */
 package org.codehaus.marmalade.parsetime;
 
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
@@ -11,12 +15,6 @@ import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.io.Reader;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author jdcasey

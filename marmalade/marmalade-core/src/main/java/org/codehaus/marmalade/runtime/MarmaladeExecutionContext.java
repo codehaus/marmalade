@@ -24,16 +24,15 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.runtime;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.util.Map;
+
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
-
-import java.util.Map;
 
 /**
  * @author jdcasey
