@@ -1,2 +1,13 @@
 These are just some notes to improve Marmalade.
 
+[jdcasey 6/24/2004]:
+* Provide named scopes for context.set/getVariable(). 
+    - This would allow tags to purposefully set a variable in an outer
+      scope
+    
+    - This would also imply that certain scope names have a meaning
+      which is separate from the actual layering involved 
+      (eg. a named scope of "parent" might always mean this-1 scope).
+
+
+

@@ -263,6 +263,24 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         }
     }
 
+    protected void deprecateTagAttribute( String name, MarmaladeExecutionContext context )
+    throws MissingAttributeException, ExpressionEvaluationException
+    {
+        Object result = attributes.getValue( name, context );
+
+        if ( result != null )
+        {
+            MarmaladeTagInfo ti = getTagInfo();
+            context.getErrWriter().println(
+                "Attribute " + name + 
+                " of element " + ti.getElement() + 
+                " has been deprecated and will be ignored (file: " + 
+                ti.getSourceFile() + ", line: " + 
+                ti.getSourceLine() + ")."
+            );
+        }
+    }
+
     protected MarmaladeTag requireParent( Class cls )
         throws IllegalParentException
     {

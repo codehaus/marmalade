@@ -76,6 +76,10 @@
     <tagclass>org.codehaus.marmalade.tags.jelly.core.OtherwiseTag</tagclass>
   </tag>
   <tag>
+    <name>parse</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.ParseTag</tagclass>
+  </tag>
+  <tag>
     <name>remove</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.RemoveTag</tagclass>
   </tag>
