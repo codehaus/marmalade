@@ -309,84 +309,28 @@ public abstract class AbstractMarmaladeTag
     protected Object requireTagAttribute( String name, Class type, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
-        return _requireTagAttribute( name, type, context );
+        return ScriptStructureSupport.requireTagAttribute( this, name, type, context );
     }
 
     protected Object requireTagAttribute( String name, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
-        return _requireTagAttribute( name, Object.class, context );
-    }
-
-    private Object _requireTagAttribute( String name, Class type, MarmaladeExecutionContext context )
-        throws MissingAttributeException, ExpressionEvaluationException
-    {
-        Object result = attributes.getValue( name, type, context );
-
-        if ( result == null )
-        {
-            throw new MissingAttributeException( tagInfo.getElement(), name );
-        }
-        else
-        {
-            return result;
-        }
+        return ScriptStructureSupport.requireTagAttribute( this, name, Object.class, context );
     }
 
     protected void deprecateTagAttribute( String name, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
-        Object result = attributes.getValue( name, context );
-
-        if ( result != null )
-        {
-            MarmaladeTagInfo ti = getTagInfo();
-
-            context.getErrWriter().println(
-                "Attribute " + name + " of element " + ti.getElement()
-                    + " has been deprecated and will be ignored (file: " + ti.getSourceFile() + ", line: "
-                    + ti.getSourceLine() + ")." );
-        }
+        ScriptStructureSupport.deprecateTagAttribute(this, name, context);
     }
 
     protected MarmaladeTag requireParent( Class cls ) throws IllegalScriptStructureException
     {
-        MarmaladeTag parent = getParent();
-
-        if ( parent != null )
-        {
-            if ( !cls.isAssignableFrom( parent.getClass() ) )
-            {
-                throw new IllegalScriptStructureException( tagInfo.getElement(), cls );
-            }
-        }
-        else
-        {
-            throw new IllegalScriptStructureException( tagInfo.getElement(), cls );
-        }
-
-        return parent;
+        return ScriptStructureSupport.requireParent(this, cls);
     }
 
     protected MarmaladeTag requireAncestor( Class cls ) throws IllegalScriptStructureException
     {
-        MarmaladeTag parent = this;
-
-        while ( (parent = parent.getParent()) != null )
-        {
-            if ( cls.isAssignableFrom( parent.getClass() ) )
-            {
-                break;
-            }
-        }
-
-        if ( parent == null )
-        {
-            throw new IllegalScriptStructureException( tagInfo.getElement(), cls );
-        }
-        else
-        {
-            return parent;
-        }
+        return ScriptStructureSupport.requireAncestor(this, cls);
     }
 }

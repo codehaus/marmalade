@@ -69,18 +69,26 @@ public class PrefixedTldResolutionStrategy
                 catch ( UnsupportedEncodingException e )
                 {
                     //TODO: log this exception
+                    e.printStackTrace();
+                    System.err.println("Proceeding with taglib resolution.");
                 }
                 catch ( XmlPullParserException e )
                 {
                     //TODO: log this exception
+                    e.printStackTrace();
+                    System.err.println("Proceeding with taglib resolution.");
                 }
                 catch ( IOException e )
                 {
                     //TODO: log this exception
+                    e.printStackTrace();
+                    System.err.println("Proceeding with taglib resolution.");
                 }
                 catch ( ClassNotFoundException e )
                 {
                     //TODO: log this exception
+                    e.printStackTrace();
+                    System.err.println("Proceeding with taglib resolution.");
                 }
             }
         }

@@ -29,25 +29,27 @@ import org.codehaus.marmalade.MarmaladeException;
 /**
  * @author jdcasey
  */
-public class MarmaladeExecutionException
+public abstract class MarmaladeExecutionException
     extends MarmaladeException
 {
-    public MarmaladeExecutionException()
+    
+    protected MarmaladeExecutionException()
     {
     }
 
-    public MarmaladeExecutionException( String message )
+    protected MarmaladeExecutionException( String message )
     {
         super( message );
     }
 
-    public MarmaladeExecutionException( Throwable cause )
+    protected MarmaladeExecutionException( Throwable cause )
     {
         super( cause );
     }
 
-    public MarmaladeExecutionException( String message, Throwable cause )
+    protected MarmaladeExecutionException( String message, Throwable cause )
     {
         super( message, cause );
     }
+    
 }

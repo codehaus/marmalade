@@ -68,6 +68,8 @@ public class PrefixedDefFileResolutionStrategy
                 catch ( IOException e )
                 {
                     //TODO: log this exception
+                    e.printStackTrace();
+                    System.err.println("Proceeding with taglib resolution.");
                 }
 
                 if ( (className != null) && (className.length() > 0) )
@@ -86,14 +88,20 @@ public class PrefixedDefFileResolutionStrategy
                     catch ( InstantiationException e )
                     {
                         //TODO: log this exception
+                        e.printStackTrace();
+                        System.err.println("Proceeding with taglib resolution.");
                     }
                     catch ( IllegalAccessException e )
                     {
                         //TODO: log this exception
+                        e.printStackTrace();
+                        System.err.println("Proceeding with taglib resolution.");
                     }
                     catch ( ClassNotFoundException e )
                     {
                         //TODO: log this exception
+                        e.printStackTrace();
+                        System.err.println("Proceeding with taglib resolution.");
                     }
                 }
             }

@@ -27,6 +27,7 @@ package org.codehaus.marmalade.tags.core;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 
 /**
  * @author jdcasey
@@ -62,7 +63,7 @@ public class CatchTag
                 }
                 else
                 {
-                    throw new MarmaladeExecutionException( "Uncaught execution-phase exception.", e );
+                    throw new TagExecutionException( getTagInfo(), "Exception thrown inside catch tag was not specified to be caught.", e );
                 }
             }
             else
