@@ -6,7 +6,8 @@ package org.codehaus.typle;
 
 /**
  * Exception thrown to indicate that a type lookup operation failed for some
- * reason.
+ * reason, other than the type not existing. This exception might be thrown
+ * if information could not be extracted from some data source, for example.
  *
  * @author Mark H. Wilkinson
  * @version $Revision$
