@@ -5,6 +5,6 @@
 package org.codehaus.typle.test;
 
 
-public class SingleField {
+public final class SingleField {
 private int theField;
 }
