@@ -15,5 +15,12 @@ These are just some notes to improve Marmalade.
       completely mishandled.
       
     - I'm disabling the PT stuff in the resolver strategies for now.
+    
+[jdcasey 6/28/2004]:
+* Change ScopedMap and/or ScopedMap init in context to load 
+  System.getProperties() into untouchable parent context
+    - Cannot lastContext() into the sysprops scope
+    
+    - Cannot set values in the sysprops scope
 
 
