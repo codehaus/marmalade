@@ -10,12 +10,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.codehaus.marmalade.MarmaladeAttributes;
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
-import org.codehaus.marmalade.defaults.DefaultContext;
-
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeAttributes;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
  * @author jdcasey
@@ -27,7 +27,8 @@ public class ThreadTag extends AbstractMarmaladeTag{
   public static final String ERR_FILE_ATTRIBUTE = "errFile";
   public static final String IN_FILE_ATTRIBUTE = "inFile";
 
-  public ThreadTag(){
+  public ThreadTag(MarmaladeTagInfo tagInfo){
+      super(tagInfo);
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{

@@ -3,11 +3,11 @@ package org.codehaus.marmalade.tags.jelly.core;
 
 import java.util.Iterator;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.MarmaladeTag;
-import org.codehaus.marmalade.abstractions.AbstractConditionalTag;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.MarmaladeTag;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
  * @author jdcasey
@@ -20,7 +20,8 @@ public class SwitchTag extends AbstractMarmaladeTag {
 
   private Object testObject;
 
-  public SwitchTag() {
+  public SwitchTag(MarmaladeTagInfo tagInfo) {
+      super(tagInfo);
   }
 
   public void processChildren(MarmaladeExecutionContext context)
