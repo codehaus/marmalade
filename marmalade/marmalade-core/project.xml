@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+  <id>marmalade</id>
+  <name>Core</name>
+  <groupId>marmalade</groupId>
+  <currentVersion>0.1</currentVersion>
+  <organization>
+    <name>Codehaus</name>
+    <url>http://www.codehaus.org</url>
+  </organization>
+  <inceptionYear>2004</inceptionYear>
+  <package>org.codehaus.marmalade</package>
+  
+  <description>
+    <p>
+      Marmalade is a scripting language, implemented in XML, with pluggable expression languages and
+      tag libraries via XML Namespaces. Initially, Marmalade will focus on supporting a syntax like
+      <a href="http://java.sun.com/products/jsp">JSP</a> or 
+      <a href="http://jakarta.apache.org/commons/jelly">Jelly</a>.
+    </p>
+  </description>
+  
+  <shortDescription>Marmalade is an XML-based scripting language.</shortDescription>
+  <url>http://marmalade.codehaus.org</url>
+  <siteAddress>marmalade.codehaus.org</siteAddress>
+  <siteDirectory>/home/projects/marmalade/public_html</siteDirectory>
+  <distributionSite>marmalade.codehaus.org</distributionSite>
+  <distributionDirectory>/home/projects/marmalade/dist</distributionDirectory>
+  
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</connection>
+    <developerConnection>scm:cvs:ext:user@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</developerConnection>
+    <url>http://cvs.marmalade.codehaus.org</url>
+  </repository>
+  
+  <mailingLists>
+    <mailingList>
+      <name>user</name>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/marmalade-user</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/marmalade-user</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/marmalade-user/</archive>
+    </mailingList>
+    <mailingList>
+      <name>dev</name>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/marmalade-dev</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/marmalade-dev</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/marmalade-dev/</archive>
+    </mailingList>
+  </mailingLists>
+  
+  <developers>
+    <developer>
+      <name>John Casey</name>
+      <id>jdcasey</id>
+      <roles>
+        <role>Architect</role>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  
+  <dependencies>
+    <dependency>
+      <groupId>tagalog</groupId>
+      <artifactId>tagalog</artifactId>
+      <version>0.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commonjava</groupId>
+      <artifactId>commonjava-reflection</artifactId>
+      <version>2.0-1</version>
+    </dependency>
+    
+    <!-- Testing dependencies -->
+    <dependency>
+      <groupId>jmock</groupId>
+      <artifactId>jmock-core</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
+    <!-- /Testing dependencies -->
+  </dependencies>
+  
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
+    
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <resources>
+        <resource>
+          <directory>src/test/resources</directory>
+        </resource>
+      </resources>
+    </unitTest>
+    
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+  </build>
+  
+</project>

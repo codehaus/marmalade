@@ -22,8 +22,11 @@ public class DefaultAttributes implements MarmaladeAttributes {
     int attrCount = attributes.getAttributeCount();
     for(int i=0; i < attrCount; i++) {
       String name = attributes.getName(i);
+      String ns = attributes.getNamespaceUri(i);
+      String value = attributes.getValue(i);
+      
       DefaultAttribute attr = new DefaultAttribute(
-        attributes.getNamespaceUri(i), name, attributes.getValue(i)
+        ns, name, value
       );
       parsedAttributes.put(name, attr);
     }
@@ -62,8 +65,9 @@ public class DefaultAttributes implements MarmaladeAttributes {
   throws ExpressionEvaluationException
   {
     DefaultAttribute attr = (DefaultAttribute)parsedAttributes.get(name);
-    String expression = attr.getValue();
+    if(attr == null) {return null;}
     
+    String expression = attr.getValue();
     Object result = null;
     if(expression != null && expression.length() > 0){
       if(el != null){
