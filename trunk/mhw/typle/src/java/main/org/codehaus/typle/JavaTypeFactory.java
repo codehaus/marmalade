@@ -5,7 +5,9 @@
 package org.codehaus.typle;
 
 /**
- * <code>TypeFactory</code> for the <code>java</code> namespace.
+ * <code>TypeFactory</code> for the <code>java</code> namespace. Currently
+ * this will only create {@link JavaReferenceType} objects for classes that
+ * are present within the JVM. This might prove to be a limitation. 
  *
  * @author Mark H. Wilkinson
  * @version $Revision$
@@ -15,6 +17,8 @@ final class JavaTypeFactory
     implements TypeFactory
 {
     {
+        addSearchNamespace("java.lang");
+
         addType(Java.BOOLEAN_TYPE.getTypeName(), Java.BOOLEAN_TYPE);
         addType(Java.BYTE_TYPE.getTypeName(), Java.BYTE_TYPE);
         addType(Java.CHAR_TYPE.getTypeName(), Java.CHAR_TYPE);
@@ -26,30 +30,27 @@ final class JavaTypeFactory
         addType(Java.VOID_TYPE.getTypeName(), Java.VOID_TYPE);
     }
 
-    protected String[] loadTypes(String name) {
-        Type t = null;
+    protected boolean fullyQualified(String name) {
+        return name.indexOf('.') != -1;
+    }
 
-        if (name.indexOf('.') != -1) {
+    protected String qualifiedName(String namespace, String name) {
+        return namespace + "." + name;
+    }
+
+    protected BindingList loadTypes(String name) {
+        Type t = null;
+        BindingList bl = new BindingList();
+
+        try {
+            Class.forName(name);
             t = new JavaReferenceType(name);
-        } else {
-            try {
-                Class.forName(name);
-                t = new JavaReferenceType(name);
-            } catch (ClassNotFoundException e) {
-                try {
-                    name = "java.lang." + name;
-                    Class.forName(name);
-                    t = new JavaReferenceType(name);
-                } catch (ClassNotFoundException e2) {
-                    // ignore
-                }
-            }
+        } catch (ClassNotFoundException e) {
+            // ignore
         }
         if (t != null) {
-            addType(name, t);
-            return new String[] { name };
-        } else {
-            return new String[0];
+            bl = bl.add(new Binding(name, t));
         }
+        return bl;
     }
 }
