@@ -2,23 +2,15 @@
 <project>
   <groupId>marmalade</groupId>
   <artifactId>marmalade-parent</artifactId>
-  <version>1.0-alpha2</version>
+  <version>1.0-alpha2-SNAPSHOT</version>
   <name>Marmalade Parent Project</name>
-  <organization>
-    <name>Codehaus</name>
-    <url>http://www.codehaus.org</url>
-  </organization>
-  <inceptionYear>2004</inceptionYear>
-  <package>org.codehaus.marmalade</package>
-  <description> Marmalade is a scripting language, implemented in XML, with pluggable expression 
-    languages and tag libraries via XML Namespaces. Initially, Marmalade will focus on supporting a 
-    syntax like JSP or Jelly. </description>
-  <shortDescription>Marmalade is an XML-based scripting language.</shortDescription>
-  <url>http://marmalade.codehaus.org</url>
-  <siteAddress>marmalade.codehaus.org</siteAddress>
-  <siteDirectory>/home/projects/marmalade/public_html</siteDirectory>
-  <distributionSite>marmalade.codehaus.org</distributionSite>
-  <distributionDirectory>/home/projects/marmalade/dist</distributionDirectory>
+  <distributionManagement>
+    <repository>
+      <id>repo1</id>
+      <name>Maven Repository</name>
+      <url>scp://repo1.maven.org/home/projects/maven/repository/ibiblio-v2</url>
+    </repository>
+  </distributionManagement>
   <repository>
     <connection> 
       scm:cvs:pserver:anonymous@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</connection>
@@ -61,11 +53,13 @@
       <groupId>jmock</groupId>
       <artifactId>jmock</artifactId>
       <version>1.0.1</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
+      <scope>test</scope>
     </dependency>
     <!-- /Testing dependencies -->
   </dependencies>
@@ -74,27 +68,27 @@
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-core</artifactId>
-        <version>1.0-alpha2</version>
+        <version>1.0-alpha2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-el-ognl</artifactId>
-        <version>1.0-alpha2</version>
+        <version>1.0-alpha2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-el-commons</artifactId>
-        <version>1.0-alpha2</version>
+        <version>1.0-alpha2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-tags-jelly-common</artifactId>
-        <version>1.0-alpha2</version>
+        <version>1.0-alpha2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-utils</artifactId>
-        <version>1.0-alpha2</version>
+        <version>1.0-alpha2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>ognl</groupId>
@@ -128,23 +122,4 @@
     </dependency>
     </dependencies>
   </dependencyManagement>
-  <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
-    <unitTest>
-      <includes>
-        <include>**/*Test.java</include>
-      </includes>
-      <resources>
-        <resource>
-          <directory>src/test/resources</directory>
-        </resource>
-      </resources>
-    </unitTest>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-  </build>
 </project>

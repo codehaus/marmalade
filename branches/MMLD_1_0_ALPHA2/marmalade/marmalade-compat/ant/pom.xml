@@ -6,9 +6,9 @@
     <artifactId>marmalade-parent</artifactId>
     <version>1.0-alpha2-SNAPSHOT</version>
   </parent>
-  <artifactId>marmalade-el-ognl</artifactId>
+  <artifactId>marmalade-compat-ant</artifactId>
 
-  <name>OGNL Expression Library</name>
+  <name>Ant Compatibility Layer</name>
   
   <dependencies>
     <dependency>
@@ -19,6 +19,18 @@
     <dependency>
       <groupId>marmalade</groupId>
       <artifactId>marmalade-utils</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant-junit</artifactId>
+      <version>1.6.2</version>
     </dependency>
   </dependencies>
 </project>
