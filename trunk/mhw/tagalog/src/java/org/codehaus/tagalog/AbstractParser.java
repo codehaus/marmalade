@@ -54,18 +54,25 @@ public abstract class AbstractParser implements TagalogParser {
 
         tagLibrary = configuration.findTagLibrary(namespaceUri);
         if (tagLibrary == null)
-            throw new TagalogParseException("no tag library for namespace '"
-                                            + namespaceUri + "'");
+            throw tagResolutionException("no tag library", namespaceUri);
         tag = tagLibrary.getTag(elementName);
         if (tag == null)
-            throw new TagalogParseException("no tag '" + elementName
-                                            + "' in tag library for namespace '"
-                                            + namespaceUri + "'");
+            throw tagResolutionException("no tag '" + elementName
+                                         + "' in tag library", namespaceUri);
         tag.setContext(context);
         if (currentTag != null)
             tag.setParent(currentTag);
         currentTag = tag;
         tag.begin(elementName, attributes);
+    }
+
+    private TagalogParseException tagResolutionException(String message,
+                                                         String namespaceUri)
+    {
+        if (namespaceUri == null || namespaceUri.length() == 0)
+            namespaceUri = configuration.getDefaultNamespace();
+        return new TagalogParseException(message + " for namespace '"
+                                                 + namespaceUri + "'");
     }
 
     protected void text(char[] characters, int start, int length)
