@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+
+  <groupId>tagalog</groupId>
+  <artifactId>tagalog</artifactId>
+  <id>tagalog</id>
+  <name>tagalog</name>
+  <currentVersion>0.1</currentVersion>
+
+  <organization>
+    <name>Mark Wilkinson</name>
+    <url>http://codehaus.org/</url>
+    <logo>http://codehaus.org/codehaus-small.gif</logo>
+  </organization>
+
+  <inceptionYear>2004</inceptionYear>
+  <package>org.codehaus.tagalog</package>
+  <logo>/images/tagalog-logo.png</logo>
+
+  <shortDescription>
+    Simple XML parser framework based on tag libraries.
+  </shortDescription>
+
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:outhaus/mhw/tagalog</connection>
+  </repository>
+
+  <dependencies>
+    <!-- Only needed at run-time if you use the org.codehaus.tagalog.xpp
+      -  package.
+      -->
+    <dependency>
+      <groupId>xpp3</groupId>
+      <artifactId>xpp3</artifactId>
+      <version>1.1.3.3</version>
+    </dependency>
+  </dependencies>
+
+  <developers>
+   <developer>
+      <name>Mark H. Wilkinson</name>
+      <id>mhw</id>
+      <email>mhw@kremvax.net</email>
+      <roles>
+        <role>project lead</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <build>
+    <nagEmailAddress>mhw@kremvax.net</nagEmailAddress>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/AbstractParserTest.java</exclude>
+      </excludes>
+
+      <resources>
+        <resource>
+          <directory>src/test</directory>
+          <includes>
+            <include>**/*.xml</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+  </build>
+
+  <reports>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-jcoverage-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-license-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-junit-report-plugin</report>
+  </reports>
+</project>
