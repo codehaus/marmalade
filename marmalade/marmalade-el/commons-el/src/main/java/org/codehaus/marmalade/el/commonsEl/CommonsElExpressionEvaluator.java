@@ -50,12 +50,12 @@ import java.util.regex.Pattern;
 public class CommonsElExpressionEvaluator extends AbstractExpressionEvaluator
 {
     public static final String BOOLEAN_PATTERN = "true|false";
-    
     private static final String DIGIT_STRING_PATTERN = "[0-9]+";
     private static final String POSITIVE_NEGATIVE_PATTERN = "[-+]?";
-    public static final String ROUND_NUMBER_PATTERN = POSITIVE_NEGATIVE_PATTERN + DIGIT_STRING_PATTERN;
-    public static final String FRACTIONAL_NUMBER_PATTERN = POSITIVE_NEGATIVE_PATTERN + DIGIT_STRING_PATTERN + "." + DIGIT_STRING_PATTERN;
-    
+    public static final String ROUND_NUMBER_PATTERN = POSITIVE_NEGATIVE_PATTERN
+        + DIGIT_STRING_PATTERN;
+    public static final String FRACTIONAL_NUMBER_PATTERN = POSITIVE_NEGATIVE_PATTERN
+        + DIGIT_STRING_PATTERN + "." + DIGIT_STRING_PATTERN;
     private ExpressionEvaluatorImpl elImpl = new ExpressionEvaluatorImpl( true );
     private Reflector reflector = new Reflector(  );
 
@@ -67,19 +67,24 @@ public class CommonsElExpressionEvaluator extends AbstractExpressionEvaluator
         throws ExpressionEvaluationException
     {
         Class realExpectedType = expectedType;
-        if(expectedType.equals(Object.class)) {
+
+        if ( expectedType.equals( Object.class ) )
+        {
             // try to figure out what we can intelligently do to interpret this value.
-            if(expression.matches(BOOLEAN_PATTERN)) {
+            if ( expression.matches( BOOLEAN_PATTERN ) )
+            {
                 realExpectedType = Boolean.class;
             }
-            else if(expression.matches(ROUND_NUMBER_PATTERN)) {
+            else if ( expression.matches( ROUND_NUMBER_PATTERN ) )
+            {
                 realExpectedType = Long.class;
             }
-            else if(expression.matches(FRACTIONAL_NUMBER_PATTERN)) {
+            else if ( expression.matches( FRACTIONAL_NUMBER_PATTERN ) )
+            {
                 realExpectedType = Double.class;
             }
         }
-        
+
         Object result = eval( expression, context, realExpectedType );
 
         return result;

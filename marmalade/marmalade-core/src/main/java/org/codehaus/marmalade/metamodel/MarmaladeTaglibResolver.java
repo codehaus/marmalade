@@ -43,7 +43,6 @@ public class MarmaladeTaglibResolver
             new PrefixedDefFileDefinitionStrategy(  ),
             new PassThroughTaglibDefinitionStrategy(  )
         };
-    
     private TaglibDefinitionStrategy[] strategies;
     private String defaultPrefix;
 
@@ -51,12 +50,14 @@ public class MarmaladeTaglibResolver
     {
         this.strategies = strategies;
     }
-    
-    public void setDefaultPrefix(String defaultPrefix) {
+
+    public void setDefaultPrefix( String defaultPrefix )
+    {
         this.defaultPrefix = defaultPrefix;
     }
-    
-    public String getDefaultPrefix() {
+
+    public String getDefaultPrefix(  )
+    {
         return defaultPrefix;
     }
 
@@ -65,10 +66,12 @@ public class MarmaladeTaglibResolver
         MarmaladeTagLibrary tlib = null;
 
         String realPrefix = prefix;
-        if(realPrefix == null || realPrefix.trim().length() < 1) {
+
+        if ( ( realPrefix == null ) || ( realPrefix.trim(  ).length(  ) < 1 ) )
+        {
             realPrefix = defaultPrefix;
         }
-        
+
         for ( int i = 0; i < strategies.length; i++ )
         {
             TaglibDefinitionStrategy strategy = strategies[i];

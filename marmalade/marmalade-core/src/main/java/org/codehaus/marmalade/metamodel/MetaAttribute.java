@@ -36,5 +36,5 @@ public interface MetaAttribute
 
     public abstract String getValue(  );
 
-    public abstract String getPrefix();
+    public abstract String getPrefix(  );
 }

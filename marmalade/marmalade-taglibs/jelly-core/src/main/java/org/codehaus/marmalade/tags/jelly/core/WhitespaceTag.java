@@ -55,7 +55,7 @@ public class WhitespaceTag extends AbstractJellyMarmaladeTag
 
         context.preserveWhitespaceOverride( Boolean.TRUE );
 
-        processChildren(context);
+        processChildren( context );
 
         // replace the whitespace preservation override in context.
         context.preserveWhitespaceOverride( oldPreserveWSOverride );
@@ -65,5 +65,4 @@ public class WhitespaceTag extends AbstractJellyMarmaladeTag
     {
         return false;
     }
-
 }

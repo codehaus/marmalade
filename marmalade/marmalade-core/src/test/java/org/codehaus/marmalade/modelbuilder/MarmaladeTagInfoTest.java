@@ -56,5 +56,4 @@ public class MarmaladeTagInfoTest extends TestCase
         taginfo.setElement( "testElement" );
         assertEquals( "testElement", taginfo.getElement(  ) );
     }
-
 }

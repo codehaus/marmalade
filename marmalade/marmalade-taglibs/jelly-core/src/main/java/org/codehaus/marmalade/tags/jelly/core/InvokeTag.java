@@ -44,7 +44,7 @@ public class InvokeTag extends AbstractJellyMarmaladeTag implements ArgParent
     public static final String ON_ATTRIBUTE = "on";
     public static final String VAR_ATTRIBUTE = "var";
     private List args = new ArrayList(  );
-    private Reflector reflector = new Reflector();
+    private Reflector reflector = new Reflector(  );
 
     public InvokeTag(  )
     {

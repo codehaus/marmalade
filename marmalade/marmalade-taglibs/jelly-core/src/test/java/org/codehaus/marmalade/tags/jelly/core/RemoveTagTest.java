@@ -47,8 +47,9 @@ public class RemoveTagTest extends TestCase
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
         RemoveTag tag = new RemoveTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(new DefaultAttributes(attributes));
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( new DefaultAttributes( attributes ) );
 
         DefaultContext ctx = new DefaultContext(  );
 

@@ -45,8 +45,9 @@ public class MarmaladeScript
     {
         return location;
     }
-    
-    public MarmaladeTag getRoot() {
+
+    public MarmaladeTag getRoot(  )
+    {
         return root;
     }
 

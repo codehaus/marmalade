@@ -24,11 +24,6 @@
 /* Created on Mar 24, 2004 */
 package org.codehaus.marmalade.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
@@ -38,6 +33,11 @@ import org.codehaus.marmalade.runtime.IllegalParentException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /** Base class implementing common marmalade tag features.
  *

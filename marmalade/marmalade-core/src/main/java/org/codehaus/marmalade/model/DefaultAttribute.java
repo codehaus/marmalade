@@ -37,8 +37,7 @@ public class DefaultAttribute implements MarmaladeAttribute
     private ExpressionEvaluator el;
     private MetaAttribute attribute;
 
-    public DefaultAttribute( MetaAttribute attribute,
-        ExpressionEvaluator el )
+    public DefaultAttribute( MetaAttribute attribute, ExpressionEvaluator el )
     {
         this.attribute = attribute;
         this.el = el;
@@ -73,7 +72,8 @@ public class DefaultAttribute implements MarmaladeAttribute
         String expression = attribute.getValue(  );
         Object result = expression;
 
-        if ( ( el != null ) && ( expression != null ) && ( expression.length(  ) > 0 ) )
+        if ( ( el != null ) && ( expression != null )
+            && ( expression.length(  ) > 0 ) )
         {
             result = el.evaluate( expression,
                     context.unmodifiableVariableMap(  ), returnType );
@@ -82,11 +82,13 @@ public class DefaultAttribute implements MarmaladeAttribute
         return result;
     }
 
-    public String getPrefix() {
-        return attribute.getPrefix();
+    public String getPrefix(  )
+    {
+        return attribute.getPrefix(  );
     }
 
-    public String getRawValue() {
-        return attribute.getValue();
+    public String getRawValue(  )
+    {
+        return attribute.getValue(  );
     }
 }

@@ -45,8 +45,8 @@ public interface MarmaladeTag
 
     MarmaladeAttributes getAttributes(  );
 
-    void setExpressionEvaluator(ExpressionEvaluator el);
-    
+    void setExpressionEvaluator( ExpressionEvaluator el );
+
     ExpressionEvaluator getExpressionEvaluator(  )
         throws ConfigurationException;
 
@@ -61,9 +61,9 @@ public interface MarmaladeTag
 
     MarmaladeTagInfo getTagInfo(  );
 
-    void setAttributes(MarmaladeAttributes attributes);
+    void setAttributes( MarmaladeAttributes attributes );
 
-    void appendBodyText(String string);
+    void appendBodyText( String string );
 
-    void setTagInfo(MarmaladeTagInfo tagInfo);
+    void setTagInfo( MarmaladeTagInfo tagInfo );
 }

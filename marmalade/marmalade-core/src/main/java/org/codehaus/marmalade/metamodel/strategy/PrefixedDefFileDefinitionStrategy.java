@@ -24,12 +24,12 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel.strategy;
 
+import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 
 /**
  * @author jdcasey

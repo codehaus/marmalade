@@ -48,20 +48,23 @@ public class ParseTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", ParseTag.TEXT_ATTRIBUTE, SCRIPT_WITH_XML_DECL );
+        attrs.addAttribute( "", "", ParseTag.TEXT_ATTRIBUTE,
+            SCRIPT_WITH_XML_DECL );
         attrs.addAttribute( "", "", ParseTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-        
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
+
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
+
+        tagAttrs.setExpressionEvaluator( el );
 
         ParseTag tag = new ParseTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -78,20 +81,23 @@ public class ParseTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", ParseTag.TEXT_ATTRIBUTE, SCRIPT_WITHOUT_XML_DECL );
+        attrs.addAttribute( "", "", ParseTag.TEXT_ATTRIBUTE,
+            SCRIPT_WITHOUT_XML_DECL );
         attrs.addAttribute( "", "", ParseTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
+
+        tagAttrs.setExpressionEvaluator( el );
 
         ParseTag tag = new ParseTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -112,16 +118,18 @@ public class ParseTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
+
+        tagAttrs.setExpressionEvaluator( el );
 
         ParseTag tag = new ParseTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
-        tag.appendBodyText( SCRIPT_WITH_XML_DECL);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
+        tag.appendBodyText( SCRIPT_WITH_XML_DECL );
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -142,16 +150,18 @@ public class ParseTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
+
+        tagAttrs.setExpressionEvaluator( el );
 
         ParseTag tag = new ParseTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
-        tag.appendBodyText( SCRIPT_WITHOUT_XML_DECL);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
+        tag.appendBodyText( SCRIPT_WITHOUT_XML_DECL );
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -169,9 +179,10 @@ public class ParseTagTest extends TestCase
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
         ParseTag tag = new ParseTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(new DefaultAttributes());
-        tag.appendBodyText( SCRIPT_WITH_XML_DECL);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( new DefaultAttributes(  ) );
+        tag.appendBodyText( SCRIPT_WITH_XML_DECL );
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -191,15 +202,17 @@ public class ParseTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
+
+        tagAttrs.setExpressionEvaluator( el );
 
         ParseTag tag = new ParseTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         try
         {

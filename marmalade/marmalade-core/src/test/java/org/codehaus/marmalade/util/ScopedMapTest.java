@@ -24,13 +24,13 @@
 /* Created on Mar 26, 2004 */
 package org.codehaus.marmalade.util;
 
+import junit.framework.TestCase;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import junit.framework.TestCase;
 
 public class ScopedMapTest extends TestCase
 {
@@ -51,8 +51,6 @@ public class ScopedMapTest extends TestCase
 
     public void testConstruct(  )
     {
-        System.out.println( "testConstruct" );
-
         ScopedMap map = new ScopedMap(  );
 
         assertTrue( "Empty constructor should result in empty map.",
@@ -61,8 +59,6 @@ public class ScopedMapTest extends TestCase
 
     public void testConstructWithMap(  )
     {
-        System.out.println( "testConstructWithMap" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -75,15 +71,15 @@ public class ScopedMapTest extends TestCase
         assertEquals( "Base map contains value for \'test\', scoped map should also.",
             "testVal", map.get( "test" ) );
 
-        base.remove( "test" );
-        assertNotNull( "Removal from map used as constructor's parameter should NOT affect map.",
-            map.get( "test" ) );
+        // This is no longer a viable option, since nesting of ScopedMap
+        // instances MUST BE supported.
+        // base.remove( "test" );
+        // assertNotNull( "Removal from map used as constructor's parameter should NOT affect map.",
+        //          map.get( "test" ) );
     }
 
     public void testSize(  )
     {
-        System.out.println( "testSize" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -100,8 +96,6 @@ public class ScopedMapTest extends TestCase
 
     public void testClear(  )
     {
-        System.out.println( "testClear" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -123,8 +117,6 @@ public class ScopedMapTest extends TestCase
 
     public void testIsEmpty(  )
     {
-        System.out.println( "testIsEmpty" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -146,8 +138,6 @@ public class ScopedMapTest extends TestCase
 
     public void testContainsKey(  )
     {
-        System.out.println( "testContainsKey" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -168,8 +158,6 @@ public class ScopedMapTest extends TestCase
 
     public void testContainsValue(  )
     {
-        System.out.println( "testContainsValue" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -190,8 +178,6 @@ public class ScopedMapTest extends TestCase
 
     public void testValues(  )
     {
-        System.out.println( "testValues" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -230,8 +216,6 @@ public class ScopedMapTest extends TestCase
 
     public void testPutAll(  )
     {
-        System.out.println( "testEntrySet" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -276,8 +260,6 @@ public class ScopedMapTest extends TestCase
 
     public void testEntrySet(  )
     {
-        System.out.println( "testEntrySet" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -328,8 +310,6 @@ public class ScopedMapTest extends TestCase
 
     public void testKeySet(  )
     {
-        System.out.println( "testKeySet" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -368,8 +348,6 @@ public class ScopedMapTest extends TestCase
 
     public void testGet(  )
     {
-        System.out.println( "testGet" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -393,8 +371,6 @@ public class ScopedMapTest extends TestCase
 
     public void testRemove(  )
     {
-        System.out.println( "testRemove" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );
@@ -419,8 +395,6 @@ public class ScopedMapTest extends TestCase
 
     public void testPut(  )
     {
-        System.out.println( "testPut" );
-
         Map base = new HashMap(  );
 
         base.put( "test", "testVal" );

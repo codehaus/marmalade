@@ -57,15 +57,17 @@ public class SetPropertiesTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         SetPropertiesTag tag = new SetPropertiesTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
         Person person = new Person(  );
@@ -99,15 +101,17 @@ public class SetPropertiesTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
-        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
-        tagAttrs.setExpressionEvaluator(el);
-        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
+        DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
+
+        tagAttrs.setExpressionEvaluator( el );
+
         SetPropertiesTag tag = new SetPropertiesTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( tagAttrs );
+        tag.setExpressionEvaluator( el );
 
         tag.setParent( parent );
         parent.addChild( tag );

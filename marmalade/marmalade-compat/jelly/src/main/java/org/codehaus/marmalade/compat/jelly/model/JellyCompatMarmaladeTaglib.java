@@ -1,18 +1,19 @@
 /* Created on Jun 28, 2004 */
 package org.codehaus.marmalade.compat.jelly.model;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
-
 import org.apache.commons.jelly.Jelly;
 import org.apache.commons.jelly.TagLibrary;
 import org.codehaus.marmalade.compat.jelly.JellyCompatUncheckedException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.model.MarmaladeTag;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
 
 /**
  * @author jdcasey
@@ -65,16 +66,19 @@ public class JellyCompatMarmaladeTaglib extends AbstractMarmaladeTagLibrary
     {
         return new JellyCompatMarmaladeTag( this );
     }
-    
-    public void registerTagLibrary(String name, TagLibrary taglib) {
-        taglibCache.put(name, taglib);
+
+    public void registerTagLibrary( String name, TagLibrary taglib )
+    {
+        taglibCache.put( name, taglib );
     }
-    
-    public void registerTagLibrary(String name, String taglibClass) {
-        natives.setProperty(name, taglibClass);
+
+    public void registerTagLibrary( String name, String taglibClass )
+    {
+        natives.setProperty( name, taglibClass );
     }
-    
-    public TagLibrary getTagLibrary(String name) {
+
+    public TagLibrary getTagLibrary( String name )
+    {
         TagLibrary tlib = null;
 
         synchronized ( this )
@@ -111,7 +115,7 @@ public class JellyCompatMarmaladeTaglib extends AbstractMarmaladeTagLibrary
                 }
             }
         }
-        
+
         return tlib;
     }
 

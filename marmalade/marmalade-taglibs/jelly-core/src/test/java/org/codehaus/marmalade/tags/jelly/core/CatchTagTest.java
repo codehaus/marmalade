@@ -48,8 +48,9 @@ public class CatchTagTest extends TestCase
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
         CatchTag tag = new CatchTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(new DefaultAttributes(attrs));
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( new DefaultAttributes( attrs ) );
 
         ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
 
@@ -87,8 +88,9 @@ public class CatchTagTest extends TestCase
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
         CatchTag tag = new CatchTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(new DefaultAttributes(attrs));
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( new DefaultAttributes( attrs ) );
 
         ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
 
@@ -126,8 +128,9 @@ public class CatchTagTest extends TestCase
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
         CatchTag tag = new CatchTag(  );
-        tag.setTagInfo(mti);
-        tag.setAttributes(new DefaultAttributes(attrs));
+
+        tag.setTagInfo( mti );
+        tag.setAttributes( new DefaultAttributes( attrs ) );
 
         ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
 

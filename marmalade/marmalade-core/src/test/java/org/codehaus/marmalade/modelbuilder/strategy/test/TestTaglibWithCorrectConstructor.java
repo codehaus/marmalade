@@ -31,7 +31,8 @@ import org.codehaus.marmalade.model.MarmaladeTag;
 /**
  * @author jdcasey
  */
-public class TestTaglibWithCorrectConstructor extends AbstractMarmaladeTagLibrary
+public class TestTaglibWithCorrectConstructor
+    extends AbstractMarmaladeTagLibrary
 {
     public TestTaglibWithCorrectConstructor(  )
     {

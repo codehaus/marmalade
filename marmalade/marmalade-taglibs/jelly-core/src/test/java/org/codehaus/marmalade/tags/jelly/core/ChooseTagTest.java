@@ -70,8 +70,9 @@ public class ChooseTagTest extends TestCase
         MarmaladeTagInfo mti1 = new MarmaladeTagInfo(  );
 
         WhenTag c1 = new WhenTag(  );
-        c1.setTagInfo(mti1);
-        c1.setAttributes(new DefaultAttributes(attrs1));
+
+        c1.setTagInfo( mti1 );
+        c1.setAttributes( new DefaultAttributes( attrs1 ) );
 
         FlagChildTestTag c1f = new FlagChildTestTag(  );
 
@@ -87,8 +88,9 @@ public class ChooseTagTest extends TestCase
         MarmaladeTagInfo mti2 = new MarmaladeTagInfo(  );
 
         WhenTag c2 = new WhenTag(  );
-        c2.setTagInfo(mti2);
-        c2.setAttributes(new DefaultAttributes(attrs2));
+
+        c2.setTagInfo( mti2 );
+        c2.setAttributes( new DefaultAttributes( attrs2 ) );
 
         FlagChildTestTag c2f = new FlagChildTestTag(  );
 

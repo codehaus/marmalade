@@ -34,23 +34,21 @@ import org.codehaus.marmalade.util.RecordingReader;
  */
 public interface MarmaladeParsingContext
 {
-    
-    ExpressionEvaluator getDefaultExpressionEvaluator();
+    ExpressionEvaluator getDefaultExpressionEvaluator(  );
 
-    ExpressionEvaluatorFactory getExpressionEvaluatorFactory();
+    ExpressionEvaluatorFactory getExpressionEvaluatorFactory(  );
 
-    void setDefaultExpressionEvaluator(ExpressionEvaluator evaluator);
+    void setDefaultExpressionEvaluator( ExpressionEvaluator evaluator );
 
-    MarmaladeTaglibResolver getTaglibResolver();
-    
-    void setTaglibResolver(MarmaladeTaglibResolver resolver);
+    MarmaladeTaglibResolver getTaglibResolver(  );
 
-    RecordingReader getInput();
-    
-    void setInput(RecordingReader input);
+    void setTaglibResolver( MarmaladeTaglibResolver resolver );
 
-    String getInputLocation();
-    
-    void setInputLocation(String inputLocation);
-    
+    RecordingReader getInput(  );
+
+    void setInput( RecordingReader input );
+
+    String getInputLocation(  );
+
+    void setInputLocation( String inputLocation );
 }

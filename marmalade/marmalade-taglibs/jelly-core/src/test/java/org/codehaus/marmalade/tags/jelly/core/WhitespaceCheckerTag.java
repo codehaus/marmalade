@@ -11,27 +11,29 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 /**
  * @author jdcasey
  */
-public class WhitespaceCheckerTag extends AbstractJellyMarmaladeTag {
-    
+public class WhitespaceCheckerTag extends AbstractJellyMarmaladeTag
+{
     private String body;
     private final boolean trim;
 
-    public WhitespaceCheckerTag(boolean trim) {
+    public WhitespaceCheckerTag( boolean trim )
+    {
         this.trim = trim;
     }
 
-    protected void doExecute(MarmaladeExecutionContext context)
-    throws MarmaladeExecutionException 
+    protected void doExecute( MarmaladeExecutionContext context )
+        throws MarmaladeExecutionException
     {
-        this.body = getRawBody(context);
+        this.body = getRawBody( context );
     }
 
-    public String getMyBody() {
+    public String getMyBody(  )
+    {
         return body;
     }
-    
-    protected boolean preserveBodyWhitespace(MarmaladeExecutionContext context)
-    throws ExpressionEvaluationException 
+
+    protected boolean preserveBodyWhitespace( MarmaladeExecutionContext context )
+        throws ExpressionEvaluationException
     {
         return trim;
     }

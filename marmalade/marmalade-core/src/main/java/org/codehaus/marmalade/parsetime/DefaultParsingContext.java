@@ -9,52 +9,60 @@ import org.codehaus.marmalade.util.RecordingReader;
 /**
  * @author jdcasey
  */
-public class DefaultParsingContext implements MarmaladeParsingContext {
-
+public class DefaultParsingContext implements MarmaladeParsingContext
+{
     private ExpressionEvaluator evaluator;
-    private ExpressionEvaluatorFactory factory = new ExpressionEvaluatorFactory();
+    private ExpressionEvaluatorFactory factory = new ExpressionEvaluatorFactory(  );
     private MarmaladeTaglibResolver resolver;
     private RecordingReader input;
     private String inputLocation;
 
-    public DefaultParsingContext() {
+    public DefaultParsingContext(  )
+    {
     }
 
-    public ExpressionEvaluator getDefaultExpressionEvaluator() {
+    public ExpressionEvaluator getDefaultExpressionEvaluator(  )
+    {
         return evaluator;
     }
 
-    public ExpressionEvaluatorFactory getExpressionEvaluatorFactory() {
+    public ExpressionEvaluatorFactory getExpressionEvaluatorFactory(  )
+    {
         return factory;
     }
 
-    public void setDefaultExpressionEvaluator(
-            ExpressionEvaluator evaluator) {
-                this.evaluator = evaluator;
+    public void setDefaultExpressionEvaluator( ExpressionEvaluator evaluator )
+    {
+        this.evaluator = evaluator;
     }
 
-    public MarmaladeTaglibResolver getTaglibResolver() {
+    public MarmaladeTaglibResolver getTaglibResolver(  )
+    {
         return resolver;
     }
 
-    public void setTaglibResolver(MarmaladeTaglibResolver resolver) {
+    public void setTaglibResolver( MarmaladeTaglibResolver resolver )
+    {
         this.resolver = resolver;
     }
 
-    public RecordingReader getInput() {
+    public RecordingReader getInput(  )
+    {
         return input;
     }
 
-    public void setInput(RecordingReader input) {
+    public void setInput( RecordingReader input )
+    {
         this.input = input;
     }
 
-    public String getInputLocation() {
+    public String getInputLocation(  )
+    {
         return inputLocation;
     }
 
-    public void setInputLocation(String inputLocation) {
+    public void setInputLocation( String inputLocation )
+    {
         this.inputLocation = inputLocation;
     }
-
 }

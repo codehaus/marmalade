@@ -45,7 +45,7 @@ public class NewTag extends AbstractJellyMarmaladeTag implements ArgParent
     public static final String USE_CTX_CLOADER_ATTRIBUTE = "useContextClassLoader";
     public static final String VAR_ATTRIBUTE = "var";
     private List args = new ArrayList(  );
-    private Reflector reflector = new Reflector();
+    private Reflector reflector = new Reflector(  );
 
     public NewTag(  )
     {

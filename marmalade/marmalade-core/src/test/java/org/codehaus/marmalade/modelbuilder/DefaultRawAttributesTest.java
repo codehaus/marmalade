@@ -24,13 +24,13 @@
 /* Created on May 20, 2004 */
 package org.codehaus.marmalade.modelbuilder;
 
-import java.util.Iterator;
-
 import junit.framework.TestCase;
 
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MetaAttribute;
+
+import java.util.Iterator;
 
 /**
  * @author jdcasey

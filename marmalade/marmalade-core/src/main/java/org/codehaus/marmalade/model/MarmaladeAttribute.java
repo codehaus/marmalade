@@ -32,13 +32,13 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
  */
 public interface MarmaladeAttribute
 {
-    public String getPrefix();
-    
+    public String getPrefix(  );
+
     public String getNamespace(  );
 
     public String getName(  );
-    
-    public String getRawValue();
+
+    public String getRawValue(  );
 
     public Object getValue( MarmaladeExecutionContext context )
         throws ExpressionEvaluationException;

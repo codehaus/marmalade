@@ -38,7 +38,8 @@ import java.util.regex.Pattern;
  */
 public class OgnlExpressionEvaluator extends AbstractExpressionEvaluator
 {
-    public static final Pattern EXPRESSION_PATTERN = Pattern.compile( "(#|@)[^ ]+" );
+    public static final Pattern EXPRESSION_PATTERN = Pattern.compile( 
+            "(#|@)[^ ]+" );
 
     public OgnlExpressionEvaluator(  )
     {

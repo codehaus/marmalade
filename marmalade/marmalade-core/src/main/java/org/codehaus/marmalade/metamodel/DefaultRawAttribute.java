@@ -35,7 +35,8 @@ public class DefaultRawAttribute implements MetaAttribute
     private String name;
     private String value;
 
-    public DefaultRawAttribute( String prefix, String namespace, String name, String value )
+    public DefaultRawAttribute( String prefix, String namespace, String name,
+        String value )
     {
         this.prefix = prefix;
         this.namespace = namespace;
@@ -47,8 +48,9 @@ public class DefaultRawAttribute implements MetaAttribute
     {
         return name;
     }
-    
-    public String getPrefix() {
+
+    public String getPrefix(  )
+    {
         return prefix;
     }
 
