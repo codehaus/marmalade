@@ -72,6 +72,16 @@ public final class ParserConfiguration {
     }
 
     /**
+     * Return the namespace that will be used if the document does not
+     * specify a namespace itself.
+     *
+     * @return namespaceUri The URI of the default namespace.
+     */
+    public String getDefaultNamespace() {
+        return defaultNamespaceUri;
+    }
+
+    /**
      * Associate a tag library with a URI. Note that tag libraries that are
      * registered with the prefix-based tag library resolvers will be found
      * first.
