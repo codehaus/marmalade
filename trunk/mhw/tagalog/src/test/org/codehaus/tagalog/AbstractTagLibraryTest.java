@@ -150,6 +150,33 @@ public class AbstractTagLibraryTest extends TestCase {
         assertEquals("person: 5", tagLibrary.listUnreleasedTags());
     }
 
+    public void testTagRecycling() {
+        ParserConfiguration p = new ParserConfiguration();
+        AbstractTagLibrary tagLibrary;
+        Tag tag1, tag2;
+
+        p.addTagLibrary("recycle", new MockTagLibrary("tag", MockTag.class));
+        p.addTagLibrary("discard", new MockTagLibrary("tag", MockRodTag.class));
+
+        tagLibrary = (AbstractTagLibrary) p.findTagLibrary("recycle");
+        tag1 = tagLibrary.getTag("tag");
+        assertNotNull(tag1);
+        tagLibrary.releaseTag("tag", tag1);
+        tag2 = tagLibrary.getTag("tag");
+        assertSame(tag1, tag2);
+        tagLibrary.releaseTag("tag", tag2);
+        assertEquals("", tagLibrary.listUnreleasedTags());
+
+        tagLibrary = (AbstractTagLibrary) p.findTagLibrary("discard");
+        tag1 = tagLibrary.getTag("tag");
+        assertNotNull(tag1);
+        tagLibrary.releaseTag("tag", tag1);
+        tag2 = tagLibrary.getTag("tag");
+        assertNotSame(tag1, tag2);
+        tagLibrary.releaseTag("tag", tag2);
+        assertEquals("", tagLibrary.listUnreleasedTags());
+    }
+    
     //
     // Some implementations of Tag that cannot be instantiated
     //
@@ -160,6 +187,6 @@ public class AbstractTagLibraryTest extends TestCase {
     public abstract class AbstractClassThatImplementsTag implements Tag {
     }
 
-    private class PrivateClassThatImplementsTag implements Tag {
+    private class PrivateClassThatImplementsTag extends AbstractTag {
     }
 }

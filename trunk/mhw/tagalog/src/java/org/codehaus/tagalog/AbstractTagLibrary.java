@@ -113,7 +113,8 @@ public abstract class AbstractTagLibrary implements TagLibrary {
                 Tag listElement = (Tag) iter.next();
                 if (listElement == tag) {
                     iter.remove();
-                    unusedTagInstances.addFirst(tag);
+                    if (tag.recycle())
+                        unusedTagInstances.addFirst(tag);
                     found = true;
                     break;
                 }
