@@ -79,6 +79,10 @@ public final class JavaBean {
     }
 
     private void addGetMethods(RecordType record, SourceContainer src) {
+        BindingList fields = record.getFields();
+        for (int i = 0; i < fields.size(); i++) {
+            JavaHelper.addGetter(src, fields.get(i));
+        }
     }
 
     private void addSetMethods(RecordType record, SourceContainer src) {
