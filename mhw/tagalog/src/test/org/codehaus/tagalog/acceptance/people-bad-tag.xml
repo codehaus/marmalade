@@ -4,7 +4,7 @@
   <person user-id="mhw">
     <first-name>Mark</first-name>
     <last-name>Wilkinson</last-name>
-    <!-- This element isn't in the tag library, so the parse should fail -->
+    <!-- This element isn't in the tag library, so we should get an error -->
     <username>mhw</username>
   </person>
   <person user-id="bob">
