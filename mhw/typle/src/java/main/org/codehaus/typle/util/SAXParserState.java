@@ -25,7 +25,7 @@ import java.util.ListIterator;
  * @author Mark H. Wilkinson
  * @version $Revision$
  */
-public class SAXParserState {
+public final class SAXParserState {
 
     private LinkedList context = new LinkedList();
 

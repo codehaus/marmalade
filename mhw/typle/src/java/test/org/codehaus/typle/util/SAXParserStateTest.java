@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * @author Mark H. Wilkinson
  * @version $Revision$
  */
-public class SAXParserStateTest extends TestCase {
+public final class SAXParserStateTest extends TestCase {
 
     private SAXParserState state;
 
