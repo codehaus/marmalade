@@ -27,9 +27,17 @@ public final class XmlStoreTypeFactory
     implements TypeFactory
 {
     private File baseDir;
-    
+
     public XmlStoreTypeFactory(File baseDir) {
         this.baseDir = baseDir;
+    }
+
+    protected boolean fullyQualified(String name) {
+        return name.indexOf('.') != -1;
+    }
+
+    protected String qualifiedName(String namespace, String name) {
+        return namespace + "." + name;
     }
 
     protected String[] loadTypes(String name) throws TypeLookupException {
