@@ -5,6 +5,7 @@
 package org.codehaus.tagalog.acceptance;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 import org.xml.sax.SAXParseException;
@@ -16,6 +17,9 @@ import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.acceptance.people.People;
 import org.codehaus.tagalog.acceptance.people.PeopleTagLibrary;
 import org.codehaus.tagalog.acceptance.people.Person;
+import org.codehaus.tagalog.pi.RecordMostRecentPIHandler;
+import org.codehaus.tagalog.pi.RecordAllPIHandler;
+import org.codehaus.tagalog.pi.PIHashKey;
 
 import junit.framework.TestCase;
 
@@ -115,5 +119,116 @@ public abstract class AbstractParserTest extends TestCase {
         } catch (NullPointerException e) {
             assertEquals("from BrokenTag", e.getMessage());
         }
+    }
+
+    private void checkPeopleEntities(People people) {
+        List personList = people.getPeople();
+        assertEquals(4, personList.size());
+        Person person = (Person) personList.get(0);
+        assertEquals("ampersand", person.getUserId());
+        assertEquals("name with & & ampersands", person.getFirstName());
+        assertEquals("name with & & ampersands", person.getLastName());
+        person = (Person) personList.get(1);
+        assertEquals("angles", person.getUserId());
+        assertEquals("name with < > angles", person.getFirstName());
+        assertEquals("name with < > angles", person.getLastName());
+        person = (Person) personList.get(2);
+        assertEquals("quotes", person.getUserId());
+        assertEquals("name with ' \" quotes", person.getFirstName());
+        assertEquals("name with ' \" quotes", person.getLastName());
+        person = (Person) personList.get(3);
+        assertEquals("cdata", person.getUserId());
+        assertEquals("name with <cdata>&<section> cdata", person.getFirstName());
+        assertEquals("name with <cdata>&<section> cdata", person.getLastName());
+    }
+
+    /*
+     * Parsers might convert the different XML quoting mechanisms into
+     * separate events delivered to the tags. Make sure the content gets
+     * through.
+     */
+    public void testParsePeopleQuoting() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-quoting.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        checkPeopleEntities(people);
+    }
+
+    /*
+     * The XmlPullParser uses a different event-delivery mecahnism when
+     * processing instructions are being processed. Check this case too.
+     */
+    public void testParsePeopleQuotingWithPIHandler() throws Exception {
+        peopleConfiguration.setProcessingInstructionHandler(
+                                            RecordMostRecentPIHandler.INSTANCE);
+
+        URL peopleXml = AbstractParserTest.class.getResource("people-quoting.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        checkPeopleEntities(people);
+    }
+
+    /*
+     * XML documents can contain processing instructions. Check that
+     * they are ignored normally.
+     */
+    public void testParsePeopleWithNoProcessingInstructionHandler()
+        throws Exception
+    {
+        URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        HashMap map = new HashMap();
+        People people = (People) p.parse(map);
+        assertNotNull(people);
+
+        assertNull(map.get(new PIHashKey("foo-pi")));
+        assertNull(map.get(new PIHashKey("bar-pi")));
+    }
+
+    /*
+     * Check that processing instructions are handed off to
+     * {@link RecordMostRecentPIHandler} properly.
+     */
+    public void testParsePeopleWithNormalProcessingInstructionHandler()
+        throws Exception
+    {
+        peopleConfiguration.setProcessingInstructionHandler(
+                                            RecordMostRecentPIHandler.INSTANCE);
+
+        URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        HashMap map = new HashMap();
+        People people = (People) p.parse(map);
+        assertNotNull(people);
+
+        String data = (String) map.get(new PIHashKey("foo-pi"));
+        assertEquals("second value", data);
+        data = (String) map.get(new PIHashKey("bar-pi"));
+        assertEquals("hello", data);
+    }
+
+    /*
+     * Check that processing instructions handed off to
+     * {@link RecordAllPIHandler} are processed correctly.
+     */
+    public void testParsePeopleWithProcessingInstructionMapOfListsHandler()
+        throws Exception
+    {
+        peopleConfiguration.setProcessingInstructionHandler(
+                                            RecordAllPIHandler.INSTANCE);
+
+        URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        HashMap map = new HashMap();
+        People people = (People) p.parse(map);
+        assertNotNull(people);
+
+        List piList = (List) map.get(new PIHashKey("foo-pi"));
+        assertEquals(2, piList.size());
+        assertEquals("value bar", piList.get(0));
+        assertEquals("second value", piList.get(1));
+        piList = (List) map.get(new PIHashKey("bar-pi"));
+        assertEquals(1, piList.size());
+        assertEquals("hello", piList.get(0));
     }
 }
