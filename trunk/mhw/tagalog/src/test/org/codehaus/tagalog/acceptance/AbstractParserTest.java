@@ -7,6 +7,8 @@ package org.codehaus.tagalog.acceptance;
 import java.net.URL;
 import java.util.List;
 
+import org.xml.sax.SAXParseException;
+
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.TagalogParser;
@@ -88,6 +90,28 @@ public abstract class AbstractParserTest extends TestCase {
             fail("should have thrown TagalogParseException");
         } catch (TagalogParseException e) {
             assertNull(e.getCause());
+        }
+    }
+
+    /*
+     * Tags might throw exceptions if they have bugs in them; we should
+     * preserve all the exception detail.
+     */
+    public void testParsePeopleBrokenTag() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-broken-tag.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+
+        try {
+            p.parse();
+            fail("should have thrown NullPointerException");
+        } catch (TagalogParseException e) {
+            Throwable cause1 = e.getCause();
+            assertTrue(cause1 instanceof SAXParseException);
+            Exception cause2 = ((SAXParseException) cause1).getException();
+            assertTrue(cause2 instanceof NullPointerException);
+            assertEquals("from BrokenTag", cause2.getMessage());
+        } catch (NullPointerException e) {
+            assertEquals("from BrokenTag", e.getMessage());
         }
     }
 }
