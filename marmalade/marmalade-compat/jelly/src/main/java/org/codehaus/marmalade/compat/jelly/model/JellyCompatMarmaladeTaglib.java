@@ -63,27 +63,39 @@ public class JellyCompatMarmaladeTaglib extends AbstractMarmaladeTagLibrary
 
     public MarmaladeTag createTag( MarmaladeTagInfo tagInfo )
     {
-        String tlibClass = natives.getProperty( tagInfo.getTaglib(  ) );
-
-        if ( ( tlibClass == null ) || ( tlibClass.length(  ) < 1 ) )
-        {
-            tlibClass = tagInfo.getTaglib(  );
-        }
-
+        return new JellyCompatMarmaladeTag( this );
+    }
+    
+    public void registerTagLibrary(String name, TagLibrary taglib) {
+        taglibCache.put(name, taglib);
+    }
+    
+    public void registerTagLibrary(String name, String taglibClass) {
+        natives.setProperty(name, taglibClass);
+    }
+    
+    public TagLibrary getTagLibrary(String name) {
         TagLibrary tlib = null;
 
         synchronized ( this )
         {
-            tlib = ( TagLibrary ) taglibCache.get( tlibClass );
+            tlib = ( TagLibrary ) taglibCache.get( name );
 
             if ( tlib == null )
             {
                 try
                 {
+                    String tlibClass = natives.getProperty( name );
+
+                    if ( ( tlibClass == null ) || ( tlibClass.length(  ) < 1 ) )
+                    {
+                        tlibClass = name;
+                    }
+
                     Class tlibCls = Class.forName( tlibClass );
 
                     tlib = ( TagLibrary ) tlibCls.newInstance(  );
-                    taglibCache.put( tlibClass, tlib );
+                    taglibCache.put( name, tlib );
                 }
                 catch ( ClassNotFoundException e )
                 {
@@ -98,10 +110,9 @@ public class JellyCompatMarmaladeTaglib extends AbstractMarmaladeTagLibrary
                     throw new JellyCompatUncheckedException( e );
                 }
             }
-            
         }
-
-        return new JellyCompatMarmaladeTag( tlib );
+        
+        return tlib;
     }
 
     public void registerTag( String name, Class tagClass )

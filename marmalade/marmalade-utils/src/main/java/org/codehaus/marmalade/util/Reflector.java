@@ -55,10 +55,11 @@ public final class Reflector
     private static final Log LOG = LogFactory.getLog( Reflector.class );
     private static final String CONSTRUCTOR_METHOD_NAME = "$$CONSTRUCTOR$$";
     private static final String GET_INSTANCE_METHOD_NAME = "getInstance";
-    private static HashMap classMaps = new HashMap(  );
+    
+    private HashMap classMaps = new HashMap(  );
 
     /** Ensure no instances of Reflector are created...this is a utility. */
-    private Reflector(  )
+    public Reflector(  )
     {
     }
 
@@ -70,7 +71,7 @@ public final class Reflector
      * @return The instantiated object
      * @throws ReflectorException In case anything goes wrong here...
      */
-    public static Object newInstance( Class theClass, Object[] params )
+    public Object newInstance( Class theClass, Object[] params )
         throws ReflectorException
     {
         if ( params == null )
@@ -133,7 +134,7 @@ public final class Reflector
      * @return The singleton object
      * @throws ReflectorException In case anything goes wrong here...
      */
-    public static Object getSingleton( Class theClass, Object[] initParams )
+    public Object getSingleton( Class theClass, Object[] initParams )
         throws ReflectorException
     {
         Class[] paramTypes = new Class[initParams.length];
@@ -168,7 +169,7 @@ public final class Reflector
      * @return The result of the method call
      * @throws ReflectorException In case of an error looking up or invoking the method.
      */
-    public static Object invoke( Object target, String methodName,
+    public Object invoke( Object target, String methodName,
         Object[] params ) throws ReflectorException
     {
         if ( params == null )
@@ -219,7 +220,7 @@ public final class Reflector
         }
     }
 
-    public static Object getStaticField( Class targetClass, String fieldName )
+    public Object getStaticField( Class targetClass, String fieldName )
         throws ReflectorException
     {
         try
@@ -246,7 +247,7 @@ public final class Reflector
         }
     }
 
-    public static Object getField( Object target, String fieldName )
+    public Object getField( Object target, String fieldName )
         throws ReflectorException
     {
         try
@@ -282,7 +283,7 @@ public final class Reflector
     * @return The result of the method call
     * @throws ReflectorException In case of an error looking up or invoking the method.
     */
-    public static Object invokeStatic( Class targetClass, String methodName,
+    public Object invokeStatic( Class targetClass, String methodName,
         Object[] params ) throws ReflectorException
     {
         if ( params == null )
@@ -340,7 +341,7 @@ public final class Reflector
      * @return the Constructor object that matches.
      * @throws ReflectorException In case we can't retrieve the proper constructor.
      */
-    private static Constructor getConstructor( Class targetClass, Class[] params )
+    public Constructor getConstructor( Class targetClass, Class[] params )
         throws ReflectorException
     {
         if ( LOG.isDebugEnabled(  ) )
@@ -426,7 +427,7 @@ public final class Reflector
      * @return the Method object that matches.
      * @throws ReflectorException In case we can't retrieve the proper method.
      */
-    private static Method getMethod( Class targetClass, String methodName,
+    public Method getMethod( Class targetClass, String methodName,
         Class[] params ) throws ReflectorException
     {
         Map methodMap = getMethodMap( targetClass, methodName );
@@ -501,7 +502,7 @@ public final class Reflector
      * @return The cache of constructors.
      * @throws ReflectorException in case of a lookup error.
      */
-    private static Map getConstructorMap( Class theClass )
+    private Map getConstructorMap( Class theClass )
         throws ReflectorException
     {
         return getMethodMap( theClass, CONSTRUCTOR_METHOD_NAME );
@@ -513,7 +514,7 @@ public final class Reflector
      * @return The cache of constructors.
      * @throws ReflectorException in case of a lookup error.
      */
-    private static Map getMethodMap( Class theClass, String methodName )
+    private Map getMethodMap( Class theClass, String methodName )
         throws ReflectorException
     {
         Map methodMap = null;
