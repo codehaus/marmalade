@@ -44,6 +44,10 @@
     <tagclass>org.codehaus.marmalade.tags.jstl.core.ParamTag</tagclass>
   </tag>
   <tag>
+    <name>redirect</name>
+    <tagclass>org.codehaus.marmalade.tags.jstl.core.RedirectTag</tagclass>
+  </tag>
+  <tag>
     <name>remove</name>
     <tagclass>org.codehaus.marmalade.tags.jstl.core.RemoveTag</tagclass>
   </tag>
