@@ -7,12 +7,13 @@ import java.util.TreeMap;
 import junit.framework.TestCase;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
+import org.codehaus.marmalade.el.ExpressionEvaluatorTest;
 
 
 /**
  * @author jdcasey
  */
-public class OgnlExpressionEvaluatorTest extends TestCase{
+public class OgnlExpressionEvaluatorTest extends TestCase implements ExpressionEvaluatorTest{
 
   public void testEvaluate() throws ExpressionEvaluationException{
     String id = "testId";
@@ -22,16 +23,10 @@ public class OgnlExpressionEvaluatorTest extends TestCase{
     context.put("subject", subject);
     
     OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-    Object result = el.evaluate("#subject.id", context, String.class);
+    Object result = el.evaluate("${#subject.id}", context, String.class);
     assertEquals("Id should come through unchanged.", id, result);
   }
   
-  public void testIsExpression() {
-    OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-    assertFalse("\'somestring\' should not be a valid expression.", el.isExpression("somestring"));
-    assertTrue("\'true\' should be a valid expression.", el.isExpression("true"));
-  }
-
   public void testAssign() throws ExpressionEvaluationException{
     String id = "testId";
     TestSubject subject = new TestSubject("otherId");
@@ -43,6 +38,18 @@ public class OgnlExpressionEvaluatorTest extends TestCase{
     Object result = el.assign(subject, "id", id);
     
     assertEquals("Id should have been changed to \'testId\'", id, subject.getId());
+  }
+
+  public void testEmbeddedExpression() throws ExpressionEvaluationException{
+    String id = "testId";
+    TestSubject subject = new TestSubject(id);
+    
+    Map context = new TreeMap();
+    context.put("subject", subject);
+    
+    OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+    Object result = el.evaluate("This is a test for id:${#subject.id}", context, String.class);
+    assertEquals("Id value should be embedded in larger literal expression.", "This is a test for id:" + id, result);
   }
 
 }

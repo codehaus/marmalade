@@ -16,7 +16,7 @@ import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.util.ScopedMap;
 
 /**
- * @author jdcasey
+ * @author John Casey
  */
 public class DefaultContext implements MarmaladeExecutionContext {
   
@@ -54,9 +54,7 @@ public class DefaultContext implements MarmaladeExecutionContext {
   {
     Object result = context.get(key);
     if(el != null && result != null && (result instanceof String)){
-      if(el.isExpression((String)result)) {
-        result = el.evaluate((String)result, context, Object.class);
-      }
+      result = el.evaluate((String)result, context, Object.class);
     }
     
     return result;

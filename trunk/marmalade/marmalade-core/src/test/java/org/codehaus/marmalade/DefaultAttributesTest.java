@@ -27,9 +27,9 @@ public class DefaultAttributesTest extends MockObjectTestCase{
   public void testGetValue_String_Context() throws ExpressionEvaluationException{
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("isExpression")
-          .with(eq("value"))
-          .will(returnValue(false));
+          .method("evaluate")
+          .with(eq("value"), isA(Map.class), isA(Class.class))
+          .will(returnValue("value"));
     
     Mock attrMock = mock(Attributes.class);
     attrMock.expects(atLeastOnce())
@@ -73,9 +73,9 @@ public class DefaultAttributesTest extends MockObjectTestCase{
   public void testGetValue_String_Context_Object() throws ExpressionEvaluationException{
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("isExpression")
-          .with(eq("value"))
-          .will(returnValue(false));
+          .method("evaluate")
+          .with(eq("value"), isA(Map.class), isA(Class.class))
+          .will(returnValue("value"));
     
     Mock attrMock = mock(Attributes.class);
     attrMock.expects(atLeastOnce())
@@ -118,10 +118,6 @@ public class DefaultAttributesTest extends MockObjectTestCase{
     Integer testVal = new Integer(10);
     
     Mock elMock = mock(ExpressionEvaluator.class);
-    elMock.expects(atLeastOnce())
-          .method("isExpression")
-          .with(eq("value"))
-          .will(returnValue(true));
     elMock.expects(atLeastOnce())
           .method("evaluate")
           .with(eq("value"), isA(Map.class), same(Object.class))
@@ -175,10 +171,6 @@ public class DefaultAttributesTest extends MockObjectTestCase{
     Integer testVal = new Integer(10);
     
     Mock elMock = mock(ExpressionEvaluator.class);
-    elMock.expects(once())
-          .method("isExpression")
-          .with(eq("value"))
-          .will(returnValue(true));
     elMock.expects(once())
           .method("evaluate")
           .with(eq("value"), isA(Map.class), same(Object.class))

@@ -2,6 +2,7 @@
 package org.codehaus.marmalade.el;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 /**
@@ -10,10 +11,6 @@ import java.util.Map;
 public class PassThroughExpressionEvaluator implements ExpressionEvaluator{
 
   public PassThroughExpressionEvaluator(){
-  }
-
-  public boolean isExpression(String src){
-    return false;
   }
 
   public Object evaluate(String expression, Map context, Class expectedReturnType)
@@ -29,6 +26,10 @@ public class PassThroughExpressionEvaluator implements ExpressionEvaluator{
       "PassThrough evaluator not equipped for this. " +
       "Please ensure that the ognl evaluator is on the classpath."
     );
+  }
+
+  public Pattern getExpressionPattern(){
+    return Pattern.compile(".*");
   }
 
 }

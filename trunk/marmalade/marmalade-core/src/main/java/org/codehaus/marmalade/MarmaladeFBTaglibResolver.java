@@ -36,10 +36,9 @@ public class MarmaladeFBTaglibResolver extends MarmaladeTaglibResolver
   }
 
   public TagLibrary resolve(String taglib){
-    if(!taglib.startsWith(prefix)) {return passThroughTaglib;}
+    if(taglib == null || !taglib.startsWith(prefix)) {return passThroughTaglib;}
     
     int colonIdx = taglib.indexOf(':');
-    if(colonIdx < 0) {colonIdx = -1;}
     
     return super.resolve(taglib.substring(colonIdx + 1));
   }
