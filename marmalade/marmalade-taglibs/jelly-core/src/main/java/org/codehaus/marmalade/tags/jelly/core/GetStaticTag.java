@@ -58,11 +58,12 @@ public class GetStaticTag extends AbstractJellyMarmaladeTag
         String var = ( String ) requireTagAttribute( VAR_ATTRIBUTE,
                 String.class, context );
 
+        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
         Class targetClass;
 
         try
         {
-            targetClass = Class.forName( className );
+            targetClass = cloader.loadClass( className );
 
             Object result = reflector.getStaticField( targetClass, fieldName );
 

@@ -23,6 +23,7 @@
  */
 package org.codehaus.marmalade.model;
 
+import org.codehaus.marmalade.el.BareBonesExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
@@ -39,21 +40,23 @@ import java.util.Set;
 /**
  * @author jdcasey
  */
-public class DefaultAttributes implements MarmaladeAttributes
+public class DefaultAttributes
+    implements MarmaladeAttributes
 {
     private ExpressionEvaluator el;
+
     private MetaAttributes attributes;
+
     private transient Set attributesSet;
 
     public DefaultAttributes( MetaAttributes attributes )
     {
-        this.attributes = ( attributes != null ) ? ( attributes )
-                                                 : ( new DefaultRawAttributes(  ) );
+        this.attributes = (attributes != null) ? (attributes) : (new DefaultRawAttributes());
     }
 
-    public DefaultAttributes(  )
+    public DefaultAttributes()
     {
-        this.attributes = new DefaultRawAttributes(  );
+        this.attributes = new DefaultRawAttributes();
     }
 
     public void setExpressionEvaluator( ExpressionEvaluator el )
@@ -61,90 +64,72 @@ public class DefaultAttributes implements MarmaladeAttributes
         this.el = el;
     }
 
-    public ExpressionEvaluator getExpressionEvaluator(  )
+    public ExpressionEvaluator getExpressionEvaluator()
     {
         return el;
     }
 
-    public Object getValue( String name, MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException
+    public Object getValue( String name, MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
-        return _getValue( null, name, Object.class,
-            context.unmodifiableVariableMap(  ), null );
+        return _getValue( null, name, Object.class, context.unmodifiableVariableMap(), null );
     }
 
-    public Object getValue( String namespace, String name,
-        MarmaladeExecutionContext context )
+    public Object getValue( String namespace, String name, MarmaladeExecutionContext context )
         throws ExpressionEvaluationException
     {
-        return _getValue( null, name, Object.class,
-            context.unmodifiableVariableMap(  ), null );
+        return _getValue( null, name, Object.class, context.unmodifiableVariableMap(), null );
     }
 
-    public Object getValue( String name, MarmaladeExecutionContext context,
+    public Object getValue( String name, MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException
+    {
+        return _getValue( null, name, Object.class, context.unmodifiableVariableMap(), defaultVal );
+    }
+
+    public Object getValue( String namespace, String name, MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException
+    {
+        return _getValue( null, name, Object.class, context.unmodifiableVariableMap(), defaultVal );
+    }
+
+    public Object getValue( String name, Class type, MarmaladeExecutionContext context )
+        throws ExpressionEvaluationException
+    {
+        return _getValue( null, name, type, context.unmodifiableVariableMap(), null );
+    }
+
+    public Object getValue( String namespace, String name, Class type, MarmaladeExecutionContext context )
+        throws ExpressionEvaluationException
+    {
+        return _getValue( null, name, type, context.unmodifiableVariableMap(), null );
+    }
+
+    public Object getValue( String name, Class type, MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException
+    {
+        return _getValue( null, name, type, context.unmodifiableVariableMap(), defaultVal );
+    }
+
+    public Object getValue( String namespace, String name, Class type, MarmaladeExecutionContext context,
         Object defaultVal ) throws ExpressionEvaluationException
     {
-        return _getValue( null, name, Object.class,
-            context.unmodifiableVariableMap(  ), defaultVal );
+        return _getValue( null, name, type, context.unmodifiableVariableMap(), defaultVal );
     }
 
-    public Object getValue( String namespace, String name,
-        MarmaladeExecutionContext context, Object defaultVal )
-        throws ExpressionEvaluationException
-    {
-        return _getValue( null, name, Object.class,
-            context.unmodifiableVariableMap(  ), defaultVal );
-    }
-
-    public Object getValue( String name, Class type,
-        MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException
-    {
-        return _getValue( null, name, type,
-            context.unmodifiableVariableMap(  ), null );
-    }
-
-    public Object getValue( String namespace, String name, Class type,
-        MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException
-    {
-        return _getValue( null, name, type,
-            context.unmodifiableVariableMap(  ), null );
-    }
-
-    public Object getValue( String name, Class type,
-        MarmaladeExecutionContext context, Object defaultVal )
-        throws ExpressionEvaluationException
-    {
-        return _getValue( null, name, type,
-            context.unmodifiableVariableMap(  ), defaultVal );
-    }
-
-    public Object getValue( String namespace, String name, Class type,
-        MarmaladeExecutionContext context, Object defaultVal )
-        throws ExpressionEvaluationException
-    {
-        return _getValue( null, name, type,
-            context.unmodifiableVariableMap(  ), defaultVal );
-    }
-
-    private Object _getValue( String namespace, String name, Class type,
-        Map context, Object defaultVal )
+    private Object _getValue( String namespace, String name, Class type, Map context, Object defaultVal )
         throws ExpressionEvaluationException
     {
         String expression = attributes.getValue( namespace, name );
         Object result = null;
 
-        if ( ( expression != null ) && ( expression.length(  ) > 0 ) )
+        if ( (expression != null) && (expression.length() > 0) )
         {
-            if ( el != null )
+            if ( el == null )
             {
-                result = el.evaluate( expression, context, type );
+                el = new BareBonesExpressionEvaluator();
             }
-            else
-            {
-                result = expression;
-            }
+
+            result = el.evaluate( expression, context, type );
         }
 
         if ( result == null )
@@ -155,17 +140,17 @@ public class DefaultAttributes implements MarmaladeAttributes
         return result;
     }
 
-    public Iterator iterator(  )
+    public Iterator iterator()
     {
         synchronized ( this )
         {
             if ( attributesSet == null )
             {
-                attributesSet = new HashSet(  );
+                attributesSet = new HashSet();
 
-                for ( Iterator it = attributes.iterator(  ); it.hasNext(  ); )
+                for ( Iterator it = attributes.iterator(); it.hasNext(); )
                 {
-                    MetaAttribute raw = ( MetaAttribute ) it.next(  );
+                    MetaAttribute raw = (MetaAttribute) it.next();
 
                     attributesSet.add( new DefaultAttribute( raw, el ) );
                 }
@@ -174,6 +159,6 @@ public class DefaultAttributes implements MarmaladeAttributes
             }
         }
 
-        return attributesSet.iterator(  );
+        return attributesSet.iterator();
     }
 }

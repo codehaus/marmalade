@@ -34,86 +34,80 @@ import java.util.TreeMap;
 /**
  * @author jdcasey
  */
-public class OgnlExpressionEvaluatorTest extends TestCase
+public class OgnlExpressionEvaluatorTest
+    extends TestCase
 {
-    public void testEvaluate(  )
-        throws ExpressionEvaluationException
+    public void testEvaluate() throws ExpressionEvaluationException
     {
         String id = "testId";
         TestSubject subject = new TestSubject( id );
 
-        Map context = new TreeMap(  );
+        Map context = new TreeMap();
 
         context.put( "subject", subject );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
         Object result = el.evaluate( "#subject.id", context, String.class );
 
         assertEquals( "Id should come through unchanged.", id, result );
     }
 
-    public void testEvaluateStaticField(  )
-        throws ExpressionEvaluationException
+    public void testEvaluateStaticField() throws ExpressionEvaluationException
     {
-        Map context = new TreeMap(  );
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+        Map context = new TreeMap();
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
         Object result = el.evaluate( "@org.codehaus.marmalade.el.ognl.TestSubject@TEST_STATIC_VALUE",
-                context, String.class );
+            context, String.class );
 
-        assertEquals( "Static field value should come through unchanged.",
-            TestSubject.TEST_STATIC_VALUE, result );
+        assertEquals( "Static field value should come through unchanged.", TestSubject.TEST_STATIC_VALUE, result );
     }
 
-    public void testEvaluateStaticMethod(  )
-        throws ExpressionEvaluationException
+    public void testEvaluateStaticMethod() throws ExpressionEvaluationException
     {
         String id = "testId";
         TestSubject subject = new TestSubject( id );
 
-        Map context = new TreeMap(  );
+        Map context = new TreeMap();
 
         context.put( "subject", subject );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-        Object result = el.evaluate( "@org.codehaus.marmalade.el.ognl.TestSubject@getTestStaticValue(\"testVal\")",
-                context, String.class );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        Object result = el.evaluate(
+            "@org.codehaus.marmalade.el.ognl.TestSubject@getTestStaticValue(\"testVal\")", context,
+            String.class );
 
-        assertEquals( "Static method results should come through unchanged.",
-            TestSubject.getTestStaticValue( "testVal" ), result );
+        assertEquals( "Static method results should come through unchanged.", TestSubject
+            .getTestStaticValue( "testVal" ), result );
     }
 
-    public void testAssign(  )
-        throws ExpressionEvaluationException
+    public void testAssign() throws ExpressionEvaluationException
     {
         String id = "testId";
         TestSubject subject = new TestSubject( "otherId" );
 
-        Map context = new TreeMap(  );
+        Map context = new TreeMap();
 
         context.put( "subject", subject );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
         Object result = el.assign( subject, "id", id );
 
-        assertEquals( "Id should have been changed to \'testId\'", id,
-            subject.getId(  ) );
+        assertEquals( "Id should have been changed to \'testId\'", id, subject.getId() );
     }
 
-    public void testEmbeddedExpression(  )
-        throws ExpressionEvaluationException
+    public void testEmbeddedExpression() throws ExpressionEvaluationException
     {
         String id = "testId";
         TestSubject subject = new TestSubject( id );
 
-        Map context = new TreeMap(  );
+        Map context = new TreeMap();
 
         context.put( "subject", subject );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-        Object result = el.evaluate( "This is a test for id:#subject.id",
-                context, String.class );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        Object result = el.evaluate( "This is a test for id:#subject.id", context, String.class );
 
-        assertEquals( "Id value should be embedded in larger literal expression.",
-            "This is a test for id:" + id, result );
+        assertEquals( "Id value should be embedded in larger literal expression.", "This is a test for id:" + id,
+            result );
     }
 }

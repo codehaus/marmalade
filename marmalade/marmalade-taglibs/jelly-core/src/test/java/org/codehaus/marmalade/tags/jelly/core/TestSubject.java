@@ -30,9 +30,9 @@ package org.codehaus.marmalade.tags.jelly.core;
  */
 public class TestSubject
 {
-    private TestAttribute attribute;
+    private String attribute;
 
-    public TestSubject( TestAttribute attribute )
+    public TestSubject( String attribute )
     {
         this.attribute = attribute;
     }
@@ -41,12 +41,12 @@ public class TestSubject
     {
     }
 
-    public void setAttribute( TestAttribute attribute )
+    public void setAttribute( String attribute )
     {
         this.attribute = attribute;
     }
 
-    public TestAttribute getAttribute(  )
+    public String getAttribute(  )
     {
         return attribute;
     }

@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
@@ -68,14 +67,11 @@ public class CatchTagTest extends TestCase
 
         rawAttrs.addAttribute( "", "", "var", "exception" );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
         DefaultAttributes attrs = new DefaultAttributes(rawAttrs);
-        attrs.setExpressionEvaluator(el);
         
         CatchTag tag = new CatchTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes( attrs );
-        tag.setExpressionEvaluator( el );
 
         MarmaladeTagInfo cti = new MarmaladeTagInfo(  );
 
@@ -114,14 +110,11 @@ public class CatchTagTest extends TestCase
         rawAttrs.addAttribute( "", "", "class",
                 "java.lang.UnsupportedOperationException" );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
         DefaultAttributes attrs = new DefaultAttributes(rawAttrs);
-        attrs.setExpressionEvaluator(el);
         
         CatchTag tag = new CatchTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes( attrs );
-        tag.setExpressionEvaluator( el );
 
         MarmaladeTagInfo cti = new MarmaladeTagInfo(  );
 
@@ -160,14 +153,11 @@ public class CatchTagTest extends TestCase
         rawAttrs.addAttribute( "", "", "class",
                 "java.lang.IllegalArgumentException" );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
         DefaultAttributes attrs = new DefaultAttributes(rawAttrs);
-        attrs.setExpressionEvaluator(el);
         
         CatchTag tag = new CatchTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes( attrs );
-        tag.setExpressionEvaluator( el );
 
         MarmaladeTagInfo cti = new MarmaladeTagInfo(  );
 

@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jelly.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -50,21 +49,16 @@ public class UseListTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", "", UseListTag.ITEMS_ATTRIBUTE, "#items" );
+        attributes.addAttribute( "", "", UseListTag.ITEMS_ATTRIBUTE, "${items}" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         UseListTag tag = new UseListTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         try
         {
@@ -86,17 +80,12 @@ public class UseListTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         UseListTag tag = new UseListTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         try
         {
@@ -119,17 +108,12 @@ public class UseListTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         UseListTag tag = new UseListTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 
@@ -154,17 +138,12 @@ public class UseListTagTest extends TestCase
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         UseListTag tag = new UseListTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 
@@ -189,24 +168,17 @@ public class UseListTagTest extends TestCase
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", "", UseListTag.ITEMS_ATTRIBUTE, "#items" );
+        attributes.addAttribute( "", "", UseListTag.ITEMS_ATTRIBUTE, "${items}" );
         attributes.addAttribute( "", "", UseListTag.VAR_ATTRIBUTE, "varKey" );
-
-        OgnlExpressionEvaluator ognlEl = new OgnlExpressionEvaluator(  );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         UseListTag tag = new UseListTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 
@@ -234,24 +206,17 @@ public class UseListTagTest extends TestCase
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", "", UseListTag.ITEMS_ATTRIBUTE, "#items" );
+        attributes.addAttribute( "", "", UseListTag.ITEMS_ATTRIBUTE, "${items}" );
         attributes.addAttribute( "", "", UseListTag.VAR_ATTRIBUTE, "varKey" );
-
-        OgnlExpressionEvaluator ognlEl = new OgnlExpressionEvaluator(  );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attributes );
-
-        tagAttrs.setExpressionEvaluator( el );
 
         UseListTag tag = new UseListTag(  );
 
         tag.setTagInfo( mti );
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 

@@ -24,6 +24,7 @@
 /* Created on Jun 23, 2004 */
 package org.codehaus.marmalade.model;
 
+import org.codehaus.marmalade.el.BareBonesExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.MetaAttribute;
@@ -32,9 +33,11 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 /**
  * @author jdcasey
  */
-public class DefaultAttribute implements MarmaladeAttribute
+public class DefaultAttribute
+    implements MarmaladeAttribute
 {
     private ExpressionEvaluator el;
+
     private MetaAttribute attribute;
 
     public DefaultAttribute( MetaAttribute attribute, ExpressionEvaluator el )
@@ -43,52 +46,52 @@ public class DefaultAttribute implements MarmaladeAttribute
         this.el = el;
     }
 
-    public String getNamespace(  )
+    public String getNamespace()
     {
-        return attribute.getNamespace(  );
+        return attribute.getNamespace();
     }
 
-    public String getName(  )
+    public String getName()
     {
-        return attribute.getName(  );
+        return attribute.getName();
     }
 
-    public Object getValue( Class returnType, MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException
+    public Object getValue( Class returnType, MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
         return _getValue( returnType, context );
     }
 
-    public Object getValue( MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException
+    public Object getValue( MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
         return _getValue( Object.class, context );
     }
 
-    private Object _getValue( Class returnType,
-        MarmaladeExecutionContext context )
+    private Object _getValue( Class returnType, MarmaladeExecutionContext context )
         throws ExpressionEvaluationException
     {
-        String expression = attribute.getValue(  );
+        String expression = attribute.getValue();
         Object result = expression;
 
-        if ( ( el != null ) && ( expression != null )
-            && ( expression.length(  ) > 0 ) )
+        if ( el == null )
         {
-            result = el.evaluate( expression,
-                    context.unmodifiableVariableMap(  ), returnType );
+            el = new BareBonesExpressionEvaluator();
+        }
+
+        if ( (expression != null) && (expression.length() > 0) )
+        {
+            result = el.evaluate( expression, context.unmodifiableVariableMap(), returnType );
         }
 
         return result;
     }
 
-    public String getPrefix(  )
+    public String getPrefix()
     {
-        return attribute.getPrefix(  );
+        return attribute.getPrefix();
     }
 
-    public String getRawValue(  )
+    public String getRawValue()
     {
-        return attribute.getValue(  );
+        return attribute.getValue();
     }
 }

@@ -24,27 +24,27 @@
 /* Created on May 25, 2004 */
 package org.codehaus.marmalade.tags.passthrough;
 
+import org.codehaus.marmalade.metamodel.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.model.MarmaladeTag;
 
 /**
  * @author jdcasey
  */
-public class PassThroughTagLibrary extends AbstractMarmaladeTagLibrary
+public class PassThroughTagLibrary
+    extends AbstractMarmaladeTagLibrary
 {
-    public PassThroughTagLibrary(  )
+    public PassThroughTagLibrary()
     {
     }
 
     public MarmaladeTag createTag( MarmaladeTagInfo tagInfo )
     {
-        return new PassThroughTag(  );
+        return new PassThroughTag();
     }
 
     public void registerTag( String name, Class tagClass )
     {
-        throw new UnsupportedOperationException( 
-            "This is not an open tag library. Tags cannot be registered here." );
+        throw new UnsupportedOperationException( "This is not an open tag library. Tags cannot be registered here." );
     }
 }

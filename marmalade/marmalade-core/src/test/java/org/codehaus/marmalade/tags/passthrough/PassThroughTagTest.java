@@ -27,13 +27,13 @@ package org.codehaus.marmalade.tags.passthrough;
 import junit.framework.TestCase;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.metamodel.ModelBuilderException;
+import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.MarmaladeScript;
-import org.codehaus.marmalade.parsetime.DefaultParsingContext;
-import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
-import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
-import org.codehaus.marmalade.parsetime.MarmaladeParsingContext;
-import org.codehaus.marmalade.parsetime.ScriptBuilder;
-import org.codehaus.marmalade.parsetime.ScriptParser;
+import org.codehaus.marmalade.parsing.DefaultParsingContext;
+import org.codehaus.marmalade.parsing.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsing.MarmaladeParsingContext;
+import org.codehaus.marmalade.parsing.ScriptParser;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.util.RecordingReader;
@@ -45,11 +45,11 @@ import java.io.StringWriter;
 /**
  * @author jdcasey
  */
-public class PassThroughTagTest extends TestCase
+public class PassThroughTagTest
+    extends TestCase
 {
-    public void testShouldCollapseOpenCloseElementWithEmptyBody(  )
-        throws MarmaladeParsetimeException, MarmaladeModelBuilderException, 
-            MarmaladeExecutionException
+    public void testShouldCollapseOpenCloseElementWithEmptyBody() throws MarmaladeParsetimeException,
+        ModelBuilderException, MarmaladeExecutionException
     {
         String script = "<?xml version=\"1.0\"?><z:test xmlns:z=\"nothing:nothing\"></z:test>";
         String check = "<test xmlns=\"nothing:nothing\"/>";
@@ -60,9 +60,8 @@ public class PassThroughTagTest extends TestCase
         assertTrue( result.indexOf( "\"nothing:nothing\"" ) > -1 );
     }
 
-    public void testShouldReproduceEmptyTag(  )
-        throws MarmaladeExecutionException, MarmaladeParsetimeException, 
-            MarmaladeModelBuilderException
+    public void testShouldReproduceEmptyTag() throws MarmaladeExecutionException, MarmaladeParsetimeException,
+        ModelBuilderException
     {
         String script = "<?xml version=\"1.0\"?><z:test attr1=\"one\" xmlns:z=\"nothing:nothing\"/>";
 
@@ -73,72 +72,96 @@ public class PassThroughTagTest extends TestCase
         assertTrue( result.indexOf( "\"nothing:nothing\"" ) > -1 );
     }
 
-    public void testShouldReproduceTagWithExactBodyWhenPreserveWhitespaceNotSpecified(  )
-        throws MarmaladeExecutionException, MarmaladeParsetimeException, 
-            MarmaladeModelBuilderException
+    public void testShouldReproduceTagWithExactBodyWhenPreserveWhitespaceNotSpecified()
+        throws MarmaladeExecutionException, MarmaladeParsetimeException, ModelBuilderException
     {
         String script = "<?xml version=\"1.0\"?><z:test attr1=\"one\" xmlns:z=\"nothing:nothing\">This is a \ntest.</z:test>";
 
         String result = parseAndExecute( script );
 
         System.out.println( "Result: \'" + result + "\'" );
-        assertTrue( "Attribute should be in result.",
-            result.indexOf( "attr1=\"one\"" ) > -1 );
-        assertTrue( "Start element should be in result.",
-            result.indexOf( ":test" ) > -1 );
-        assertTrue( "XMLNS should be in result.",
-            result.indexOf( "\"nothing:nothing\"" ) > -1 );
-        assertTrue( "Trimmed body should be in result.",
-            result.indexOf( "This is a \ntest." ) > -1 );
+        assertTrue( "Attribute should be in result.", result.indexOf( "attr1=\"one\"" ) > -1 );
+        assertTrue( "Start element should be in result.", result.indexOf( ":test" ) > -1 );
+        assertTrue( "XMLNS should be in result.", result.indexOf( "\"nothing:nothing\"" ) > -1 );
+        assertTrue( "Trimmed body should be in result.", result.indexOf( "This is a \ntest." ) > -1 );
     }
 
-    /* [JDC 7/1/2004]:
-     * We can't test this without a robust expression evaluator...which means
-     * making a required dependency out of OGNL...otherwise marmalade-el-ognl will
-     * complete a cyclic dependency with marmalade-core WRT testing of the core...
-     *
-     *   public void testShouldReproduceTagWithExactBodyWhenPreserveWhitespaceSpecified() throws MarmaladeExecutionException, MarmaladeParsetimeException, MarmaladeModelBuilderException {
-            String script = "<?xml version=\"1.0\"?><z:test xmlns:marmalade=\"marmalade:ctl-opts\" xmlns:z=\"nothing:nothing\" attr1=\"one\" marmalade:preserve-whitespace=\"true\">This is a \ntest.</z:test>";
+    public void testShouldLeaveElementPrefixOffWhenNotSpecified() throws MarmaladeExecutionException,
+        MarmaladeParsetimeException, ModelBuilderException
+    {
+        String script = "<?xml version=\"1.0\"?><test attr1=\"one\" xmlns=\"nothing:nothing\" />";
 
-            String result = parseAndExecute(script);
+        String result = parseAndExecute( script );
 
-            System.out.println("Result: \'" + result + "\'");
-            assertTrue("Attribute should be in result.", result.indexOf("attr1=\"one\"") > -1);
-            assertTrue("Start element should be in result.", result.indexOf(":test") > -1);
-            assertTrue("XMLNS should be in result.", result.indexOf("\"nothing:nothing\"") > -1);
-            assertTrue("marmalade:preserve-whitespace should be in result.", result.indexOf(MarmaladeControlDefinitions.MARMALADE_RESERVED_NS + ":" + MarmaladeControlDefinitions.PRESERVE_BODY_WHITESPACE_ATTRIBUTE) > -1);
-            assertTrue("Untrimmed body should be in result.", result.indexOf("This is a \ntest.") > -1);
-        }*/
-    private String parseAndExecute( String script )
-        throws MarmaladeExecutionException, MarmaladeParsetimeException, 
-            MarmaladeModelBuilderException
+        System.out.println( "Result: \'" + result + "\'" );
+        assertTrue( "Attribute should be in result.", result.indexOf( "attr1=\"one\"" ) > -1 );
+        assertTrue( "Start element should be in result.", result.indexOf( "<test" ) > -1 );
+        assertTrue( "XMLNS should be in result.", result.indexOf( "xmlns=\"nothing:nothing\"" ) > -1 );
+    }
+
+    public void testShouldLeaveElementPrefixOffWhenNotSpecifiedAndXMLNSNotSpecified()
+        throws MarmaladeExecutionException, MarmaladeParsetimeException, ModelBuilderException
+    {
+        String script = "<?xml version=\"1.0\"?><test attr1=\"one\" />";
+
+        String result = parseAndExecute( script );
+
+        System.out.println( "Result: \'" + result + "\'" );
+        assertTrue( "Attribute should be in result.", result.indexOf( "attr1=\"one\"" ) > -1 );
+        assertTrue( "Start element should be in result.", result.indexOf( "<test" ) > -1 );
+        assertTrue( "XMLNS should NOT be in result.", result.indexOf( "xmlns=\"nothing:nothing\"" ) < 0 );
+    }
+
+    /*
+     * [JDC 7/1/2004]: We can't test this without a robust expression
+     * evaluator...which means making a required dependency out of
+     * OGNL...otherwise marmalade-el-ognl will complete a cyclic dependency with
+     * marmalade-core WRT testing of the core... public void
+     * testShouldReproduceTagWithExactBodyWhenPreserveWhitespaceSpecified()
+     * throws MarmaladeExecutionException, MarmaladeParsetimeException,
+     * MarmaladeParsetimeException { String script = " <?xml version=\"1.0\"?>
+     * <z:test xmlns:marmalade=\"marmalade:ctl-opts\"
+     * xmlns:z=\"nothing:nothing\" attr1=\"one\"
+     * marmalade:preserve-whitespace=\"true\">This is a \ntest. </z:test>";
+     * String result = parseAndExecute(script); System.out.println("Result: \'" +
+     * result + "\'"); assertTrue("Attribute should be in result.",
+     * result.indexOf("attr1=\"one\"") > -1); assertTrue("Start element should
+     * be in result.", result.indexOf(":test") > -1); assertTrue("XMLNS should
+     * be in result.", result.indexOf("\"nothing:nothing\"") > -1);
+     * assertTrue("marmalade:preserve-whitespace should be in result.",
+     * result.indexOf(MarmaladeControlDefinitions.MARMALADE_RESERVED_NS + ":" +
+     * MarmaladeControlDefinitions.PRESERVE_BODY_WHITESPACE_ATTRIBUTE) > -1);
+     * assertTrue("Untrimmed body should be in result.", result.indexOf("This is
+     * a \ntest.") > -1); }
+     */
+    private String parseAndExecute( String script ) throws MarmaladeExecutionException, MarmaladeParsetimeException,
+        ModelBuilderException
     {
         StringReader reader = new StringReader( script );
-        MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
         String location = "test location";
 
-        MarmaladeParsingContext pCtx = new DefaultParsingContext(  );
+        MarmaladeParsingContext pCtx = new DefaultParsingContext();
 
-        pCtx.setTaglibResolver( resolver );
+        pCtx.addTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
         pCtx.setInput( new RecordingReader( reader ) );
         pCtx.setInputLocation( location );
 
-        ScriptParser parser = new ScriptParser(  );
+        ScriptParser parser = new ScriptParser();
 
         ScriptBuilder mmldBuilder = parser.parse( pCtx );
 
-        MarmaladeScript mmld = mmldBuilder.build(  );
+        MarmaladeScript mmld = mmldBuilder.build();
 
-        StringWriter sWriter = new StringWriter(  );
+        StringWriter sWriter = new StringWriter();
 
         PrintWriter out = new PrintWriter( sWriter );
 
-        DefaultContext ctx = new DefaultContext(  );
+        DefaultContext ctx = new DefaultContext();
 
         ctx.setOutWriter( out );
 
         mmld.execute( ctx );
 
-        return sWriter.getBuffer(  ).toString(  );
+        return sWriter.getBuffer().toString();
     }
 }

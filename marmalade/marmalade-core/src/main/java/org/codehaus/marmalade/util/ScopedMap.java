@@ -31,19 +31,25 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-/** Create a local copy of all mappings in the super-map.
- *
+/**
+ * Create a local copy of all mappings in the super-map.
+ * 
  * @author John Casey
  */
-public class ScopedMap implements Map
+public class ScopedMap
+    implements Map
 {
     private Map superMap;
+
     private Map thisMap;
+
     private ScopedMapEntriesSet keySet;
+
     private ScopedMapEntriesSet valueSet;
+
     private ScopedMapEntriesSet entrySet;
 
-    public ScopedMap(  )
+    public ScopedMap()
     {
         init( Collections.EMPTY_MAP );
     }
@@ -64,45 +70,44 @@ public class ScopedMap implements Map
 
         this.superMap = m;
 
-        this.thisMap = new HashMap(  );
+        this.thisMap = new HashMap();
 
         this.entrySet = new ScopedMapEntriesSet( superMap, thisMap, null );
         this.keySet = new ScopedMapEntriesSet( superMap, thisMap, Boolean.TRUE );
-        this.valueSet = new ScopedMapEntriesSet( superMap, thisMap,
-                Boolean.FALSE );
+        this.valueSet = new ScopedMapEntriesSet( superMap, thisMap, Boolean.FALSE );
     }
 
-    public Map getSuperMap(  )
+    public Map getSuperMap()
     {
         return superMap;
     }
 
-    public Map getLocalMap(  )
+    public Map getLocalMap()
     {
         return thisMap;
     }
 
-    private void update(  )
+    private void update()
     {
-        entrySet.update(  );
-        keySet.update(  );
-        valueSet.update(  );
+        entrySet.update();
+        keySet.update();
+        valueSet.update();
     }
 
-    public int size(  )
+    public int size()
     {
-        return superMap.size(  ) + thisMap.size(  );
+        return superMap.size() + thisMap.size();
     }
 
-    public void clear(  )
+    public void clear()
     {
-        thisMap.clear(  );
-        update(  );
+        thisMap.clear();
+        update();
     }
 
-    public boolean isEmpty(  )
+    public boolean isEmpty()
     {
-        return superMap.isEmpty(  ) && thisMap.isEmpty(  );
+        return superMap.isEmpty() && thisMap.isEmpty();
     }
 
     public boolean containsKey( Object key )
@@ -112,11 +117,10 @@ public class ScopedMap implements Map
 
     public boolean containsValue( Object value )
     {
-        return thisMap.containsValue( value )
-        || superMap.containsValue( value );
+        return thisMap.containsValue( value ) || superMap.containsValue( value );
     }
 
-    public Collection values(  )
+    public Collection values()
     {
         return valueSet;
     }
@@ -125,9 +129,9 @@ public class ScopedMap implements Map
     {
         boolean changed = false;
 
-        for ( Iterator it = t.keySet(  ).iterator(  ); it.hasNext(  ); )
+        for ( Iterator it = t.keySet().iterator(); it.hasNext(); )
         {
-            Object key = it.next(  );
+            Object key = it.next();
 
             if ( !superMap.containsKey( key ) )
             {
@@ -138,16 +142,16 @@ public class ScopedMap implements Map
 
         if ( changed )
         {
-            update(  );
+            update();
         }
     }
 
-    public Set entrySet(  )
+    public Set entrySet()
     {
         return entrySet;
     }
 
-    public Set keySet(  )
+    public Set keySet()
     {
         return keySet;
     }
@@ -170,7 +174,7 @@ public class ScopedMap implements Map
 
         if ( result != null )
         {
-            update(  );
+            update();
         }
 
         return result;
@@ -181,15 +185,14 @@ public class ScopedMap implements Map
         Object result = null;
 
         result = thisMap.put( key, value );
-        update(  );
+        update();
 
         return result;
     }
 
-    public String toString(  )
+    public String toString()
     {
-        return "ScopedMap:\n==========================\nlocal:\n\t"
-        + String.valueOf( thisMap ) + "\n\nparent:\n\t"
-        + String.valueOf( superMap );
+        return "ScopedMap:\n==========================\nlocal:\n\t" + String.valueOf( thisMap ) + "\n\nparent:\n\t"
+            + String.valueOf( superMap );
     }
 }

@@ -30,19 +30,19 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 /**
  * @author jdcasey
  */
-public class TestParseTag extends AbstractOutputTag
+public class TestParseTag
+    extends AbstractOutputTag
 {
     /**
      * @param tagInfo
      */
-    public TestParseTag(  )
+    public TestParseTag()
     {
-        super(  );
+        super();
     }
 
-    protected void write( String message, MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    protected void write( String message, MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
-        context.getOutWriter(  ).print( message );
+        context.getOutWriter().print( message );
     }
 }

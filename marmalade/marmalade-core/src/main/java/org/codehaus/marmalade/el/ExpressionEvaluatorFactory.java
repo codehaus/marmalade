@@ -34,51 +34,55 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-/** Provide factory methods to retrieve specific implementations for various dynamic elements of
- * the marmalade system.
- *
+/**
+ * Provide factory methods to retrieve specific implementations for various
+ * dynamic elements of the marmalade system.
+ * 
  * @author John Casey
  */
 public final class ExpressionEvaluatorFactory
 {
     private static final String DEFAULT_EL_TYPE = "ognl";
-    private static Map evaluators = new WeakHashMap(  );
 
-    /** Factory; deny construction.
+    private static Map evaluators = new WeakHashMap();
+
+    /**
+     * Factory; deny construction.
      */
-    public ExpressionEvaluatorFactory(  )
+    public ExpressionEvaluatorFactory()
     {
     }
 
-    /** Return the default expression evaluator implementation.
+    /**
+     * Return the default expression evaluator implementation.
      */
-    public static ExpressionEvaluator getDefaultExpressionEvaluator(  )
+    public static ExpressionEvaluator getDefaultExpressionEvaluator()
     {
-        return new ExpressionEvaluatorFactory(  ).getExpressionEvaluator( DEFAULT_EL_TYPE );
+        return new ExpressionEvaluatorFactory().getExpressionEvaluator( DEFAULT_EL_TYPE );
     }
 
-    /** Return the expression evaluator implementation for the specified EL type.
+    /**
+     * Return the expression evaluator implementation for the specified EL type.
      */
     public ExpressionEvaluator getExpressionEvaluator( String type )
     {
         // lock only for the specified type of EL...let everything else happen.
-        synchronized ( type.intern(  ) )
+        synchronized ( type.intern() )
         {
-            ExpressionEvaluator evaluator = ( ExpressionEvaluator ) evaluators
-                .get( type );
+            ExpressionEvaluator evaluator = (ExpressionEvaluator) evaluators.get( type );
 
             if ( evaluator == null )
             {
                 String elResource = "META-INF/marmalade/el/" + type;
-                ClassLoader cloader = ExpressionEvaluatorFactory.class
-                    .getClassLoader(  );
+                ClassLoader cloader = ExpressionEvaluatorFactory.class.getClassLoader();
 
                 InputStream res = cloader.getResourceAsStream( elResource );
 
                 if ( res == null )
                 {
-                    // DO NOT cache this...it is only for emergency cases, to enable minimal functionality.
-                    return new PassThroughExpressionEvaluator(  );
+                    // DO NOT cache this...it is only for emergency cases, to
+                    // enable minimal functionality.
+                    return new BareBonesExpressionEvaluator();
                 }
                 else
                 {
@@ -88,8 +92,8 @@ public final class ExpressionEvaluatorFactory
                     try
                     {
                         in = new BufferedReader( new InputStreamReader( res ) );
-                        className = in.readLine(  );
-                        in.close(  );
+                        className = in.readLine();
+                        in.close();
                     }
                     catch ( IOException e )
                     {
@@ -100,7 +104,7 @@ public final class ExpressionEvaluatorFactory
                         {
                             try
                             {
-                                in.close(  );
+                                in.close();
                             }
                             catch ( IOException e )
                             {
@@ -108,14 +112,13 @@ public final class ExpressionEvaluatorFactory
                         }
                     }
 
-                    if ( ( className != null ) && ( className.length(  ) > 0 ) )
+                    if ( (className != null) && (className.length() > 0) )
                     {
                         try
                         {
                             Class elClass = cloader.loadClass( className );
 
-                            evaluator = ( ExpressionEvaluator ) elClass
-                                .newInstance(  );
+                            evaluator = (ExpressionEvaluator) elClass.newInstance();
                             evaluators.put( type, evaluator );
                         }
                         catch ( ClassNotFoundException e )

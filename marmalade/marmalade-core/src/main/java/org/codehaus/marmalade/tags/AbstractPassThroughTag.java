@@ -43,86 +43,89 @@ import java.util.List;
 /**
  * @author jdcasey
  */
-public abstract class AbstractPassThroughTag extends AbstractMarmaladeTag
+public abstract class AbstractPassThroughTag
+    extends AbstractMarmaladeTag
 {
-    private List childComponents = new LinkedList(  );
+    private List childComponents = new LinkedList();
 
-    protected AbstractPassThroughTag(  )
+    protected AbstractPassThroughTag()
     {
     }
 
-    protected List getChildComponents(  )
+    protected List getChildComponents()
     {
         return childComponents;
     }
 
-    protected void doExecute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
         try
         {
-            XmlSerializer serializer = context.getXmlSerializer(  );
+            XmlSerializer serializer = context.getXmlSerializer();
 
-            MarmaladeTagInfo tagInfo = getTagInfo(  );
-            String scheme = tagInfo.getScheme(  );
-            String taglib = tagInfo.getTaglib(  );
+            MarmaladeTagInfo tagInfo = getTagInfo();
+            String scheme = tagInfo.getScheme();
+            String taglib = tagInfo.getTaglib();
 
-            String prefix = tagInfo.getPrefix(  );
+            String prefix = tagInfo.getPrefix();
             String oldPrefix = null;
 
             String ns = null;
 
-            if ( ( scheme != null ) && ( taglib != null ) )
+            if ( (scheme != null) && (taglib != null) )
             {
                 ns = scheme + ":" + taglib;
 
                 if ( prefix != null )
                 {
-                    serializer.setPrefix( prefix, ns );
                     oldPrefix = serializer.getPrefix( ns, false );
+                    serializer.setPrefix( prefix, ns );
+                }
+                else
+                {
+                    oldPrefix = serializer.getPrefix( ns, false );
+                    serializer.setPrefix( "", ns );
                 }
             }
 
-            serializer.startTag( ns, tagInfo.getElement(  ) );
+            serializer.startTag( ns, tagInfo.getElement() );
 
-            MarmaladeAttributes attributes = getAttributes(  );
+            MarmaladeAttributes attributes = getAttributes();
 
-            for ( Iterator it = attributes.iterator(  ); it.hasNext(  ); )
+            for ( Iterator it = attributes.iterator(); it.hasNext(); )
             {
-                MarmaladeAttribute attribute = ( MarmaladeAttribute ) it.next(  );
+                MarmaladeAttribute attribute = (MarmaladeAttribute) it.next();
 
-                serializer.attribute( attribute.getNamespace(  ),
-                    attribute.getName(  ), attribute.getRawValue(  ) );
+                serializer.attribute( attribute.getNamespace(), attribute.getName(), attribute.getRawValue() );
             }
 
-            MarmaladeTagInfo ti = getTagInfo(  );
-            List children = getChildComponents(  );
+            MarmaladeTagInfo ti = getTagInfo();
+            List children = getChildComponents();
 
-            if ( !children.isEmpty(  ) )
+            if ( !children.isEmpty() )
             {
-                for ( Iterator it = children.iterator(  ); it.hasNext(  ); )
+                for ( Iterator it = children.iterator(); it.hasNext(); )
                 {
-                    Object childElement = ( Object ) it.next(  );
+                    Object childElement = (Object) it.next();
 
                     if ( childElement instanceof MarmaladeTag )
                     {
-                        MarmaladeTag child = ( MarmaladeTag ) childElement;
+                        MarmaladeTag child = (MarmaladeTag) childElement;
 
                         child.execute( context );
                     }
                     else
                     {
-                        String text = formatWhitespace( String.valueOf( 
-                                    childElement ), context );
+                        String text = formatWhitespace( String.valueOf( childElement ), context );
 
                         serializer.text( text );
                     }
                 }
             }
 
-            serializer.endTag( ns, tagInfo.getElement(  ) );
+            serializer.endTag( ns, tagInfo.getElement() );
 
-            if ( ( oldPrefix != null ) && ( ns != null ) )
+            if ( (oldPrefix != null) && (ns != null) )
             {
                 serializer.setPrefix( oldPrefix, ns );
             }
@@ -137,7 +140,7 @@ public abstract class AbstractPassThroughTag extends AbstractMarmaladeTag
         }
     }
 
-    protected boolean alwaysProcessChildren(  )
+    protected boolean alwaysProcessChildren()
     {
         return false;
     }
@@ -152,5 +155,10 @@ public abstract class AbstractPassThroughTag extends AbstractMarmaladeTag
     {
         super.appendBodyText( text );
         childComponents.add( text );
+    }
+
+    protected boolean alwaysProcessBody()
+    {
+        return false;
     }
 }

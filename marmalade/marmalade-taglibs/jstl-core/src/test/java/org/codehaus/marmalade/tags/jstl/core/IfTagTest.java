@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
@@ -67,17 +66,13 @@ public class IfTagTest extends TestCase
 
         attrs.addAttribute( "", "", "test", "true" );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         IfTag tag = new IfTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         MarmaladeTagInfo flagTI = new MarmaladeTagInfo(  );
 
@@ -99,17 +94,13 @@ public class IfTagTest extends TestCase
 
         attrs.addAttribute( "", "", "test", "false" );
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         IfTag tag = new IfTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         MarmaladeTagInfo flagTI = new MarmaladeTagInfo(  );
 

@@ -24,19 +24,21 @@
 /* Created on May 24, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-
 /**
  * @author jdcasey
  */
-public class DefaultRawAttribute implements MetaAttribute
+public class DefaultRawAttribute
+    implements MetaAttribute
 {
     private String prefix;
+
     private String namespace;
+
     private String name;
+
     private String value;
 
-    public DefaultRawAttribute( String prefix, String namespace, String name,
-        String value )
+    public DefaultRawAttribute( String prefix, String namespace, String name, String value )
     {
         this.prefix = prefix;
         this.namespace = namespace;
@@ -44,22 +46,22 @@ public class DefaultRawAttribute implements MetaAttribute
         this.value = value;
     }
 
-    public String getName(  )
+    public String getName()
     {
         return name;
     }
 
-    public String getPrefix(  )
+    public String getPrefix()
     {
         return prefix;
     }
 
-    public String getNamespace(  )
+    public String getNamespace()
     {
         return namespace;
     }
 
-    public String getValue(  )
+    public String getValue()
     {
         return value;
     }

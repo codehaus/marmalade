@@ -33,6 +33,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 public class MarmaladeScript
 {
     private String location;
+
     private MarmaladeTag root;
 
     public MarmaladeScript( String scriptLocation, MarmaladeTag root )
@@ -41,18 +42,17 @@ public class MarmaladeScript
         this.root = root;
     }
 
-    public String getLocation(  )
+    public String getLocation()
     {
         return location;
     }
 
-    public MarmaladeTag getRoot(  )
+    public MarmaladeTag getRoot()
     {
         return root;
     }
 
-    public void execute( MarmaladeExecutionContext context )
-        throws MarmaladeExecutionException
+    public void execute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
         root.execute( context );
     }

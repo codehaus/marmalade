@@ -52,6 +52,7 @@ public class UseBeanTag extends AbstractJellyMarmaladeTag
                 String.class, context );
         Object classObj = requireTagAttribute( CLASS_ATTRIBUTE, context );
 
+        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
         Class objectClass = null;
 
         if ( classObj instanceof Class )
@@ -62,7 +63,7 @@ public class UseBeanTag extends AbstractJellyMarmaladeTag
         {
             try
             {
-                objectClass = Class.forName( String.valueOf( classObj ) );
+                objectClass = cloader.loadClass( String.valueOf( classObj ) );
             }
             catch ( ClassNotFoundException e )
             {

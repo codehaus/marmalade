@@ -35,40 +35,33 @@ import java.util.Iterator;
  */
 public interface MarmaladeAttributes
 {
-    public ExpressionEvaluator getExpressionEvaluator(  );
+    public ExpressionEvaluator getExpressionEvaluator();
 
-    public Object getValue( String name, Class type,
-        MarmaladeExecutionContext context )
+    public Object getValue( String name, Class type, MarmaladeExecutionContext context )
         throws ExpressionEvaluationException;
 
-    public Object getValue( String namespace, String name, Class type,
-        MarmaladeExecutionContext context )
+    public Object getValue( String namespace, String name, Class type, MarmaladeExecutionContext context )
         throws ExpressionEvaluationException;
 
-    public Object getValue( String name, Class type,
-        MarmaladeExecutionContext context, Object defaultVal )
+    public Object getValue( String name, Class type, MarmaladeExecutionContext context, Object defaultVal )
         throws ExpressionEvaluationException;
 
-    public Object getValue( String namespace, String name, Class type,
-        MarmaladeExecutionContext context, Object defaultVal )
-        throws ExpressionEvaluationException;
-
-    /** Assume Object.class is the type. */
-    public Object getValue( String name, MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException;
-
-    /** Assume Object.class is the type. */
-    public Object getValue( String namespace, String name,
-        MarmaladeExecutionContext context )
-        throws ExpressionEvaluationException;
-
-    /** Assume Object.class is the type. */
-    public Object getValue( String name, MarmaladeExecutionContext context,
+    public Object getValue( String namespace, String name, Class type, MarmaladeExecutionContext context,
         Object defaultVal ) throws ExpressionEvaluationException;
 
-    public Object getValue( String namespace, String name,
-        MarmaladeExecutionContext context, Object defaultVal )
+    /** Assume Object.class is the type. */
+    public Object getValue( String name, MarmaladeExecutionContext context ) throws ExpressionEvaluationException;
+
+    /** Assume Object.class is the type. */
+    public Object getValue( String namespace, String name, MarmaladeExecutionContext context )
         throws ExpressionEvaluationException;
 
-    public Iterator iterator(  );
+    /** Assume Object.class is the type. */
+    public Object getValue( String name, MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException;
+
+    public Object getValue( String namespace, String name, MarmaladeExecutionContext context, Object defaultVal )
+        throws ExpressionEvaluationException;
+
+    public Iterator iterator();
 }

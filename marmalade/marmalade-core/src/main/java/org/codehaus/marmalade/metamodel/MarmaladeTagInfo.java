@@ -24,25 +24,30 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-
 /**
  * @author jdcasey
  */
 public class MarmaladeTagInfo
 {
     private String scheme;
+
     private String taglib;
+
     private String element;
+
     private String prefix;
+
     private int sourceLine = -1;
+
     private String filename;
+
     private String sourceFile;
 
-    public MarmaladeTagInfo(  )
+    public MarmaladeTagInfo()
     {
     }
 
-    public String getElement(  )
+    public String getElement()
     {
         return element;
     }
@@ -52,7 +57,7 @@ public class MarmaladeTagInfo
         this.element = element;
     }
 
-    public String getScheme(  )
+    public String getScheme()
     {
         return scheme;
     }
@@ -62,7 +67,7 @@ public class MarmaladeTagInfo
         this.scheme = scheme;
     }
 
-    public String getTaglib(  )
+    public String getTaglib()
     {
         return taglib;
     }
@@ -72,7 +77,7 @@ public class MarmaladeTagInfo
         this.taglib = taglib;
     }
 
-    public String getPrefix(  )
+    public String getPrefix()
     {
         return prefix;
     }
@@ -82,7 +87,7 @@ public class MarmaladeTagInfo
         this.prefix = prefix;
     }
 
-    public int getSourceLine(  )
+    public int getSourceLine()
     {
         return sourceLine;
     }
@@ -97,7 +102,7 @@ public class MarmaladeTagInfo
         this.sourceFile = sourceFile;
     }
 
-    public String getSourceFile(  )
+    public String getSourceFile()
     {
         return sourceFile;
     }

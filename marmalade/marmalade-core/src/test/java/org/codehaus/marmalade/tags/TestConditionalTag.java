@@ -24,14 +24,14 @@
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade.tags;
 
-
 /**
  * @author jdcasey
  */
-public class TestConditionalTag extends AbstractConditionalTag
+public class TestConditionalTag
+    extends AbstractConditionalTag
 {
-    public TestConditionalTag(  )
+    public TestConditionalTag()
     {
-        super(  );
+        super();
     }
 }

@@ -26,13 +26,12 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
-import org.codehaus.marmalade.runtime.IllegalParentException;
+import org.codehaus.marmalade.runtime.IllegalScriptStructureException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
 
@@ -48,23 +47,20 @@ public class WhenTagTest extends TestCase
 
         attrs.addAttribute( "", "", "test", "true" );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         WhenTag tag = new WhenTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
 
         try
         {
             tag.execute( new DefaultContext(  ) );
             fail( "should fail because of missing choose parent" );
         }
-        catch ( IllegalParentException e )
+        catch ( IllegalScriptStructureException e )
         {
             // should snag on the missing choose parent
         }
@@ -73,16 +69,13 @@ public class WhenTagTest extends TestCase
     public void testShouldRequireTestAttribute(  )
         throws MarmaladeExecutionException
     {
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
         DefaultAttributes tagAttrs = new DefaultAttributes();
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         WhenTag tag = new WhenTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
 
         MarmaladeTagInfo parentTI = new MarmaladeTagInfo(  );
 
@@ -110,16 +103,13 @@ public class WhenTagTest extends TestCase
 
         attrs.addAttribute( "", "", "test", "true" );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         WhenTag tag = new WhenTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
 
         MarmaladeTagInfo parentTI = new MarmaladeTagInfo(  );
 
@@ -150,16 +140,13 @@ public class WhenTagTest extends TestCase
 
         attrs.addAttribute( "", "", "test", "false" );
         
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         WhenTag tag = new WhenTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes( tagAttrs );
-        tag.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
 
         MarmaladeTagInfo parentTI = new MarmaladeTagInfo(  );
 

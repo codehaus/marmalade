@@ -26,7 +26,6 @@ package org.codehaus.marmalade.tags.jstl.core;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -105,7 +104,7 @@ public class ImportTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "", "url", "#scriptLocation" );
+        attrs.addAttribute( "", "", "url", "${scriptLocation}" );
         attrs.addAttribute( "", "", "var", "script" );
         
         if ( parseOnlySpecified )
@@ -113,17 +112,13 @@ public class ImportTagTest extends TestCase
             attrs.addAttribute( "", "", "parse-only", Boolean.toString( parseOnly ) );
         }
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
-        
         DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
-        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
         ImportTag tag = new ImportTag(  );
         tag.setTagInfo(ti);
         tag.setAttributes(tagAttrs);
-        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -133,14 +128,14 @@ public class ImportTagTest extends TestCase
 
         if ( parseOnly )
         {
-            assertNull( ctx.getVariable( "testKey", el ) );
+            assertNull( ctx.getVariable( "testKey", null ) );
         }
         else
         {
-            assertNotNull( ctx.getVariable( "testKey", el ) );
+            assertNotNull( ctx.getVariable( "testKey", null ) );
         }
 
-        assertNotNull( ctx.getVariable( "script", el ) );
-        assertTrue( ctx.getVariable( "script", el ) instanceof MarmaladeScript );
+        assertNotNull( ctx.getVariable( "script", null ) );
+        assertTrue( ctx.getVariable( "script", null ) instanceof MarmaladeScript );
     }
 }

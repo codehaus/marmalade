@@ -24,6 +24,7 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.runtime;
 
+import org.codehaus.marmalade.el.BareBonesExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.util.ScopedMap;
@@ -46,34 +47,40 @@ import java.util.TreeMap;
 /**
  * @author John Casey
  */
-public class DefaultContext implements MarmaladeExecutionContext
+public class DefaultContext
+    implements MarmaladeExecutionContext
 {
-    private static final PrintWriter SYSOUT = new PrintWriter( new OutputStreamWriter( 
-                System.out ) );
-    private static final PrintWriter SYSERR = new PrintWriter( new OutputStreamWriter( 
-                System.err ) );
-    private static final Reader SYSIN = new BufferedReader( new InputStreamReader( 
-                System.in ) );
+    private static final PrintWriter SYSOUT = new PrintWriter( new OutputStreamWriter( System.out ) );
+
+    private static final PrintWriter SYSERR = new PrintWriter( new OutputStreamWriter( System.err ) );
+
+    private static final Reader SYSIN = new BufferedReader( new InputStreamReader( System.in ) );
+
     public static final String PRESERVE_WS_OVERRIDE_VARIABLE = "marmalade:preserve-whitespace-override";
+
     private Map context;
+
     private Map systemContext;
+
     private PrintWriter out = SYSOUT;
+
     private PrintWriter err = SYSERR;
+
     private Reader in = SYSIN;
+
     private XmlSerializer xmlSerializer;
 
-    public DefaultContext(  )
+    public DefaultContext()
     {
-        this.systemContext = Collections.unmodifiableMap( new TreeMap( 
-                    System.getProperties(  ) ) );
+        this.systemContext = Collections.unmodifiableMap( new TreeMap( System.getProperties() ) );
 
         this.context = new ScopedMap( systemContext );
     }
 
     public DefaultContext( Map context )
     {
-        this.systemContext = new HashMap(  );
-        this.systemContext.putAll( System.getProperties(  ) );
+        this.systemContext = new HashMap();
+        this.systemContext.putAll( System.getProperties() );
 
         this.systemContext = Collections.unmodifiableMap( systemContext );
 
@@ -96,14 +103,18 @@ public class DefaultContext implements MarmaladeExecutionContext
         this.in = in;
     }
 
-    public Object getVariable( Object key, ExpressionEvaluator el )
-        throws ExpressionEvaluationException
+    public Object getVariable( Object key, ExpressionEvaluator el ) throws ExpressionEvaluationException
     {
         Object result = context.get( key );
 
-        if ( ( el != null ) && ( result != null ) && ( result instanceof String ) )
+        if ( el == null )
         {
-            result = el.evaluate( ( String ) result, context, Object.class );
+            el = new BareBonesExpressionEvaluator();
+        }
+
+        if ( (result != null) && (result instanceof String) )
+        {
+            result = el.evaluate( (String) result, context, Object.class );
         }
 
         return result;
@@ -121,17 +132,17 @@ public class DefaultContext implements MarmaladeExecutionContext
         return result;
     }
 
-    public Map unmodifiableVariableMap(  )
+    public Map unmodifiableVariableMap()
     {
         return Collections.unmodifiableMap( context );
     }
 
-    public void newScope(  )
+    public void newScope()
     {
         this.context = new ScopedMap( context );
     }
 
-    public Map lastScope(  )
+    public Map lastScope()
     {
         return _lastScope( false );
     }
@@ -147,19 +158,19 @@ public class DefaultContext implements MarmaladeExecutionContext
 
         if ( context instanceof ScopedMap )
         {
-            Map parent = ( ( ScopedMap ) context ).getSuperMap(  );
-            Map local = ( ( ScopedMap ) context ).getLocalMap(  );
+            Map parent = ((ScopedMap) context).getSuperMap();
+            Map local = ((ScopedMap) context).getLocalMap();
 
-            // If parent isn't an instance of ScopedMap, 
+            // If parent isn't an instance of ScopedMap,
             // we're already at the root.
-            if ( ( parent != null ) && ( parent instanceof ScopedMap ) )
+            if ( (parent != null) && (parent instanceof ScopedMap) )
             {
                 context = parent;
                 replaced = local;
             }
         }
 
-        if ( ( replaced != null ) && export )
+        if ( (replaced != null) && export )
         {
             context.putAll( replaced );
         }
@@ -167,24 +178,24 @@ public class DefaultContext implements MarmaladeExecutionContext
         return replaced;
     }
 
-    public PrintWriter getErrWriter(  )
+    public PrintWriter getErrWriter()
     {
         return err;
     }
 
-    public PrintWriter getOutWriter(  )
+    public PrintWriter getOutWriter()
     {
         return out;
     }
 
-    public Reader getInReader(  )
+    public Reader getInReader()
     {
         return in;
     }
 
-    public Boolean preserveWhitespaceOverride(  )
+    public Boolean preserveWhitespaceOverride()
     {
-        return ( Boolean ) context.get( PRESERVE_WS_OVERRIDE_VARIABLE );
+        return (Boolean) context.get( PRESERVE_WS_OVERRIDE_VARIABLE );
     }
 
     public void preserveWhitespaceOverride( Boolean shouldOverride )
@@ -201,7 +212,7 @@ public class DefaultContext implements MarmaladeExecutionContext
 
     public void importContext( MarmaladeExecutionContext otherContext )
     {
-        Map vars = otherContext.unmodifiableVariableMap(  );
+        Map vars = otherContext.unmodifiableVariableMap();
 
         context.putAll( vars );
     }
@@ -211,15 +222,14 @@ public class DefaultContext implements MarmaladeExecutionContext
         context.putAll( vars );
     }
 
-    public XmlSerializer getXmlSerializer(  )
-        throws XmlPullParserException, IOException
+    public XmlSerializer getXmlSerializer() throws XmlPullParserException, IOException
     {
         if ( xmlSerializer == null )
         {
-            XmlPullParserFactory xpp3Factory = XmlPullParserFactory.newInstance(  );
+            XmlPullParserFactory xpp3Factory = XmlPullParserFactory.newInstance();
 
-            xmlSerializer = xpp3Factory.newSerializer(  );
-            xmlSerializer.setOutput( getOutWriter(  ) );
+            xmlSerializer = xpp3Factory.newSerializer();
+            xmlSerializer.setOutput( getOutWriter() );
         }
 
         return xmlSerializer;

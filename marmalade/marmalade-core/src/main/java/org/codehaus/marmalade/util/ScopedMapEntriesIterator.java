@@ -29,18 +29,21 @@ import java.util.Iterator;
 /**
  * @author jdcasey
  */
-public class ScopedMapEntriesIterator implements Iterator
+public class ScopedMapEntriesIterator
+    implements Iterator
 {
     private ScopedMapEntriesSet collection;
+
     private Iterator entryIterator;
+
     private Boolean extractKey;
+
     private ScopedMapEntry current;
 
-    public ScopedMapEntriesIterator( ScopedMapEntriesSet collection,
-        Boolean extractKey )
+    public ScopedMapEntriesIterator( ScopedMapEntriesSet collection, Boolean extractKey )
     {
         this.collection = collection;
-        this.entryIterator = collection.entryIterator(  );
+        this.entryIterator = collection.entryIterator();
         this.extractKey = extractKey;
     }
 
@@ -52,20 +55,19 @@ public class ScopedMapEntriesIterator implements Iterator
         }
         else if ( Boolean.TRUE == extractKey )
         {
-            return entry.getKey(  );
+            return entry.getKey();
         }
         else
         {
-            return entry.getValue(  );
+            return entry.getValue();
         }
     }
 
-    public void remove(  )
+    public void remove()
     {
         if ( current == null )
         {
-            throw new IllegalArgumentException( 
-                "You must call next() before calling remove()." );
+            throw new IllegalArgumentException( "You must call next() before calling remove()." );
         }
         else
         {
@@ -73,14 +75,14 @@ public class ScopedMapEntriesIterator implements Iterator
         }
     }
 
-    public boolean hasNext(  )
+    public boolean hasNext()
     {
-        return entryIterator.hasNext(  );
+        return entryIterator.hasNext();
     }
 
-    public Object next(  )
+    public Object next()
     {
-        current = ( ScopedMapEntry ) entryIterator.next(  );
+        current = (ScopedMapEntry) entryIterator.next();
 
         return extract( current );
     }

@@ -24,17 +24,16 @@
 /* Created on May 24, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-
 /**
  * @author jdcasey
  */
 public interface MetaAttribute
 {
-    public abstract String getName(  );
+    public abstract String getName();
 
-    public abstract String getNamespace(  );
+    public abstract String getNamespace();
 
-    public abstract String getValue(  );
+    public abstract String getValue();
 
-    public abstract String getPrefix(  );
+    public abstract String getPrefix();
 }

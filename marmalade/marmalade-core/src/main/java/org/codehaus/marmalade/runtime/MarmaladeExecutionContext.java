@@ -40,8 +40,7 @@ import java.util.Map;
  */
 public interface MarmaladeExecutionContext
 {
-    public Object getVariable( Object key, ExpressionEvaluator el )
-        throws ExpressionEvaluationException;
+    public Object getVariable( Object key, ExpressionEvaluator el ) throws ExpressionEvaluationException;
 
     public Object setVariable( Object key, Object value );
 
@@ -49,11 +48,11 @@ public interface MarmaladeExecutionContext
 
     public Object removeVariable( Object key );
 
-    public Map unmodifiableVariableMap(  );
+    public Map unmodifiableVariableMap();
 
-    public void newScope(  );
+    public void newScope();
 
-    public Map lastScope(  );
+    public Map lastScope();
 
     public Map lastScope( boolean export );
 
@@ -63,18 +62,17 @@ public interface MarmaladeExecutionContext
 
     public void setInReader( Reader in );
 
-    public PrintWriter getErrWriter(  );
+    public PrintWriter getErrWriter();
 
-    public PrintWriter getOutWriter(  );
+    public PrintWriter getOutWriter();
 
-    public Reader getInReader(  );
+    public Reader getInReader();
 
-    public Boolean preserveWhitespaceOverride(  );
+    public Boolean preserveWhitespaceOverride();
 
     public void preserveWhitespaceOverride( Boolean shouldOverride );
 
     public void importContext( MarmaladeExecutionContext context );
 
-    public XmlSerializer getXmlSerializer(  )
-        throws XmlPullParserException, IOException;
+    public XmlSerializer getXmlSerializer() throws XmlPullParserException, IOException;
 }
