@@ -34,19 +34,23 @@ public abstract class AbstractTag implements Tag {
     }
 
     public void begin(String elementName, Attributes attribute)
-        throws TagalogParseException
+        throws TagException, TagalogParseException
     {
     }
 
     public void text(char[] characters, int start, int length)
-        throws TagalogParseException
+        throws TagException, TagalogParseException
     {
     }
 
-    public void child(Object child) throws TagalogParseException {
+    public void child(Object child)
+        throws TagException, TagalogParseException
+    {
     }
 
-    public Object end(String elementName) throws TagalogParseException {
+    public Object end(String elementName)
+        throws TagException, TagalogParseException
+    {
         return null;
     }
 
@@ -60,7 +64,7 @@ public abstract class AbstractTag implements Tag {
 
     protected String requireAttribute(String attributeName,
                                       Attributes attributes)
-        throws TagalogParseException
+        throws TagException
     {
         return TagUtils.requireAttribute(attributeName, attributes);
     }
@@ -70,7 +74,7 @@ public abstract class AbstractTag implements Tag {
     }
 
     protected Tag requireAncestor(String tagName, Class tagClass)
-        throws TagalogParseException
+        throws TagException
     {
         return TagUtils.requireAncestor(getParent(), tagName, tagClass);
     }
