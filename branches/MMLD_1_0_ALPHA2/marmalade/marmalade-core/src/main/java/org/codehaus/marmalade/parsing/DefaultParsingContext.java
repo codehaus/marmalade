@@ -1,15 +1,15 @@
 /* Created on Jul 1, 2004 */
 package org.codehaus.marmalade.parsing;
 
+import java.io.Reader;
+import java.util.Collection;
+
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.util.RecordingReader;
-
-import java.io.Reader;
-import java.util.List;
 
 /**
  * @author jdcasey
@@ -49,6 +49,11 @@ public class DefaultParsingContext
 
     public MarmaladeTaglibResolver getTaglibResolver()
     {
+        if(!resolver.hasStrategies())
+        {
+            resolver.setTaglibDefinitionStrategies(MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN);
+        }
+        
         return resolver;
     }
 
@@ -57,9 +62,14 @@ public class DefaultParsingContext
         resolver.addTaglibDefinitionStrategy( strategy );
     }
 
-    public void addTaglibDefinitionStrategies( List strategies )
+    public void addTaglibDefinitionStrategies( Collection strategies )
     {
         resolver.addTaglibDefinitionStrategies( strategies );
+    }
+
+    public void setTaglibDefinitionStrategies( Collection strategies )
+    {
+        resolver.setTaglibDefinitionStrategies( strategies );
     }
 
     public RecordingReader getInput()

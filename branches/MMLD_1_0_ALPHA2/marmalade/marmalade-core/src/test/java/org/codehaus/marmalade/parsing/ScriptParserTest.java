@@ -68,7 +68,7 @@ public class ScriptParserTest
 
         MarmaladeParsingContext pCtx = new DefaultParsingContext();
 
-        pCtx.addTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
+        pCtx.setTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
 
         ScriptBuilder scriptBuilder = null;
         BufferedReader input = null;
