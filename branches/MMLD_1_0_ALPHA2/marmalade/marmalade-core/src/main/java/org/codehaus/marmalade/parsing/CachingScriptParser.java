@@ -2,6 +2,7 @@
 package org.codehaus.marmalade.parsing;
 
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
+import org.codehaus.marmalade.reader.ScriptReader;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -12,10 +13,15 @@ import java.util.WeakHashMap;
 public class CachingScriptParser
     extends ScriptParser
 {
-    private Map cache = new WeakHashMap();
-
+    private final Map cache = new WeakHashMap();
+    
     public CachingScriptParser()
     {
+    }
+    
+    public CachingScriptParser(ScriptReader scriptReader)
+    {
+        super(scriptReader);
     }
 
     public void purge( String location )

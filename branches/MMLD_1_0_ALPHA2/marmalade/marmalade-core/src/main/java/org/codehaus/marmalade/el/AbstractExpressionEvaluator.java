@@ -24,6 +24,8 @@
 /* Created on May 10, 2004 */
 package org.codehaus.marmalade.el;
 
+import org.codehaus.marmalade.util.RegexSupport;
+
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,7 +65,7 @@ public abstract class AbstractExpressionEvaluator
                 String expr = matcher.group();
                 Object exprResult = doEval( expr, context, String.class );
 
-                matcher.appendReplacement( resultBuffer, String.valueOf( exprResult ) );
+                matcher.appendReplacement( resultBuffer, RegexSupport.escapedValueOf( exprResult ) );
             }
 
             matcher.appendTail( resultBuffer );

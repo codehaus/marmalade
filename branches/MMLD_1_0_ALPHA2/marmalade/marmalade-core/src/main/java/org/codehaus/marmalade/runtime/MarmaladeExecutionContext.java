@@ -26,6 +26,7 @@ package org.codehaus.marmalade.runtime;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
@@ -40,47 +41,50 @@ import java.util.Map;
  */
 public interface MarmaladeExecutionContext
 {
-    public Object getVariable( Object key, ExpressionEvaluator el ) throws ExpressionEvaluationException;
+    Object getVariable( Object key, ExpressionEvaluator el ) throws ExpressionEvaluationException;
     
-    public Map getExternalizedVariables(ExpressionEvaluator el) throws ExpressionEvaluationException;
+    Map getExternalizedVariables(ExpressionEvaluator el) throws ExpressionEvaluationException;
     
-    public Map getExternalizedVariables();
+    Map getExternalizedVariables();
 
-    public Object setVariable( Object key, Object value );
+    Object setVariable( Object key, Object value );
 
-    public Object setVariable( Object key, Object value, boolean externalize );
+    Object setVariable( Object key, Object value, boolean externalize );
 
-    public void setVariables( Map vars );
+    void setVariables( Map vars );
 
-    public void setVariables( Map vars, boolean externalize );
+    void setVariables( Map vars, boolean externalize );
 
-    public Object removeVariable( Object key );
+    Object removeVariable( Object key );
 
-    public Map unmodifiableVariableMap();
+    Map unmodifiableVariableMap();
 
-    public void newScope();
+    void newScope();
 
-    public Map lastScope();
+    Map lastScope();
 
-    public Map lastScope( boolean export );
+    Map lastScope( boolean export );
 
-    public void setOutWriter( PrintWriter out );
+    void setOutWriter( PrintWriter out );
 
-    public void setErrWriter( PrintWriter err );
+    void setErrWriter( PrintWriter err );
 
-    public void setInReader( Reader in );
+    void setInReader( Reader in );
 
-    public PrintWriter getErrWriter();
+    PrintWriter getErrWriter();
 
-    public PrintWriter getOutWriter();
+    PrintWriter getOutWriter();
 
-    public Reader getInReader();
+    Reader getInReader();
 
-    public Boolean preserveWhitespaceOverride();
+    Boolean preserveWhitespaceOverride();
 
-    public void preserveWhitespaceOverride( Boolean shouldOverride );
+    void preserveWhitespaceOverride( Boolean shouldOverride );
 
-    public void importContext( MarmaladeExecutionContext context );
+    void importContext( MarmaladeExecutionContext context );
 
-    public XmlSerializer getXmlSerializer() throws XmlPullParserException, IOException;
+    XmlSerializer getXmlSerializer() throws XmlPullParserException, IOException;
+    
+    MarmaladeLog getLog();
+    
 }
