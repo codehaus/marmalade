@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="tagalog">
+  <title>tagalog</title>
+
+  <body>
+    <menu name="tagalog">
+      <item name="Overview"     href="/index.html"/>
+      <item name="Parsers"      href="/parsers.html"/>
+    </menu>
+  </body>
+</project>
