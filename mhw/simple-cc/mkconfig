@@ -1,5 +1,0 @@
-#!/bin/sh
-#
-# $Id$
-
-xml tr meta-config.xsl meta-config.xml | xml fo >config.xml 
