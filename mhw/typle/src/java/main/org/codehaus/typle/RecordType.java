@@ -43,11 +43,15 @@ public final class RecordType implements Type {
         return "[" + fields.signature() + "]";
     }
 
+    public String toString() {
+        return getTypeName();
+    }
+
     public Type getWrappedType() {
         return null;
     }
 
-    public String toString() {
-        return getTypeName();
+    public Type resolvePlaceHolders() {
+        return null;
     }
 }

@@ -35,4 +35,8 @@ public abstract class TypeHelper {
     public Type getWrappedType() {
         return null;
     }
+
+    public Type resolvePlaceHolders() throws TypeLookupException {
+        return null;
+    }
 }
