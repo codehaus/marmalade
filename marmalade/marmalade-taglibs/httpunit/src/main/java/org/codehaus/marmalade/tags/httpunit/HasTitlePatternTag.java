@@ -1,11 +1,10 @@
 /* Created on Apr 22, 2004 */
 package org.codehaus.marmalade.tags.httpunit;
 
-import java.io.IOException;
-
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.httpunit.structure.*;
+import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.WebResponse;
 
@@ -24,10 +23,10 @@ public class HasTitlePatternTag extends AbstractAssertionTag{
     String value = (String)requireTagAttribute(WITH_PATTERN_ATTRIBUTE, String.class, context);
     WebResponse response = getResponse(context);
     try{
-      return response.getText().matches(value);
+      return response.getTitle().matches(value);
     }
-    catch(IOException e){
-      throw new MarmaladeExecutionException("Error reading web response.", e);
+    catch(SAXException e){
+      throw new MarmaladeExecutionException("Error parsing web response.", e);
     }
   }
 
