@@ -11,5 +11,7 @@ package org.codehaus.tagalog;
  * @version $Revision$
  */
 public interface Tag {
-
+    void begin();
+    Object end();
+    boolean recycle();
 }
