@@ -13,12 +13,19 @@ import java.util.Map;
  * @version $Revision$
  */
 public final class Naming {
-    // prevent instantiation
     private Naming() {
+    	// prevent instantiation
     }
 
     private static Map namespaceFactories = new java.util.HashMap();
 
+    /**
+     * Add a {@link TypeFactory} for a namespace prefix.
+     *
+     * @param namespace Namespace prefix that should be mapped to this
+     * factory.
+     * @param factory The type factory for the namespace.
+     */
     public static void addNamespaceFactory(String namespace,
         TypeFactory factory)
     {
