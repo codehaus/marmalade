@@ -7,9 +7,7 @@ package org.codehaus.typle;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -34,13 +32,13 @@ public final class XmlStoreTypeFactory
         this.baseDir = baseDir;
     }
 
-    protected void resolveType(String name) throws TypeLookupException {
+    protected String[] loadTypes(String name) throws TypeLookupException {
         File store = findXmlStore(name);
         if (store == null)
-            return;
+            return new String[0];
 
         try {
-            parse(store);
+            return parse(store);
         } catch (SAXException e) {
             throw new TypeLookupException("parse failed", e);
         } catch (ParserConfigurationException e) {
@@ -78,7 +76,7 @@ public final class XmlStoreTypeFactory
             return typeName.substring(0, dot);
     }
 
-    private void parse(File store)
+    private String[] parse(File store)
         throws SAXException, ParserConfigurationException,
                IOException, TypeLookupException
     {
@@ -89,12 +87,7 @@ public final class XmlStoreTypeFactory
         typeBuilder = new TypeBuilder();
         xmlReader.setContentHandler(typeBuilder);
         xmlReader.parse(new InputSource(new FileInputStream(store)));
-
-        Iterator i = typeBuilder.getPlaceHolders().iterator();
-        while (i.hasNext()) {
-            TypePlaceHolder placeHolder = (TypePlaceHolder) i.next();
-            placeHolder.resolve();
-        }
+        return typeBuilder.getNewTypes();
     }
 
     private class TypeBuilder extends DefaultHandler {
@@ -107,10 +100,10 @@ public final class XmlStoreTypeFactory
 
         private SAXParserState state = new SAXParserState();
         private String namespace;
-        private LinkedList placeHolders = new LinkedList();
+        private LinkedList newTypes = new LinkedList();
 
-        public List getPlaceHolders() {
-            return placeHolders;
+        public String[] getNewTypes() {
+            return (String[]) newTypes.toArray(new String[newTypes.size()]);
         }
 
         public void startDocument() throws SAXException {
@@ -143,9 +136,7 @@ public final class XmlStoreTypeFactory
             if (state.inElement(FIELD, NAME)) {
                 state.put(NAME, state.getCharacters());
             } else if (state.inElement(FIELD, TYPE)) {
-                TypePlaceHolder t = new TypePlaceHolder(state.getCharacters());
-                placeHolders.add(t);
-                state.put(TYPE, t);
+                state.put(TYPE, new TypePlaceHolder(state.getCharacters()));
             } else if (state.inElement(FIELD)) {
                 String name = (String) state.get(NAME);
                 Type type = (Type) state.get(TYPE);
@@ -160,7 +151,9 @@ public final class XmlStoreTypeFactory
                 String name = (String) state.get(NAME);
                 BindingList fields = (BindingList) state.get(FIELD);
                 RecordType t = new RecordType(fields.toArray());
-                addType(namespace + "." + name, t);
+                name = namespace + "." + name;
+                addType(name, t);
+                newTypes.add(name);
                 state.closeScope();
             }
             state.endElement(uri, localName, qName);

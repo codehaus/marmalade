@@ -28,13 +28,14 @@ public abstract class AbstractTypeFactory {
 
     public Type lookup(String name) throws TypeLookupException {
         Object o;
-        Type t = null;
+        String[] newTypes;
 
         if (name == null)
             throw new NullPointerException("name is null");
         if ((o = typeMap.get(name)) != null)
             return (Type) o;
-        resolveType(name);
+        newTypes = loadTypes(name);
+        resolveTypes(newTypes);
         if ((o = typeMap.get(name)) != null)
             return (Type) o;
         return null;
@@ -42,14 +43,19 @@ public abstract class AbstractTypeFactory {
 
     /**
      * Instantiate the <code>Type</code> object denoted by the given
-     * type name, placing it and any other related types into the type
-     * map using the {@link #addType} method. This method will be called
-     * when a type with the given name does not exist in the type map.
+     * type name, placing it into the type map using the {@link #addType}
+     * method. This method will be called when a type with the given name
+     * does not exist in the type map.
      * When the method returns the type map must contain an entry for
      * the type if one exists. Other types can be loaded into the type
      * map at the same time.
      *
-     * @param name The name of the type to resolve.
+     * @param name The name of the type to load.
      */
-    protected abstract void resolveType(String name) throws TypeLookupException;
+    protected abstract String[] loadTypes(String name)
+        throws TypeLookupException;
+
+    private void resolveTypes(String[] types) {
+        
+    }
 }
