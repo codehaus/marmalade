@@ -53,9 +53,18 @@ public class PathSafeOgnlExpressionEvaluator
             Matcher matcher = EXPRESSION_PATTERN.matcher(expression);
             
             // if it didn't match, we wouldn't be here.
-            matcher.matches();
+            boolean expressionMatches = matcher.matches();
             
-            String expr = matcher.group(1);
+            String expr = null;
+            
+            if(expressionMatches)
+            {
+                expr = matcher.group(1);
+            }
+            else
+            {
+                expr = expression;
+            }
             
             Object result = Ognl.getValue( expr, context, (Object) null );
 

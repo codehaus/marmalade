@@ -28,6 +28,7 @@ import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.util.XMLUtils;
 
 /**
@@ -70,7 +71,7 @@ public abstract class AbstractOutputTag
 
         if (value == null)
         {
-            throw new MarmaladeExecutionException( "Message is null. Either specify the value or default "
+            throw new TagExecutionException( getTagInfo(), "Message is null. Either specify the value or default "
                 + "attribute, or provide a non-null body for this tag." );
         }
         else
