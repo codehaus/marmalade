@@ -29,6 +29,16 @@
         <xsl:for-each select="repo-dependency">
 	  <filesystem folder="/eng/cruisecontrol/.maven/repository/{.}"/>
 	</xsl:for-each>
+        <xsl:for-each select="srcdir-dependency">
+          <filesystem>
+            <xsl:attribute name="folder">
+              <xsl:text>/eng/cruisecontrol/src/</xsl:text>
+              <xsl:call-template name="srcdir">
+                <xsl:with-param name="project" select="."/>
+              </xsl:call-template>
+            </xsl:attribute>
+          </filesystem>
+        </xsl:for-each>
 	<cvs localworkingcopy="src/{$srcdir}"/>
       </modificationset>
       <schedule>
@@ -66,6 +76,19 @@
       </publishers>
       <dateformat format="dd/MM/yyyy HH:mm:ss"/>
     </project>
+</xsl:template>
+
+<xsl:template name="srcdir">
+  <xsl:param name="project">foo</xsl:param>
+  <xsl:variable name="p" select="/projects/project[@name = $project]"/>
+  <xsl:choose>
+    <xsl:when test="$p/srcdir">
+      <xsl:value-of select="$p/srcdir"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="$project"/>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>
