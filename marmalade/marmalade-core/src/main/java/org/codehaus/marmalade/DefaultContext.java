@@ -53,7 +53,9 @@ public class DefaultContext implements MarmaladeExecutionContext {
   {
     Object result = context.get(key);
     if(el != null && result != null && (result instanceof String)){
-      result = el.evaluate((String)result, context, Object.class);
+      if(el.isExpression((String)result)) {
+        result = el.evaluate((String)result, context, Object.class);
+      }
     }
     
     return result;

@@ -2,8 +2,8 @@
 
 <project>
   <extend>../../project.xml</extend>
-  <id>marmalade-tags-jstl</id>
-  <name>JSTL Tag Library</name>
+  <id>marmalade-tags-jstl-core</id>
+  <name>JSTL Core Tag Library</name>
   
   <dependencies>
     <dependency>
@@ -17,6 +17,18 @@
       <groupId>marmalade</groupId>
       <artifactId>marmalade-testing-tools</artifactId>
       <version>0.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-el-ognl</artifactId>
+      <version>0.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>ognl</groupId>
+      <artifactId>ognl</artifactId>
+      <version>2.5.1</version>
     </dependency>
     <!-- /Testing dependencies -->
   </dependencies>

@@ -1,6 +1,8 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -30,6 +32,54 @@ public abstract class AbstractLoopingTag extends AbstractMarmaladeTag {
       processChildren(context);
     }
     context.lastScope();
+  }
+  
+  protected void getItemsFromCollection(Collection items, List itemList, int begin, int end, 
+                                        int step)
+  {
+    int i=0;
+    for (Iterator it = items.iterator(); it.hasNext();) {
+      Object item = it.next();
+      
+      if(i < begin || (i > end && end > -1) || (i % step != 0)){
+        // ignore.
+      }
+      else{
+        itemList.add(new LoopStep(item, begin, end, step, i));
+      }
+      
+      i++;
+    }
+  }
+
+  protected void getItemsFromString(String items, String delims, List itemList, int begin, int end, int step) {
+    StringTokenizer st = new StringTokenizer(items, delims);
+    int i=0;
+    
+    while(st.hasMoreTokens()){
+      String item = st.nextToken().trim();
+      
+      if(i < begin || (i > end && end > -1) || (i % step != 0)){
+        // ignore.
+      }
+      else{
+        itemList.add(new LoopStep(item, begin, end, step, i));
+      }
+      
+      i++;
+    }
+  }
+  
+  protected void getItemsFromArray(Object[] itemArray, List itemList, int begin, int end, int step) {
+    for(int i = 0; i < itemArray.length; i++){
+      Object item = itemArray[i];
+      if(i < begin || (i > end && end > -1) || (i % step != 0)){
+        continue;
+      }
+      else{
+        itemList.add(new LoopStep(item, begin, end, step, i));
+      }
+    }
   }
   
   public static final class LoopStep implements LoopStatus{
@@ -68,21 +118,4 @@ public abstract class AbstractLoopingTag extends AbstractMarmaladeTag {
     }
   }
 
-  protected void getItemsFromString(String items, String delims, List itemList, int begin, int end, int step) {
-    StringTokenizer st = new StringTokenizer(items, delims);
-    int i=0;
-    
-    while(st.hasMoreTokens()){
-      String item = st.nextToken().trim();
-      
-      if(i < begin || (i > end && end > 0) || (i % step != 0)){
-        continue;
-      }
-      else{
-        itemList.add(new LoopStep(item, begin, end, step, i));
-      }
-      
-      i++;
-    }
-  }
 }
