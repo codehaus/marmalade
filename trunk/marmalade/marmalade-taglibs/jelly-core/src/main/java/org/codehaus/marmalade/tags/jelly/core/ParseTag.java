@@ -1,17 +1,25 @@
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (c) 2004 John Dennis Casey
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
  */
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
@@ -53,69 +61,78 @@ public class ParseTag extends AbstractJellyMarmaladeTag
     protected void doExecute( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
     {
-        deprecateTagAttribute(XML_READER_ATTRIBUTE, context);
-        deprecateTagAttribute(JELLY_PARSER_ATTRIBUTE, context);
-        
-        MarmaladeAttributes attributes = getAttributes();
-        
+        deprecateTagAttribute( XML_READER_ATTRIBUTE, context );
+        deprecateTagAttribute( JELLY_PARSER_ATTRIBUTE, context );
+
+        MarmaladeAttributes attributes = getAttributes(  );
+
         try
         {
             MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
             ScriptParser parser = new ScriptParser( resolver );
-            
-            String text = (String)attributes.getValue(TEXT_ATTRIBUTE, context);
-            
-            if(text == null || text.length() < 1) {
-                text = getRawBody(context);
+
+            String text = ( String ) attributes.getValue( TEXT_ATTRIBUTE,
+                    context );
+
+            if ( ( text == null ) || ( text.length(  ) < 1 ) )
+            {
+                text = getRawBody( context );
             }
-            
-            if(text == null || text.length() < 1) {
-                throw new MarmaladeExecutionException("file or text attributes, or tag body must be specified and contain a jelly/marmalade script.");
+
+            if ( ( text == null ) || ( text.length(  ) < 1 ) )
+            {
+                throw new MarmaladeExecutionException( 
+                    "file or text attributes, or tag body must be specified and contain a jelly/marmalade script." );
             }
-            else {
-                StringBuffer preparedText = new StringBuffer();
-                if(!text.startsWith("<?xml")) {
+            else
+            {
+                StringBuffer preparedText = new StringBuffer(  );
+
+                if ( !text.startsWith( "<?xml" ) )
+                {
                     // Make this into a valid XML document.
-                    preparedText.append("<?xml version=\"1.0\"?>\n");
-                    
+                    preparedText.append( "<?xml version=\"1.0\"?>\n" );
+
                     // and ensure that it only has a single document element.
-                    preparedText.append("<zzz:jelly xmlns:zzz=\"jelly:core\">\n\n")
-                                .append(text)
-                                .append("\n\n</zzz:jelly>");
+                    preparedText.append( 
+                        "<zzz:jelly xmlns:zzz=\"jelly:core\">\n\n" ).append( text )
+                                .append( "\n\n</zzz:jelly>" );
                 }
-                else {
+                else
+                {
                     // If it has an XML declaration, we assume everything is right with the world.
-                    preparedText.append(text);
+                    preparedText.append( text );
                 }
-                
-                StringReader reader = new StringReader(preparedText.toString());
-                
-                MarmaladeTagInfo ti = getTagInfo();
-                MarmaladeScript script = parser.parse(reader, "inline/internal script (file: " + ti.getSourceFile() + ", line: " + ti.getSourceLine() + ")");
-                
+
+                StringReader reader = new StringReader( preparedText.toString(  ) );
+
+                MarmaladeTagInfo ti = getTagInfo(  );
+                MarmaladeScript script = parser.parse( reader,
+                        "inline/internal script (file: " + ti.getSourceFile(  )
+                        + ", line: " + ti.getSourceLine(  ) + ")" );
+
                 String var = ( String ) attributes.getValue( VAR_ATTRIBUTE,
                         String.class, context );
-                
-                if(var == null || var.length() < 1) {
+
+                if ( ( var == null ) || ( var.length(  ) < 1 ) )
+                {
                     // if var attribute is missing, execute the script as an
                     // extension of this script.
-                    script.execute(context);
+                    script.execute( context );
                 }
-                else {
+                else
+                {
                     context.setVariable( var, script );
                 }
             }
         }
         catch ( MarmaladeParsetimeException e )
         {
-            throw new MarmaladeExecutionException( 
-                "Error parsing script", e );
+            throw new MarmaladeExecutionException( "Error parsing script", e );
         }
         catch ( MarmaladeModelBuilderException e )
         {
-            throw new MarmaladeExecutionException( 
-                "Error parsing script", e );
+            throw new MarmaladeExecutionException( "Error parsing script", e );
         }
     }
-
 }

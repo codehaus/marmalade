@@ -1,17 +1,25 @@
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (c) 2004 John Dennis Casey
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
  */
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.runtime;
@@ -41,9 +49,7 @@ public class DefaultContext implements MarmaladeExecutionContext
                 System.err ) );
     private static final Reader sysin = new BufferedReader( new InputStreamReader( 
                 System.in ) );
-    
     public static final String PRESERVE_WS_OVERRIDE_VARIABLE = "marmalade:preserve-whitespace-override";
-    
     private Map context;
     private PrintWriter out = sysout;
     private PrintWriter err = syserr;
@@ -111,12 +117,12 @@ public class DefaultContext implements MarmaladeExecutionContext
     {
         return _lastScope( false );
     }
-    
+
     public Map lastScope( boolean export )
     {
         return _lastScope( export );
     }
-    
+
     private Map _lastScope( boolean export )
     {
         Map replaced = null;
@@ -132,9 +138,10 @@ public class DefaultContext implements MarmaladeExecutionContext
                 replaced = local;
             }
         }
-        
-        if(replaced != null && export) {
-            context.putAll(replaced);
+
+        if ( ( replaced != null ) && export )
+        {
+            context.putAll( replaced );
         }
 
         return replaced;
@@ -155,21 +162,27 @@ public class DefaultContext implements MarmaladeExecutionContext
         return in;
     }
 
-    public Boolean preserveWhitespaceOverride() {
-        return (Boolean)context.get(PRESERVE_WS_OVERRIDE_VARIABLE);
+    public Boolean preserveWhitespaceOverride(  )
+    {
+        return ( Boolean ) context.get( PRESERVE_WS_OVERRIDE_VARIABLE );
     }
 
-    public void preserveWhitespaceOverride(Boolean shouldOverride) {
-        if(shouldOverride == null) {
-            context.remove(PRESERVE_WS_OVERRIDE_VARIABLE);
+    public void preserveWhitespaceOverride( Boolean shouldOverride )
+    {
+        if ( shouldOverride == null )
+        {
+            context.remove( PRESERVE_WS_OVERRIDE_VARIABLE );
         }
-        else {
-            context.put(PRESERVE_WS_OVERRIDE_VARIABLE, shouldOverride);
+        else
+        {
+            context.put( PRESERVE_WS_OVERRIDE_VARIABLE, shouldOverride );
         }
     }
 
-    public void importContext(MarmaladeExecutionContext otherContext) {
-        Map vars = otherContext.unmodifiableVariableMap();
-        context.putAll(vars);
+    public void importContext( MarmaladeExecutionContext otherContext )
+    {
+        Map vars = otherContext.unmodifiableVariableMap(  );
+
+        context.putAll( vars );
     }
 }
