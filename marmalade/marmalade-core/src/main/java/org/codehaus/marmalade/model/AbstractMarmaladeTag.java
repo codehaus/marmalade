@@ -58,12 +58,14 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     protected AbstractMarmaladeTag(  )
     {
     }
-    
-    public final void setAttributes(MarmaladeAttributes attributes) {
+
+    public final void setAttributes( MarmaladeAttributes attributes )
+    {
         this.attributes = attributes;
     }
-    
-    public final void setExpressionEvaluator(ExpressionEvaluator el) {
+
+    public final void setExpressionEvaluator( ExpressionEvaluator el )
+    {
         this.el = el;
     }
 
@@ -112,14 +114,16 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
         return true;
     }
 
-    public void appendBodyText(String text) {
-        if(bodyText == null) {
-            bodyText = new StringBuffer();
+    public void appendBodyText( String text )
+    {
+        if ( bodyText == null )
+        {
+            bodyText = new StringBuffer(  );
         }
-        
-        bodyText.append(text);
+
+        bodyText.append( text );
     }
-    
+
     // ------------------ MARMALADE TAG IMPLEMENTATION DETAILS ------------------ //
     public final void execute( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
@@ -194,9 +198,12 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     protected final String getRawBody( MarmaladeExecutionContext context )
         throws ExpressionEvaluationException
     {
-        if(bodyText == null) {return null;}
-        
-        return formatWhitespace( bodyText.toString(), context );
+        if ( bodyText == null )
+        {
+            return null;
+        }
+
+        return formatWhitespace( bodyText.toString(  ), context );
     }
 
     protected String formatWhitespace( String src,
@@ -231,9 +238,12 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
     private Object _getBody( MarmaladeExecutionContext context, Class targetType )
         throws ExpressionEvaluationException
     {
-        if(bodyText == null) {return null;}
-        
-        String expression = bodyText.toString();
+        if ( bodyText == null )
+        {
+            return null;
+        }
+
+        String expression = bodyText.toString(  );
         Object result = null;
 
         if ( ( expression != null ) && ( expression.length(  ) > 0 ) )
@@ -353,5 +363,4 @@ public abstract class AbstractMarmaladeTag implements MarmaladeTag
             return parent;
         }
     }
-
 }

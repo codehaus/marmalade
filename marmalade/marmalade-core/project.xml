@@ -16,11 +16,13 @@
   <name>Marmalade Core</name>
   
   <build>
+    <!-- 
     <unitTest>
         <excludes>
             <exclude>**/PassThroughTagTest.java</exclude>
         </excludes>
     </unitTest>
+    -->
   </build>
   
   <reports>

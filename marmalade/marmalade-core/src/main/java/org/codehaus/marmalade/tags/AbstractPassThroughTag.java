@@ -97,7 +97,8 @@ public abstract class AbstractPassThroughTag extends AbstractMarmaladeTag
                     }
                     else
                     {
-                        serializer.text(String.valueOf(childElement));
+                        String text = formatWhitespace(String.valueOf(childElement), context);
+                        serializer.text(text);
                     }
                 }
             }

@@ -57,6 +57,7 @@ public class MarmaladeTagBuilder {
     throws MarmaladeModelBuilderException
     {
         MarmaladeTag tag = tagLibrary.createTag(tagInfo);
+        tag.setTagInfo(tagInfo);
         tag.setExpressionEvaluator(expressionEvaluator);
         tag.setAttributes(new DefaultAttributes(expressionEvaluator, attributes));
         
