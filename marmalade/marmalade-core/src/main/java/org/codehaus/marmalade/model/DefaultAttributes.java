@@ -18,13 +18,13 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.model;
 
+import java.util.Map;
+
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.ModelBuilderAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
-
-import java.util.Map;
 
 /**
  * @author jdcasey

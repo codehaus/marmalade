@@ -18,19 +18,18 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.runtime;
 
-import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
+import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
 
 /**
  * @author jdcasey

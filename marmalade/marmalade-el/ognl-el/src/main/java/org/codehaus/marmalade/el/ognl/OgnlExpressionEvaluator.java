@@ -18,14 +18,14 @@
 /* Created on Mar 26, 2004 */
 package org.codehaus.marmalade.el.ognl;
 
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import ognl.Ognl;
 import ognl.OgnlException;
 
 import org.codehaus.marmalade.el.AbstractExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
-
-import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * @author jdcasey

@@ -18,11 +18,11 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-import org.codehaus.marmalade.el.ExpressionEvaluator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.codehaus.marmalade.el.ExpressionEvaluator;
 
 /**
  * @author jdcasey
