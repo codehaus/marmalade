@@ -47,6 +47,7 @@
     <module>marmalade-core</module>
     <module>marmalade-utils</module>
     <module>marmalade-el/ognl-el</module>
+    <module>marmalade-el/commons-el</module>
     <module>marmalade-compat/ant</module>
   </modules>
   <dependencies>
