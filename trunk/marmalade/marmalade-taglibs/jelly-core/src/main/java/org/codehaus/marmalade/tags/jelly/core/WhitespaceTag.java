@@ -24,19 +24,9 @@
 /* Created on May 25, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
-import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author jdcasey

@@ -24,15 +24,12 @@
 /* Created on Jun 23, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 import org.codehaus.marmalade.util.Reflector;
 import org.codehaus.marmalade.util.ReflectorException;
-
-import java.lang.reflect.Field;
 
 /**
  * @author jdcasey
@@ -74,12 +71,12 @@ public class GetStaticTag extends AbstractJellyMarmaladeTag
         }
         catch ( ClassNotFoundException e )
         {
-            throw new MarmaladeExecutionException( "Error loading class: "
+            throw new TagExecutionException( getTagInfo(), "Error loading class: "
                 + className, e );
         }
         catch ( ReflectorException e )
         {
-            throw new MarmaladeExecutionException( "error accessing field: "
+            throw new TagExecutionException( getTagInfo(), "error accessing field: "
                 + fieldName + " in class: " + className );
         }
     }

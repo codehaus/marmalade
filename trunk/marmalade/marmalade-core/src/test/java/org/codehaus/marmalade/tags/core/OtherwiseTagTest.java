@@ -24,12 +24,12 @@
 /* Created on Apr 13, 2004 */
 package org.codehaus.marmalade.tags.core;
 
-import junit.framework.TestCase;
-
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.IllegalScriptStructureException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey

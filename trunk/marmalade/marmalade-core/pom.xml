@@ -4,19 +4,11 @@
   <parent>
     <groupId>marmalade</groupId>
     <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha2</version>
+    <version>1.0-alpha3-SNAPSHOT</version>
   </parent>
   <artifactId>marmalade-core</artifactId>
+  <version>1.0-alpha3-SNAPSHOT</version>
 
   <name>Marmalade Core</name>
-  
-  <build>
-    <unitTest>
-      <excludes>
-        <exclude>**/*Abstract*.java</exclude>
-        <exclude>**/*AspectTest.java</exclude>
-      </excludes>
-    </unitTest>
-  </build>
   
 </project>

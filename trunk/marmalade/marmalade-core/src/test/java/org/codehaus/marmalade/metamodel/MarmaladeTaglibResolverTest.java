@@ -24,14 +24,10 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-import junit.framework.TestCase;
-
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
-import org.codehaus.marmalade.metamodel.AbstractMarmaladeTagLibrary;
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
-import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.model.MarmaladeTag;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey
@@ -39,7 +35,7 @@ import org.codehaus.marmalade.model.MarmaladeTag;
 public class MarmaladeTaglibResolverTest
     extends TestCase
 {
-    public void testShouldSucceedWithSingleSuccessfulResolver()
+    public void testShouldSucceedWithSingleSuccessfulResolver() throws TaglibResolutionException
     {
         SuccessfulStrategy strategy = new SuccessfulStrategy();
         MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver();
@@ -51,7 +47,7 @@ public class MarmaladeTaglibResolverTest
         assertNotNull( taglib );
     }
 
-    public void testShouldSucceedWithDoubleResolverAndSuccessAtEnd()
+    public void testShouldSucceedWithDoubleResolverAndSuccessAtEnd() throws TaglibResolutionException
     {
         UnsuccessfulStrategy strategy = new UnsuccessfulStrategy();
         SuccessfulStrategy strategy2 = new SuccessfulStrategy();
@@ -65,7 +61,7 @@ public class MarmaladeTaglibResolverTest
         assertNotNull( taglib );
     }
 
-    public void testShouldSucceedWithDoubleResolverAndSuccessAtBeginning()
+    public void testShouldSucceedWithDoubleResolverAndSuccessAtBeginning() throws TaglibResolutionException
     {
         UnsuccessfulStrategy strategy2 = new UnsuccessfulStrategy();
         SuccessfulStrategy strategy = new SuccessfulStrategy();
@@ -86,9 +82,14 @@ public class MarmaladeTaglibResolverTest
 
         resolver.addTaglibDefinitionStrategy( strategy );
 
-        MarmaladeTagLibrary taglib = resolver.resolve( "marmalade", "test" );
-
-        assertNull( taglib );
+        try
+        {
+            MarmaladeTagLibrary taglib = resolver.resolve( "marmalade", "test" );
+            fail("Should have failed with missing taglib.");
+        }
+        catch ( TaglibResolutionException e )
+        {
+        }
     }
 
     public void testShouldFailWithDoubleUnsuccessfulResolver()
@@ -100,9 +101,14 @@ public class MarmaladeTaglibResolverTest
         resolver.addTaglibDefinitionStrategy( strategy );
         resolver.addTaglibDefinitionStrategy( strategy2 );
 
-        MarmaladeTagLibrary taglib = resolver.resolve( "marmalade", "test" );
-
-        assertNull( taglib );
+        try
+        {
+            MarmaladeTagLibrary taglib = resolver.resolve( "marmalade", "test" );
+            fail("Should have failed with missing taglib.");
+        }
+        catch ( TaglibResolutionException e )
+        {
+        }
     }
 
     public static class Taglib

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>1.0-alpha3-SNAPSHOT</version>
+  </parent>
+  <artifactId>marmalade-tags-inertDoco</artifactId>
+  <version>1.0</version>
+
+  <name>Inert Documentation Tag Library</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-core</artifactId>
+    </dependency>
+  </dependencies>
+</project>

@@ -32,7 +32,9 @@ import org.codehaus.marmalade.runtime.IllegalScriptStructureException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -62,6 +64,8 @@ public abstract class AbstractMarmaladeTag
 
     private boolean bodyProcessed;
 
+    private boolean preserveBodyWhitespace = false;
+
     protected AbstractMarmaladeTag()
     {
     }
@@ -74,6 +78,10 @@ public abstract class AbstractMarmaladeTag
     public final void setExpressionEvaluator( ExpressionEvaluator el )
     {
         this.el = el;
+        if ( attributes != null )
+        {
+            attributes.setExpressionEvaluator( el );
+        }
     }
 
     public final void setTagInfo( MarmaladeTagInfo tagInfo )
@@ -261,7 +269,7 @@ public abstract class AbstractMarmaladeTag
         Boolean preserveWSOverride = context.preserveWhitespaceOverride();
         boolean presWSOver = (preserveWSOverride != null) ? (preserveWSOverride.booleanValue()) : (false);
 
-        if ( !presWSOver && !preserveBodyWhitespace( context ) )
+        if ( !presWSOver && !(preserveBodyWhitespace || preserveBodyWhitespace( context )) )
         {
             formatted = formatted.replaceAll( "\\s+", " " ).trim();
         }
@@ -269,12 +277,20 @@ public abstract class AbstractMarmaladeTag
         return formatted;
     }
 
+    public void setPreserveBodyWhitespace( boolean preserve )
+    {
+        this.preserveBodyWhitespace = preserve;
+    }
+
     protected boolean preserveBodyWhitespace( MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
         // decide from "native attribute" whether to preserve body whitespace.
         MarmaladeAttributes attributes = getAttributes();
         Boolean preserveWS = (Boolean) attributes.getValue( MarmaladeControlDefinitions.MARMALADE_RESERVED_NS,
-            MarmaladeControlDefinitions.PRESERVE_BODY_WHITESPACE_ATTRIBUTE, Boolean.class, context, Boolean.TRUE );
+                                                            MarmaladeControlDefinitions.PRESERVE_BODY_WHITESPACE_ATTRIBUTE,
+                                                            Boolean.class,
+                                                            context,
+                                                            Boolean.TRUE );
 
         return preserveWS.booleanValue();
     }
@@ -306,6 +322,36 @@ public abstract class AbstractMarmaladeTag
         return result;
     }
 
+    protected File getTagAttributeAsFile( String name, MarmaladeExecutionContext context, boolean requireExists )
+        throws ExpressionEvaluationException, TagExecutionException
+    {
+        String path = (String) getAttributes().getValue( name, String.class, context );
+        path = path.replaceAll( "[\\/]{2}", "/" );
+
+        File file = new File( path );
+        if ( requireExists && !file.exists() )
+        {
+            throw new TagExecutionException( getTagInfo(), "Specified path is required to exist but does not." );
+        }
+
+        return file;
+    }
+
+    protected File requireTagAttributeAsFile( String name, MarmaladeExecutionContext context, boolean requireExists )
+        throws MissingAttributeException, ExpressionEvaluationException, TagExecutionException
+    {
+        String path = (String) ScriptStructureSupport.requireTagAttribute( this, name, String.class, context );
+        path = path.replaceAll( "[\\/]{2}", "/" );
+
+        File file = new File( path );
+        if ( requireExists && !file.exists() )
+        {
+            throw new TagExecutionException( getTagInfo(), "Specified path is required to exist but does not." );
+        }
+
+        return file;
+    }
+
     protected Object requireTagAttribute( String name, Class type, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
@@ -321,16 +367,21 @@ public abstract class AbstractMarmaladeTag
     protected void deprecateTagAttribute( String name, MarmaladeExecutionContext context )
         throws MissingAttributeException, ExpressionEvaluationException
     {
-        ScriptStructureSupport.deprecateTagAttribute(this, name, context);
+        ScriptStructureSupport.deprecateTagAttribute( this, name, context );
     }
 
     protected MarmaladeTag requireParent( Class cls ) throws IllegalScriptStructureException
     {
-        return ScriptStructureSupport.requireParent(this, cls);
+        return ScriptStructureSupport.requireParent( this, cls );
+    }
+    
+    protected MarmaladeTag getAncestor( Class cls )
+    {
+        return ScriptStructureSupport.getAncestor( this, cls );
     }
 
     protected MarmaladeTag requireAncestor( Class cls ) throws IllegalScriptStructureException
     {
-        return ScriptStructureSupport.requireAncestor(this, cls);
+        return ScriptStructureSupport.requireAncestor( this, cls );
     }
 }

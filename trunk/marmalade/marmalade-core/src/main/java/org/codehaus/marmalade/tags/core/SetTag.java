@@ -39,6 +39,8 @@ public class SetTag
     public static final String VAR_ATTRIBUTE = "var";
 
     public static final String VALUE_ATTRIBUTE = "value";
+    
+    public static final String EXTERNALIZE_ATTRIBUTE = "extern";
 
     public static final String PROPERTY_ATTRIBUTE = "property";
 
@@ -63,7 +65,15 @@ public class SetTag
 
         if ( (var != null) && (var.length() > 0) )
         {
-            context.setVariable( var, value );
+            Boolean extern = (Boolean)attributes.getValue(EXTERNALIZE_ATTRIBUTE, Boolean.class, context);
+            if(Boolean.TRUE == extern)
+            {
+                context.setVariable( var, value, true );
+            }
+            else
+            {
+                context.setVariable( var, value );
+            }
         }
         else
         {

@@ -45,7 +45,7 @@ public class PrefixedTldResolutionStrategy
 
     public MarmaladeTagLibrary resolve( String prefix, String taglib )
     {
-        ClassLoader cloader = getClass().getClassLoader();
+        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
         MarmaladeTagLibrary tlib = null;
 
         InputStream tldStream = null;

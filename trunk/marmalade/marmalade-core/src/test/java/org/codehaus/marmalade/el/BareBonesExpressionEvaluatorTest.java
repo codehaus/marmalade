@@ -1,14 +1,13 @@
 /* Created on Aug 21, 2004 */
 package org.codehaus.marmalade.el;
 
-import junit.framework.TestCase;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey
@@ -16,6 +15,18 @@ import java.util.TreeMap;
 public class BareBonesExpressionEvaluatorTest
     extends TestCase
 {
+    
+    public void testShouldPropagateWin32PathsCorrectly() throws Exception
+    {
+        BareBonesExpressionEvaluator el = new BareBonesExpressionEvaluator();
+        
+        Map context = Collections.singletonMap("key", "c:\\path\\to\\dir\\");
+        
+        Object result = el.evaluate("${key}/log.txt", context, String.class);
+        
+        assertEquals("Win32 path-separator is not preserved properly.", "c:\\path\\to\\dir\\/log.txt", result);
+    }
+    
     public void testShouldEvalLiteralExpressionToBooleanTrueWhenExpectedTypeIsBoolean()
         throws ExpressionEvaluationException
     {

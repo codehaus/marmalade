@@ -40,7 +40,7 @@ public class LiteralResolutionStrategy
 
     public MarmaladeTagLibrary resolve( String prefix, String taglib )
     {
-        ClassLoader cloader = getClass().getClassLoader();
+        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
         MarmaladeTagLibrary tlib = null;
 
         // We need to be more proactive in determining whether the class exists

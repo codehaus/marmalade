@@ -24,10 +24,9 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 /**
@@ -64,7 +63,7 @@ public class CatchTag extends AbstractJellyMarmaladeTag
                 }
                 else
                 {
-                    throw new MarmaladeExecutionException( "Uncaught execution-phase exception.",
+                    throw new TagExecutionException( getTagInfo(), "Uncaught execution-phase exception.",
                         e );
                 }
             }
