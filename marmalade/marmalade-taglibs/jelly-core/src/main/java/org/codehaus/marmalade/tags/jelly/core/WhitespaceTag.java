@@ -58,67 +58,7 @@ public class WhitespaceTag extends AbstractJellyMarmaladeTag
 
         context.preserveWhitespaceOverride( Boolean.TRUE );
 
-        StringWriter sWriter = new StringWriter(  );
-        PrintWriter out = new PrintWriter( sWriter );
-        MarmaladeTagInfo tagInfo = getTagInfo(  );
-
-        out.print( "<" + tagInfo.getElement(  ) );
-        out.print( " xmlns=\"" + tagInfo.getScheme(  ) + ":"
-            + tagInfo.getTaglib(  ) + "\"" );
-
-        ModelBuilderAttributes attributes = tagInfo.getAttributes(  );
-
-        for ( Iterator it = attributes.iterator(  ); it.hasNext(  ); )
-        {
-            ModelBuilderAttribute attribute = ( ModelBuilderAttribute ) it.next(  );
-
-            out.print( " " );
-
-            String ns = attribute.getNamespace(  );
-
-            if ( ( ns != null ) && ( ns.length(  ) > 0 ) )
-            {
-                out.print( ns + ":" );
-            }
-
-            out.print( attribute.getName(  ) );
-            out.print( "=\"" + attribute.getValue(  ) + "\"" );
-        }
-
-        MarmaladeTagInfo ti = getTagInfo(  );
-        List children = ti.getChildComponents(  );
-
-        if ( children.isEmpty(  ) )
-        {
-            out.println( "/>" );
-        }
-        else
-        {
-            Map childTagMap = getChildMap(  );
-
-            out.print( ">" );
-
-            for ( Iterator it = children.iterator(  ); it.hasNext(  ); )
-            {
-                Object childElement = ( Object ) it.next(  );
-
-                if ( childElement instanceof MarmaladeTagInfo )
-                {
-                    MarmaladeTag child = ( MarmaladeTag ) childTagMap.get( childElement );
-
-                    child.execute( context );
-                }
-                else
-                {
-                    out.print( childElement );
-                }
-            }
-
-            out.println( "</" + tagInfo.getElement(  ) + ">\n" );
-        }
-
-        context.getOutWriter(  ).print( formatWhitespace( 
-                sWriter.getBuffer(  ).toString(  ), context ) );
+        processChildren(context);
 
         // replace the whitespace preservation override in context.
         context.preserveWhitespaceOverride( oldPreserveWSOverride );

@@ -9,5 +9,11 @@ These are just some notes to improve Marmalade.
       which is separate from the actual layering involved 
       (eg. a named scope of "parent" might always mean this-1 scope).
 
+[jdcasey 6/27/2004]:
+* Fix PassThroughTag.
+    - namespace prefixes are not preserved, and for attributes are 
+      completely mishandled.
+      
+    - I'm disabling the PT stuff in the resolver strategies for now.
 
 

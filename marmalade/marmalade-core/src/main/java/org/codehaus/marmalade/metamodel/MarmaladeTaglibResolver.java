@@ -40,8 +40,14 @@ public class MarmaladeTaglibResolver
         {
             new LiteralClassDefinitionStrategy(  ),
             new PrefixedTldDefinitionStrategy(  ),
-            new PrefixedDefFileDefinitionStrategy(  ),
-            new PassThroughTaglibDefinitionStrategy(  )
+            new PrefixedDefFileDefinitionStrategy(  )
+            /* JDC 6/27/2004:
+             * 
+             * Disabled until PT can be fixed...this may require help from 
+             * MHW/taglog.
+             * 
+             * ,new PassThroughTaglibDefinitionStrategy(  )
+             */
         };
     private TaglibDefinitionStrategy[] strategies;
 
