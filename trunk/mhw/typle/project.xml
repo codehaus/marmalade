@@ -50,6 +50,9 @@
       <includes>
         <include>**/*Test.java</include>
       </includes>
+      <excludes>
+        <exclude>**/AbstractTypleTest.java</exclude>
+      </excludes>
 
       <resources>
         <resource>
