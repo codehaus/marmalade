@@ -1,8 +1,15 @@
 <?xml version="1.0"?>
 
-<cruisecontrol xsl:version="1.0"
-               xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:for-each select="/projects/project">
+<xsl:stylesheet version="1.0"
+      xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+<xsl:template match="projects">
+  <cruisecontrol>
+    <xsl:apply-templates/>
+  </cruisecontrol>
+</xsl:template>
+
+<xsl:template match="project">
     <xsl:variable name="srcdir">
       <xsl:choose>
         <xsl:when test="srcdir">
@@ -59,5 +66,6 @@
       </publishers>
       <dateformat format="dd/MM/yyyy HH:mm:ss"/>
     </project>
-  </xsl:for-each>
-</cruisecontrol>
+</xsl:template>
+
+</xsl:stylesheet>
