@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import org.codehaus.tagalog.AbstractParser;
+import org.codehaus.tagalog.Location;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 
@@ -66,8 +67,8 @@ final class TagalogSAXParser extends AbstractParser {
         }
     }
 
-    protected int getErrorLineNumber() {
-        return contentHandler.getErrorLineNumber();
+    public Location getLocation() {
+        return contentHandler.getLocation();
     }
 
     //
@@ -78,8 +79,10 @@ final class TagalogSAXParser extends AbstractParser {
 
         private Locator locator;
 
-        public int getErrorLineNumber() {
-            return locator.getLineNumber();
+        public Location getLocation() {
+            return new Location(locator.getSystemId(),
+                                locator.getLineNumber(),
+                                locator.getColumnNumber());
         }
 
         public void setDocumentLocator(Locator locator) {

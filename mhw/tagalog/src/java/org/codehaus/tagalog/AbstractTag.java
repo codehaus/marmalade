@@ -13,9 +13,19 @@ import java.util.Map;
  * @version $Revision$
  */
 public abstract class AbstractTag implements Tag {
+    private TagalogParser parser;
+
     private Map context;
 
     private Tag parent;
+
+    public void setParser(TagalogParser parser) {
+        this.parser = parser;
+    }
+
+    public TagalogParser getParser() {
+        return parser;
+    }
 
     public void setContext(Map context) {
         this.context = context;
@@ -61,6 +71,10 @@ public abstract class AbstractTag implements Tag {
     //
     // Convenience methods to make tag implementation easier.
     //
+
+    protected Location getLocation() {
+        return parser.getLocation();
+    }
 
     protected String requireAttribute(String attributeName,
                                       Attributes attributes)
