@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /* Created on May 25, 2004 */
-package org.codehaus.marmalade.tags.passthrough;
+package org.codehaus.marmalade.tags.jelly.core;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.ModelBuilderAttribute;
@@ -34,9 +34,9 @@ import java.util.Map;
 /**
  * @author jdcasey
  */
-public class PassThroughTag extends AbstractMarmaladeTag
+public class WhitespaceTag extends AbstractMarmaladeTag
 {
-    public PassThroughTag( MarmaladeTagInfo tagInfo )
+    public WhitespaceTag( MarmaladeTagInfo tagInfo )
     {
         super( tagInfo );
     }
@@ -44,6 +44,10 @@ public class PassThroughTag extends AbstractMarmaladeTag
     protected void doExecute( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
     {
+        // save and override the whitespace preservation policy in context.
+        Boolean oldPreserveWSOverride = context.preserveWhitespaceOverride();
+        context.preserveWhitespaceOverride(Boolean.TRUE);
+        
         StringWriter sWriter = new StringWriter(  );
         PrintWriter out = new PrintWriter( sWriter );
         MarmaladeTagInfo tagInfo = getTagInfo(  );
@@ -99,6 +103,9 @@ public class PassThroughTag extends AbstractMarmaladeTag
         }
         
         context.getOutWriter().print(formatWhitespace(sWriter.getBuffer().toString(), context));
+        
+        // replace the whitespace preservation override in context.
+        context.preserveWhitespaceOverride(oldPreserveWSOverride);
     }
 
     protected boolean alwaysProcessChildren() {

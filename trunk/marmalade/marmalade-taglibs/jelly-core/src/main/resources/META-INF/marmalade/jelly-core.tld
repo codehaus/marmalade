@@ -56,6 +56,10 @@
     <tagclass>org.codehaus.marmalade.tags.jelly.core.ImportTag</tagclass>
   </tag>
   <tag>
+    <name>include</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.IncludeTag</tagclass>
+  </tag>
+  <tag>
     <name>invoke</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.InvokeTag</tagclass>
   </tag>
@@ -118,5 +122,9 @@
   <tag>
     <name>while</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.WhileTag</tagclass>
+  </tag>
+  <tag>
+    <name>whitespace</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.WhitespaceTag</tagclass>
   </tag>
 </taglib>

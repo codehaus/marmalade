@@ -1,35 +1,3 @@
-
-/*
- * Copyright 2001-2004 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/*
- * Copyright 2001-2004 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -73,6 +41,9 @@ public class DefaultContext implements MarmaladeExecutionContext
                 System.err ) );
     private static final Reader sysin = new BufferedReader( new InputStreamReader( 
                 System.in ) );
+    
+    public static final String PRESERVE_WS_OVERRIDE_VARIABLE = "marmalade:preserve-whitespace-override";
+    
     private Map context;
     private PrintWriter out = sysout;
     private PrintWriter err = syserr;
@@ -138,6 +109,16 @@ public class DefaultContext implements MarmaladeExecutionContext
 
     public Map lastScope(  )
     {
+        return _lastScope( false );
+    }
+    
+    public Map lastScope( boolean export )
+    {
+        return _lastScope( export );
+    }
+    
+    private Map _lastScope( boolean export )
+    {
         Map replaced = null;
 
         if ( context instanceof ScopedMap )
@@ -150,6 +131,10 @@ public class DefaultContext implements MarmaladeExecutionContext
                 context = parent;
                 replaced = local;
             }
+        }
+        
+        if(replaced != null && export) {
+            context.putAll(replaced);
         }
 
         return replaced;
@@ -168,5 +153,23 @@ public class DefaultContext implements MarmaladeExecutionContext
     public Reader getInReader(  )
     {
         return in;
+    }
+
+    public Boolean preserveWhitespaceOverride() {
+        return (Boolean)context.get(PRESERVE_WS_OVERRIDE_VARIABLE);
+    }
+
+    public void preserveWhitespaceOverride(Boolean shouldOverride) {
+        if(shouldOverride == null) {
+            context.remove(PRESERVE_WS_OVERRIDE_VARIABLE);
+        }
+        else {
+            context.put(PRESERVE_WS_OVERRIDE_VARIABLE, shouldOverride);
+        }
+    }
+
+    public void importContext(MarmaladeExecutionContext otherContext) {
+        Map vars = otherContext.unmodifiableVariableMap();
+        context.putAll(vars);
     }
 }
