@@ -7,12 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import org.codehaus.marmalade.el.BareBonesExpressionEvaluator;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-
-import junit.framework.TestCase;
 
 /**
  * @author jdcasey

@@ -47,7 +47,7 @@ public class LateBindingTagLibraryResolver
 
         if ( tlib == null )
         {
-            throw new LateBoundLibraryNotFoundException( key );
+            throw new LateBoundLibraryNotFoundException( tagInfo );
         }
 
         MarmaladeTag result = null;
@@ -59,7 +59,7 @@ public class LateBindingTagLibraryResolver
 
         if ( result == null )
         {
-            throw new LateBoundTagNotFoundException( key, tagInfo.getElement() );
+            throw new LateBoundTagNotFoundException( tagInfo );
         }
 
         return result;

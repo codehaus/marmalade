@@ -14,14 +14,6 @@
     <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
-        <version>1.0.3</version>
     </dependency>
   </dependencies>
-
-  <preGoals>
-    <preGoal>
-      <name>compiler:compile</name>
-      <attain>clean:clean</attain> 
-    </preGoal>
-  </preGoals>
 </project>

@@ -1,6 +1,7 @@
 /* Created on Aug 20, 2004 */
 package org.codehaus.marmalade.lb;
 
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.TagInstantiationException;
 
 /**
@@ -9,22 +10,14 @@ import org.codehaus.marmalade.metamodel.TagInstantiationException;
 public class LateBoundLibraryNotFoundException
     extends TagInstantiationException
 {
-    private final String taglib;
-
-    public LateBoundLibraryNotFoundException( String taglib )
+    public LateBoundLibraryNotFoundException( MarmaladeTagInfo tagInfo )
     {
-        super( "late-bound library was not found" );
-        this.taglib = taglib;
+        super( tagInfo, "late-bound library was not found" );
     }
 
-    public LateBoundLibraryNotFoundException( String taglib, Throwable cause )
+    public LateBoundLibraryNotFoundException( MarmaladeTagInfo tagInfo, Throwable cause )
     {
-        super( "late-bound library was not found", cause );
-        this.taglib = taglib;
+        super( tagInfo, "late-bound library was not found", cause );
     }
 
-    public String getLibrary()
-    {
-        return taglib;
-    }
 }

@@ -1,7 +1,6 @@
 /* Created on Aug 24, 2004 */
 package org.codehaus.marmalade.lb.model.beans;
 
-import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 
 /**
  * @author jdcasey

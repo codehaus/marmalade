@@ -3,6 +3,7 @@ package org.codehaus.marmalade.lb.model;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.TagInstantiationException;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.util.Reflector;
@@ -31,8 +32,11 @@ public class LooseMarmaladeTagFactory
 
     private final ExpressionEvaluator el;
 
-    public LooseMarmaladeTagFactory( Class tagClass, List constructorArgs, Map properties, ExpressionEvaluator el )
+    private final MarmaladeTagInfo tagInfo;
+
+    public LooseMarmaladeTagFactory( MarmaladeTagInfo tagInfo, Class tagClass, List constructorArgs, Map properties, ExpressionEvaluator el )
     {
+        this.tagInfo = tagInfo;
         this.tagClass = tagClass;
         this.constructorArgs = constructorArgs;
         this.properties = properties;
@@ -58,13 +62,13 @@ public class LooseMarmaladeTagFactory
             try
             {
                 if(el == null) {
-                    throw new TagInstantiationException("cannot assign properties when expression evaluator is null");
+                    throw new TagInstantiationException(tag.getTagInfo(), "cannot assign properties when expression evaluator is null");
                 }
                 el.assign( tag, property, value );
             }
             catch ( ExpressionEvaluationException e )
             {
-                throw new LateBoundTagPropertyException( tagClass, property, value, e );
+                throw new LateBoundTagPropertyException( tagInfo, tagClass, property, value, e );
             }
         }
     }
@@ -92,23 +96,23 @@ public class LooseMarmaladeTagFactory
         }
         catch ( ReflectorException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( IllegalArgumentException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( InstantiationException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( InvocationTargetException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
 
         return tag;

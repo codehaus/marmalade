@@ -8,8 +8,6 @@ import org.codehaus.marmalade.model.MarmaladeTag;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
-import junit.framework.TestCase;
-
 /**
  * @author jdcasey
  */
