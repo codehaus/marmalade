@@ -34,18 +34,22 @@ public abstract class AbstractTypeFactory {
             throw new NullPointerException("name is null");
         if ((o = typeMap.get(name)) != null)
             return (Type) o;
-        t = resolveType(name);
-        if (t != null)
-            addType(name, t);
-        return t;
+        resolveType(name);
+        if ((o = typeMap.get(name)) != null)
+            return (Type) o;
+        return null;
     }
 
     /**
      * Instantiate the <code>Type</code> object denoted by the given
-     * type name.
+     * type name, placing it and any other related types into the type
+     * map using the {@link #addType} method. This method will be called
+     * when a type with the given name does not exist in the type map.
+     * When the method returns the type map must contain an entry for
+     * the type if one exists. Other types can be loaded into the type
+     * map at the same time.
      *
      * @param name The name of the type to resolve.
-     * @return Instantiated <code>Type</code>.
      */
-    protected abstract Type resolveType(String name) throws TypeLookupException;
+    protected abstract void resolveType(String name) throws TypeLookupException;
 }
