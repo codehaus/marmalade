@@ -11,5 +11,13 @@
       <artifactId>marmalade-core</artifactId>
       <version>0.1</version>
     </dependency>
+    
+    <!-- Testing dependencies -->
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-testing-tools</artifactId>
+      <version>0.1</version>
+    </dependency>
+    <!-- /Testing dependencies -->
   </dependencies>
 </project>
