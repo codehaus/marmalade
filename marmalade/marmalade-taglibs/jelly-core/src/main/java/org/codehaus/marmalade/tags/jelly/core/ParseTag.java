@@ -65,7 +65,7 @@ public class ParseTag extends AbstractMarmaladeTag
             String text = (String)attributes.getValue(TEXT_ATTRIBUTE, context);
             
             if(text == null || text.length() < 1) {
-                text = (String)getBody(context);
+                text = getRawBody(context);
             }
             
             if(text == null || text.length() < 1) {

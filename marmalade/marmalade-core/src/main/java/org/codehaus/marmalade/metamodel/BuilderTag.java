@@ -109,9 +109,10 @@ public class BuilderTag extends AbstractTag implements MarmaladeTagBuilder
             String value = attributes.getValue( i );
 
             attrs.addAttribute( new DefaultRawAttribute( ns, name, value ) );
-
+            
             // potentially replace with controller config from reserved ns.
-            if ( MarmaladeTagBuilder.EXPRESSION_EVALUATOR_ATTRIBUTE.equals( name ) )
+            if ( MarmaladeTagBuilder.MARMALADE_RESERVED_NS.equals(ns) &&
+                 MarmaladeTagBuilder.EXPRESSION_EVALUATOR_ATTRIBUTE.equals( name ) )
             {
                 ExpressionEvaluator el = null;
 
