@@ -27,6 +27,11 @@ public class Function implements Type {
         this.formalParameters = formalParameters;
     }
 
+    public Function addFormalParameter(String name, Type type) {
+        return new Function(returnType,
+                            formalParameters.add(new Binding(name, type)));
+    }
+
     public Type getReturnType() {
         return returnType;
     }
@@ -43,9 +48,5 @@ public class Function implements Type {
     public String getSignature() {
         return "(" + formalParameters.signature() + "): "
                + returnType.getSignature();
-    }
-
-    public Function addFormalParameter(Binding parameter) {
-        return new Function(returnType, formalParameters.add(parameter));
     }
 }
