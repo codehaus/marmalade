@@ -46,17 +46,18 @@ import org.xmlpull.v1.XmlSerializer;
  */
 public class DefaultContext implements MarmaladeExecutionContext
 {
-    private static final PrintWriter sysout = new PrintWriter( new OutputStreamWriter( 
+    private static final PrintWriter SYSOUT = new PrintWriter( new OutputStreamWriter( 
                 System.out ) );
-    private static final PrintWriter syserr = new PrintWriter( new OutputStreamWriter( 
+    private static final PrintWriter SYSERR = new PrintWriter( new OutputStreamWriter( 
                 System.err ) );
-    private static final Reader sysin = new BufferedReader( new InputStreamReader( 
+    private static final Reader SYSIN = new BufferedReader( new InputStreamReader( 
                 System.in ) );
+    
     public static final String PRESERVE_WS_OVERRIDE_VARIABLE = "marmalade:preserve-whitespace-override";
     private Map context;
-    private PrintWriter out = sysout;
-    private PrintWriter err = syserr;
-    private Reader in = sysin;
+    private PrintWriter out = SYSOUT;
+    private PrintWriter err = SYSERR;
+    private Reader in = SYSIN;
     private XmlSerializer xmlSerializer;
 
     public DefaultContext(  )

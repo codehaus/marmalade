@@ -1,6 +1,7 @@
 /* Created on Jun 28, 2004 */
 package org.codehaus.marmalade.compat.jelly.metamodel.strategy;
 
+import org.codehaus.marmalade.compat.jelly.JellyCompatConstants;
 import org.codehaus.marmalade.compat.jelly.model.JellyCompatMarmaladeTaglib;
 import org.codehaus.marmalade.metamodel.strategy.TaglibDefinitionStrategy;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
@@ -11,7 +12,6 @@ import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 public class JellyCompatTaglibDefinitionStrategy
     implements TaglibDefinitionStrategy
 {
-    public static final String JELLY_TAGLIB_PREFIX = "jelly";
     private JellyCompatMarmaladeTaglib marmaladeTaglib;
 
     public JellyCompatTaglibDefinitionStrategy(  )
@@ -28,7 +28,7 @@ public class JellyCompatTaglibDefinitionStrategy
         // If you want to use marmalade-native jelly taglibs, use the 
         // new "marmalade:jelly-core" uri format
         //
-        if ( JELLY_TAGLIB_PREFIX.equals( prefix ) )
+        if ( JellyCompatConstants.JELLY_TAGLIB_PREFIX.equals( prefix ) )
         {
             tlib = marmaladeTaglib;
         }
