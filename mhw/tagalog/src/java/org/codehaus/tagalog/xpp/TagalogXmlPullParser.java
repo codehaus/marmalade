@@ -51,21 +51,39 @@ final class TagalogXmlPullParser extends AbstractParser {
         throws TagalogParseException, XmlPullParserException, IOException
     {
         Attributes attributes = new XmlPullAttributes(xpp);
+        boolean handlingProcessingInstructions;
         int eventType;
         int[] characterOffsets = new int[2];
 
+        handlingProcessingInstructions = handlingProcessingInstructions();
         source.setInputFor(xpp);
         eventType = xpp.getEventType();
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG) {
                 startElement(xpp.getNamespace(), xpp.getName(), attributes);
-            } else if (eventType == XmlPullParser.TEXT) {
+            } else if (eventType == XmlPullParser.TEXT
+                       || eventType == XmlPullParser.CDSECT) {
                 char[] chars = xpp.getTextCharacters(characterOffsets);
                 text(chars, characterOffsets[0], characterOffsets[1]);
             } else if (eventType == XmlPullParser.END_TAG) {
                 endElement(xpp.getNamespace(), xpp.getName());
+            } else if (eventType == XmlPullParser.ENTITY_REF) {
+                String entity = xpp.getText();
+                text(entity.toCharArray(), 0, entity.length());
+            } else if (eventType == XmlPullParser.PROCESSING_INSTRUCTION) {
+                String instruction = xpp.getText();
+                int space = instruction.indexOf(' ');
+                if (space != -1) {
+                    processingInstruction(instruction.substring(0, space),
+                                          instruction.substring(space + 1));
+                } else {
+                    processingInstruction(instruction, "");
+                }
             }
-            eventType = xpp.next();
+            if (handlingProcessingInstructions)
+                eventType = xpp.nextToken();
+            else
+                eventType = xpp.next();
         }
     }
 
