@@ -53,19 +53,17 @@ file named 'meta-config.xml'. This file is transformed using the
 which makes maintenance much easier. A simple script called 'mkconfig'
 will perform the transformation, regenerating CC's config.xml file.
 
-meta-config.xsl contains some settings that you will need to alter before
-you start. Find the <htmlemail> element in that file and change the
-following:
+meta-config.xsl pulls in some settings from a file called
+meta-config-params.xsl; you should alter this file before you start.
+The settings in the file are as follows:
 
- * returnaddress attribute - the address that the build emails will come
-   from.
- * returnname attribute - the name that the build emails will appear to
-   come from.
- * address attribute in <always> and <map> elements - an email address that
-   should always get a copy of the build email, in addition to the
-   developers who committed since the last successful build.
+ * return-address - the address that the build emails will come from.
+ * return-name - the name that the build emails will appear to come from.
+ * developers-address - an email address that should always get a copy
+   of the build email, in addition to the developers who committed since
+   the last successful build.
 
-The general syntax of the file is:
+The general syntax of the meta-config.xml file is:
 
 <projects>
   <project name="project-name" [interval="seconds"]>
