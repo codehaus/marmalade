@@ -53,7 +53,6 @@ public class Function implements Type {
         return getTypeName();
     }
 
-    public Type resolvePlaceHolders() {
-        return null;
+    public void resolvePlaceHolders() {
     }
 }

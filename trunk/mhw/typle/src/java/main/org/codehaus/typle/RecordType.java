@@ -51,7 +51,6 @@ public final class RecordType implements Type {
         return null;
     }
 
-    public Type resolvePlaceHolders() {
-        return null;
+    public void resolvePlaceHolders() {
     }
 }

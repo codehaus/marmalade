@@ -30,7 +30,6 @@ public interface Type {
     Type getWrappedType();
 
     /**
-     * @return
      */
-    Type resolvePlaceHolders() throws TypeLookupException;
+    void resolvePlaceHolders() throws TypeLookupException;
 }
