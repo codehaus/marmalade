@@ -20,13 +20,4 @@ public interface Type {
      * @return the local part of the type's name.
      */
     String getTypeName();
-
-    /**
-     * Return the type signature of the type, if such a concept makes sense.
-     * For basic types this will typically be the same value as that returned
-     * by {@link #getName}.
-     *
-     * @return the type signature.
-     */
-    String getSignature();
 }

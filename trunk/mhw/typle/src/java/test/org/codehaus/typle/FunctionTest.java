@@ -35,12 +35,12 @@ public class FunctionTest extends TestCase {
         Function f;
 
         f = new Function(bazType);
-        assertEquals("(): Baz", f.getSignature());
+        assertEquals("(): Baz", f.getTypeName());
         f = f.addFormalParameter("foo", fooType);
-        assertEquals("(Foo foo): Baz", f.getSignature());
+        assertEquals("(Foo foo): Baz", f.getTypeName());
         f = f.addFormalParameter("bar", barType);
-        assertEquals("(Foo foo, Bar bar): Baz", f.getSignature());
+        assertEquals("(Foo foo, Bar bar): Baz", f.getTypeName());
         f = new Function(bazType, new Binding[] { foo, bar });
-        assertEquals("(Foo foo, Bar bar): Baz", f.getSignature());
+        assertEquals("(Foo foo, Bar bar): Baz", f.getTypeName());
     }
 }

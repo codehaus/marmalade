@@ -57,10 +57,10 @@ public class RecordTypeTest extends TestCase {
     }
 
     public void testGetSignature() {
-        assertEquals("{}", type.getSignature());
+        assertEquals("[]", type.getTypeName());
         type = type.addField("foo", foo);
-        assertEquals("{Foo foo}", type.getSignature());
+        assertEquals("[Foo foo]", type.getTypeName());
         type = type.addField("bar", bar);
-        assertEquals("{Foo foo, Bar bar}", type.getSignature());
+        assertEquals("[Foo foo, Bar bar]", type.getTypeName());
     }
 }

@@ -42,11 +42,10 @@ public class Function implements Type {
 
     public String getTypeName() {
         return "(" + formalParameters.signature() + "): "
-               + returnType.getSignature();
+               + returnType.getTypeName();
     }
 
-    public String getSignature() {
-        return "(" + formalParameters.signature() + "): "
-               + returnType.getSignature();
+    public String toString() {
+        return getTypeName();
     }
 }
