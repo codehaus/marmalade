@@ -5,6 +5,7 @@
 package org.codehaus.tagalog.acceptance.people;
 
 import org.codehaus.tagalog.AbstractTag;
+import org.codehaus.tagalog.Attributes;
 
 /**
  * PeopleTag
@@ -15,7 +16,7 @@ import org.codehaus.tagalog.AbstractTag;
 public class PeopleTag extends AbstractTag {
     private People people;
 
-    public void begin(String elementName) {
+    public void begin(String elementName, Attributes attributes) {
         people = new People();
     }
 

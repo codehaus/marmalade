@@ -20,6 +20,26 @@ public final class TagUtils {
     private TagUtils() {
     }
 
+    //
+    // Retrieving attributes.
+    //
+
+    public static String requireAttribute(String attributeName,
+                                          Attributes attributes)
+        throws TagalogParseException
+    {
+        String value = attributes.getValue(attributeName);
+        if (value == null) {
+            throw new TagalogParseException(attributeName
+                                            + " attribute not found");
+        }
+        return value;
+    }
+    
+    //
+    // Searching for ancestors.
+    //
+
     public static Tag findAncestorWithClass(Tag from, Class tagClass) {
         while (from != null) {
             if (tagClass.isInstance(from))
@@ -27,5 +47,15 @@ public final class TagUtils {
             from = from.getParent();
         }
         return null;
+    }
+
+    public static Tag requireAncestor(Tag from, String tagName, Class tagClass)
+        throws TagalogParseException
+    {
+        Tag tag = findAncestorWithClass(from, tagClass);
+        if (tag == null) {
+            throw new TagalogParseException(tagName + " ancestor not found");
+        }
+        return tag;
     }
 }

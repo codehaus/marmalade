@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import org.codehaus.tagalog.AbstractParser;
+import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 
@@ -49,6 +50,7 @@ final class TagalogXmlPullParser extends AbstractParser {
     private void internalDoParse()
         throws TagalogParseException, XmlPullParserException, IOException
     {
+        Attributes attributes = new XmlPullAttributes(xpp);
         int eventType;
         int[] characterOffsets = new int[2];
 
@@ -56,7 +58,7 @@ final class TagalogXmlPullParser extends AbstractParser {
         eventType = xpp.getEventType();
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG) {
-                startElement(xpp.getNamespace(), xpp.getName());
+                startElement(xpp.getNamespace(), xpp.getName(), attributes);
             } else if (eventType == XmlPullParser.TEXT) {
                 char[] chars = xpp.getTextCharacters(characterOffsets);
                 text(chars, characterOffsets[0], characterOffsets[1]);

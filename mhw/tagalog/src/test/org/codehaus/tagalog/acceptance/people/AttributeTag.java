@@ -5,6 +5,7 @@
 package org.codehaus.tagalog.acceptance.people;
 
 import org.codehaus.tagalog.AbstractTag;
+import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagalogParseException;
 
 /**
@@ -16,7 +17,7 @@ import org.codehaus.tagalog.TagalogParseException;
 public final class AttributeTag extends AbstractTag {
     private StringBuffer buffer;
 
-    public void begin(String elementName) {
+    public void begin(String elementName, Attributes attributes) {
         buffer = new StringBuffer();
     }
 
