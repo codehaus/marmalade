@@ -179,9 +179,9 @@ public class SAXParserState {
     }
 
     private static final class Element {
-        private String namespaceURI;
-        private String localName;
-        private String qName;
+        private final String namespaceURI;
+        private final String localName;
+        private final String qName;
         private boolean elementContent;
 
         public Element(String namespaceURI, String localName, String qName) {
@@ -205,18 +205,6 @@ public class SAXParserState {
 
         public boolean isElementContent() {
             return elementContent;
-        }
-
-        public void setLocalName(String string) {
-            localName = string;
-        }
-
-        public void setNamespaceURI(String string) {
-            namespaceURI = string;
-        }
-
-        public void setQName(String string) {
-            qName = string;
         }
 
         public void setElementContent(boolean b) {
