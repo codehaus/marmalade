@@ -11,7 +11,7 @@
       Naming Conventions
     -->
     <module name="ConstantName">
-      <property name="format" value="^[a-zA-Z][a-zA-Z0-9_]*$"/>
+      <property name="format" value="^[A-Z](_?[A-Z0-9]+)*$"/>
     </module>
 
     <!--
@@ -19,7 +19,7 @@
     -->
     <module name="Header">
       <property name="headerFile" value="LICENSE.txt"/>
-      <property name="ignoreLines" value="3"/>
+      <property name="ignoreLines" value="2"/>
     </module>
 
     <!--
@@ -33,27 +33,24 @@
       Size Violations
     -->
     <module name="LineLength">
-      <property name="max" value="132"/>
+      <property name="max" value="80"/>
     </module>
 
     <!--
       Whitespace
     -->
     <module name="TabCharacter"/>
-    <module name="ParenPad">
-      <property name="option" value="space"/>
-      <property name="tokens" value="CTOR_CALL, METHOD_CALL, SUPER_CTOR_CALL"/>
-    </module>
+    <module name="ParenPad"/>
 
     <!--
       Blocks
     -->
     <module name="LeftCurly">
-      <property name="option" value="nl"/>
-      <property name="maxLineLength" value="132"/>
+      <property name="option" value="nlow"/>
+      <property name="maxLineLength" value="80"/>
     </module>
-    <module name="com.puppycrawl.tools.checkstyle.checks.RightCurlyCheck">
-      <property name="option" value="alone"/>
+    <module name="RightCurly">
+      <property name="option" value="same"/>
     </module>
 
     <!--
