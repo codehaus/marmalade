@@ -38,10 +38,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
-
+import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -69,6 +72,8 @@ public class DefaultContext
     private Reader in = SYSIN;
 
     private XmlSerializer xmlSerializer;
+
+    private Set externalized = new HashSet();
 
     public DefaultContext()
     {
@@ -125,9 +130,20 @@ public class DefaultContext
         return context.put( key, value );
     }
 
+    public Object setVariable( Object key, Object value, boolean externalize )
+    {
+        if(externalize)
+        {
+            externalized.add(key);
+        }
+        return context.put( key, value );
+    }
+
     public Object removeVariable( Object key )
     {
         Object result = context.remove( key );
+        
+        externalized.remove(key);
 
         return result;
     }
@@ -222,6 +238,20 @@ public class DefaultContext
         context.putAll( vars );
     }
 
+    public void setVariables( Map vars, boolean externalize )
+    {
+        if(externalize)
+        {
+            for ( Iterator it = vars.keySet().iterator(); it.hasNext(); )
+            {
+                Object key = (Object) it.next();
+                externalized.add(key);
+            }
+        }
+        
+        context.putAll( vars );
+    }
+
     public XmlSerializer getXmlSerializer() throws XmlPullParserException, IOException
     {
         if ( xmlSerializer == null )
@@ -234,4 +264,35 @@ public class DefaultContext
 
         return xmlSerializer;
     }
+    
+
+    public Map getExternalizedVariables(ExpressionEvaluator el) throws ExpressionEvaluationException
+    {
+        Map result = new HashMap();
+        
+        for ( Iterator it = externalized.iterator(); it.hasNext(); )
+        {
+            Object key = (Object) it.next();
+            result.put(key, getVariable(key, el));
+        }
+        
+        return result;
+    }
+    
+    public Map getExternalizedVariables()
+    {
+        try
+        {
+            return getExternalizedVariables(null);
+        }
+        catch ( ExpressionEvaluationException e )
+        {
+            StringWriter sWriter = new StringWriter();
+            PrintWriter pWriter = new PrintWriter(sWriter);
+            e.printStackTrace(pWriter);
+            
+            throw new RuntimeException("This should never, ever happen! Error was:\n" + sWriter.toString());
+        }
+    }
+
 }

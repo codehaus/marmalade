@@ -16,6 +16,7 @@ import java.util.TreeMap;
 public class BareBonesExpressionEvaluatorTest
     extends TestCase
 {
+    
     public void testShouldEvalLiteralExpressionToBooleanTrueWhenExpectedTypeIsBoolean()
         throws ExpressionEvaluationException
     {

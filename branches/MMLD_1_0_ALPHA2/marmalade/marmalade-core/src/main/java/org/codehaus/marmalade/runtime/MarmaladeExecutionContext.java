@@ -41,10 +41,18 @@ import java.util.Map;
 public interface MarmaladeExecutionContext
 {
     public Object getVariable( Object key, ExpressionEvaluator el ) throws ExpressionEvaluationException;
+    
+    public Map getExternalizedVariables(ExpressionEvaluator el) throws ExpressionEvaluationException;
+    
+    public Map getExternalizedVariables();
 
     public Object setVariable( Object key, Object value );
 
+    public Object setVariable( Object key, Object value, boolean externalize );
+
     public void setVariables( Map vars );
+
+    public void setVariables( Map vars, boolean externalize );
 
     public Object removeVariable( Object key );
 

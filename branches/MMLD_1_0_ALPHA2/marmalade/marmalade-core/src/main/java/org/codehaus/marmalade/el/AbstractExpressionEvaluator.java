@@ -35,8 +35,8 @@ public abstract class AbstractExpressionEvaluator
     implements ExpressionEvaluator
 {
     public static final Pattern EXPRESSION_PATTERN = Pattern.compile( "\\$\\{.*\\}" );
-
-    public static final String LITERAL_PATTERNS = "[0-9]+[idfblhIDFBLH]?|true|false|0x[0-9]+[bB]?";
+    
+    public static final String PRIMITIVE_PATTERNS = "[0-9]+[idfblhIDFBLH]?|true|false|0x[0-9]+[bB]?";
 
     protected AbstractExpressionEvaluator()
     {
@@ -48,7 +48,7 @@ public abstract class AbstractExpressionEvaluator
         Object result = null;
         Matcher matcher = getExpressionPattern().matcher( expression );
 
-        if ( matcher.matches() || expression.matches( LITERAL_PATTERNS ) )
+        if ( matcher.matches() || expression.matches( PRIMITIVE_PATTERNS ) )
         {
             result = doEval( expression, context, expectedReturnType );
         }

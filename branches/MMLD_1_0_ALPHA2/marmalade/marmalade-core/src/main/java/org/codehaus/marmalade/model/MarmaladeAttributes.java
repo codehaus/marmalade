@@ -36,6 +36,8 @@ import java.util.Iterator;
 public interface MarmaladeAttributes
 {
     public ExpressionEvaluator getExpressionEvaluator();
+    
+    public void setExpressionEvaluator(ExpressionEvaluator el);
 
     public Object getValue( String name, Class type, MarmaladeExecutionContext context )
         throws ExpressionEvaluationException;
