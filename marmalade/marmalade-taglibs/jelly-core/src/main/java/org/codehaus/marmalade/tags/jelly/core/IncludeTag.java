@@ -24,13 +24,14 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.model.MarmaladeAttribute;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsetime.ScriptBuilder;
 import org.codehaus.marmalade.parsetime.ScriptParser;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
@@ -55,9 +56,8 @@ public class IncludeTag extends AbstractJellyConditionalTag
     public static final String EXPORT_ATTRIBUTE = "export";
     public static final String INHERIT_ATTRIBUTE = "inherit";
 
-    public IncludeTag( MarmaladeTagInfo tagInfo )
+    public IncludeTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )
@@ -202,7 +202,8 @@ public class IncludeTag extends AbstractJellyConditionalTag
 
         try
         {
-            return parser.parse( reader, location );
+            ScriptBuilder builder = parser.parse( reader, location );
+            return builder.build();
         }
         catch ( MarmaladeParsetimeException e )
         {
@@ -221,7 +222,8 @@ public class IncludeTag extends AbstractJellyConditionalTag
     {
         try
         {
-            return parser.parse( sourceFile );
+            ScriptBuilder builder = parser.parse( sourceFile );
+            return builder.build();
         }
         catch ( MarmaladeParsetimeException e )
         {
@@ -242,7 +244,8 @@ public class IncludeTag extends AbstractJellyConditionalTag
     {
         try
         {
-            return parser.parse( sourceUrl );
+            ScriptBuilder builder = parser.parse( sourceUrl );
+            return builder.build();
         }
         catch ( MarmaladeParsetimeException e )
         {

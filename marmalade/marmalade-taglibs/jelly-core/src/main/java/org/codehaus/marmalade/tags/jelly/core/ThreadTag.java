@@ -51,9 +51,8 @@ public class ThreadTag extends AbstractJellyMarmaladeTag
     public static final String ERR_FILE_ATTRIBUTE = "errFile";
     public static final String IN_FILE_ATTRIBUTE = "inFile";
 
-    public ThreadTag( MarmaladeTagInfo tagInfo )
+    public ThreadTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

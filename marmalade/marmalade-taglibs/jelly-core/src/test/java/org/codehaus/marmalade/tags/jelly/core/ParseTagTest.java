@@ -26,8 +26,10 @@ package org.codehaus.marmalade.tags.jelly.core;
 
 import junit.framework.TestCase;
 
+import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
@@ -46,14 +48,20 @@ public class ParseTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ParseTag.TEXT_ATTRIBUTE, SCRIPT_WITH_XML_DECL );
-        attrs.addAttribute( "", ParseTag.VAR_ATTRIBUTE, "var" );
+        attrs.addAttribute( "", "", ParseTag.TEXT_ATTRIBUTE, SCRIPT_WITH_XML_DECL );
+        attrs.addAttribute( "", "", ParseTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        mti.setAttributes( attrs );
-
-        ParseTag tag = new ParseTag( mti );
+        ParseTag tag = new ParseTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -70,14 +78,20 @@ public class ParseTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ParseTag.TEXT_ATTRIBUTE, SCRIPT_WITHOUT_XML_DECL );
-        attrs.addAttribute( "", ParseTag.VAR_ATTRIBUTE, "var" );
+        attrs.addAttribute( "", "", ParseTag.TEXT_ATTRIBUTE, SCRIPT_WITHOUT_XML_DECL );
+        attrs.addAttribute( "", "", ParseTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ParseTag tag = new ParseTag( mti );
+        ParseTag tag = new ParseTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -94,15 +108,20 @@ public class ParseTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ParseTag.VAR_ATTRIBUTE, "var" );
+        attrs.addAttribute( "", "", ParseTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.appendText( SCRIPT_WITH_XML_DECL.toCharArray(  ), 0,
-            SCRIPT_WITH_XML_DECL.length(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ParseTag tag = new ParseTag( mti );
+        ParseTag tag = new ParseTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
+        tag.appendBodyText( SCRIPT_WITH_XML_DECL);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -119,15 +138,20 @@ public class ParseTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ParseTag.VAR_ATTRIBUTE, "var" );
+        attrs.addAttribute( "", "", ParseTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.appendText( SCRIPT_WITHOUT_XML_DECL.toCharArray(  ), 0,
-            SCRIPT_WITHOUT_XML_DECL.length(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ParseTag tag = new ParseTag( mti );
+        ParseTag tag = new ParseTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
+        tag.appendBodyText( SCRIPT_WITHOUT_XML_DECL);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -144,11 +168,10 @@ public class ParseTagTest extends TestCase
     {
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( new DefaultRawAttributes(  ) );
-        mti.appendText( SCRIPT_WITH_XML_DECL.toCharArray(  ), 0,
-            SCRIPT_WITH_XML_DECL.length(  ) );
-
-        ParseTag tag = new ParseTag( mti );
+        ParseTag tag = new ParseTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(new DefaultAttributes());
+        tag.appendBodyText( SCRIPT_WITH_XML_DECL);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -164,13 +187,19 @@ public class ParseTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", ParseTag.VAR_ATTRIBUTE, "var" );
+        attrs.addAttribute( "", "", ParseTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ParseTag tag = new ParseTag( mti );
+        ParseTag tag = new ParseTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {

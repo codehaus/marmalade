@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
@@ -45,15 +46,20 @@ public class GetStaticTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", GetStaticTag.FIELD_ATTRIBUTE, "FIELD_NAME" );
-        attributes.addAttribute( "", GetStaticTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", GetStaticTag.FIELD_ATTRIBUTE, "FIELD_NAME" );
+        attributes.addAttribute( "", "", GetStaticTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        GetStaticTag tag = new GetStaticTag( mti );
+        GetStaticTag tag = new GetStaticTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -71,16 +77,21 @@ public class GetStaticTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
+        attributes.addAttribute( "", "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
             getClass(  ).getName(  ) );
-        attributes.addAttribute( "", GetStaticTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", GetStaticTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
 
-        GetStaticTag tag = new GetStaticTag( mti );
+        GetStaticTag tag = new GetStaticTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -98,16 +109,21 @@ public class GetStaticTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", GetStaticTag.FIELD_ATTRIBUTE, "FIELD_NAME" );
-        attributes.addAttribute( "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
+        attributes.addAttribute( "", "", GetStaticTag.FIELD_ATTRIBUTE, "FIELD_NAME" );
+        attributes.addAttribute( "", "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
             getClass(  ).getName(  ) );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
 
-        GetStaticTag tag = new GetStaticTag( mti );
+        GetStaticTag tag = new GetStaticTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -124,17 +140,22 @@ public class GetStaticTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
+        attributes.addAttribute( "", "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
             "org.somewhere.BadClass" );
-        attributes.addAttribute( "", GetStaticTag.FIELD_ATTRIBUTE, "FIELD_NAME" );
-        attributes.addAttribute( "", GetStaticTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", GetStaticTag.FIELD_ATTRIBUTE, "FIELD_NAME" );
+        attributes.addAttribute( "", "", GetStaticTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
 
-        GetStaticTag tag = new GetStaticTag( mti );
+        GetStaticTag tag = new GetStaticTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -152,17 +173,22 @@ public class GetStaticTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
+        attributes.addAttribute( "", "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
             getClass(  ).getName(  ) );
-        attributes.addAttribute( "", GetStaticTag.FIELD_ATTRIBUTE, "FIELD_NAME" );
-        attributes.addAttribute( "", GetStaticTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", GetStaticTag.FIELD_ATTRIBUTE, "FIELD_NAME" );
+        attributes.addAttribute( "", "", GetStaticTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
 
-        GetStaticTag tag = new GetStaticTag( mti );
+        GetStaticTag tag = new GetStaticTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -180,19 +206,24 @@ public class GetStaticTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
+        attributes.addAttribute( "", "", GetStaticTag.CLASS_NAME_ATTRIBUTE,
             getClass(  ).getName(  ) );
-        attributes.addAttribute( "", GetStaticTag.FIELD_ATTRIBUTE, "TEST_FIELD" );
-        attributes.addAttribute( "", GetStaticTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", GetStaticTag.FIELD_ATTRIBUTE, "TEST_FIELD" );
+        attributes.addAttribute( "", "", GetStaticTag.VAR_ATTRIBUTE, "var" );
 
         OgnlExpressionEvaluator ognlEL = new OgnlExpressionEvaluator(  );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( ognlEL );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
 
-        GetStaticTag tag = new GetStaticTag( mti );
+        GetStaticTag tag = new GetStaticTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext context = new DefaultContext(  );
 

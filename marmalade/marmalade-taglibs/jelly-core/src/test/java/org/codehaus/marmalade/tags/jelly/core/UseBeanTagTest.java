@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
@@ -43,13 +44,19 @@ public class UseBeanTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", UseBeanTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", UseBeanTag.VAR_ATTRIBUTE, "var" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-
-        UseBeanTag tag = new UseBeanTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        UseBeanTag tag = new UseBeanTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -67,14 +74,20 @@ public class UseBeanTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", UseBeanTag.CLASS_ATTRIBUTE,
+        attributes.addAttribute( "", "", UseBeanTag.CLASS_ATTRIBUTE,
             "java.util.List" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-
-        UseBeanTag tag = new UseBeanTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        UseBeanTag tag = new UseBeanTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -91,15 +104,21 @@ public class UseBeanTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", UseBeanTag.VAR_ATTRIBUTE, "var" );
-        attributes.addAttribute( "", UseBeanTag.CLASS_ATTRIBUTE,
+        attributes.addAttribute( "", "", UseBeanTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", UseBeanTag.CLASS_ATTRIBUTE,
             "my.nonexistent.Class" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-
-        UseBeanTag tag = new UseBeanTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        UseBeanTag tag = new UseBeanTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -115,15 +134,21 @@ public class UseBeanTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", UseBeanTag.VAR_ATTRIBUTE, "var" );
-        attributes.addAttribute( "", UseBeanTag.CLASS_ATTRIBUTE,
+        attributes.addAttribute( "", "", UseBeanTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", UseBeanTag.CLASS_ATTRIBUTE,
             NonEmptyConstructorBean.class.getName(  ) );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-
-        UseBeanTag tag = new UseBeanTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        UseBeanTag tag = new UseBeanTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -144,18 +169,23 @@ public class UseBeanTagTest extends TestCase
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", UseBeanTag.VAR_ATTRIBUTE, "var" );
-        attributes.addAttribute( "", UseBeanTag.CLASS_ATTRIBUTE, "#class" );
-        attributes.addAttribute( "", "name", personName );
-        attributes.addAttribute( "", "age", "#age" );
-        attributes.addAttribute( "", "isDemocrat", "#democrat" );
+        attributes.addAttribute( "", "", UseBeanTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", UseBeanTag.CLASS_ATTRIBUTE, "#class" );
+        attributes.addAttribute( "", "", "name", personName );
+        attributes.addAttribute( "", "", "age", "#age" );
+        attributes.addAttribute( "", "", "isDemocrat", "#democrat" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        UseBeanTag tag = new UseBeanTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        UseBeanTag tag = new UseBeanTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext context = new DefaultContext(  );
 
@@ -178,18 +208,23 @@ public class UseBeanTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", UseBeanTag.VAR_ATTRIBUTE, "var" );
-        attributes.addAttribute( "", UseBeanTag.CLASS_ATTRIBUTE,
+        attributes.addAttribute( "", "", UseBeanTag.VAR_ATTRIBUTE, "var" );
+        attributes.addAttribute( "", "", UseBeanTag.CLASS_ATTRIBUTE,
             Person.class.getName(  ) );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        UseBeanTag tag = new UseBeanTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
-        UseBeanTag tag = new UseBeanTag( mti );
-
-        TargetConsumerTestTag child = new TargetConsumerTestTag( new MarmaladeTagInfo(  ) );
+        TargetConsumerTestTag child = new TargetConsumerTestTag(  );
 
         child.setParent( tag );
         tag.addChild( child );

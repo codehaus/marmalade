@@ -36,9 +36,8 @@ public class TargetConsumerTestTag extends AbstractMarmaladeTag
 {
     private Object target;
 
-    public TargetConsumerTestTag( MarmaladeTagInfo tagInfo )
+    public TargetConsumerTestTag(  )
     {
-        super( tagInfo );
     }
 
     public Object getTarget(  )

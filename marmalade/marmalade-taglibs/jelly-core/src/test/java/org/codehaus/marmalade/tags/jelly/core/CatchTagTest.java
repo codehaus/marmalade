@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -42,15 +43,15 @@ public class CatchTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", CatchTag.VAR_ATTRIBUTE, "exception" );
+        attrs.addAttribute( "", "", CatchTag.VAR_ATTRIBUTE, "exception" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
+        CatchTag tag = new CatchTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(new DefaultAttributes(attrs));
 
-        CatchTag tag = new CatchTag( mti );
-
-        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag( new MarmaladeTagInfo(  ) );
+        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
 
         errTag.setParent( tag );
         tag.addChild( errTag );
@@ -79,18 +80,17 @@ public class CatchTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", CatchTag.VAR_ATTRIBUTE, "exception" );
-        attrs.addAttribute( "", CatchTag.CLASS_ATTRIBUTE,
+        attrs.addAttribute( "", "", CatchTag.VAR_ATTRIBUTE, "exception" );
+        attrs.addAttribute( "", "", CatchTag.CLASS_ATTRIBUTE,
             "java.lang.UnsupportedOperationException" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        CatchTag tag = new CatchTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(new DefaultAttributes(attrs));
 
-        CatchTag tag = new CatchTag( mti );
-
-        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag( new MarmaladeTagInfo(  ) );
+        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
 
         errTag.setParent( tag );
         tag.addChild( errTag );
@@ -119,18 +119,17 @@ public class CatchTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", CatchTag.VAR_ATTRIBUTE, "exception" );
-        attrs.addAttribute( "", CatchTag.CLASS_ATTRIBUTE,
+        attrs.addAttribute( "", "", CatchTag.VAR_ATTRIBUTE, "exception" );
+        attrs.addAttribute( "", "", CatchTag.CLASS_ATTRIBUTE,
             "java.lang.IllegalArgumentException" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        CatchTag tag = new CatchTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(new DefaultAttributes(attrs));
 
-        CatchTag tag = new CatchTag( mti );
-
-        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag( new MarmaladeTagInfo(  ) );
+        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
 
         errTag.setParent( tag );
         tag.addChild( errTag );

@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -60,20 +61,19 @@ public class ChooseTagTest extends TestCase
         boolean secondShouldSucceed, boolean otherwiseShouldSucceed )
         throws MarmaladeExecutionException
     {
-        ChooseTag tag = new ChooseTag( new MarmaladeTagInfo(  ) );
+        ChooseTag tag = new ChooseTag(  );
 
         DefaultRawAttributes attrs1 = new DefaultRawAttributes(  );
 
-        attrs1.addAttribute( "", WhenTag.TEST_ATTRIBUTE, firstWhenTest );
+        attrs1.addAttribute( "", "", WhenTag.TEST_ATTRIBUTE, firstWhenTest );
 
         MarmaladeTagInfo mti1 = new MarmaladeTagInfo(  );
 
-        mti1.setAttributes( attrs1 );
-        mti1.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        WhenTag c1 = new WhenTag(  );
+        c1.setTagInfo(mti1);
+        c1.setAttributes(new DefaultAttributes(attrs1));
 
-        WhenTag c1 = new WhenTag( mti1 );
-
-        FlagChildTestTag c1f = new FlagChildTestTag( new MarmaladeTagInfo(  ) );
+        FlagChildTestTag c1f = new FlagChildTestTag(  );
 
         c1.addChild( c1f );
         c1f.setParent( c1 );
@@ -82,25 +82,24 @@ public class ChooseTagTest extends TestCase
 
         DefaultRawAttributes attrs2 = new DefaultRawAttributes(  );
 
-        attrs2.addAttribute( "", WhenTag.TEST_ATTRIBUTE, secondWhenTest );
+        attrs2.addAttribute( "", "", WhenTag.TEST_ATTRIBUTE, secondWhenTest );
 
         MarmaladeTagInfo mti2 = new MarmaladeTagInfo(  );
 
-        mti2.setAttributes( attrs2 );
-        mti2.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        WhenTag c2 = new WhenTag(  );
+        c2.setTagInfo(mti2);
+        c2.setAttributes(new DefaultAttributes(attrs2));
 
-        WhenTag c2 = new WhenTag( mti2 );
-
-        FlagChildTestTag c2f = new FlagChildTestTag( new MarmaladeTagInfo(  ) );
+        FlagChildTestTag c2f = new FlagChildTestTag(  );
 
         c2.addChild( c2f );
         c2f.setParent( c2 );
         tag.addChild( c2 );
         c2.setParent( tag );
 
-        OtherwiseTag o = new OtherwiseTag( new MarmaladeTagInfo(  ) );
+        OtherwiseTag o = new OtherwiseTag(  );
 
-        FlagChildTestTag of = new FlagChildTestTag( new MarmaladeTagInfo(  ) );
+        FlagChildTestTag of = new FlagChildTestTag(  );
 
         o.addChild( of );
         of.setParent( o );

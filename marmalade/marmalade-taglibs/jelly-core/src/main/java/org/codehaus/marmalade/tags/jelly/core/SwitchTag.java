@@ -42,9 +42,8 @@ public class SwitchTag extends AbstractJellyMarmaladeTag
     private DefaultTag def;
     private Object testObject;
 
-    public SwitchTag( MarmaladeTagInfo tagInfo )
+    public SwitchTag(  )
     {
-        super( tagInfo );
     }
 
     public void processChildren( MarmaladeExecutionContext context )

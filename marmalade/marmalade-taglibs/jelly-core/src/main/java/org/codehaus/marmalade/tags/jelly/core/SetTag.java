@@ -42,9 +42,8 @@ public class SetTag extends AbstractJellyMarmaladeTag
     public static final String PROPERTY_ATTRIBUTE = "property";
     public static final String TARGET_ATTRIBUTE = "target";
 
-    public SetTag( MarmaladeTagInfo tagInfo )
+    public SetTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )
