@@ -21,8 +21,8 @@ public interface TagalogParser {
      * @return The object returned by the {@link Tag#end()} method of the
      * root element.
      *
-     * @throws TagalogParseException if there is some problem parsing the
-     * content.
+     * @throws TagalogParseException if there was a serious problem that
+     * prevented the content from being parsed.
      */
     Object parse() throws TagalogParseException;
 
@@ -36,8 +36,19 @@ public interface TagalogParser {
      * @return The object returned by the {@link Tag#end()} method of the
      * root element.
      *
-     * @throws TagalogParseException if there is some problem parsing the
-     * content.
+     * @throws TagalogParseException if there was a serious problem that
+     * prevented the content from being parsed.
      */
     Object parse(Map context) throws TagalogParseException;
+
+    /**
+     * Return the parse errors that were collected during the parse. These
+     * are the errors that are raised by tags during the normal parsing of
+     * the content. They are tagged with the location in the source file
+     * where the error occurred.
+     *
+     * @return An array containing the parse errors, or <code>null</code>
+     * if no errors were found.
+     */
+    ParseError[] parseErrors();
 }
