@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.codehaus.tagalog.pi.PIHandler;
+
 /**
  * AbstractParser
  *
@@ -31,6 +33,7 @@ public abstract class AbstractParser implements TagalogParser {
      */
     protected AbstractParser(ParserConfiguration configuration) {
         this.configuration = configuration;
+        this.piHandler = configuration.getProcessingInstructionHandler();
     }
 
     public Object parse() throws TagalogParseException {
@@ -121,6 +124,20 @@ public abstract class AbstractParser implements TagalogParser {
                 error(e);
             }
         }
+    }
+
+    //
+    // Processing Instructions.
+    //
+
+    private PIHandler piHandler;
+
+    public boolean handlingProcessingInstructions() {
+        return piHandler != null;
+    }
+
+    protected void processingInstruction(String target, String data) {
+        piHandler.processingInstruction(target, data, context);
     }
 
     //
