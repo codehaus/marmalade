@@ -34,9 +34,9 @@ import org.codehaus.marmalade.monitor.event.context.DefaultContextEventDispatche
 import org.codehaus.marmalade.monitor.log.DefaultLog;
 import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.marmalade.util.ScopedMap;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-import org.xmlpull.v1.XmlSerializer;
+import org.codehaus.plexus.util.xml.pull.MXSerializer;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.codehaus.plexus.util.xml.pull.XmlSerializer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -358,9 +358,7 @@ public class DefaultContext
     {
         if ( xmlSerializer == null )
         {
-            XmlPullParserFactory xpp3Factory = XmlPullParserFactory.newInstance();
-
-            xmlSerializer = xpp3Factory.newSerializer();
+            xmlSerializer = new MXSerializer();
             xmlSerializer.setOutput( getOutWriter() );
         }
 
