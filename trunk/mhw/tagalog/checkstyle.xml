@@ -48,6 +48,13 @@
     <module name="LeftCurly">
       <property name="option" value="nlow"/>
       <property name="maxLineLength" value="80"/>
+      <property name="tokens"
+                value="CLASS_DEF,CTOR_DEF,INTERFACE_DEF,METHOD_DEF"/>
+    </module>
+    <module name="LeftCurly">
+      <property name="option" value="eol"/>
+      <property name="tokens"
+                value="LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
     </module>
     <module name="RightCurly">
       <property name="option" value="same"/>
