@@ -75,7 +75,7 @@ public final class ExpressionEvaluatorFactory
             if ( evaluator == null )
             {
                 String elResource = "META-INF/marmalade/el/" + type;
-                ClassLoader cloader = ExpressionEvaluatorFactory.class.getClassLoader();
+                ClassLoader cloader = Thread.currentThread().getContextClassLoader();
 
                 InputStream res = cloader.getResourceAsStream( elResource );
 

@@ -40,7 +40,7 @@ public class TldParser
 
         parser.setInput( reader );
 
-        ClassLoader cloader = getClass().getClassLoader();
+        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
 
         int eventType = parser.getEventType();
 
