@@ -251,7 +251,7 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
     }
   }
   
-  protected void requireParent(Class cls) throws IllegalParentException
+  protected Tag requireParent(Class cls) throws IllegalParentException
   {
     Tag parent = getParent();
     if(parent != null) {
@@ -261,6 +261,25 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
     }
     else {
       throw new IllegalParentException(element, cls);
+    }
+    
+    return parent;
+  }
+
+  protected Tag requireAncestor(Class cls) throws IllegalAncestorException
+  {
+    Tag parent = this;
+    while((parent = parent.getParent()) != null) {
+      if(cls.isAssignableFrom(parent.getClass())){
+        break;
+      }
+    }
+    
+    if(parent == null) {
+      throw new IllegalAncestorException(element, cls);
+    }
+    else {
+      return parent;
     }
   }
 

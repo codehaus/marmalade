@@ -1,0 +1,75 @@
+/* Created on Apr 21, 2004 */
+package org.codehaus.marmalade.tags.httpunit.structure;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.codehaus.marmalade.MarmaladeAttributes;
+import org.codehaus.marmalade.MarmaladeExecutionContext;
+import org.codehaus.marmalade.MarmaladeExecutionException;
+
+import com.meterware.httpunit.WebRequest;
+
+
+/**
+ * @author jdcasey
+ */
+public abstract class AbstractWebRequestTag extends AbstractWebConversationSubTag
+                                            implements HeaderParent
+{
+  
+  public static final String VAR_ATTRIBUTE = "var";
+  
+  public static final String URL_ATTRIBUTE = "url";
+  public static final String BASE_URL_ATTRIBUTE = "baseUrl";
+  public static final String TARGET_ATTRIBUTE = "target";
+  
+  private WebRequest request;
+
+  public AbstractWebRequestTag(){
+  }
+
+  protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
+    MarmaladeAttributes attrs = getAttributes();
+    
+    String url = (String)attrs.getValue(URL_ATTRIBUTE, String.class, context, "/");
+    String target = (String)attrs.getValue(TARGET_ATTRIBUTE, String.class, context);
+    Object base = attrs.getValue(BASE_URL_ATTRIBUTE, context);
+    URL baseUrl = null;
+    if(base != null) {
+      if(base instanceof String) {
+        try{
+          baseUrl = new URL((String)base);
+        }
+        catch(MalformedURLException e){
+          throw new MarmaladeExecutionException("Error instantiating base URL.", e);
+        }
+      }
+      else {
+        baseUrl = (URL)base;
+      }
+    }
+    
+    request = createRequest(baseUrl, url, target);
+  }
+  
+  protected WebRequest getRequest() {
+    return request;
+  }
+  
+  public void setHeader(String name, String value) {
+    request.setHeaderField(name, value);
+  }
+  
+  public void setParameter(String name, String value) {
+    request.setParameter(name, value);
+  }
+  
+  protected abstract WebRequest createRequest(URL baseUrl, String url, String target)
+  throws MarmaladeExecutionException;
+  
+  protected void doReset(){
+    this.request = null;
+    super.doReset();
+  }
+}
