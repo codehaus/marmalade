@@ -30,6 +30,7 @@ import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -46,9 +47,9 @@ public class OutTagTest extends TestCase
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( new DefaultRawAttributes(  ) );
-
-        OutTag tag = new OutTag( ti );
+        OutTag tag = new OutTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes());
 
         try
         {
@@ -67,13 +68,13 @@ public class OutTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "value", "message" ) );
+        attrs.addAttribute( "", "", "value", "message" );
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-
-        OutTag tag = new OutTag( ti );
+        OutTag tag = new OutTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes(attrs));
 
         tag.execute( new DefaultContext(  ) );
     }
@@ -83,10 +84,10 @@ public class OutTagTest extends TestCase
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( new DefaultRawAttributes(  ) );
-        ti.appendText( "test".toCharArray(  ), 0, "test".length(  ) );
-
-        OutTag tag = new OutTag( ti );
+        OutTag tag = new OutTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes());
+        tag.appendBodyText( "test" );
 
         tag.execute( new DefaultContext(  ) );
     }
@@ -96,13 +97,13 @@ public class OutTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "default", "message" ) );
+        attrs.addAttribute( "", "", "default", "message" );
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-
-        OutTag tag = new OutTag( ti );
+        OutTag tag = new OutTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes(attrs));
 
         tag.execute( new DefaultContext(  ) );
     }
@@ -116,18 +117,23 @@ public class OutTagTest extends TestCase
 
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "value", message2 ) );
-        attrs.addAttribute( new DefaultRawAttribute( "", "default", message3 ) );
+        attrs.addAttribute( "", "", "value", message2 );
+        attrs.addAttribute( "", "", "default", message3 );
 
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
+        
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
-
-        ti.setAttributes( attrs );
-        ti.appendText( message.toCharArray(  ), 0, message.length(  ) );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
 
         StringWriter out = new StringWriter(  );
 
-        OutTag tag = new OutTag( ti );
+        OutTag tag = new OutTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes( tagAttrs );
+        tag.appendBodyText( message );
+        tag.setExpressionEvaluator( el );
 
         DefaultContext context = new DefaultContext(  );
 
@@ -145,17 +151,22 @@ public class OutTagTest extends TestCase
 
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "value", message ) );
-        attrs.addAttribute( new DefaultRawAttribute( "", "default", message2 ) );
+        attrs.addAttribute( "", "", "value", message );
+        attrs.addAttribute( "", "", "default", message2 );
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
         StringWriter out = new StringWriter(  );
 
-        OutTag tag = new OutTag( ti );
+        OutTag tag = new OutTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext context = new DefaultContext(  );
 
@@ -173,17 +184,22 @@ public class OutTagTest extends TestCase
 
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "value", message ) );
-        attrs.addAttribute( new DefaultRawAttribute( "", "escapeXml", "true" ) );
+        attrs.addAttribute( "", "", "value", message );
+        attrs.addAttribute( "", "", "escapeXml", "true" );
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
-
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
         StringWriter out = new StringWriter(  );
 
-        OutTag tag = new OutTag( ti );
+        OutTag tag = new OutTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext context = new DefaultContext(  );
 

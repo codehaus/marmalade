@@ -24,13 +24,14 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.parsetime.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
+import org.codehaus.marmalade.parsetime.ScriptBuilder;
 import org.codehaus.marmalade.parsetime.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
@@ -50,9 +51,9 @@ public class ImportTag extends AbstractMarmaladeTag
     public static final String PARSE_ONLY_ATTRIBUTE = "parse-only";
     public static final String RESOLVER_ATTRIBUTE = "resolver";
 
-    public ImportTag( MarmaladeTagInfo tagInfo )
+    public ImportTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )
@@ -110,7 +111,8 @@ public class ImportTag extends AbstractMarmaladeTag
         try
         {
             ScriptParser parser = new ScriptParser( resolver );
-            MarmaladeScript script = parser.parse( resource );
+            ScriptBuilder builder = parser.parse( resource );
+            MarmaladeScript script = builder.build(  );
             Boolean parseOnly = ( Boolean ) attributes.getValue( PARSE_ONLY_ATTRIBUTE,
                     Boolean.class, context, Boolean.FALSE );
             boolean shouldExec = ( parseOnly == null ) ? ( true )

@@ -48,9 +48,9 @@ public class UrlTag extends AbstractMarmaladeTag
     public static final String URL_ATTRIBUTE = "url";
     private Map params = new TreeMap(  );
 
-    public UrlTag( MarmaladeTagInfo tagInfo )
+    public UrlTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

@@ -49,8 +49,8 @@ public class DefaultAttributesTest extends MockObjectTestCase
     public void testShouldReturnNullValueWhenInputAttributesAreNull(  )
         throws ExpressionEvaluationException
     {
-        DefaultAttributes attrs = new DefaultAttributes( new PassThroughExpressionEvaluator(  ),
-                null );
+        DefaultAttributes attrs = new DefaultAttributes( null );
+        attrs.setExpressionEvaluator(new PassThroughExpressionEvaluator());
 
         assertNull( attrs.getValue( "url", String.class, new DefaultContext(  ) ) );
     }
@@ -72,8 +72,8 @@ public class DefaultAttributesTest extends MockObjectTestCase
         attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey",
                 "value" ) );
 
-        DefaultAttributes attrs = new DefaultAttributes( ( ExpressionEvaluator ) elMock
-                .proxy(  ), attributes );
+        DefaultAttributes attrs = new DefaultAttributes( attributes );
+        attrs.setExpressionEvaluator(( ExpressionEvaluator ) elMock.proxy());
 
         Mock ctxMock = mock( MarmaladeExecutionContext.class );
 
@@ -103,8 +103,8 @@ public class DefaultAttributesTest extends MockObjectTestCase
         attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey",
                 "value" ) );
 
-        DefaultAttributes attrs = new DefaultAttributes( ( ExpressionEvaluator ) elMock
-                .proxy(  ), attributes );
+        DefaultAttributes attrs = new DefaultAttributes(attributes );
+        attrs.setExpressionEvaluator(( ExpressionEvaluator ) elMock.proxy());
 
         Mock ctxMock = mock( MarmaladeExecutionContext.class );
 
@@ -133,8 +133,8 @@ public class DefaultAttributesTest extends MockObjectTestCase
         attributes.addAttribute( new DefaultRawAttribute( null, null, "testKey",
                 "value" ) );
 
-        DefaultAttributes attrs = new DefaultAttributes( ( ExpressionEvaluator ) elMock
-                .proxy(  ), attributes );
+        DefaultAttributes attrs = new DefaultAttributes(attributes );
+        attrs.setExpressionEvaluator(( ExpressionEvaluator ) elMock.proxy());
 
         Mock ctxMock = mock( MarmaladeExecutionContext.class );
 

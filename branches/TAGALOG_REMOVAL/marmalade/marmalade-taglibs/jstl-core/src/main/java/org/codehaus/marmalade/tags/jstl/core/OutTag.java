@@ -33,9 +33,9 @@ import org.codehaus.marmalade.tags.AbstractOutputTag;
  */
 public class OutTag extends AbstractOutputTag
 {
-    public OutTag( MarmaladeTagInfo tagInfo )
+    public OutTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void write( String message, MarmaladeExecutionContext context )

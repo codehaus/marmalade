@@ -30,11 +30,10 @@ import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 
 /**
  * @author jdcasey
@@ -46,9 +45,9 @@ public class CatchTagTest extends TestCase
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( new DefaultRawAttributes(  ) );
-
-        CatchTag tag = new CatchTag( ti );
+        CatchTag tag = new CatchTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes( new DefaultAttributes(  ) );
 
         try
         {
@@ -62,25 +61,29 @@ public class CatchTagTest extends TestCase
     }
 
     public void testShouldCatchThrownExceptionWhenClassIsUnspecified(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
-        DefaultRawAttributes tiAttrs = new DefaultRawAttributes(  );
+        DefaultRawAttributes rawAttrs = new DefaultRawAttributes(  );
 
-        tiAttrs.addAttribute( new DefaultRawAttribute( "", "var", "exception" ) );
-        ti.setAttributes( tiAttrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        rawAttrs.addAttribute( "", "", "var", "exception" );
 
-        CatchTag tag = new CatchTag( ti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+        DefaultAttributes attrs = new DefaultAttributes(rawAttrs);
+        attrs.setExpressionEvaluator(el);
+        
+        CatchTag tag = new CatchTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes( attrs );
+        tag.setExpressionEvaluator( el );
 
         MarmaladeTagInfo cti = new MarmaladeTagInfo(  );
-        DefaultRawAttributes ctiAttrs = new DefaultRawAttributes(  );
 
-        cti.setAttributes( ctiAttrs );
-
-        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag( cti );
+        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
+        errTag.setTagInfo(cti);
 
         tag.addChild( errTag );
+        errTag.setParent(tag);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -102,27 +105,31 @@ public class CatchTagTest extends TestCase
     }
 
     public void testShouldCatchThrownAndMatchedExceptionClassWhenSpecified(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
-        DefaultRawAttributes tiAttrs = new DefaultRawAttributes(  );
+        DefaultRawAttributes rawAttrs = new DefaultRawAttributes(  );
 
-        tiAttrs.addAttribute( new DefaultRawAttribute( "", "var", "exception" ) );
-        tiAttrs.addAttribute( new DefaultRawAttribute( "", "class",
-                "java.lang.UnsupportedOperationException" ) );
-        ti.setAttributes( tiAttrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        rawAttrs.addAttribute( "", "", "var", "exception" );
+        rawAttrs.addAttribute( "", "", "class",
+                "java.lang.UnsupportedOperationException" );
 
-        CatchTag tag = new CatchTag( ti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+        DefaultAttributes attrs = new DefaultAttributes(rawAttrs);
+        attrs.setExpressionEvaluator(el);
+        
+        CatchTag tag = new CatchTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes( attrs );
+        tag.setExpressionEvaluator( el );
 
         MarmaladeTagInfo cti = new MarmaladeTagInfo(  );
-        DefaultRawAttributes ctiAttrs = new DefaultRawAttributes(  );
 
-        cti.setAttributes( ctiAttrs );
-
-        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag( cti );
+        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
+        errTag.setTagInfo(cti);
 
         tag.addChild( errTag );
+        errTag.setParent(tag);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -144,27 +151,31 @@ public class CatchTagTest extends TestCase
     }
 
     public void testShouldFailToCatchThrownAndUnmatchedExceptionClassWhenSpecified(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
-        DefaultRawAttributes tiAttrs = new DefaultRawAttributes(  );
+        DefaultRawAttributes rawAttrs = new DefaultRawAttributes(  );
 
-        tiAttrs.addAttribute( new DefaultRawAttribute( "", "var", "exception" ) );
-        tiAttrs.addAttribute( new DefaultRawAttribute( "", "class",
-                "java.lang.IllegalArgumentException" ) );
-        ti.setAttributes( tiAttrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        CatchTag tag = new CatchTag( ti );
+        rawAttrs.addAttribute( "", "", "var", "exception" );
+        rawAttrs.addAttribute( "", "", "class",
+                "java.lang.IllegalArgumentException" );
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+        DefaultAttributes attrs = new DefaultAttributes(rawAttrs);
+        attrs.setExpressionEvaluator(el);
+        
+        CatchTag tag = new CatchTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes( attrs );
+        tag.setExpressionEvaluator( el );
 
         MarmaladeTagInfo cti = new MarmaladeTagInfo(  );
-        DefaultRawAttributes ctiAttrs = new DefaultRawAttributes(  );
 
-        cti.setAttributes( ctiAttrs );
-
-        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag( cti );
+        ErrorGeneratingTestTag errTag = new ErrorGeneratingTestTag(  );
+        errTag.setTagInfo(cti);
 
         tag.addChild( errTag );
+        errTag.setParent(tag);
 
         DefaultContext ctx = new DefaultContext(  );
 

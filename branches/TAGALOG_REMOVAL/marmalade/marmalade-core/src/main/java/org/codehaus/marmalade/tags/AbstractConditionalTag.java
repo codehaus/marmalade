@@ -48,7 +48,7 @@ public abstract class AbstractConditionalTag extends AbstractMarmaladeTag
     {
         Object value = requireTagAttribute( TEST_ATTRIBUTE, Boolean.class,
                 context );
-
+        
         boolean result = false;
 
         if ( value != null )
@@ -61,7 +61,7 @@ public abstract class AbstractConditionalTag extends AbstractMarmaladeTag
             {
                 String test = String.valueOf( value );
 
-                result = Boolean.getBoolean( test );
+                result = Boolean.valueOf( test ).booleanValue();
             }
         }
 
