@@ -18,17 +18,16 @@
 /* Created on May 25, 2004 */
 package org.codehaus.marmalade.tags.passthrough;
 
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
+
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.ModelBuilderAttribute;
 import org.codehaus.marmalade.metamodel.ModelBuilderAttributes;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-
-import java.io.PrintWriter;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author jdcasey

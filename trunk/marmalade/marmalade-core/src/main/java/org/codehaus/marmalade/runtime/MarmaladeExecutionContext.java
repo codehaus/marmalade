@@ -18,13 +18,12 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.runtime;
 
-import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.el.ExpressionEvaluator;
-
 import java.io.PrintWriter;
 import java.io.Reader;
-
 import java.util.Map;
+
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
+import org.codehaus.marmalade.el.ExpressionEvaluator;
 
 /**
  * @author jdcasey

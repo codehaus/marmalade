@@ -18,14 +18,14 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.parsetime;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.codehaus.marmalade.metamodel.BuilderTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.tagalog.FallbackTagLibraryResolver;
 import org.codehaus.tagalog.PrefixTagLibraryResolver;
 import org.codehaus.tagalog.TagLibrary;
-
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author jdcasey

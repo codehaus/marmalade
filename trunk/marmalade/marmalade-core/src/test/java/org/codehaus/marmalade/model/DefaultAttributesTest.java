@@ -18,6 +18,9 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
@@ -27,9 +30,6 @@ import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author jdcasey

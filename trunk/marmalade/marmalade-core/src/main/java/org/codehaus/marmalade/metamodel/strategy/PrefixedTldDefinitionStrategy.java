@@ -18,6 +18,11 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel.strategy;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.codehaus.marmalade.metamodel.strategy.tld.tags.TldTagLibrary;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 import org.codehaus.tagalog.ParserConfiguration;
@@ -25,11 +30,6 @@ import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author jdcasey

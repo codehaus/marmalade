@@ -18,6 +18,16 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.parsetime;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagBuilder;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
@@ -27,17 +37,6 @@ import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.net.URL;
 
 /**
  * @author jdcasey
