@@ -157,11 +157,45 @@ public final class SAXParserState {
         contentSignificant = false;
     }
 
+    /**
+     * Check for direct containment by an element of the given name.
+     *
+     * @param qName Name of element to check.
+     * @return True if the most recently entered element has the name supplied,
+     * false otherwise.
+     */
     public boolean inElement(String qName) {
         Element target;
 
         target = new Element(null, null, qName);
         return target.equals(context.getLast());
+    }
+
+    /**
+     * Check for direct containment by elements of the given name in the
+     * order specified. Returns true if the parser state indicates that
+     * element <code>qName2</code> is the most recently entered, and
+     * element <code>qName1</code> is the next most recently entered.
+     *
+     * @param qName1 Name of outer element to check.
+     * @param qName2 Name of inner element to check.
+     * @return True if the most recently entered element has the name supplied,
+     * false otherwise.
+     */
+    public boolean inElement(String qName1, String qName2) {
+        Element target;
+        ListIterator i;
+        Element element;
+
+        target = new Element(null, null, qName2);
+        i = context.listIterator(context.size());
+        if (!i.hasPrevious()) return false;
+        element = (Element) i.previous();
+        if (!target.equals(element)) return false;
+        target = new Element(null, null, qName1);
+        if (!i.hasPrevious()) return false;
+        element = (Element) i.previous();
+        return target.equals(element);
     }
 
     public boolean containedBy(String qName) {

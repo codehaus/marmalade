@@ -40,6 +40,13 @@ public final class SAXParserStateTest extends TestCase {
         assertFalse(state.inElement("c"));
         assertTrue(state.inElement("d"));
         assertFalse(state.inElement("x"));
+
+        assertFalse(state.inElement("a", "b"));
+        assertFalse(state.inElement("b", "c"));
+        assertTrue(state.inElement("c", "d"));
+        assertFalse(state.inElement("b", "d"));
+        assertFalse(state.inElement("x", "d"));
+        assertFalse(state.inElement("c", "x"));
     }
 
     public void testStartElement() {
