@@ -25,10 +25,12 @@ import org.codehaus.tagalog.TagalogParseException;
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @version $Revision$
  */
-final class TagalogSAXParser extends AbstractParser implements ContentHandler {
+final class TagalogSAXParser extends AbstractParser {
     private SAXParser saxParser;
 
     private InputSource inputSource;
+
+    private SAXContentHandler contentHandler;
 
     TagalogSAXParser(ParserConfiguration configuration, SAXParser saxParser,
                      InputSource inputSource)
@@ -47,7 +49,8 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
             XMLReader xmlReader;
 
             xmlReader = saxParser.getXMLReader();
-            xmlReader.setContentHandler(this);
+            contentHandler = new SAXContentHandler();
+            xmlReader.setContentHandler(contentHandler);
             xmlReader.parse(inputSource);
         } catch (SAXException e) {
             Exception cause = e.getException();
@@ -63,75 +66,86 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         }
     }
 
-    private Locator locator;
-
     protected int getErrorLineNumber() {
-        return locator.getLineNumber();
+        return contentHandler.getErrorLineNumber();
     }
 
     //
     // SAX ContentHandler methods.
     //
 
-    public void setDocumentLocator(Locator locator) {
-        this.locator = locator;
-    }
+    private class SAXContentHandler implements ContentHandler {
 
-    public void startElement(String namespaceUri, String localName,
-                             String qName, Attributes atts)
-        throws SAXException
-    {
-        try {
-            startElement(namespaceUri, localName, new SAXAttributes(atts));
-        } catch (TagalogParseException e) {
-            throw new SAXException(e);
+        private Locator locator;
+
+        public int getErrorLineNumber() {
+            return locator.getLineNumber();
         }
-    }
 
-    public void characters(char[] ch, int start, int length)
-        throws SAXException
-    {
-        try {
-            text(ch, start, length);
-        } catch (TagalogParseException e) {
-            throw new SAXException(e);
+        public void setDocumentLocator(Locator locator) {
+            this.locator = locator;
         }
-    }
 
-    public void endElement(String namespaceUri, String localName, String qName)
-        throws SAXException
-    {
-        try {
-            endElement(namespaceUri, localName);
-        } catch (TagalogParseException e) {
-            throw new SAXException(e);
+        public void startElement(String namespaceUri, String localName,
+                                 String qName, Attributes atts)
+            throws SAXException
+        {
+            try {
+                TagalogSAXParser.this.startElement(namespaceUri, localName,
+                                                   new SAXAttributes(atts));
+            } catch (TagalogParseException e) {
+                throw new SAXException(e);
+            }
         }
-    }
 
-    public void startDocument() throws SAXException {
-    }
+        public void characters(char[] ch, int start, int length)
+            throws SAXException
+        {
+            try {
+                text(ch, start, length);
+            } catch (TagalogParseException e) {
+                throw new SAXException(e);
+            }
+        }
 
-    public void endDocument() throws SAXException {
-    }
+        public void endElement(String namespaceUri, String localName,
+                               String qName)
+            throws SAXException
+        {
+            try {
+                TagalogSAXParser.this.endElement(namespaceUri, localName);
+            } catch (TagalogParseException e) {
+                throw new SAXException(e);
+            }
+        }
 
-    public void startPrefixMapping(String prefix, String uri)
-        throws SAXException
-    {
-    }
+        public void processingInstruction(String target, String data)
+            throws SAXException
+        {
+            if (handlingProcessingInstructions())
+                TagalogSAXParser.this.processingInstruction(target, data);
+        }
 
-    public void endPrefixMapping(String prefix) throws SAXException {
-    }
+        public void startDocument() throws SAXException {
+        }
 
-    public void ignorableWhitespace(char[] ch, int start, int length)
-        throws SAXException
-    {
-    }
+        public void endDocument() throws SAXException {
+        }
 
-    public void skippedEntity(String name) throws SAXException {
-    }
+        public void startPrefixMapping(String prefix, String uri)
+            throws SAXException
+        {
+        }
 
-    public void processingInstruction(String target, String data)
-        throws SAXException
-    {
+        public void endPrefixMapping(String prefix) throws SAXException {
+        }
+
+        public void ignorableWhitespace(char[] ch, int start, int length)
+            throws SAXException
+        {
+        }
+
+        public void skippedEntity(String name) throws SAXException {
+        }
     }
 }
