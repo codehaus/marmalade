@@ -44,8 +44,12 @@ public class CommonsElExpressionEvaluatorTest extends TestCase{
     
     CommonsElExpressionEvaluator el = new CommonsElExpressionEvaluator();
     Object result = el.assign(subject, "id", id);
+    result = el.assign(subject, "name.firstName", "John");
+    result = el.assign(subject, "name.lastName", "Doe");
     
     assertEquals("Id should have been changed to \'testId\'", id, subject.getId());
+    assertEquals("First name should be \'John\'", "John", subject.getName().getFirstName());
+    assertEquals("Last name should be \'Doe\'", "Doe", subject.getName().lastName);
   }
 
 }
