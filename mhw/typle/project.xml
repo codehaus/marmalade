@@ -17,6 +17,7 @@
 
   <inceptionYear>2003</inceptionYear>
   <package>org.codehaus.typle</package>
+  <logo>/images/typle-logo.png</logo>
 
   <shortDescription>
     Data model for type representation, and associated tools.
