@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>1.0-alpha2</version>
+  </parent>
+  <artifactId>marmalade-core</artifactId>
+  <version>1.0-alpha2</version>
+
+  <name>Marmalade Core</name>
+  
+  <build>
+    <unitTest>
+      <excludes>
+        <exclude>**/*Abstract*.java</exclude>
+        <exclude>**/*AspectTest.java</exclude>
+      </excludes>
+    </unitTest>
+  </build>
+  
+</project>
