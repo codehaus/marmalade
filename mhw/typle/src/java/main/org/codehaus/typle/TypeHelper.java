@@ -6,7 +6,7 @@ package org.codehaus.typle;
 
 /**
  * Simple implementation of the {@link Type} contract, suitable for building
- * non-mutable classes that represent types. This class would probably be
+ * immutable classes that represent types. This class would probably be
  * named <code>AbstractType</code> or something similar, but for the
  * misinterpretation that would likely result.
  *
@@ -29,13 +29,6 @@ public abstract class TypeHelper {
      * @see Type#getTypeName()
      */
     public String getTypeName() {
-        return name;
-    }
-
-    /**
-     * @see Type#getSignature
-     */
-    public String getSignature() {
         return name;
     }
 }

@@ -40,10 +40,10 @@ public final class RecordType implements Type {
     }
 
     public String getTypeName() {
-        return "record {" + fields.signature() + "}";
+        return "[" + fields.signature() + "]";
     }
 
-    public String getSignature() {
-        return "{" + fields.signature() + "}";
+    public String toString() {
+        return getTypeName();
     }
 }
