@@ -21,6 +21,7 @@ public final class JavaSource implements Comparator {
         Import.class,
         JavaClass.class,
         Field.class,
+        Method.class,
     };
 
     // ensure use of singleton
@@ -45,6 +46,8 @@ public final class JavaSource implements Comparator {
             return javaClassCompare((JavaClass) o1, (JavaClass) o2);
         } else if (o1 instanceof Field) {
             return fieldCompare((Field) o1, (Field) o2);
+        } else if (o1 instanceof Method) {
+            return methodCompare((Method) o1, (Method) o2);
         } else {
             throw new IllegalStateException("cannot compare "
                                             + o1.getClass().getName());
@@ -104,5 +107,9 @@ public final class JavaSource implements Comparator {
 
     private int fieldCompare(Field o1, Field o2) {
         return o1.getFieldName().compareTo(o2.getFieldName());
+    }
+
+    private int methodCompare(Method o1, Method o2) {
+        return o1.getMethodName().compareTo(o2.getMethodName());
     }
 }
