@@ -5,6 +5,7 @@ import org.apache.commons.jelly.Jelly;
 import org.apache.commons.jelly.TagLibrary;
 import org.codehaus.marmalade.compat.jelly.JellyCompatUncheckedException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.AbstractMarmaladeTagLibrary;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTagLibrary;
 
@@ -18,7 +19,7 @@ import java.util.TreeMap;
 /**
  * @author jdcasey
  */
-public class MarmaladeCompatibleJellyTaglib implements MarmaladeTagLibrary
+public class MarmaladeCompatibleJellyTaglib extends AbstractMarmaladeTagLibrary
 {
     public static final String JELLY_NATIVE_TAGLIBS_DEFINITION = "jelly.properties";
     private Properties natives = new Properties(  );
@@ -101,6 +102,12 @@ public class MarmaladeCompatibleJellyTaglib implements MarmaladeTagLibrary
             }
         }
 
-        return new JellyCompatMarmaladeTag( tagInfo, tlib );
+        return new JellyCompatMarmaladeTag( tlib );
+    }
+
+    public void registerTag( String name, Class tagClass )
+    {
+        throw new UnsupportedOperationException( 
+            "This is not an open tag library, and cannot have new tags registered to it." );
     }
 }

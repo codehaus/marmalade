@@ -36,9 +36,9 @@ public class RemoveTag extends AbstractMarmaladeTag
 {
     public static final String VAR_ATTRIBUTE = "var";
 
-    public RemoveTag( MarmaladeTagInfo tagInfo )
+    public RemoveTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

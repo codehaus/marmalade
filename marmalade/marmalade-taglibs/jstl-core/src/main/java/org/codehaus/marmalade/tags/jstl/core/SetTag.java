@@ -41,9 +41,9 @@ public class SetTag extends AbstractMarmaladeTag
     public static final String PROPERTY_ATTRIBUTE = "property";
     public static final String TARGET_ATTRIBUTE = "target";
 
-    public SetTag( MarmaladeTagInfo tagInfo )
+    public SetTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

@@ -34,9 +34,9 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
  */
 public class RedirectTag extends AbstractMarmaladeTag
 {
-    public RedirectTag( MarmaladeTagInfo tagInfo )
+    public RedirectTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

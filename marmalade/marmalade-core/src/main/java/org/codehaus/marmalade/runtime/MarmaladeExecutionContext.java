@@ -26,7 +26,10 @@ package org.codehaus.marmalade.runtime;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 
@@ -71,4 +74,6 @@ public interface MarmaladeExecutionContext
     public void preserveWhitespaceOverride( Boolean shouldOverride );
 
     public void importContext( MarmaladeExecutionContext context );
+
+    public XmlSerializer getXmlSerializer() throws XmlPullParserException, IOException;
 }

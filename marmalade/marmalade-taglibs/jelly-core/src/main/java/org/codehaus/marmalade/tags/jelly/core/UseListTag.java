@@ -43,9 +43,8 @@ public class UseListTag extends AbstractJellyMarmaladeTag
     public static final String CLASS_ATTRIBUTE = "class";
     public static final String VAR_ATTRIBUTE = "var";
 
-    public UseListTag( MarmaladeTagInfo tagInfo )
+    public UseListTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

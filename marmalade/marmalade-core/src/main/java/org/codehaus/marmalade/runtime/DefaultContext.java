@@ -27,8 +27,12 @@ package org.codehaus.marmalade.runtime;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.util.ScopedMap;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -54,6 +58,7 @@ public class DefaultContext implements MarmaladeExecutionContext
     private PrintWriter out = sysout;
     private PrintWriter err = syserr;
     private Reader in = sysin;
+    private XmlSerializer xmlSerializer;
 
     public DefaultContext(  )
     {
@@ -189,4 +194,14 @@ public class DefaultContext implements MarmaladeExecutionContext
     public void setVariables(Map vars) {
         context.putAll(vars);
     }
+
+    public XmlSerializer getXmlSerializer() throws XmlPullParserException, IOException {
+        if(xmlSerializer == null) {
+            XmlPullParserFactory xpp3Factory = XmlPullParserFactory.newInstance();
+            xmlSerializer = xpp3Factory.newSerializer();
+            xmlSerializer.setOutput(getOutWriter());
+        }
+        return xmlSerializer;
+    }
+
 }

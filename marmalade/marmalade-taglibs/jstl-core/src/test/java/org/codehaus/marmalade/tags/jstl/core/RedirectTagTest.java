@@ -39,7 +39,8 @@ public class RedirectTagTest extends TestCase
     {
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        RedirectTag tag = new RedirectTag( mti );
+        RedirectTag tag = new RedirectTag(  );
+        tag.setTagInfo(mti);
 
         try
         {

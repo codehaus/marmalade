@@ -46,9 +46,8 @@ public class NewTag extends AbstractJellyMarmaladeTag implements ArgParent
     public static final String VAR_ATTRIBUTE = "var";
     private List args = new ArrayList(  );
 
-    public NewTag( MarmaladeTagInfo tagInfo )
+    public NewTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

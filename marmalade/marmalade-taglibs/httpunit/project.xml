@@ -9,7 +9,7 @@
   <parent>
     <groupId>marmalade</groupId>
     <artifactId>marmalade-parent</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
   </parent>
   <artifactId>marmalade-tags-httpunit</artifactId>
 
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>marmalade</groupId>
       <artifactId>marmalade-core</artifactId>
-      <version>0.1</version>
+      <version>0.2</version>
     </dependency>
     
     <dependency>
@@ -32,7 +32,7 @@
     <dependency>
       <groupId>marmalade</groupId>
       <artifactId>marmalade-el-ognl</artifactId>
-      <version>0.1</version>
+      <version>0.2</version>
     </dependency>
     
     <dependency>

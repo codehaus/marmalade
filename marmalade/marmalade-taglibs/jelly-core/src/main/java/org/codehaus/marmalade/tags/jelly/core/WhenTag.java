@@ -35,12 +35,8 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyConditionalTag;
  */
 public class WhenTag extends AbstractJellyConditionalTag
 {
-    /**
-     *
-     */
-    public WhenTag( MarmaladeTagInfo tagInfo )
+    public WhenTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

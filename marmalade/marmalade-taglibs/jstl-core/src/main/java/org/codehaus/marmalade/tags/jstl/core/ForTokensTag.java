@@ -35,9 +35,8 @@ public class ForTokensTag extends ForEachTag
 {
     public static final String DELIMS_ATTRIBUTE = "delims";
 
-    public ForTokensTag( MarmaladeTagInfo tagInfo )
+    public ForTokensTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

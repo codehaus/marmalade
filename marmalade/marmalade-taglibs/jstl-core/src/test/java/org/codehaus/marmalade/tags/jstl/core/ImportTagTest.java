@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
@@ -104,22 +105,25 @@ public class ImportTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "url", "#scriptLocation" );
-        attrs.addAttribute( "", "var", "script" );
-
+        attrs.addAttribute( "", "", "url", "#scriptLocation" );
+        attrs.addAttribute( "", "", "var", "script" );
+        
         if ( parseOnlySpecified )
         {
-            attrs.addAttribute( "", "parse-only", Boolean.toString( parseOnly ) );
+            attrs.addAttribute( "", "", "parse-only", Boolean.toString( parseOnly ) );
         }
 
-        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( el );
-
-        ImportTag tag = new ImportTag( ti );
+        ImportTag tag = new ImportTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 

@@ -2,14 +2,14 @@
 
 <project>
   <!-- v3 -->
-  <extend>${maven.repo.local}/marmalade/poms/marmalade-parent-0.1.pom</extend>
+  <extend>${maven.repo.local}/marmalade/poms/marmalade-parent-0.2.pom</extend>
   <id>marmalade-jelly-common</id>
 
   <!-- v4 -->
   <parent>
     <groupId>marmalade</groupId>
     <artifactId>marmalade-parent</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
   </parent>
   <artifactId>marmalade-jelly-common</artifactId>
 
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>marmalade</groupId>
       <artifactId>marmalade-core</artifactId>
-      <version>0.1</version>
+      <version>0.2</version>
     </dependency>
     
     <!-- Testing dependencies -->

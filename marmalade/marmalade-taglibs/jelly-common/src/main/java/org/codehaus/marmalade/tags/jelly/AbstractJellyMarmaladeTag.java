@@ -36,9 +36,8 @@ public abstract class AbstractJellyMarmaladeTag extends AbstractMarmaladeTag
 {
     public static final String TRIM_ATTRIBUTE = "trim";
 
-    protected AbstractJellyMarmaladeTag( MarmaladeTagInfo tagInfo )
+    protected AbstractJellyMarmaladeTag(  )
     {
-        super( tagInfo );
     }
 
     protected boolean preserveBodyWhitespace( MarmaladeExecutionContext context )

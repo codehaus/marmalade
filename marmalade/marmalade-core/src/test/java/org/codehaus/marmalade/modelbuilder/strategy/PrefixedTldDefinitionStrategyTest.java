@@ -40,7 +40,7 @@ public class PrefixedTldDefinitionStrategyTest extends TestCase
         PrefixedTldDefinitionStrategy strat = new PrefixedTldDefinitionStrategy(  );
         MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib" );
 
-        assertNotNull( taglib );
+        assertNotNull( "taglib is null", taglib );
         assertEquals( TldDefinedTagLibrary.class, taglib.getClass(  ) );
     }
 

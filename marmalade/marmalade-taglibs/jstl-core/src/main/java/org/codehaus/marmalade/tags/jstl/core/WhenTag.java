@@ -37,9 +37,9 @@ public class WhenTag extends AbstractConditionalTag
     /**
      *
      */
-    public WhenTag( MarmaladeTagInfo tagInfo )
+    public WhenTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

@@ -37,9 +37,9 @@ public class ParamTag extends AbstractMarmaladeTag
     public static final String NAME_ATTRIBUTE = "name";
     public static final String VALUE_ATTRIBUTE = "value";
 
-    public ParamTag( MarmaladeTagInfo tagInfo )
+    public ParamTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

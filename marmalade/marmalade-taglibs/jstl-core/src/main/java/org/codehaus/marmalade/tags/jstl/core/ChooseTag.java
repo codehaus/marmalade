@@ -40,9 +40,8 @@ public class ChooseTag extends AbstractMarmaladeTag
 {
     private OtherwiseTag otherwise;
 
-    public ChooseTag( MarmaladeTagInfo tagInfo )
+    public ChooseTag(  )
     {
-        super( tagInfo );
     }
 
     public void processChildren( MarmaladeExecutionContext context )
@@ -66,6 +65,9 @@ public class ChooseTag extends AbstractMarmaladeTag
                     break;
                 }
             }
+            else if(child == otherwise) {
+                // skip this for now.
+            }
             else
             {
                 child.execute( context );
@@ -78,17 +80,18 @@ public class ChooseTag extends AbstractMarmaladeTag
         }
     }
 
-    protected boolean shouldAddChild( MarmaladeTag child )
+    public void addChild( MarmaladeTag child )
     {
         if ( child instanceof OtherwiseTag )
         {
-            this.otherwise = ( OtherwiseTag ) child;
-
-            return false;
+            if(otherwise != null) {
+                throw new IllegalArgumentException("Only one <otherwise/> tag is allowed in <choose/>.");
+            }
+            else {
+                this.otherwise = ( OtherwiseTag ) child;
+            }
         }
-        else
-        {
-            return true;
-        }
+        
+        super.addChild(child);
     }
 }

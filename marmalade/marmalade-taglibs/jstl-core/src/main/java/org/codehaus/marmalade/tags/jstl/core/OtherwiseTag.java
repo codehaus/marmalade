@@ -34,9 +34,9 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
  */
 public class OtherwiseTag extends AbstractMarmaladeTag
 {
-    public OtherwiseTag( MarmaladeTagInfo tagInfo )
+    public OtherwiseTag(  )
     {
-        super( tagInfo );
+        super(  );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

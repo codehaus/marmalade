@@ -29,10 +29,9 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 
 /**
  * @author jdcasey
@@ -44,22 +43,22 @@ public class ForTokensTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", "items", value );
-        attrs.addAttribute( "", "delims", delim );
-        attrs.addAttribute( "", "var", "item" );
+        attrs.addAttribute( "", "", "items", value );
+        attrs.addAttribute( "", "", "delims", delim );
+        attrs.addAttribute( "", "", "var", "item" );
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new PassThroughExpressionEvaluator(  ) );
-
-        ForTokensTag tag = new ForTokensTag( ti );
+        ForTokensTag tag = new ForTokensTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(tagAttrs);
 
         MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
 
-        counterTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        CounterTestTag counter = new CounterTestTag( counterTI );
+        CounterTestTag counter = new CounterTestTag(  );
+        counter.setTagInfo(counterTI);
 
         counter.setParent( tag );
         tag.addChild( counter );
@@ -70,25 +69,25 @@ public class ForTokensTagTest extends TestCase
     }
 
     public void testDoExecute_SingleDelim_SingleValue(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         _testTokenIteration( ",", "one", 1 );
     }
 
     public void testDoExecute_SingleDelim_MultiValue(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         _testTokenIteration( ",", "one,two", 2 );
     }
 
     public void testDoExecute_MultiDelim_SingleValue(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         _testTokenIteration( ",;", "one", 1 );
     }
 
     public void testDoExecute_MultiDelim_MultiValue(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         _testTokenIteration( ",;", "one,two;three", 3 );
     }

@@ -30,10 +30,9 @@ import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 
 /**
  * @author jdcasey
@@ -41,260 +40,62 @@ import org.codehaus.tagalog.TagalogParseException;
 public class ChooseTagTest extends TestCase
 {
     public void testShouldExecuteFirstWhenChildWithTrueTestResultAndNoOthers_TTX(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
-        MarmaladeTagInfo chooseTI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes(  );
-
-        chooseTI.setAttributes( chooseTIAttrs );
-        chooseTI.setElement( "choose" );
-        chooseTI.setScheme( "marmalade" );
-        chooseTI.setTaglib( "jstl-core" );
-
-        ChooseTag tag = new ChooseTag( chooseTI );
-
-        MarmaladeTagInfo c1TI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes c1TIAttrs = new DefaultRawAttributes(  );
-
-        c1TIAttrs.addAttribute( new DefaultRawAttribute( "", "test", "true" ) );
-        c1TI.setAttributes( c1TIAttrs );
-        c1TI.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        WhenTag c1 = new WhenTag( c1TI );
-
-        MarmaladeTagInfo c1fTI = new MarmaladeTagInfo(  );
-
-        c1fTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag c1f = new FlagChildTestTag( c1fTI );
-
-        c1.addChild( c1f );
-        c1f.setParent( c1 );
-        tag.addChild( c1 );
-        c1.setParent( tag );
-
-        MarmaladeTagInfo c2TI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes c2TIAttrs = new DefaultRawAttributes(  );
-
-        c2TIAttrs.addAttribute( new DefaultRawAttribute( "", "test", "true" ) );
-        c2TI.setAttributes( c2TIAttrs );
-        c2TI.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        WhenTag c2 = new WhenTag( c2TI );
-
-        MarmaladeTagInfo c2fTI = new MarmaladeTagInfo(  );
-
-        c2fTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag c2f = new FlagChildTestTag( c2fTI );
-
-        c2.addChild( c2f );
-        c2f.setParent( c2 );
-        tag.addChild( c2 );
-        c2.setParent( tag );
-
-        MarmaladeTagInfo oTI = new MarmaladeTagInfo(  );
-
-        oTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        OtherwiseTag o = new OtherwiseTag( oTI );
-
-        MarmaladeTagInfo ofTI = new MarmaladeTagInfo(  );
-
-        ofTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag of = new FlagChildTestTag( ofTI );
-
-        o.addChild( of );
-        of.setParent( o );
-        tag.addChild( o );
-        o.setParent( tag );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        tag.execute( ctx );
-
-        assertTrue( "Condition 1 should have fired.", c1f.fired(  ) );
-        assertFalse( "Condition 2 should NOT have fired.", c2f.fired(  ) );
-        assertFalse( "Otherwise should NOT have fired.", of.fired(  ) );
+        runTestScenario( "true", "true", true, false, false );
     }
 
-    public void testShouldExecuteFirstWhenChildWithTrueTestResultAndNoOthers_FTX(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+    public void testShouldExecuteSecondWhenChildWithTrueTestResultAndNoOthers_FTX(  )
+        throws MarmaladeExecutionException
     {
-        MarmaladeTagInfo chooseTI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes(  );
-
-        chooseTI.setAttributes( chooseTIAttrs );
-
-        ChooseTag tag = new ChooseTag( chooseTI );
-
-        MarmaladeTagInfo c1TI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes c1TIAttrs = new DefaultRawAttributes(  );
-
-        c1TIAttrs.addAttribute( new DefaultRawAttribute( "", "test", "false" ) );
-        c1TI.setAttributes( c1TIAttrs );
-        c1TI.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        WhenTag c1 = new WhenTag( c1TI );
-
-        MarmaladeTagInfo c1fTI = new MarmaladeTagInfo(  );
-
-        c1fTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag c1f = new FlagChildTestTag( c1fTI );
-
-        c1.addChild( c1f );
-        c1f.setParent( c1 );
-        tag.addChild( c1 );
-        c1.setParent( tag );
-
-        MarmaladeTagInfo c2TI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes c2TIAttrs = new DefaultRawAttributes(  );
-
-        c2TIAttrs.addAttribute( new DefaultRawAttribute( "", "test", "true" ) );
-        c2TI.setAttributes( c2TIAttrs );
-        c2TI.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        WhenTag c2 = new WhenTag( c2TI );
-
-        MarmaladeTagInfo c2fTI = new MarmaladeTagInfo(  );
-
-        c2fTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag c2f = new FlagChildTestTag( c2fTI );
-
-        c2.addChild( c2f );
-        c2f.setParent( c2 );
-        tag.addChild( c2 );
-        c2.setParent( tag );
-
-        MarmaladeTagInfo oTI = new MarmaladeTagInfo(  );
-
-        oTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        OtherwiseTag o = new OtherwiseTag( oTI );
-
-        MarmaladeTagInfo ofTI = new MarmaladeTagInfo(  );
-
-        ofTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag of = new FlagChildTestTag( ofTI );
-
-        o.addChild( of );
-        of.setParent( o );
-        tag.addChild( o );
-        o.setParent( tag );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        tag.execute( ctx );
-
-        assertFalse( "Condition 1 should NOT have fired.", c1f.fired(  ) );
-        assertTrue( "Condition 2 should have fired.", c2f.fired(  ) );
-        assertFalse( "Otherwise should NOT have fired.", of.fired(  ) );
+        runTestScenario( "false", "true", false, true, false );
     }
 
     public void testShouldExecuteOtherwiseIfNoWhenChildTestResultIsTrue(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
-        MarmaladeTagInfo chooseTI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes(  );
-
-        chooseTI.setAttributes( chooseTIAttrs );
-
-        ChooseTag tag = new ChooseTag( chooseTI );
-
-        MarmaladeTagInfo c1TI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes c1TIAttrs = new DefaultRawAttributes(  );
-
-        c1TIAttrs.addAttribute( new DefaultRawAttribute( "", "test", "false" ) );
-        c1TI.setAttributes( c1TIAttrs );
-        c1TI.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        WhenTag c1 = new WhenTag( c1TI );
-
-        MarmaladeTagInfo c1fTI = new MarmaladeTagInfo(  );
-
-        c1fTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag c1f = new FlagChildTestTag( c1fTI );
-
-        c1.addChild( c1f );
-        c1f.setParent( c1 );
-        tag.addChild( c1 );
-        c1.setParent( tag );
-
-        MarmaladeTagInfo c2TI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes c2TIAttrs = new DefaultRawAttributes(  );
-
-        c2TIAttrs.addAttribute( new DefaultRawAttribute( "", "test", "false" ) );
-        c2TI.setAttributes( c2TIAttrs );
-        c2TI.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        WhenTag c2 = new WhenTag( c2TI );
-
-        MarmaladeTagInfo c2fTI = new MarmaladeTagInfo(  );
-
-        c2fTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag c2f = new FlagChildTestTag( c2fTI );
-
-        c2.addChild( c2f );
-        c2f.setParent( c2 );
-        tag.addChild( c2 );
-        c2.setParent( tag );
-
-        MarmaladeTagInfo oTI = new MarmaladeTagInfo(  );
-
-        oTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        OtherwiseTag o = new OtherwiseTag( oTI );
-
-        MarmaladeTagInfo ofTI = new MarmaladeTagInfo(  );
-
-        ofTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag of = new FlagChildTestTag( ofTI );
-
-        o.addChild( of );
-        of.setParent( o );
-        tag.addChild( o );
-        o.setParent( tag );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        tag.execute( ctx );
-
-        assertFalse( "Condition 1 should NOT have fired.", c1f.fired(  ) );
-        assertFalse( "Condition 2 should NOT have fired.", c2f.fired(  ) );
-        assertTrue( "Otherwise should have fired.", of.fired(  ) );
+        runTestScenario( "false", "false", false, false, true );
     }
 
     public void testShouldFirstWhenChildWithTrueTestResultAndNoOthers_FF(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
+        runTestScenario( "true", "false", true, false, false );
+    }
+
+    private void runTestScenario( String condOneTestVal, String condTwoTestVal,
+        boolean condOneShouldFire, boolean condTwoShouldFire,
+        boolean otherShouldFire )
+        throws MarmaladeExecutionException
+    {
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+
         MarmaladeTagInfo chooseTI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes(  );
+        ChooseTag tag = new ChooseTag(  );
 
-        chooseTI.setAttributes( chooseTIAttrs );
-
-        ChooseTag tag = new ChooseTag( chooseTI );
+        tag.setTagInfo( chooseTI );
 
         MarmaladeTagInfo c1TI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes c1TIAttrs = new DefaultRawAttributes(  );
 
-        c1TIAttrs.addAttribute( new DefaultRawAttribute( "", "test", "false" ) );
-        c1TI.setAttributes( c1TIAttrs );
-        c1TI.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        DefaultRawAttributes c1Attrs = new DefaultRawAttributes(  );
 
-        WhenTag c1 = new WhenTag( c1TI );
+        c1Attrs.addAttribute( "", "", WhenTag.TEST_ATTRIBUTE, condOneTestVal );
+
+        DefaultAttributes c1TagAttrs = new DefaultAttributes( c1Attrs );
+
+        c1TagAttrs.setExpressionEvaluator( el );
+
+        WhenTag c1 = new WhenTag(  );
+
+        c1.setTagInfo( c1TI );
+        c1.setAttributes( c1TagAttrs );
+        c1.setExpressionEvaluator( el );
 
         MarmaladeTagInfo c1fTI = new MarmaladeTagInfo(  );
 
-        c1fTI.setAttributes( new DefaultRawAttributes(  ) );
+        FlagChildTestTag c1f = new FlagChildTestTag(  );
 
-        FlagChildTestTag c1f = new FlagChildTestTag( c1fTI );
+        c1f.setTagInfo( c1fTI );
 
         c1.addChild( c1f );
         c1f.setParent( c1 );
@@ -302,54 +103,42 @@ public class ChooseTagTest extends TestCase
         c1.setParent( tag );
 
         MarmaladeTagInfo c2TI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes c2TIAttrs = new DefaultRawAttributes(  );
+        DefaultRawAttributes c2Attrs = new DefaultRawAttributes(  );
 
-        c2TIAttrs.addAttribute( new DefaultRawAttribute( "", "test", "false" ) );
-        c2TI.setAttributes( c2TIAttrs );
-        c2TI.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        c2Attrs.addAttribute( "", "", WhenTag.TEST_ATTRIBUTE, condTwoTestVal );
 
-        WhenTag c2 = new WhenTag( c2TI );
+        DefaultAttributes c2TagAttrs = new DefaultAttributes( c2Attrs );
+
+        c2TagAttrs.setExpressionEvaluator( el );
+
+        WhenTag c2 = new WhenTag(  );
+
+        c2.setTagInfo( c2TI );
+        c2.setAttributes( c2TagAttrs );
+        c2.setExpressionEvaluator( el );
 
         MarmaladeTagInfo c2fTI = new MarmaladeTagInfo(  );
 
-        c2fTI.setAttributes( new DefaultRawAttributes(  ) );
+        FlagChildTestTag c2f = new FlagChildTestTag(  );
 
-        FlagChildTestTag c2f = new FlagChildTestTag( c2fTI );
+        c2f.setTagInfo( c2fTI );
 
         c2.addChild( c2f );
         c2f.setParent( c2 );
         tag.addChild( c2 );
         c2.setParent( tag );
 
-        DefaultContext ctx = new DefaultContext(  );
-
-        tag.execute( ctx );
-
-        assertFalse( "Condition 1 should NOT have fired.", c1f.fired(  ) );
-        assertFalse( "Condition 2 should NOT have fired.", c2f.fired(  ) );
-    }
-
-    public void testShouldExecuteOtherwiseWhenNoWhenChildPresent(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
-    {
-        MarmaladeTagInfo chooseTI = new MarmaladeTagInfo(  );
-        DefaultRawAttributes chooseTIAttrs = new DefaultRawAttributes(  );
-
-        chooseTI.setAttributes( chooseTIAttrs );
-
-        ChooseTag tag = new ChooseTag( chooseTI );
-
         MarmaladeTagInfo oTI = new MarmaladeTagInfo(  );
 
-        oTI.setAttributes( new DefaultRawAttributes(  ) );
+        OtherwiseTag o = new OtherwiseTag(  );
 
-        OtherwiseTag o = new OtherwiseTag( oTI );
+        o.setTagInfo( oTI );
 
         MarmaladeTagInfo ofTI = new MarmaladeTagInfo(  );
 
-        ofTI.setAttributes( new DefaultRawAttributes(  ) );
+        FlagChildTestTag of = new FlagChildTestTag(  );
 
-        FlagChildTestTag of = new FlagChildTestTag( ofTI );
+        of.setTagInfo( ofTI );
 
         o.addChild( of );
         of.setParent( o );
@@ -360,6 +149,11 @@ public class ChooseTagTest extends TestCase
 
         tag.execute( ctx );
 
-        assertTrue( "Otherwise should have fired.", of.fired(  ) );
+        assertEquals( "Condition 1 firing status is wrong.", condOneShouldFire,
+            c1f.fired(  ) );
+        assertEquals( "Condition 2 firing status is wrong.", condTwoShouldFire,
+            c2f.fired(  ) );
+        assertEquals( "Otherwise firing status is wrong.", otherShouldFire,
+            of.fired(  ) );
     }
 }

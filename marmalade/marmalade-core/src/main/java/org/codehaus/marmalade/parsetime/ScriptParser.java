@@ -24,28 +24,25 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
-import org.codehaus.marmalade.metamodel.MarmaladeTagBuilder;
+import org.codehaus.marmalade.el.PassThroughExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-import org.codehaus.marmalade.metamodel.ScriptBuilder;
-import org.codehaus.marmalade.model.MarmaladeScript;
-import org.codehaus.tagalog.ParserConfiguration;
-import org.codehaus.tagalog.TagalogParseException;
-import org.codehaus.tagalog.TagalogParser;
-import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
-import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlPullParserException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 
 import java.net.URL;
 
@@ -54,161 +51,29 @@ import java.net.URL;
  */
 public class ScriptParser
 {
-    private MarmaladeTaglibResolver marmaladeResolver;
-
-    public ScriptParser( MarmaladeTaglibResolver marmaladeResolver )
+    public ScriptParser( )
     {
-        this.marmaladeResolver = marmaladeResolver;
     }
 
-    public ScriptBuilder parse( Reader input, String location )
+    public ScriptBuilder parse( MarmaladeParsingContext context )
         throws MarmaladeParsetimeException, MarmaladeModelBuilderException
     {
-        ScriptBuilder result = _parse( input, location );
+        ScriptBuilder result = null;
 
-        return result;
-    }
-
-    public ScriptBuilder parse( InputStream input, String location )
-        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
-    {
-        ScriptBuilder result = _parse( input, location );
-
-        return result;
-    }
-
-    public ScriptBuilder parse( File input )
-        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
-    {
-        BufferedInputStream in = null;
-
+        String location = context.getInputLocation();
         try
         {
-            in = new BufferedInputStream( new FileInputStream( input ) );
+            MarmaladeTaglibResolver resolver = context.getTaglibResolver();
 
-            ScriptBuilder result = _parse( in, input.getAbsolutePath(  ) );
+            ScriptReader scriptReader = new ScriptReader(  );
 
-            return result;
+            result = ( ScriptBuilder ) scriptReader.readScript( context );
         }
-        catch ( FileNotFoundException e )
+        catch ( XmlPullParserException e )
         {
-            throw new MarmaladeScriptNotFoundException( input.getAbsolutePath(  ) );
-        }
-        finally
-        {
-            if ( in != null )
-            {
-                try
-                {
-                    in.close(  );
-                }
-                catch ( IOException e )
-                {
-                }
-            }
-        }
-    }
-
-    public ScriptBuilder parse( URL input )
-        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
-    {
-        BufferedInputStream in = null;
-
-        try
-        {
-            in = new BufferedInputStream( input.openStream(  ) );
-
-            ScriptBuilder result = _parse( in, input.toExternalForm(  ) );
-
-            return result;
+            throw new MarmaladeParsetimeException( e );
         }
         catch ( IOException e )
-        {
-            throw new MarmaladeScriptNotFoundException( input.toExternalForm(  ) );
-        }
-        finally
-        {
-            if ( in != null )
-            {
-                try
-                {
-                    in.close(  );
-                }
-                catch ( IOException e )
-                {
-                }
-            }
-        }
-    }
-
-    private ScriptBuilder _parse( InputStream in, String location )
-        throws MarmaladeParsetimeException
-    {
-        ScriptBuilder result = null;
-
-        try
-        {
-            ParserConfiguration config = new ParserConfiguration( new TagalogTaglibResolver( 
-                        TagalogTaglibResolver.DEFAULT_MARMALADE_TAGLIB_PREFIX,
-                        marmaladeResolver, true ) );
-
-            TagalogSAXParserFactory factory = new TagalogSAXParserFactory( config );
-
-            TagalogParser parser = factory.createParser( in );
-
-            MarmaladeTagBuilder rootBuilder = ( MarmaladeTagBuilder ) parser.parse(  );
-            result = new ScriptBuilder(location, rootBuilder);
-        }
-        catch ( ParserConfigurationException e )
-        {
-            throw new MarmaladeParsetimeException( e );
-        }
-        catch ( SAXException e )
-        {
-            throw new MarmaladeParsetimeException( e );
-        }
-        catch ( TagalogParseException e )
-        {
-            throw new MarmaladeParsetimeException( e );
-        }
-
-        if ( result == null )
-        {
-            throw new EmptyScriptException( "Error parsing script at: "
-                + location + ". Reason: resulting root tag was null." );
-        }
-        else
-        {
-            return result;
-        }
-    }
-
-    private ScriptBuilder _parse( Reader in, String location )
-        throws MarmaladeParsetimeException
-    {
-        ScriptBuilder result = null;
-
-        try
-        {
-            ParserConfiguration config = new ParserConfiguration( new TagalogTaglibResolver( 
-                        TagalogTaglibResolver.DEFAULT_MARMALADE_TAGLIB_PREFIX,
-                        marmaladeResolver, true ) );
-
-            TagalogSAXParserFactory factory = new TagalogSAXParserFactory( config );
-            TagalogParser parser = factory.createParser( in );
-
-            MarmaladeTagBuilder rootBuilder = ( MarmaladeTagBuilder ) parser.parse(  );
-            result = new ScriptBuilder(location, rootBuilder);
-        }
-        catch ( ParserConfigurationException e )
-        {
-            throw new MarmaladeParsetimeException( e );
-        }
-        catch ( SAXException e )
-        {
-            throw new MarmaladeParsetimeException( e );
-        }
-        catch ( TagalogParseException e )
         {
             throw new MarmaladeParsetimeException( e );
         }

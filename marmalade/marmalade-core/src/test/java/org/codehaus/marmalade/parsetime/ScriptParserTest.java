@@ -26,14 +26,15 @@ package org.codehaus.marmalade.parsetime;
 
 import junit.framework.TestCase;
 
-import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.util.RecordingReader;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,8 +64,26 @@ public class ScriptParserTest extends TestCase
 
         MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
 
-        ScriptBuilder scriptBuilder = new ScriptParser( resolver ).parse( f );
-
+        MarmaladeParsingContext pCtx = new DefaultParsingContext();
+        pCtx.setTaglibResolver(resolver);
+        
+        ScriptBuilder scriptBuilder = null;
+        BufferedReader input = null;
+        try{
+            input = new BufferedReader(new FileReader(f));
+            
+            pCtx.setInput(new RecordingReader(input));
+            pCtx.setInputLocation(f.getAbsolutePath());
+            
+            ScriptParser parser = new ScriptParser();
+            scriptBuilder = parser.parse(pCtx);
+        }
+        finally {
+            if(input != null) {
+                try {input.close();}catch(IOException e) {}
+            }
+        }
+        
         f.delete(  );
 
         assertNotNull( "Parsed script should not be null", scriptBuilder );

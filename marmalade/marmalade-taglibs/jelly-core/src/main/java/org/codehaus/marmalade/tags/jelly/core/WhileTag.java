@@ -35,9 +35,8 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyConditionalTag;
  */
 public class WhileTag extends AbstractJellyConditionalTag
 {
-    public WhileTag( MarmaladeTagInfo tagInfo )
+    public WhileTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

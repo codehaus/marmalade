@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -49,14 +50,19 @@ public class IncludeTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", IncludeTag.TEST_ATTRIBUTE, "false" );
+        attrs.addAttribute( "", "", IncludeTag.TEST_ATTRIBUTE, "false" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        IncludeTag tag = new IncludeTag( mti );
+        IncludeTag tag = new IncludeTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         tag.execute( new DefaultContext(  ) );
     }
@@ -65,14 +71,19 @@ public class IncludeTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", IncludeTag.TEST_ATTRIBUTE, "true" );
+        attrs.addAttribute( "", "", IncludeTag.TEST_ATTRIBUTE, "true" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        IncludeTag tag = new IncludeTag( mti );
+        IncludeTag tag = new IncludeTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         try
         {
@@ -91,16 +102,21 @@ public class IncludeTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", IncludeTag.EXPORT_ATTRIBUTE, "true" );
+        attrs.addAttribute("", "", IncludeTag.TEST_ATTRIBUTE, "true");
+        attrs.addAttribute( "", "", IncludeTag.EXPORT_ATTRIBUTE, "true" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-        mti.appendText( SCRIPT_WITH_XML_DECL.toCharArray(  ), 0,
-            SCRIPT_WITH_XML_DECL.length(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ParseTag tag = new ParseTag( mti );
+        IncludeTag tag = new IncludeTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
+        tag.appendBodyText( SCRIPT_WITH_XML_DECL );
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -116,24 +132,29 @@ public class IncludeTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", IncludeTag.EXPORT_ATTRIBUTE, "true" );
-        attrs.addAttribute( "", IncludeTag.INHERIT_ATTRIBUTE, "true" );
+        attrs.addAttribute("", "", IncludeTag.TEST_ATTRIBUTE, "true");
+        attrs.addAttribute( "", "", IncludeTag.EXPORT_ATTRIBUTE, "true" );
+        attrs.addAttribute( "", "", IncludeTag.INHERIT_ATTRIBUTE, "true" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-        mti.appendText( SCRIPT_WITHOUT_XML_WITH_EXPECTATION_DECL.toCharArray(  ),
-            0, SCRIPT_WITHOUT_XML_WITH_EXPECTATION_DECL.length(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ParseTag tag = new ParseTag( mti );
+        IncludeTag tag = new IncludeTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
+        tag.appendBodyText( SCRIPT_WITHOUT_XML_WITH_EXPECTATION_DECL );
 
         DefaultContext ctx = new DefaultContext(  );
 
         ctx.setVariable( "testVal", "myVal" );
         tag.execute( ctx );
 
-        String value = ( String ) ctx.getVariable( "testKey", null );
+        String value = ( String ) ctx.getVariable( "testKey", el );
 
         assertEquals( "myVal", value );
     }
@@ -142,11 +163,20 @@ public class IncludeTagTest extends TestCase
         throws MarmaladeExecutionException
     {
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
+        
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+        attrs.addAttribute("", "", IncludeTag.TEST_ATTRIBUTE, "true");
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        mti.appendText( SCRIPT_WITH_XML_DECL.toCharArray(  ), 0,
-            SCRIPT_WITH_XML_DECL.length(  ) );
-
-        ParseTag tag = new ParseTag( mti );
+        IncludeTag tag = new IncludeTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
+        tag.appendBodyText( SCRIPT_WITH_XML_DECL );
 
         DefaultContext ctx = new DefaultContext(  );
 

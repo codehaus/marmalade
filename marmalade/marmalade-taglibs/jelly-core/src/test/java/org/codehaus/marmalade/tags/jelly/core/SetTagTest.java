@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -45,14 +46,20 @@ public class SetTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", SetTag.VAR_ATTRIBUTE, "testKey" );
-        attrs.addAttribute( "", SetTag.VALUE_ATTRIBUTE, "value" );
+        attrs.addAttribute( "", "", SetTag.VAR_ATTRIBUTE, "testKey" );
+        attrs.addAttribute( "", "", SetTag.VALUE_ATTRIBUTE, "value" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-
-        SetTag tag = new SetTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        SetTag tag = new SetTag( );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -68,16 +75,21 @@ public class SetTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( "", SetTag.PROPERTY_ATTRIBUTE, "attribute.value" );
-        attrs.addAttribute( "", SetTag.TARGET_ATTRIBUTE, "#subject" );
-        attrs.addAttribute( "", SetTag.VALUE_ATTRIBUTE, "testResult" );
+        attrs.addAttribute( "", "", SetTag.PROPERTY_ATTRIBUTE, "attribute.value" );
+        attrs.addAttribute( "", "", SetTag.TARGET_ATTRIBUTE, "#subject" );
+        attrs.addAttribute( "", "", SetTag.VALUE_ATTRIBUTE, "testResult" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        SetTag tag = new SetTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        SetTag tag = new SetTag( );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 

@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
-import org.codehaus.marmalade.metamodel.ModelBuilderAttribute;
+import org.codehaus.marmalade.metamodel.MetaAttribute;
 
 import java.util.Iterator;
 
@@ -41,16 +41,16 @@ public class DefaultRawAttributesTest extends TestCase
     {
         DefaultRawAttributes ra = new DefaultRawAttributes(  );
 
-        ra.addAttribute( new DefaultRawAttribute( "testNS", "testAttr",
+        ra.addAttribute( new DefaultRawAttribute( "t", "testNS", "testAttr",
                 "testVal" ) );
-        ra.addAttribute( new DefaultRawAttribute( "testNS2", "testAttr2",
+        ra.addAttribute( new DefaultRawAttribute( "t", "testNS2", "testAttr2",
                 "testVal2" ) );
 
         int counter = 0;
 
         for ( Iterator it = ra.iterator(  ); it.hasNext(  ); )
         {
-            ModelBuilderAttribute attribute = ( ModelBuilderAttribute ) it.next(  );
+            MetaAttribute attribute = ( MetaAttribute ) it.next(  );
 
             counter++;
         }
@@ -62,7 +62,7 @@ public class DefaultRawAttributesTest extends TestCase
     {
         DefaultRawAttributes ra = new DefaultRawAttributes(  );
 
-        ra.addAttribute( new DefaultRawAttribute( "testNS", "testAttr",
+        ra.addAttribute( new DefaultRawAttribute( "t", "testNS", "testAttr",
                 "testVal" ) );
 
         assertEquals( "testNS", ra.getNamespace( "testAttr" ) );
@@ -72,7 +72,7 @@ public class DefaultRawAttributesTest extends TestCase
     {
         DefaultRawAttributes ra = new DefaultRawAttributes(  );
 
-        ra.addAttribute( new DefaultRawAttribute( "testNS", "testAttr",
+        ra.addAttribute( new DefaultRawAttribute( "t", "testNS", "testAttr",
                 "testVal" ) );
 
         assertEquals( "testVal", ra.getValue( "testAttr" ) );

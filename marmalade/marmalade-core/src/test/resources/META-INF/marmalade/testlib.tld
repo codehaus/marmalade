@@ -3,4 +3,8 @@
 <taglib xmlns="http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
   <tlibversion>1.0</tlibversion>
   <shortname>testlib</shortname>
+  <tag>
+    <name>test</name>
+    <tagclass>org.codehaus.marmalade.tags.TestParseTag</tagclass>
+  </tag>
 </taglib>

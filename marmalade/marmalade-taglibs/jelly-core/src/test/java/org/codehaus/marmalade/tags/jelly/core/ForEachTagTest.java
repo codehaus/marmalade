@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -45,601 +46,307 @@ public class ForEachTagTest extends TestCase
     public void testDoExecute_Simple_Array(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read three", 3, counter.counter(  ) );
+        _testSimpleIteration(new String[] {"one", "two", "three"}, 3);
     }
 
     public void testDoExecute_Simple_Collection(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
         List items = new ArrayList(  );
 
         items.add( "one" );
         items.add( "two" );
         items.add( "three" );
-
-        ctx.setVariable( "items", items );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read three", 3, counter.counter(  ) );
+        
+        _testSimpleIteration(items, 3);
     }
 
     public void testDoExecute_Simple_String(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", "one,two,three" );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read three", 3, counter.counter(  ) );
+        _testSimpleIteration("one,two,three", 3);
     }
 
     public void testDoExecute_Simple_Single(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new Integer( 1 ) );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read one", 1, counter.counter(  ) );
+        _testSimpleIteration(new Integer(1), 1);
     }
 
     public void testDoExecute_NonZeroBegin_Array(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.BEGIN_ATTRIBUTE, "1" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+        _testNonZeroBeginIteration(new String[] { "one", "two", "three" }, 1, 2);
     }
 
     public void testDoExecute_NonZeroBegin_Collection(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.BEGIN_ATTRIBUTE, "1" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
         List items = new ArrayList(  );
 
         items.add( "one" );
         items.add( "two" );
         items.add( "three" );
 
-        ctx.setVariable( "items", items );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read 2", 2, counter.counter(  ) );
+        _testNonZeroBeginIteration(items, 1, 2);
     }
 
     public void testDoExecute_NonZeroBegin_String(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.BEGIN_ATTRIBUTE, "1" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", "one,two,three" );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+        _testNonZeroBeginIteration("one,two,three", 1, 2);
     }
 
     public void testDoExecute_NonZeroBegin_Single(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.BEGIN_ATTRIBUTE, "1" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new Integer( 1 ) );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read zero", 0, counter.counter(  ) );
+        _testNonZeroBeginIteration(new Integer(1), 1, 0);
     }
 
     public void testDoExecute_PositiveEnd_Array(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "1" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+        _testSpecifiedEndIteration(new String[] { "one", "two", "three" }, 1, 2);
     }
 
     public void testDoExecute_PositiveEnd_Collection(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "1" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
         List items = new ArrayList(  );
 
         items.add( "one" );
         items.add( "two" );
         items.add( "three" );
 
-        ctx.setVariable( "items", items );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+        _testSpecifiedEndIteration(items, 1, 2);
     }
 
     public void testDoExecute_PositiveEnd_String(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "1" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", "one,two,three" );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+        _testSpecifiedEndIteration("one,two,three", 1, 2);
     }
 
     public void testDoExecute_PositiveEnd_Single(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "1" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new Integer( 1 ) );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read 1", 1, counter.counter(  ) );
+        _testSpecifiedEndIteration(new Integer(1), 1, 1);
     }
 
     public void testDoExecute_ZeroEnd_Array(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "0" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read one", 1, counter.counter(  ) );
+        _testSpecifiedEndIteration(new String[] { "one", "two", "three" }, 0, 1);
     }
 
     public void testDoExecute_ZeroEnd_Collection(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "0" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
         List items = new ArrayList(  );
 
         items.add( "one" );
         items.add( "two" );
         items.add( "three" );
 
-        ctx.setVariable( "items", items );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read one", 1, counter.counter(  ) );
+        _testSpecifiedEndIteration(items, 0, 1);
     }
 
     public void testDoExecute_ZeroEnd_String(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "0" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", "one,two,three" );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read one", 1, counter.counter(  ) );
+        _testSpecifiedEndIteration("one,two,three", 0, 1);
     }
 
     public void testDoExecute_ZeroEnd_Single(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "0" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new Integer( 1 ) );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read 1", 1, counter.counter(  ) );
+        _testSpecifiedEndIteration(new Integer(1), 0, 1);
     }
 
     public void testDoExecute_MultiStep_Array(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.STEP_ATTRIBUTE, "2" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+        _testMultiStepIteration(new String[] { "one", "two", "three" }, 2, 2);
     }
 
     public void testDoExecute_MultiStep_Collection(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.STEP_ATTRIBUTE, "2" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
         List items = new ArrayList(  );
 
         items.add( "one" );
         items.add( "two" );
         items.add( "three" );
 
-        ctx.setVariable( "items", items );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+        _testMultiStepIteration(items, 2, 2);
     }
 
     public void testDoExecute_MultiStep_String(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.STEP_ATTRIBUTE, "2" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", "one,two,three" );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+        _testMultiStepIteration("one,two,three", 2, 2);
     }
 
     public void testDoExecute_MultiStep_Single(  )
         throws MarmaladeExecutionException
     {
-        DefaultRawAttributes attrs = new DefaultRawAttributes(  );
-
-        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
-        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
-        attrs.addAttribute( "", ForEachTag.STEP_ATTRIBUTE, "2" );
-
-        MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
-
-        mti.setAttributes( attrs );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        ForEachTag tag = new ForEachTag( mti );
-
-        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo(  ) );
-
-        counter.setParent( tag );
-        tag.addChild( counter );
-
-        DefaultContext ctx = new DefaultContext(  );
-
-        ctx.setVariable( "items", new Integer( 1 ) );
-
-        tag.execute( ctx );
-        assertEquals( "Counter should read 1", 1, counter.counter(  ) );
+        _testMultiStepIteration(new Integer(1), 2, 1);
     }
+    
+    private void _testSimpleIteration( Object iterationSubject,
+            int expectedResult ) throws MarmaladeExecutionException
+        {
+            DefaultRawAttributes attrs = new DefaultRawAttributes(  );
+
+            attrs.addAttribute( "", "", "items", "#items" );
+            attrs.addAttribute( "", "", "var", "item" );
+
+            OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+            
+            DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+            tagAttrs.setExpressionEvaluator(el);
+
+            MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+            ForEachTag tag = new ForEachTag(  );
+            tag.setTagInfo(ti);
+            tag.setAttributes(tagAttrs);
+            tag.setExpressionEvaluator(el);
+
+            MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
+
+            CounterTestTag counter = new CounterTestTag(  );
+            counter.setTagInfo(counterTI);
+
+            counter.setParent( tag );
+            tag.addChild( counter );
+
+            DefaultContext ctx = new DefaultContext(  );
+
+            ctx.setVariable( "items", iterationSubject );
+
+            tag.execute( ctx );
+
+            assertNull( ctx.getVariable( "item", el ) );
+            assertEquals( expectedResult, counter.counter(  ) );
+        }
+
+        private void _testNonZeroBeginIteration( Object iterationSubject,
+            int beginIdx, int expectedResult )
+            throws MarmaladeExecutionException
+        {
+            DefaultRawAttributes attrs = new DefaultRawAttributes(  );
+
+            attrs.addAttribute( "", "", "items", "#items" );
+            attrs.addAttribute( "", "", "var", "item" );
+            attrs.addAttribute( "", "", "begin", "" + beginIdx );
+
+            OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+            
+            DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+            tagAttrs.setExpressionEvaluator(el);
+
+            MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+            ForEachTag tag = new ForEachTag(  );
+            tag.setTagInfo(ti);
+            tag.setAttributes(tagAttrs);
+            tag.setExpressionEvaluator(el);
+
+            MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
+
+            CounterTestTag counter = new CounterTestTag(  );
+            counter.setTagInfo(counterTI);
+
+            counter.setParent( tag );
+            tag.addChild( counter );
+
+            DefaultContext ctx = new DefaultContext(  );
+
+            ctx.setVariable( "items", iterationSubject );
+
+            tag.execute( ctx );
+
+            assertNull( ctx.getVariable( "item", el ) );
+            assertEquals( expectedResult, counter.counter(  ) );
+        }
+
+        private void _testSpecifiedEndIteration( Object iterationSubject,
+            int endIdx, int expectedResult )
+            throws MarmaladeExecutionException
+        {
+            DefaultRawAttributes attrs = new DefaultRawAttributes(  );
+
+            attrs.addAttribute( "", "", "items", "#items" );
+            attrs.addAttribute( "", "", "var", "item" );
+            attrs.addAttribute( "", "", "end", "" + endIdx );
+
+            OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+            
+            DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+            tagAttrs.setExpressionEvaluator(el);
+
+            MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+            ForEachTag tag = new ForEachTag(  );
+            tag.setTagInfo(ti);
+            tag.setAttributes(tagAttrs);
+            tag.setExpressionEvaluator(el);
+
+            MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
+
+            CounterTestTag counter = new CounterTestTag(  );
+            counter.setTagInfo(counterTI);
+
+            counter.setParent( tag );
+            tag.addChild( counter );
+
+            DefaultContext ctx = new DefaultContext(  );
+
+            ctx.setVariable( "items", iterationSubject );
+
+            tag.execute( ctx );
+
+            assertNull( ctx.getVariable( "item", el ) );
+            assertEquals( expectedResult, counter.counter(  ) );
+        }
+
+        private void _testMultiStepIteration( Object iterationSubject, int step,
+            int expectedResult ) throws MarmaladeExecutionException
+        {
+            DefaultRawAttributes attrs = new DefaultRawAttributes(  );
+
+            attrs.addAttribute( "", "", "items", "#items" );
+            attrs.addAttribute( "", "", "var", "item" );
+            attrs.addAttribute( "", "", "step", "" + step );
+
+            OgnlExpressionEvaluator el = new OgnlExpressionEvaluator(  );
+            
+            DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+            tagAttrs.setExpressionEvaluator(el);
+
+            MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+
+            ForEachTag tag = new ForEachTag(  );
+            tag.setTagInfo(ti);
+            tag.setAttributes(tagAttrs);
+            tag.setExpressionEvaluator(el);
+
+            MarmaladeTagInfo counterTI = new MarmaladeTagInfo(  );
+
+            CounterTestTag counter = new CounterTestTag(  );
+            counter.setTagInfo(counterTI);
+
+            counter.setParent( tag );
+            tag.addChild( counter );
+
+            DefaultContext ctx = new DefaultContext(  );
+
+            ctx.setVariable( "items", iterationSubject );
+
+            tag.execute( ctx );
+
+            assertNull( ctx.getVariable( "item", el ) );
+            assertEquals( expectedResult, counter.counter(  ) );
+        }
 }

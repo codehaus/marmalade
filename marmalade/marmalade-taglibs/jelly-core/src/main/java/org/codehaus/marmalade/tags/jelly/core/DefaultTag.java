@@ -35,9 +35,8 @@ import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
  */
 public class DefaultTag extends AbstractJellyMarmaladeTag
 {
-    public DefaultTag( MarmaladeTagInfo tagInfo )
+    public DefaultTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

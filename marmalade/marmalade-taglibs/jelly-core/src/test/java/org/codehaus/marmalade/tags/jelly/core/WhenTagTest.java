@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -41,16 +42,21 @@ public class WhenTagTest extends TestCase
     {
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", WhenTag.TEST_ATTRIBUTE, "true" );
+        attributes.addAttribute( "", "", WhenTag.TEST_ATTRIBUTE, "true" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        WhenTag tag = new WhenTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
-        WhenTag tag = new WhenTag( mti );
-
-        FlagChildTestTag flag = new FlagChildTestTag( new MarmaladeTagInfo(  ) );
+        FlagChildTestTag flag = new FlagChildTestTag(  );
 
         flag.setParent( tag );
         tag.addChild( flag );
@@ -70,23 +76,28 @@ public class WhenTagTest extends TestCase
     public void testDoExecute_WithParent(  )
         throws MarmaladeExecutionException
     {
-        ChooseTag parent = new ChooseTag( new MarmaladeTagInfo(  ) );
+        ChooseTag parent = new ChooseTag(  );
 
         DefaultRawAttributes attributes = new DefaultRawAttributes(  );
 
-        attributes.addAttribute( "", WhenTag.TEST_ATTRIBUTE, "true" );
+        attributes.addAttribute( "", "", WhenTag.TEST_ATTRIBUTE, "true" );
 
         MarmaladeTagInfo mti = new MarmaladeTagInfo(  );
 
-        mti.setAttributes( attributes );
-        mti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        WhenTag tag = new WhenTag( mti );
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attributes);
+        tagAttrs.setExpressionEvaluator(el);
+        
+        WhenTag tag = new WhenTag(  );
+        tag.setTagInfo(mti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         parent.addChild( tag );
         tag.setParent( parent );
 
-        FlagChildTestTag flag = new FlagChildTestTag( new MarmaladeTagInfo(  ) );
+        FlagChildTestTag flag = new FlagChildTestTag(  );
 
         tag.addChild( flag );
         flag.setParent( tag );

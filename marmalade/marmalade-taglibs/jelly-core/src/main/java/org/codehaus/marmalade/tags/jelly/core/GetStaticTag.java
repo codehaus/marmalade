@@ -43,9 +43,8 @@ public class GetStaticTag extends AbstractJellyMarmaladeTag
     public static final String FIELD_ATTRIBUTE = "field";
     public static final String VAR_ATTRIBUTE = "var";
 
-    public GetStaticTag( MarmaladeTagInfo tagInfo )
+    public GetStaticTag(  )
     {
-        super( tagInfo );
     }
 
     protected void doExecute( MarmaladeExecutionContext context )

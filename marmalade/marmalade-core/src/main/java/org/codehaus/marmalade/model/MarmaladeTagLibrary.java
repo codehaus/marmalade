@@ -25,6 +25,7 @@
 package org.codehaus.marmalade.model;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.parsetime.ParserHint;
 
 /** Represents a marmalade tag library. This is simply a place in which we can specify
  * common behavior in the future.
@@ -34,4 +35,7 @@ import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 public interface MarmaladeTagLibrary
 {
     MarmaladeTag createTag( MarmaladeTagInfo tagInfo );
+
+    ParserHint getParserHint(String name);
+    
 }

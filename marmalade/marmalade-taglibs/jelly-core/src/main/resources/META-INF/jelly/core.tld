@@ -65,7 +65,7 @@
   </tag>
   <tag>
     <name>invokeStatic</name>
-    <tagclass>org.codehaus.marmalade.tags.jelly.core.invokeStaticTag</tagclass>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.InvokeStaticTag</tagclass>
   </tag>
   <tag>
     <name>jelly</name>

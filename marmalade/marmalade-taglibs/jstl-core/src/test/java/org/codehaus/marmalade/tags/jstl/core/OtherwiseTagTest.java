@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.IllegalParentException;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
@@ -42,15 +43,13 @@ public class OtherwiseTagTest extends TestCase
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( new DefaultRawAttributes(  ) );
-
-        OtherwiseTag tag = new OtherwiseTag( ti );
+        OtherwiseTag tag = new OtherwiseTag(  );
+        tag.setTagInfo(ti);
 
         MarmaladeTagInfo flagTI = new MarmaladeTagInfo(  );
 
-        flagTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag flag = new FlagChildTestTag( flagTI );
+        FlagChildTestTag flag = new FlagChildTestTag(  );
+        flag.setTagInfo(flagTI);
 
         tag.addChild( flag );
         flag.setParent( tag );
@@ -70,24 +69,21 @@ public class OtherwiseTagTest extends TestCase
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( new DefaultRawAttributes(  ) );
-
-        OtherwiseTag tag = new OtherwiseTag( ti );
+        OtherwiseTag tag = new OtherwiseTag(  );
+        tag.setTagInfo(ti);
 
         MarmaladeTagInfo parentTI = new MarmaladeTagInfo(  );
 
-        parentTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        ChooseTag parent = new ChooseTag( parentTI );
+        ChooseTag parent = new ChooseTag(  );
+        parent.setTagInfo(parentTI);
 
         tag.setParent( parent );
         parent.addChild( tag );
 
         MarmaladeTagInfo flagTI = new MarmaladeTagInfo(  );
 
-        flagTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag flag = new FlagChildTestTag( flagTI );
+        FlagChildTestTag flag = new FlagChildTestTag(  );
+        flag.setTagInfo(flagTI);
 
         tag.addChild( flag );
         flag.setParent( tag );

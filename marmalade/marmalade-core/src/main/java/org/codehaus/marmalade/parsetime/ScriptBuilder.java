@@ -22,28 +22,32 @@
  *
  */
 /* Created on May 18, 2004 */
-package org.codehaus.marmalade.metamodel;
+package org.codehaus.marmalade.parsetime;
 
-import org.codehaus.marmalade.el.ExpressionEvaluator;
-import org.codehaus.marmalade.model.MarmaladeTag;
-import org.codehaus.marmalade.model.MarmaladeTagLibrary;
+import org.codehaus.marmalade.model.MarmaladeScript;
 
 /**
  * @author jdcasey
  */
-public interface MarmaladeTagBuilder
+public class ScriptBuilder
 {
-    public static final String MARMALADE_RESERVED_NS = "marmalade";
-    public static final String EXPRESSION_EVALUATOR_ATTRIBUTE = "el";
+    private String location;
+    private MarmaladeTagBuilder root;
 
-    public MarmaladeTagLibrary getTagLibrary(  );
+    public ScriptBuilder( String location, MarmaladeTagBuilder root )
+    {
+        this.location = location;
+        this.root = root;
+    }
 
-    public MarmaladeTagInfo getTagInfo(  );
+    public String getLocation(  )
+    {
+        return location;
+    }
 
-    public MarmaladeTag build(  )
-        throws MarmaladeModelBuilderException;
-
-    public void setExpressionEvaluator( ExpressionEvaluator el );
-
-    public ExpressionEvaluator getExpressionEvaluator(  );
+    public MarmaladeScript build(  )
+        throws MarmaladeModelBuilderException
+    {
+        return new MarmaladeScript( location, root.build(  ) );
+    }
 }

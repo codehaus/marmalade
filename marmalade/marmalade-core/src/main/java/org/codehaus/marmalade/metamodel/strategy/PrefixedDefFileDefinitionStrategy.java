@@ -69,6 +69,7 @@ public class PrefixedDefFileDefinitionStrategy
                 // Ignore this and return null.
                 catch ( IOException e )
                 {
+                    //TODO: log this exception
                 }
 
                 if ( ( className != null ) && ( className.length(  ) > 0 ) )
@@ -86,12 +87,15 @@ public class PrefixedDefFileDefinitionStrategy
                     // Ignore these, and return null.
                     catch ( InstantiationException e )
                     {
+                        //TODO: log this exception
                     }
                     catch ( IllegalAccessException e )
                     {
+                        //TODO: log this exception
                     }
                     catch ( ClassNotFoundException e )
                     {
+                        //TODO: log this exception
                     }
                 }
             }
