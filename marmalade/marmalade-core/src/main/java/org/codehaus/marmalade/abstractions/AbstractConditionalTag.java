@@ -1,5 +1,5 @@
 /* Created on Apr 10, 2004 */
-package org.codehaus.marmalade.generics;
+package org.codehaus.marmalade.abstractions;
 
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;

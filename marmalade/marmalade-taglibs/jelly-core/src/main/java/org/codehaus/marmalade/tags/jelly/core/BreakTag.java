@@ -4,7 +4,7 @@ package org.codehaus.marmalade.tags.jelly.core;
 import org.codehaus.marmalade.LoopingTag;
 import org.codehaus.marmalade.MarmaladeExecutionContext;
 import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.generics.AbstractLoopControlTag;
+import org.codehaus.marmalade.abstractions.AbstractLoopControlTag;
 
 
 /**

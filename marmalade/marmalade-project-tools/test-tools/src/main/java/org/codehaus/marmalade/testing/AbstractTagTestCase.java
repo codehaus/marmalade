@@ -4,7 +4,7 @@ package org.codehaus.marmalade.testing;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.codehaus.marmalade.generics.AbstractMarmaladeTag;
+import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
 import org.codehaus.tagalog.Attributes;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
