@@ -1,8 +1,22 @@
+
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* Created on Apr 20, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
@@ -11,59 +25,76 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.commonjava.reflection.Reflector;
 import org.commonjava.reflection.ReflectorException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author jdcasey
  */
-public class InvokeStaticTag extends AbstractMarmaladeTag implements ArgParent{
-  
-  public static final String METHOD_ATTRIBUTE = "method";
-  public static final String CLASS_NAME_ATTRIBUTE = "className";
-  public static final String VAR_ATTRIBUTE = "var";
-  
-  private List args = new ArrayList();
+public class InvokeStaticTag extends AbstractMarmaladeTag implements ArgParent
+{
+    public static final String METHOD_ATTRIBUTE = "method";
+    public static final String CLASS_NAME_ATTRIBUTE = "className";
+    public static final String VAR_ATTRIBUTE = "var";
+    private List args = new ArrayList(  );
 
-  public InvokeStaticTag(MarmaladeTagInfo tagInfo){
-      super(tagInfo);
-  }
+    public InvokeStaticTag( MarmaladeTagInfo tagInfo )
+    {
+        super( tagInfo );
+    }
 
-  protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException{
-    String className = (String)requireTagAttribute(CLASS_NAME_ATTRIBUTE, String.class, context);
-    String methodName = (String)requireTagAttribute(METHOD_ATTRIBUTE, String.class, context);
-    String var = (String)requireTagAttribute(VAR_ATTRIBUTE, String.class, context);
-    
-    Class targetClass;
-    try{
-      targetClass = Class.forName(className);
-    }
-    catch(ClassNotFoundException e){
-      throw new MarmaladeExecutionException(
-        "Error loading class: " + className, e
-      );
-    }
-    
-    Object[] params = null;
-    Class[] paramTypes = null;
-    if(args.size() > 0) {
-      params = (Object[])args.toArray(new Object[args.size()]);
-    }
-    else {
-      params = new Object[0];
-    }
-    
-    Object result;
-    try{
-      result = Reflector.invokeStatic(targetClass, methodName, params);
-    }
-    catch(ReflectorException e){
-      throw new MarmaladeExecutionException(
-        "Error instantiating method: " + methodName + " on class: " + className, e
-      );
-    }
-    
-    context.setVariable(var, result);
-  }
+    protected void doExecute( MarmaladeExecutionContext context )
+        throws MarmaladeExecutionException
+    {
+        String className = ( String ) requireTagAttribute( CLASS_NAME_ATTRIBUTE,
+                String.class, context );
+        String methodName = ( String ) requireTagAttribute( METHOD_ATTRIBUTE,
+                String.class, context );
+        String var = ( String ) requireTagAttribute( VAR_ATTRIBUTE,
+                String.class, context );
 
-  public void addArgument(Object arg){
-    args.add(arg);
-  }
+        Class targetClass;
+
+        try
+        {
+            targetClass = Class.forName( className );
+        }
+        catch ( ClassNotFoundException e )
+        {
+            throw new MarmaladeExecutionException( "Error loading class: "
+                + className, e );
+        }
+
+        Object[] params = null;
+        Class[] paramTypes = null;
+
+        if ( args.size(  ) > 0 )
+        {
+            params = ( Object[] ) args.toArray( new Object[args.size(  )] );
+        }
+        else
+        {
+            params = new Object[0];
+        }
+
+        Object result;
+
+        try
+        {
+            result = Reflector.invokeStatic( targetClass, methodName, params );
+        }
+        catch ( ReflectorException e )
+        {
+            throw new MarmaladeExecutionException( 
+                "Error instantiating method: " + methodName + " on class: "
+                + className, e );
+        }
+
+        context.setVariable( var, result );
+    }
+
+    public void addArgument( Object arg )
+    {
+        args.add( arg );
+    }
 }
