@@ -43,15 +43,17 @@ public class PrefixedDefFileResolutionStrategy
 
     public MarmaladeTagLibrary resolve( String prefix, String taglib )
     {
-        ClassLoader cloader = getClass().getClassLoader();
+        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
         MarmaladeTagLibrary tlib = null;
 
         InputStream defStream = null;
 
         try
         {
-            defStream = cloader.getResourceAsStream( "META-INF/" + prefix + "/" + taglib + ".def" );
-
+            String defResource = "META-INF/" + prefix + "/" + taglib + ".def";
+            
+            defStream = cloader.getResourceAsStream( defResource );
+            
             if ( defStream != null )
             {
                 String className = null;
@@ -71,13 +73,13 @@ public class PrefixedDefFileResolutionStrategy
                     e.printStackTrace();
                     System.err.println("Proceeding with taglib resolution.");
                 }
-
+                
                 if ( (className != null) && (className.length() > 0) )
                 {
                     try
                     {
                         Class tlCls = cloader.loadClass( className );
-
+                        
                         if ( MarmaladeTagLibrary.class.isAssignableFrom( tlCls ) )
                         {
                             tlib = (MarmaladeTagLibrary) tlCls.newInstance();
