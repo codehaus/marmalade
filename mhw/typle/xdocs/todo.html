@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>to do list</title>
+</head>
+
+<body>
+<h1>To Do</h1>
+<p>
+The following is a list of things that need to be done in typle.
+Help is welcome!
+</p>
+
+<h1>Basic JavaBean generation</h1>
+<ul>
+  <li>Finish the Java source model so that it can create Java source
+      files.</li>
+  <li>Add code to ensure that existing source files are not overwritten
+      unnecessarily - if the content has not changed then the timestamp
+      should not change.</li>
+  <li>Add support for creating type models from persistent storage.
+      Initially this will probably mean reading XML files and creating
+      objects from them. It'd be good to support other data sources
+      though.</li>
+</ul>
+
+<h1>Type mapping</h1>
+<ul>
+  <li>Add a class to represent mappings from one type system to another.
+      For example, a mapping from XML Schema types to Java types.</li>
+  <li>Add support for reading mappings from persistent storage
+      (probably XML in the first instance again).</li>
+  <li>Add support for pushing types through a map as part of the
+      code generation process.</li>
+</ul>
+
+<h1>SQL support</h1>
+<ul>
+  <li>Add a source model for SQL schema (tables).</li>
+  <li>Consider adding support for SQL attributes in the type model.</li>
+  <li>Extend tools to support generating SQL schema from types.</li>
+  <li>Make sure SQL schema and JavaBean generation are consistent -
+      an SQL schema and a JavaBean generated from a single
+      type definition should be usable as the basis for a
+      persistence layer, for example. Similaryly, the JavaBean should
+      be usable as a data transfer object for a session bean that
+      manipulates the corresponding table.</li>
+</ul>
+
+<h1>Namespaces</h1>
+<p>
+I'm thinking that type names should be considered to exist within
+a namespace. For example <code>java:java.lang.String</code>,
+<code>xsd:string</code> and <code>sql:char</code>. This will
+come in handy when trying to create new instances - I suspect
+that typle will sprout some kind of generic factory mechanism
+which can instantiate types from different namespaces.
+</p>
+
+</body>
+</html>
