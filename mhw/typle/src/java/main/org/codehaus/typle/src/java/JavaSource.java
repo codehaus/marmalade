@@ -15,7 +15,7 @@ import org.codehaus.typle.src.BoilerPlateComment;
 public final class JavaSource implements Comparator {
     public static final JavaSource COMPARATOR = new JavaSource();
 
-    private static final Class[] artefactOrder = new Class[] {
+    private static final Class[] ARTEFACT_ORDER = new Class[] {
         BoilerPlateComment.class,
         JavaPackage.class,
         Import.class,
@@ -42,7 +42,7 @@ public final class JavaSource implements Comparator {
         } else if (o1 instanceof Import) {
             return importCompare((Import) o1, (Import) o2);
         } else if (o1 instanceof JavaClass) {
-            return javaClassCompare((JavaClass) o1, (JavaClass) o2); 
+            return javaClassCompare((JavaClass) o1, (JavaClass) o2);
         } else if (o1 instanceof Field) {
             return fieldCompare((Field) o1, (Field) o2);
         } else {
@@ -55,8 +55,8 @@ public final class JavaSource implements Comparator {
         int o1Type = -1;
         int o2Type = -1;
 
-        for (int i = 0; i < artefactOrder.length; i++) {
-            Class c = artefactOrder[i];
+        for (int i = 0; i < ARTEFACT_ORDER.length; i++) {
+            Class c = ARTEFACT_ORDER[i];
             if (c.isInstance(o1))
                 o1Type = i;
             if (c.isInstance(o2))
@@ -78,14 +78,15 @@ public final class JavaSource implements Comparator {
     }
 
     /**
-     * @return 0, because all packages are considered equal. 
+     * @return 0, because all packages are considered equal.
      */
     private int packageCompare(JavaPackage o1, JavaPackage o2) {
         return 0;
     }
 
     private int importCompare(Import o1, Import o2) {
-        return o1.getImportSpecification().compareTo(o2.getImportSpecification());
+        return o1.getImportSpecification()
+                 .compareTo(o2.getImportSpecification());
     }
 
     private int javaClassCompare(JavaClass o1, JavaClass o2) {

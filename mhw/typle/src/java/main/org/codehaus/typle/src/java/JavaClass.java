@@ -80,7 +80,7 @@ public final class JavaClass
         writer.println();
         if (accessLevel == Modifier.DEFAULT)
             s = "";
-        else 
+        else
             s = accessLevel + " ";
         writer.println(s + "class " + className + " {");
         Iterator iter = iterator();

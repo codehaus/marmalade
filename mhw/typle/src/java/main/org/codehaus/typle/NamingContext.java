@@ -7,12 +7,12 @@ package org.codehaus.typle;
 /**
  * A <code>NamingContext</code> carries information that is used while
  * attempting to lookup a type by name. This includes the following:
- * 
+ *
  * <ul>
  * <li>A list of namespaces that should be searched when looking for the
  * type.
  * </ul>
- * 
+ *
  * @author Mark H. Wilkinson
  * @version $Revision$
  */

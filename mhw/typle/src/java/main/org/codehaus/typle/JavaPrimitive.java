@@ -5,7 +5,7 @@
 package org.codehaus.typle;
 
 /**
- * {@link Type} instances to represent the Java primitive data types. 
+ * {@link Type} instances to represent the Java primitive data types.
  *
  * @author Mark H. Wilkinson
  * @version $Revision$

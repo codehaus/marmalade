@@ -20,7 +20,7 @@ public final class SourceFile extends AbstractSourceContainer {
         super(artefactOrder);
         this.output = output;
     }
- 
+
     public void writeOutput() throws IOException {
         write(output);
     }

@@ -76,7 +76,7 @@ public final class BindingList {
             return false;
         for (int i = 0; i < list.length; i++) {
             if (!list[i].equals(other.list[i]))
-                return false; 
+                return false;
         }
         return true;
     }
