@@ -92,10 +92,10 @@ public final class JavaBean {
     }
 
     /**
-     * @param type
+     * @param binding
      */
-    private void visit(Binding type, State state) {
-        Type t = type.getType();
+    private void visit(Binding binding, State state) {
+        Type t = binding.getType();
         if (t instanceof JavaReferenceType) {
             JavaReferenceType javaType = (JavaReferenceType) t;
 
@@ -103,10 +103,10 @@ public final class JavaBean {
                 state.source.add(new Import(t.getTypeName()));
             }
             state.outputClass.add(new Field(javaType.getUnqualifiedName(),
-                                            type.getName()));
+                                            binding.getName()));
         } else if (t instanceof JavaPrimitive) {
-            state.outputClass.add(new Field(type.getType().getTypeName(),
-                                            type.getName()));
+            state.outputClass.add(new Field(binding.getType().getTypeName(),
+                                            binding.getName()));
         }
     }
 }
