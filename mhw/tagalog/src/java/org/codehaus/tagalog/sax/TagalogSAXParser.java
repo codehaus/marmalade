@@ -51,9 +51,12 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
             xmlReader.parse(inputSource);
         } catch (SAXException e) {
             Exception cause = e.getException();
-            if (cause != null && cause instanceof TagalogParseException)
-                throw (TagalogParseException) cause;
-            else
+            if (cause != null) {
+                if (cause instanceof TagalogParseException)
+                    throw (TagalogParseException) cause;
+                else if (cause instanceof RuntimeException)
+                    throw (RuntimeException) cause;
+            } else
                 throw new TagalogParseException(e);
         } catch (IOException e) {
             throw new TagalogParseException(e);
