@@ -1,3 +1,20 @@
+
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /* Created on Apr 14, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
@@ -6,580 +23,536 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.defaults.DefaultContext;
-import org.codehaus.marmalade.tags.jstl.core.ForEachTag;
-import org.codehaus.marmalade.testing.AbstractTagTestCase;
-import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
-import org.jmock.Mock;
+import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey
  */
-public class ForEachTagTest extends AbstractTagTestCase{
+public class ForEachTagTest extends TestCase
+{
+    public void testDoExecute_Simple_Array(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
 
-  public void testDoExecute_Simple_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read three", 3, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
 
-  public void testDoExecute_Simple_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    List items = new ArrayList();
-    items.add("one");
-    items.add("two");
-    items.add("three");
-    
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read three", 3, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
 
-  public void testDoExecute_Simple_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read three", 3, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
 
-  public void testDoExecute_Simple_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        counter.setParent( tag );
+        tag.addChild( counter );
 
-  public void testDoExecute_NonZeroBegin_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("begin", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        DefaultContext ctx = new DefaultContext(  );
 
-  public void testDoExecute_NonZeroBegin_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("begin", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    List items = new ArrayList();
-    items.add("one");
-    items.add("two");
-    items.add("three");
-    
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read 2", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
 
-  public void testDoExecute_NonZeroBegin_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("begin", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        tag.execute( ctx );
+        assertEquals( "Counter should read three", 3, counter.counter(  ) );
+    }
 
-  public void testDoExecute_NonZeroBegin_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("begin", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read zero", 0, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+    public void testDoExecute_Simple_Collection(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
 
-  public void testDoExecute_PositiveEnd_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
 
-  public void testDoExecute_PositiveEnd_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    List items = new ArrayList();
-    items.add("one");
-    items.add("two");
-    items.add("three");
-    
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
 
-  public void testDoExecute_PositiveEnd_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
 
-  public void testDoExecute_PositiveEnd_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "1");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read 1", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        counter.setParent( tag );
+        tag.addChild( counter );
 
-  public void testDoExecute_ZeroEnd_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "0");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        DefaultContext ctx = new DefaultContext(  );
+        List items = new ArrayList(  );
 
-  public void testDoExecute_ZeroEnd_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "0");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    List items = new ArrayList();
-    items.add("one");
-    items.add("two");
-    items.add("three");
-    
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        items.add( "one" );
+        items.add( "two" );
+        items.add( "three" );
 
-  public void testDoExecute_ZeroEnd_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "0");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read one", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        ctx.setVariable( "items", items );
 
-  public void testDoExecute_ZeroEnd_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("end", "0");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read 1", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        tag.execute( ctx );
+        assertEquals( "Counter should read three", 3, counter.counter(  ) );
+    }
 
-  public void testDoExecute_MultiStep_Array() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("step", "2");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new String[] {"one", "two", "three"});
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+    public void testDoExecute_Simple_String(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
 
-  public void testDoExecute_MultiStep_Collection() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("step", "2");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    List items = new ArrayList();
-    items.add("one");
-    items.add("two");
-    items.add("three");
-    
-    ctx.setVariable("items", items);
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
 
-  public void testDoExecute_MultiStep_String() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("step", "2");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", "one,two,three");
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read two", 2, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
 
-  public void testDoExecute_MultiStep_Single() throws TagException, TagalogParseException, MarmaladeExecutionException{
-    Map attrs = new TreeMap();
-    attrs.put("items", "#items");
-    attrs.put("var", "item");
-    attrs.put("step", "2");
-    
-    Mock attrsMock = attributesFromMap(attrs);
-    ForEachTag tag = new ForEachTag();
-    tag.begin("forEach", (Attributes)attrsMock.proxy());
-    
-    CounterTestTag counter = new CounterTestTag();
-    Mock counterAttrs = attributesEmpty();
-    counter.begin("counter", (Attributes)counterAttrs.proxy());
-    
-    counter.setParent(tag);
-    tag.child(counter);
-    
-    DefaultContext ctx = new DefaultContext();
-    ctx.setVariable("items", new Integer(1));
-    
-    tag.execute(ctx);
-    assertEquals("Counter should read 1", 1, counter.counter());
-    
-    attrsMock.verify();
-    counterAttrs.verify();
-  }
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
 
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", "one,two,three" );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read three", 3, counter.counter(  ) );
+    }
+
+    public void testDoExecute_Simple_Single(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new Integer( 1 ) );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read one", 1, counter.counter(  ) );
+    }
+
+    public void testDoExecute_NonZeroBegin_Array(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.BEGIN_ATTRIBUTE, "1" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_NonZeroBegin_Collection(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.BEGIN_ATTRIBUTE, "1" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+        List items = new ArrayList(  );
+
+        items.add( "one" );
+        items.add( "two" );
+        items.add( "three" );
+
+        ctx.setVariable( "items", items );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read 2", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_NonZeroBegin_String(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.BEGIN_ATTRIBUTE, "1" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", "one,two,three" );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_NonZeroBegin_Single(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.BEGIN_ATTRIBUTE, "1" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new Integer( 1 ) );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read zero", 0, counter.counter(  ) );
+    }
+
+    public void testDoExecute_PositiveEnd_Array(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "1" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_PositiveEnd_Collection(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "1" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+        List items = new ArrayList(  );
+
+        items.add( "one" );
+        items.add( "two" );
+        items.add( "three" );
+
+        ctx.setVariable( "items", items );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_PositiveEnd_String(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "1" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", "one,two,three" );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_PositiveEnd_Single(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "1" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new Integer( 1 ) );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read 1", 1, counter.counter(  ) );
+    }
+
+    public void testDoExecute_ZeroEnd_Array(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "0" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read one", 1, counter.counter(  ) );
+    }
+
+    public void testDoExecute_ZeroEnd_Collection(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "0" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+        List items = new ArrayList(  );
+
+        items.add( "one" );
+        items.add( "two" );
+        items.add( "three" );
+
+        ctx.setVariable( "items", items );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read one", 1, counter.counter(  ) );
+    }
+
+    public void testDoExecute_ZeroEnd_String(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "0" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", "one,two,three" );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read one", 1, counter.counter(  ) );
+    }
+
+    public void testDoExecute_ZeroEnd_Single(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.END_ATTRIBUTE, "0" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new Integer( 1 ) );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read 1", 1, counter.counter(  ) );
+    }
+
+    public void testDoExecute_MultiStep_Array(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.STEP_ATTRIBUTE, "2" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new String[] { "one", "two", "three" } );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_MultiStep_Collection(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.STEP_ATTRIBUTE, "2" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+        List items = new ArrayList(  );
+
+        items.add( "one" );
+        items.add( "two" );
+        items.add( "three" );
+
+        ctx.setVariable( "items", items );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_MultiStep_String(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.STEP_ATTRIBUTE, "2" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", "one,two,three" );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read two", 2, counter.counter(  ) );
+    }
+
+    public void testDoExecute_MultiStep_Single(  )
+        throws MarmaladeExecutionException
+    {
+        DefaultRawAttributes attrs = new DefaultRawAttributes();
+
+        attrs.addAttribute( "", ForEachTag.ITEMS_ATTRIBUTE, "#items" );
+        attrs.addAttribute( "", ForEachTag.VAR_ATTRIBUTE, "item" );
+        attrs.addAttribute( "", ForEachTag.STEP_ATTRIBUTE, "2" );
+
+        MarmaladeTagInfo mti = new MarmaladeTagInfo(); mti.setAttributes(attrs); mti.setExpressionEvaluator(new OgnlExpressionEvaluator());
+        ForEachTag tag = new ForEachTag( mti );
+
+        CounterTestTag counter = new CounterTestTag( new MarmaladeTagInfo() );
+        counter.setParent( tag );
+        tag.addChild( counter );
+
+        DefaultContext ctx = new DefaultContext(  );
+
+        ctx.setVariable( "items", new Integer( 1 ) );
+
+        tag.execute( ctx );
+        assertEquals( "Counter should read 1", 1, counter.counter(  ) );
+    }
 }
