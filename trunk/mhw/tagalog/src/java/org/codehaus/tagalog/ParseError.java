@@ -17,11 +17,11 @@ public final class ParseError {
 
     private final String message;
 
-    private final int lineNumber;
+    private final Location location;
 
-    public ParseError(String message, int lineNumber) {
+    public ParseError(String message, Location location) {
         this.message = message;
-        this.lineNumber = lineNumber;
+        this.location = location;
     }
 
     /**
@@ -34,15 +34,15 @@ public final class ParseError {
     }
 
     /**
-     * Returns the approximate line where the error occurred.
+     * Returns the location where the error occurred.
      *
-     * @return the approximate line where the error occurred.
+     * @return the location where the error occurred.
      */
-    public int getLineNumber() {
-        return lineNumber;
+    public Location getLocation() {
+        return location;
     }
 
     public String toString() {
-        return lineNumber + ": " + message;
+        return location + ": " + message;
     }
 }
