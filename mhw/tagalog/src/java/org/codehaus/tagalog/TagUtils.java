@@ -35,7 +35,7 @@ public final class TagUtils {
         }
         return value;
     }
-    
+
     //
     // Searching for ancestors.
     //

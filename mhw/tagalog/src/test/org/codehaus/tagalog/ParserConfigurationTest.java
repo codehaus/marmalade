@@ -104,7 +104,6 @@ public class ParserConfigurationTest extends TestCase {
             // expected
         }
 
-        
         TagLibrary t1 = new MockTagLibrary();
         TagLibrary t2 = new MockTagLibrary();
         PrefixTagLibraryResolver r1 = new MockPrefixTagLibraryResolver("prefix", t1);

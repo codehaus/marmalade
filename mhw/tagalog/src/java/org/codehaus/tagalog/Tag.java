@@ -10,7 +10,7 @@ import java.util.Map;
  * The <code>Tag</code> interface defines the basic lifecycle of a tag, an
  * object that is responsible for processing the content of an XML element.
  * The <code>Tag</code> lifecycle is:
- * 
+ *
  * <ul>
  * <li>
  * An instance of the tag is constructed using either its default

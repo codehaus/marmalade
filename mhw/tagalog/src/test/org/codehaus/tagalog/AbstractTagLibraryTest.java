@@ -176,7 +176,7 @@ public class AbstractTagLibraryTest extends TestCase {
         tagLibrary.releaseTag("tag", tag2);
         assertEquals("", tagLibrary.listUnreleasedTags());
     }
-    
+
     //
     // Some implementations of Tag that cannot be instantiated
     //

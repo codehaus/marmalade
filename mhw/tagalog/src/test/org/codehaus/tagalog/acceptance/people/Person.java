@@ -24,7 +24,7 @@ public final class Person {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
