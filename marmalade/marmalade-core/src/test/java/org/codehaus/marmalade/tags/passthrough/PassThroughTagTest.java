@@ -30,6 +30,7 @@ import java.io.StringWriter;
 
 import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
 import org.codehaus.marmalade.parsetime.ScriptParser;
@@ -94,7 +95,8 @@ public class PassThroughTagTest extends TestCase
         
         ScriptParser parser = new ScriptParser(resolver);
         
-        MarmaladeScript mmld = parser.parse(reader, "test location");
+        ScriptBuilder mmldBuilder = parser.parse(reader, "test location");
+        MarmaladeScript mmld = mmldBuilder.build();
         
         StringWriter sWriter = new StringWriter();
         

@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 
 import org.codehaus.marmalade.metamodel.MarmaladeModelBuilderException;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.MarmaladeScript;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
@@ -62,18 +63,18 @@ public class ScriptParserTest extends TestCase
 
         MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
 
-        MarmaladeScript script = new ScriptParser( resolver ).parse( f );
+        ScriptBuilder scriptBuilder = new ScriptParser( resolver ).parse( f );
 
         f.delete(  );
 
-        assertNotNull( "Parsed script should not be null", script );
+        assertNotNull( "Parsed script should not be null", scriptBuilder );
 
         DefaultContext ctx = new DefaultContext(  );
         StringWriter out = new StringWriter(  );
 
         ctx.setOutWriter( new PrintWriter( out ) );
 
-        script.execute( ctx );
+        scriptBuilder.build().execute( ctx );
 
         assertEquals( "Messages should equal.", MESSAGE,
             out.getBuffer(  ).toString(  ) );

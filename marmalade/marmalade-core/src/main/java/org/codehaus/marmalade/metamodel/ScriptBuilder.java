@@ -31,18 +31,23 @@ import org.codehaus.marmalade.model.MarmaladeScript;
  */
 public class ScriptBuilder
 {
-    private String filename;
+    private String location;
     private MarmaladeTagBuilder root;
 
-    public ScriptBuilder( String filename, MarmaladeTagBuilder root )
+    public ScriptBuilder( String location, MarmaladeTagBuilder root )
     {
-        this.filename = filename;
+        this.location = location;
         this.root = root;
+    }
+
+    public String getLocation(  )
+    {
+        return location;
     }
 
     public MarmaladeScript build(  )
         throws MarmaladeModelBuilderException
     {
-        return new MarmaladeScript( filename, root.build(  ) );
+        return new MarmaladeScript( location, root.build(  ) );
     }
 }
