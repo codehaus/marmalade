@@ -38,9 +38,14 @@ public final class Naming {
      * of the namespace and local part separated by ':'.
      *
      * @param name Compound type name.
-     * @return Type with the given name.
+     * @return Type with the given name, or null if no such type could be
+     *         found.
+     * @throws TypeLookupException If the lookup process failed for some
+     * reason, other than the requested type not existing.
      */
-    public static Type lookup(String name) {
+    public static Type lookup(String name)
+        throws TypeLookupException
+    {
         int colon = name.indexOf(':');
         if (colon == -1)
             throw new IllegalArgumentException("compound type name "
@@ -54,9 +59,14 @@ public final class Naming {
      *
      * @param namespace The namespace that the type is in.
      * @param localPart The name of the type within the namespace.
-     * @return Type with the given name.
+     * @return Type with the given name, or null if no such type could be
+     *         found.
+     * @throws TypeLookupException If the lookup process failed for some
+     * reason, other than the requested type not existing. 
      */
-    public static Type lookup(String namespace, String localPart) {
+    public static Type lookup(String namespace, String localPart)
+        throws TypeLookupException
+    {
         if (namespace == null)
             throw new NullPointerException("namespace is null");
         if (localPart == null)
