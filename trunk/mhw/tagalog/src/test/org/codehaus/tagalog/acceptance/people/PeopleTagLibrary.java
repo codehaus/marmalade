@@ -20,5 +20,6 @@ public final class PeopleTagLibrary extends AbstractTagLibrary {
         registerTag("person", PersonTag.class);
         registerTag("first-name", AttributeTag.class);
         registerTag("last-name", AttributeTag.class);
+        registerTag("broken", BrokenTag.class);
     }
 }
