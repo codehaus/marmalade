@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>design notes</title>
+</head>
+<body>
+
+<h1>Name Resolution</h1>
+<p>
+Although I like the idea of all the objects in the type data model being
+immutable, the design is not without its problems.
+One big one is how to resolve type names into types recursively
+(or avoid doing it recursively depending on how you look at it).
+</p>
+
+<p>
+The basic problem is this:
+imagine we're converting the following type into the equivalent objects:
+
+<pre>
+&lt;record&gt;
+  &lt;name&gt;Sample&lt;/name&gt;
+  &lt;field&gt;
+    &lt;name&gt;f&lt;/name&gt;
+    &lt;type&gt;java:int&lt;/name&gt;
+  &lt;/field&gt;
+&lt;/record&gt;
+</pre>
+
+This should be a <code>RecordType</code> containing a <code>Binding</code>
+containing the <code>JavaPrimitive</code> representing <code>int</code>.
+So, some piece of client code has called <code>Naming.lookup</code>
+with a name that resolves to the source above.
+We read the definition from the source and get as far as reading the
+<code>java:int</code> type name for the field.
+What do we do with the name?
+
+<p>
+One option is to call <code>Naming.lookup</code> recursively.
+That would work for <code>java:int</code>,
+but there are many cases where it would not work.
+It won't work if the type you're looking for is a forward reference to
+a type that appears later in the same source, because it hasn't been
+loaded yet.
+And you don't want to recursively try to load it because you'll likely
+finish up in an recursive loop.
+
+<p>
+In fact there is a basic problem with the immutable data model, in that
+it is impossible to represent data models that have cycles.
+Consider for example the following linked-list node structure from C:
+
+<pre>
+struct Node {
+  struct Node *next;
+  int value;
+}
+</pre>
+
+The type graph for this structure refers to itself, but we could not
+create the <code>Type</code> object for the <code>next</code> field
+because the <code>Node</code> record could not exist at that point.
+The immutability of the objects means that they can't be altered
+later in time to create cycles in the graph.
+
+<p>
+The solution I've adopted at the moment is to have a wrapper that
+acts as a place-holder for a type.
+Rather than trying to resolve a type when it is referenced, a
+<code>TypePlaceHolder</code> is used instead.
+The place-holder contains the name of the referenced type, but it
+doesn't need to be resolved straight away.
+
+</body>
+</html>

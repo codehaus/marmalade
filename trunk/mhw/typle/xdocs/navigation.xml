@@ -5,8 +5,9 @@
 
   <body>
     <menu name="typle">
-      <item name="Overview" href="/index.html"/>
-      <item name="To Do"    href="/todo.html"/>
+      <item name="Overview"     href="/index.html"/>
+      <item name="Design Notes" href="/notes.html"/>
+      <item name="To Do"        href="/todo.html"/>
     </menu>
   </body>
 </project>
