@@ -1,11 +1,11 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade;
 
+import junit.framework.TestCase;
+
 import org.codehaus.marmalade.tld.TldDefinedTagLibrary;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagLibrary;
-
-import junit.framework.TestCase;
 
 
 /**

@@ -1,8 +1,6 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.util;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jdcasey

@@ -4,9 +4,9 @@ package org.codehaus.marmalade.el.ognl;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.codehaus.marmalade.el.ExpressionEvaluationException;
-
 import junit.framework.TestCase;
+
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
 
 
 /**
