@@ -133,8 +133,11 @@ public abstract class AbstractMarmaladeTag extends AbstractTag implements Marmal
         );
       }
     }
-    else {
+    else if(el.isExpression(expression)){
       result = el.evaluate(expression, context.unmodifiableVariableMap(), targetType);
+    }
+    else {
+      result = expression;
     }
     
     return result;
