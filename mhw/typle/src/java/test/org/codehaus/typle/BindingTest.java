@@ -7,23 +7,23 @@ package org.codehaus.typle;
 import junit.framework.TestCase;
 
 /**
- * Tests for named data types.
+ * Tests for {@link Binding} objects.
  *
  * @author Mark Wilkinson
  * @version $Revision$
  */
-public class NamedTypeTest extends TestCase {
+public class BindingTest extends TestCase {
     private BasicType fooType;
     private BasicType barType;
-    private NamedType foo;
-    private NamedType bar;
+    private Binding foo;
+    private Binding bar;
 
     protected void setUp() throws Exception {
         super.setUp();
         fooType = new BasicType("Foo");
         barType = new BasicType("Bar");
-        foo = new NamedType("foo", fooType);
-        bar = new NamedType("bar", barType);
+        foo = new Binding("foo", fooType);
+        bar = new Binding("bar", barType);
     }
 
     /**
@@ -40,16 +40,16 @@ public class NamedTypeTest extends TestCase {
      * Test array cloning.
      */
     public void testArrayClone() {
-        NamedType[] src;
-        NamedType[] dest;
+        Binding[] src;
+        Binding[] dest;
 
-        src = new NamedType[] { foo, bar };
-        dest = NamedType.clone(src);
+        src = new Binding[] { foo, bar };
+        dest = Binding.clone(src);
         assertEquals(2, dest.length);
         for (int i = 0; i < dest.length; i++) {
             assertEquals(src[i], dest[i]);
         }
-        dest = NamedType.clone(src, 4);
+        dest = Binding.clone(src, 4);
         assertEquals(4, dest.length);
         for (int i = 0; i < dest.length; i++) {
             if (i > 1) {

@@ -44,7 +44,7 @@ public class RecordTypeTest extends TestCase {
     }
 
     public void testFields() {
-        NamedTypeList fields;
+        BindingList fields;
 
         type = new RecordType();
         fields = type.getFields();

@@ -16,18 +16,18 @@ public class FunctionTest extends TestCase {
     private BasicType fooType;
     private BasicType barType;
     private BasicType bazType;
-    private NamedType foo;
-    private NamedType bar;
-    private NamedType baz;
+    private Binding foo;
+    private Binding bar;
+    private Binding baz;
 
     protected void setUp() throws Exception {
         super.setUp();
         fooType = new BasicType("Foo");
         barType = new BasicType("Bar");
         bazType = new BasicType("Baz");
-        foo = new NamedType("foo", fooType);
-        bar = new NamedType("bar", barType);
-        baz = new NamedType("baz", bazType);
+        foo = new Binding("foo", fooType);
+        bar = new Binding("bar", barType);
+        baz = new Binding("baz", bazType);
     }
 
     /**
@@ -40,7 +40,7 @@ public class FunctionTest extends TestCase {
         assertEquals("(): Baz", f.getSignature());
         f = f.addFormalParameter(foo);
         assertEquals("(Foo foo): Baz", f.getSignature());
-        f = new Function(bazType, new NamedType[] { foo, bar });
+        f = new Function(bazType, new Binding[] { foo, bar });
         assertEquals("(Foo foo, Bar bar): Baz", f.getSignature());
     }
 }

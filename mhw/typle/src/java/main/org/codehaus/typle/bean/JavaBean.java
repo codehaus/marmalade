@@ -7,10 +7,10 @@ package org.codehaus.typle.bean;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.codehaus.typle.Binding;
+import org.codehaus.typle.BindingList;
 import org.codehaus.typle.JavaPrimitive;
 import org.codehaus.typle.JavaReferenceType;
-import org.codehaus.typle.NamedType;
-import org.codehaus.typle.NamedTypeList;
 import org.codehaus.typle.RecordType;
 import org.codehaus.typle.Type;
 import org.codehaus.typle.src.BoilerPlateComment;
@@ -18,8 +18,8 @@ import org.codehaus.typle.src.SourceFile;
 import org.codehaus.typle.src.java.Field;
 import org.codehaus.typle.src.java.Import;
 import org.codehaus.typle.src.java.JavaClass;
-import org.codehaus.typle.src.java.JavaSource;
 import org.codehaus.typle.src.java.JavaPackage;
+import org.codehaus.typle.src.java.JavaSource;
 
 /**
  * @author Mark H. Wilkinson
@@ -84,7 +84,7 @@ public final class JavaBean {
 
         state.outputClass = new JavaClass(beanName);
         state.source.add(state.outputClass);
-        NamedTypeList fields = record.getFields();
+        BindingList fields = record.getFields();
         for (int i = 0; i < fields.size(); i++) {
             visit(fields.get(i), state);
         }
@@ -94,7 +94,7 @@ public final class JavaBean {
     /**
      * @param type
      */
-    private void visit(NamedType type, State state) {
+    private void visit(Binding type, State state) {
         Type t = type.getType();
         if (t instanceof JavaReferenceType) {
             JavaReferenceType javaType = (JavaReferenceType) t;

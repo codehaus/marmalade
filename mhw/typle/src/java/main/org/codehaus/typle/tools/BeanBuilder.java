@@ -7,12 +7,12 @@ package org.codehaus.typle.tools;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.codehaus.typle.Binding;
 import org.codehaus.typle.Java;
 import org.codehaus.typle.JavaReferenceType;
-import org.codehaus.typle.NamedType;
 import org.codehaus.typle.RecordType;
-import org.codehaus.typle.bean.JavaBeanType;
 import org.codehaus.typle.bean.JavaBean;
+import org.codehaus.typle.bean.JavaBeanType;
 
 /**
  * @author Mark H. Wilkinson
@@ -20,11 +20,11 @@ import org.codehaus.typle.bean.JavaBean;
  */
 public final class BeanBuilder {
     public void run() throws IOException {
-        RecordType record = new RecordType(new NamedType[] {
-            new NamedType("intField", Java.INT_TYPE),
-            new NamedType("stringField",
+        RecordType record = new RecordType(new Binding[] {
+            new Binding("intField", Java.INT_TYPE),
+            new Binding("stringField",
                           new JavaReferenceType("java.lang.String")),
-            new NamedType("fooField",
+            new Binding("fooField",
                           new JavaReferenceType("org.codehaus.Foo")),
         });
         JavaBean bean = new JavaBean("Record", record, JavaBeanType.CLASS);
