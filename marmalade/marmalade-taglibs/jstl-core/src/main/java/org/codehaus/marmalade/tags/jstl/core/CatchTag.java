@@ -1,9 +1,10 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.tags.jstl.core;
 
-import org.codehaus.marmalade.MarmaladeExecutionContext;
-import org.codehaus.marmalade.MarmaladeExecutionException;
-import org.codehaus.marmalade.abstractions.AbstractMarmaladeTag;
+import org.codehaus.marmalade.model.AbstractMarmaladeTag;
+import org.codehaus.marmalade.modelbuilder.MarmaladeTagInfo;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
 /**
  * @author jdcasey
@@ -13,7 +14,8 @@ public class CatchTag extends AbstractMarmaladeTag {
   public static final String VAR_ATTRIBUTE = "var";
   public static final String CLASS_ATTRIBUTE = "class";
 
-  public CatchTag() {
+  public CatchTag(MarmaladeTagInfo tagInfo) {
+    super(tagInfo);
   }
 
   protected void doExecute(MarmaladeExecutionContext context) throws MarmaladeExecutionException {
