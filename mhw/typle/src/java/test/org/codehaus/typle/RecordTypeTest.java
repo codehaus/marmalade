@@ -16,10 +16,12 @@ public class RecordTypeTest extends TestCase {
     private BasicType foo;
     private BasicType bar;
     private RecordType type;
+    private RecordType namedType;
 
     protected void setUp() throws Exception {
         super.setUp();
         type = new RecordType();
+        namedType = new RecordType("TheRecord");
         foo = new BasicType("Foo");
         bar = new BasicType("Bar");
     }
@@ -31,6 +33,13 @@ public class RecordTypeTest extends TestCase {
         type = type.addField("bar", bar);
         assertEquals(foo, type.getField("foo"));
         assertEquals(bar, type.getField("bar"));
+
+        namedType = namedType.addField("foo", foo);
+        assertEquals(foo, namedType.getField("foo"));
+        assertNull(namedType.getField("bar"));
+        namedType = namedType.addField("bar", bar);
+        assertEquals(foo, namedType.getField("foo"));
+        assertEquals(bar, namedType.getField("bar"));
     }
 
     public void testAddDuplicateField() {
