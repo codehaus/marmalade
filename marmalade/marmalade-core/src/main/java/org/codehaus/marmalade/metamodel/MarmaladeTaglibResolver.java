@@ -30,7 +30,9 @@ import org.codehaus.marmalade.discovery.PrefixedDefFileResolutionStrategy;
 import org.codehaus.marmalade.discovery.PrefixedTldResolutionStrategy;
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,9 +50,16 @@ public class MarmaladeTaglibResolver
 
     private String defaultPrefix;
 
+    private MarmaladeTagLibrary defaultTagLibrary;
+
     public MarmaladeTaglibResolver()
     {
         this.strategies = new LinkedList();
+    }
+
+    public boolean hasStrategies()
+    {
+        return !strategies.isEmpty();
     }
 
     public void addTaglibDefinitionStrategy( TaglibResolutionStrategy strategy )
@@ -61,9 +70,9 @@ public class MarmaladeTaglibResolver
         }
     }
 
-    public void addTaglibDefinitionStrategies( List strategyList )
+    public void addTaglibDefinitionStrategies( Collection strategies )
     {
-        for ( Iterator it = strategyList.iterator(); it.hasNext(); )
+        for ( Iterator it = strategies.iterator(); it.hasNext(); )
         {
             TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
 
@@ -73,37 +82,45 @@ public class MarmaladeTaglibResolver
             }
         }
     }
-
-    public void setDefaultPrefix( String defaultPrefix )
+    
+    public void setTaglibDefinitionStrategies(Collection strategies)
     {
-        this.defaultPrefix = defaultPrefix;
+        this.strategies = new ArrayList(strategies);
     }
 
-    public String getDefaultPrefix()
+    public void setDefaultTagLibrary( MarmaladeTagLibrary taglib )
     {
-        return defaultPrefix;
+        this.defaultTagLibrary = taglib;
+    }
+
+    public MarmaladeTagLibrary getDefaultTagLibrary()
+    {
+        return defaultTagLibrary;
     }
 
     public MarmaladeTagLibrary resolve( String prefix, String taglib )
     {
         MarmaladeTagLibrary tlib = null;
 
-        String realPrefix = prefix;
-
-        if ( (realPrefix == null) || (realPrefix.trim().length() < 1) )
+        // if both the prefix and the taglib are empty, use the default if it's set.
+        if ( defaultTagLibrary != null && (prefix == null || prefix.trim().length() < 1)
+            && (taglib == null || taglib.trim().length() < 1) )
         {
-            realPrefix = defaultPrefix;
+            // use the default taglib.
+            tlib = defaultTagLibrary;
         }
-
-        for ( Iterator it = strategies.iterator(); it.hasNext(); )
+        else
         {
-            TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
-
-            tlib = strategy.resolve( prefix, taglib );
-
-            if ( tlib != null )
+            for ( Iterator it = strategies.iterator(); it.hasNext(); )
             {
-                break;
+                TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
+
+                tlib = strategy.resolve( prefix, taglib );
+
+                if ( tlib != null )
+                {
+                    break;
+                }
             }
         }
 

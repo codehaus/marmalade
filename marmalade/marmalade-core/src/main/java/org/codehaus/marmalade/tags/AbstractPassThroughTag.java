@@ -31,6 +31,7 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
@@ -132,11 +133,11 @@ public abstract class AbstractPassThroughTag
         }
         catch ( XmlPullParserException e )
         {
-            throw new MarmaladeExecutionException( e );
+            throw new TagExecutionException( getTagInfo(), "Error creating XML formatter.", e );
         }
         catch ( IOException e )
         {
-            throw new MarmaladeExecutionException( e );
+            throw new TagExecutionException( getTagInfo(), "Error writing formatted XML.", e );
         }
     }
 

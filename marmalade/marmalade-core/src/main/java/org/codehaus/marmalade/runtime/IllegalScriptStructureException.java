@@ -24,14 +24,18 @@
 /* Created on Apr 10, 2004 */
 package org.codehaus.marmalade.runtime;
 
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+
 /**
  * @author jdcasey
  */
 public class IllegalScriptStructureException
-    extends MarmaladeExecutionException
+    extends AbstractTagRelatedExecutionException
 {
-    public IllegalScriptStructureException( String element, Class cls )
+    
+    public IllegalScriptStructureException( MarmaladeTagInfo tagInfo, Class cls )
     {
-        super( "Tag \'" + element + "\' must descend from ancestor tag of type: " + cls.getName() );
+        super( tagInfo, "Tag \'" + ((tagInfo != null)?(tagInfo.getElement()):("<unknown>")) + "\' must descend from ancestor tag of type: " + cls.getName() );
     }
+    
 }

@@ -3,6 +3,7 @@ package org.codehaus.marmalade.lb.model;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.TagInstantiationException;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.util.Reflector;
@@ -23,7 +24,7 @@ public class LooseMarmaladeTagFactory
 {
     public static final Reflector REFLECTOR = new Reflector();
 
-    private final Class beanClass;
+    private final Class tagClass;
 
     private final List constructorArgs;
 
@@ -31,9 +32,12 @@ public class LooseMarmaladeTagFactory
 
     private final ExpressionEvaluator el;
 
-    public LooseMarmaladeTagFactory( Class beanClass, List constructorArgs, Map properties, ExpressionEvaluator el )
+    private final MarmaladeTagInfo tagInfo;
+
+    public LooseMarmaladeTagFactory( MarmaladeTagInfo tagInfo, Class tagClass, List constructorArgs, Map properties, ExpressionEvaluator el )
     {
-        this.beanClass = beanClass;
+        this.tagInfo = tagInfo;
+        this.tagClass = tagClass;
         this.constructorArgs = constructorArgs;
         this.properties = properties;
         this.el = el;
@@ -48,7 +52,7 @@ public class LooseMarmaladeTagFactory
         return tag;
     }
 
-    private void configureTag( MarmaladeTag tag ) throws LateBoundTagPropertyException
+    private void configureTag( MarmaladeTag tag ) throws TagInstantiationException
     {
         for ( Iterator it = properties.keySet().iterator(); it.hasNext(); )
         {
@@ -57,11 +61,14 @@ public class LooseMarmaladeTagFactory
 
             try
             {
+                if(el == null) {
+                    throw new TagInstantiationException(tag.getTagInfo(), "cannot assign properties when expression evaluator is null");
+                }
                 el.assign( tag, property, value );
             }
             catch ( ExpressionEvaluationException e )
             {
-                throw new LateBoundTagPropertyException( beanClass, property, value, e );
+                throw new LateBoundTagPropertyException( tagInfo, tagClass, property, value, e );
             }
         }
     }
@@ -83,29 +90,29 @@ public class LooseMarmaladeTagFactory
 
         try
         {
-            Constructor tagConstructor = REFLECTOR.getConstructor( beanClass, paramClasses );
+            Constructor tagConstructor = REFLECTOR.getConstructor( tagClass, paramClasses );
 
             tag = (MarmaladeTag) tagConstructor.newInstance( constructorParams );
         }
         catch ( ReflectorException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( IllegalArgumentException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( InstantiationException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
         catch ( InvocationTargetException e )
         {
-            throw new TagInstantiationException( e );
+            throw new TagInstantiationException( tagInfo, e );
         }
 
         return tag;

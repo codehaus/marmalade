@@ -24,6 +24,8 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.discovery;
 
+import java.net.URL;
+
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 
 /**
@@ -41,28 +43,40 @@ public class LiteralResolutionStrategy
         ClassLoader cloader = getClass().getClassLoader();
         MarmaladeTagLibrary tlib = null;
 
-        try
+        // We need to be more proactive in determining whether the class exists
+        // rather than relying on Exceptional behavior.
+        URL classUrl = cloader.getResource(taglib.replace('.', '/') + ".class");
+        if(classUrl != null)
         {
-            Class tlCls = cloader.loadClass( taglib );
-
-            if ( MarmaladeTagLibrary.class.isAssignableFrom( tlCls ) )
+            try
             {
-                tlib = (MarmaladeTagLibrary) tlCls.newInstance();
-            }
-        }
+                Class tlCls = cloader.loadClass( taglib );
 
-        // Ignore these, and return null.
-        catch ( InstantiationException e )
-        {
-            //TODO: log this exception
-        }
-        catch ( IllegalAccessException e )
-        {
-            //TODO: log this exception
-        }
-        catch ( ClassNotFoundException e )
-        {
-            //TODO: log this exception
+                if ( MarmaladeTagLibrary.class.isAssignableFrom( tlCls ) )
+                {
+                    tlib = (MarmaladeTagLibrary) tlCls.newInstance();
+                }
+            }
+
+            // Ignore these, and return null.
+            catch ( InstantiationException e )
+            {
+                //TODO: log this exception
+                e.printStackTrace();
+                System.err.println("Proceeding with taglib resolution.");
+            }
+            catch ( IllegalAccessException e )
+            {
+                //TODO: log this exception
+                e.printStackTrace();
+                System.err.println("Proceeding with taglib resolution.");
+            }
+            catch ( ClassNotFoundException e )
+            {
+                //TODO: log this exception
+                e.printStackTrace();
+                System.err.println("Proceeding with taglib resolution.");
+            }
         }
 
         return tlib;
