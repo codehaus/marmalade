@@ -6,6 +6,8 @@ package org.codehaus.tagalog;
 
 import java.util.Map;
 
+import org.codehaus.tagalog.pi.PIHandler;
+
 /**
  * The collection of information that defines the behaviour of a parser.
  * Instances of this class can be shared by many parser instances, reducing
@@ -41,6 +43,8 @@ public final class ParserConfiguration {
     private FallbackTagLibraryResolver fallbackResolver;
 
     private Map prefixResolvers = new java.util.TreeMap();
+
+    private PIHandler processingInstructionHandler;
 
     /**
      * Construct a <code>ParserConfiguration</code> that uses
@@ -134,5 +138,29 @@ public final class ParserConfiguration {
             tagLibrary = fallbackResolver.resolve(uri);
         }
         return tagLibrary;
+    }
+
+    /**
+     * Set the processing instruction handler for the parser configuration.
+     * Tagalog provides some useful processing instruction handlers in the
+     * {@link org.codehaus.tagalog.pi} package.
+     * If this method is not called, or the parser configuration handler
+     * is <code>null</code>, processing instructions are ignored.
+     *
+     * @param handler Processing instruction handler to use.
+     */
+    public void setProcessingInstructionHandler(PIHandler handler)
+    {
+        processingInstructionHandler = handler;
+    }
+
+    /**
+     * Return the processing instruction handler to use for this parser
+     * configuration, or <code>null</code> if none is being used.
+     *
+     * @return the processing instruction handler, or <code>null</code>.
+     */
+    public PIHandler getProcessingInstructionHandler() {
+        return processingInstructionHandler;
     }
 }
