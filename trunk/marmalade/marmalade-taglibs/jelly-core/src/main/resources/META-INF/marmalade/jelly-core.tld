@@ -4,6 +4,18 @@
   <tlibversion>1.0</tlibversion>
   <shortname>Jelly Core</shortname>
   <tag>
+    <name>arg</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.ArgTag</tagclass>
+  </tag>
+  <tag>
+    <name>break</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.BreakTag</tagclass>
+  </tag>
+  <tag>
+    <name>case</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.CaseTag</tagclass>
+  </tag>
+  <tag>
     <name>catch</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.CatchTag</tagclass>
   </tag>
@@ -12,16 +24,28 @@
     <tagclass>org.codehaus.marmalade.tags.jelly.core.ChooseTag</tagclass>
   </tag>
   <tag>
-    <name>err</name>
-    <tagclass>org.codehaus.marmalade.tags.jelly.core.ErrTag</tagclass>
+    <name>continue</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.ContinueTag</tagclass>
+  </tag>
+  <tag>
+    <name>default</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.DefaultTag</tagclass>
+  </tag>
+  <tag>
+    <name>expr</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.ExprTag</tagclass>
+  </tag>
+  <tag>
+    <name>file</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.FileTag</tagclass>
   </tag>
   <tag>
     <name>forEach</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.ForEachTag</tagclass>
   </tag>
   <tag>
-    <name>forTokens</name>
-    <tagclass>org.codehaus.marmalade.tags.jelly.core.ForTokensTag</tagclass>
+    <name>getStatic</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.GetStaticTag</tagclass>
   </tag>
   <tag>
     <name>if</name>
@@ -32,31 +56,51 @@
     <tagclass>org.codehaus.marmalade.tags.jelly.core.ImportTag</tagclass>
   </tag>
   <tag>
+    <name>invoke</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.InvokeTag</tagclass>
+  </tag>
+  <tag>
+    <name>invokeStatic</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.invokeStaticTag</tagclass>
+  </tag>
+  <tag>
+    <name>jelly</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.JellyTag</tagclass>
+  </tag>
+  <tag>
+    <name>new</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.NewTag</tagclass>
+  </tag>
+  <tag>
     <name>otherwise</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.OtherwiseTag</tagclass>
-  </tag>
-  <tag>
-    <name>out</name>
-    <tagclass>org.codehaus.marmalade.tags.jelly.core.OutTag</tagclass>
-  </tag>
-  <tag>
-    <name>param</name>
-    <tagclass>org.codehaus.marmalade.tags.jelly.core.ParamTag</tagclass>
   </tag>
   <tag>
     <name>remove</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.RemoveTag</tagclass>
   </tag>
   <tag>
+    <name>scope</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.ScopeTag</tagclass>
+  </tag>
+  <tag>
     <name>set</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.SetTag</tagclass>
   </tag>
   <tag>
-    <name>url</name>
-    <tagclass>org.codehaus.marmalade.tags.jelly.core.UrlTag</tagclass>
+    <name>switch</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.SwitchTag</tagclass>
+  </tag>
+  <tag>
+    <name>thread</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.ThreadTag</tagclass>
   </tag>
   <tag>
     <name>When</name>
     <tagclass>org.codehaus.marmalade.tags.jelly.core.WhenTag</tagclass>
+  </tag>
+  <tag>
+    <name>while</name>
+    <tagclass>org.codehaus.marmalade.tags.jelly.core.WhileTag</tagclass>
   </tag>
 </taglib>
