@@ -65,4 +65,6 @@ public interface MarmaladeTag
     void setAttributes(MarmaladeAttributes attributes);
 
     void appendBodyText(String string);
+
+    void setTagInfo(MarmaladeTagInfo tagInfo);
 }

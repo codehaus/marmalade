@@ -61,7 +61,16 @@ public class ScriptParser
     public ScriptBuilder parse( Reader input, String location )
         throws MarmaladeParsetimeException, MarmaladeModelBuilderException
     {
-        ScriptBuilder result = _parse( input, location );
+        ScriptBuilder result = _parse( input, location, null );
+
+        return result;
+    }
+
+    public ScriptBuilder parse( Reader input, String location,
+        MarmaladeParsingContext context )
+        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
+    {
+        ScriptBuilder result = _parse( input, location, context );
 
         return result;
     }
@@ -71,14 +80,37 @@ public class ScriptParser
     {
         BufferedReader in = null;
 
-        try {
-            in = new BufferedReader( new InputStreamReader(input, "UTF-8"));
-            ScriptBuilder result = _parse( in, location );
+        try
+        {
+            in = new BufferedReader( new InputStreamReader( input, "UTF-8" ) );
+
+            ScriptBuilder result = _parse( in, location, null );
 
             return result;
         }
-        catch (UnsupportedEncodingException e) {
-            throw new MarmaladeParsetimeException(e);
+        catch ( UnsupportedEncodingException e )
+        {
+            throw new MarmaladeParsetimeException( e );
+        }
+    }
+
+    public ScriptBuilder parse( InputStream input, String location,
+        MarmaladeParsingContext context )
+        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
+    {
+        BufferedReader in = null;
+
+        try
+        {
+            in = new BufferedReader( new InputStreamReader( input, "UTF-8" ) );
+
+            ScriptBuilder result = _parse( in, location, context );
+
+            return result;
+        }
+        catch ( UnsupportedEncodingException e )
+        {
+            throw new MarmaladeParsetimeException( e );
         }
     }
 
@@ -89,9 +121,42 @@ public class ScriptParser
 
         try
         {
-            in = new BufferedReader( new FileReader(input));
+            in = new BufferedReader( new FileReader( input ) );
 
-            ScriptBuilder result = _parse( in, input.getAbsolutePath(  ) );
+            ScriptBuilder result = _parse( in, input.getAbsolutePath(  ), null );
+
+            return result;
+        }
+        catch ( FileNotFoundException e )
+        {
+            throw new MarmaladeScriptNotFoundException( input.getAbsolutePath(  ) );
+        }
+        finally
+        {
+            if ( in != null )
+            {
+                try
+                {
+                    in.close(  );
+                }
+                catch ( IOException e )
+                {
+                }
+            }
+        }
+    }
+
+    public ScriptBuilder parse( File input, MarmaladeParsingContext context )
+        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
+    {
+        BufferedReader in = null;
+
+        try
+        {
+            in = new BufferedReader( new FileReader( input ) );
+
+            ScriptBuilder result = _parse( in, input.getAbsolutePath(  ),
+                    context );
 
             return result;
         }
@@ -121,9 +186,10 @@ public class ScriptParser
 
         try
         {
-            in = new BufferedReader( new InputStreamReader(input.openStream(  ), "UTF-8"));
+            in = new BufferedReader( new InputStreamReader( 
+                        input.openStream(  ), "UTF-8" ) );
 
-            ScriptBuilder result = _parse( in, input.toExternalForm(  ) );
+            ScriptBuilder result = _parse( in, input.toExternalForm(  ), null );
 
             return result;
         }
@@ -146,24 +212,69 @@ public class ScriptParser
         }
     }
 
-    private ScriptBuilder _parse( Reader reader, String location )
+    public ScriptBuilder parse( URL input, MarmaladeParsingContext context )
+        throws MarmaladeParsetimeException, MarmaladeModelBuilderException
+    {
+        BufferedReader in = null;
+
+        try
+        {
+            in = new BufferedReader( new InputStreamReader( 
+                        input.openStream(  ), "UTF-8" ) );
+
+            ScriptBuilder result = _parse( in, input.toExternalForm(  ), context );
+
+            return result;
+        }
+        catch ( IOException e )
+        {
+            throw new MarmaladeScriptNotFoundException( input.toExternalForm(  ) );
+        }
+        finally
+        {
+            if ( in != null )
+            {
+                try
+                {
+                    in.close(  );
+                }
+                catch ( IOException e )
+                {
+                }
+            }
+        }
+    }
+
+    private ScriptBuilder _parse( Reader reader, String location,
+        MarmaladeParsingContext parseCtx )
         throws MarmaladeParsetimeException
     {
         ScriptBuilder result = null;
 
         try
         {
-            MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver(MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN);
-            MarmaladeParsingContext context = new DefaultParsingContext();
-            context.setDefaultExpressionEvaluator(new PassThroughExpressionEvaluator());
-            
-            ScriptReader scriptReader = new ScriptReader();
+            MarmaladeTaglibResolver resolver = new MarmaladeTaglibResolver( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
 
-            result = ( ScriptBuilder ) scriptReader.readScript(reader, location, resolver, context);
-        } catch (XmlPullParserException e) {
-            throw new MarmaladeParsetimeException(e);
-        } catch (IOException e) {
-            throw new MarmaladeParsetimeException(e);
+            MarmaladeParsingContext context = parseCtx;
+
+            if ( context == null )
+            {
+                context = new DefaultParsingContext(  );
+                context.setDefaultExpressionEvaluator( new PassThroughExpressionEvaluator(  ) );
+            }
+
+            ScriptReader scriptReader = new ScriptReader(  );
+
+            result = ( ScriptBuilder ) scriptReader.readScript( reader,
+                    location, resolver, context );
+        }
+        catch ( XmlPullParserException e )
+        {
+            throw new MarmaladeParsetimeException( e );
+        }
+        catch ( IOException e )
+        {
+            throw new MarmaladeParsetimeException( e );
         }
 
         if ( result == null )
