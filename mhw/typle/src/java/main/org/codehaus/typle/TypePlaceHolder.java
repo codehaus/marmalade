@@ -14,7 +14,7 @@ package org.codehaus.typle;
  * @author Mark Wilkinson
  * @version $Revision$
  */
-public final class TypePlaceHolder implements Type {
+public final class TypePlaceHolder extends UnannotatedType implements Type {
     private final String name;
     private transient Type type;
 
@@ -34,10 +34,6 @@ public final class TypePlaceHolder implements Type {
         if (type == null)
             return name;
         return type.getTypeName();
-    }
-
-    public Type getWrappedType() {
-        return type;
     }
 
     public Type resolve() throws TypeLookupException {

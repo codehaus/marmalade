@@ -22,14 +22,30 @@ public interface Type {
     String getTypeName();
 
     /**
-     * Return the type that this object is wrapped around, or
-     * <code>null</code> if this is not a type wrapper.
-     *
-     * @return
-     */
-    Type getWrappedType();
-
-    /**
      */
     void resolvePlaceHolders() throws TypeLookupException;
+
+    /**
+     * Add annotation to this type. If an annotation of the same type
+     * already exists then it is replaced.
+     *
+     * @param annotation The annotation to be added.
+     */
+    void addAnnotation(TypeAnnotation annotation);
+
+    /**
+     * Get the annotation of the specified class, if it exists.
+     *
+     * @param annotationClass Class of the annotation to search for.
+     * @return The annotation, or <code>null</code> if no annotation
+     * of the specified type could be found.
+     */
+    TypeAnnotation getAnnotation(Class annotationClass);
+
+    /**
+     * Remove any annotation of the specified class.
+     *
+     * @param annotationClass
+     */
+    void removeAnnotation(Class annotationClass);
 }

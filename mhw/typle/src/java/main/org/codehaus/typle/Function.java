@@ -11,7 +11,7 @@ package org.codehaus.typle;
  * @author Mark H. Wilkinson
  * @version $Revision$
  */
-public class Function implements Type {
+public class Function extends UnannotatedType implements Type {
     private Type returnType;
     private final BindingList formalParameters;
 
@@ -56,10 +56,6 @@ public class Function implements Type {
                + returnType.getTypeName();
     }
 
-    public Type getWrappedType() {
-        return null;
-    }
-
     public String toString() {
         return getTypeName();
     }
@@ -67,6 +63,8 @@ public class Function implements Type {
     public void resolvePlaceHolders() throws TypeLookupException {
         if (returnType instanceof TypePlaceHolder) {
             returnType = ((TypePlaceHolder) returnType).resolve();
+        } else {
+            returnType.resolvePlaceHolders();
         }
         formalParameters.resolvePlaceHolders();
     }
