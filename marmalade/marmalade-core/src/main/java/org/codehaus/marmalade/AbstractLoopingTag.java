@@ -75,7 +75,7 @@ public abstract class AbstractLoopingTag extends AbstractMarmaladeTag {
     while(st.hasMoreTokens()){
       String item = st.nextToken().trim();
       
-      if(i < begin || i > end || end < 0 || (i % step != 0)){
+      if(i < begin || (i > end && end > 0) || (i % step != 0)){
         continue;
       }
       else{
