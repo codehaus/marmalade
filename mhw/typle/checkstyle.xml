@@ -19,7 +19,7 @@
     -->
     <module name="Header">
       <property name="headerFile" value="LICENSE.txt"/>
-      <property name="ignoreLines" value="1,4"/>
+      <property name="ignoreLines" value="3"/>
     </module>
 
     <!--
