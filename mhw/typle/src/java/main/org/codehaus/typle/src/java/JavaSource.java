@@ -6,7 +6,7 @@ package org.codehaus.typle.src.java;
 
 import java.util.Comparator;
 
-import org.codehaus.typle.src.BoilerPlateComment;
+import org.codehaus.typle.src.*;
 
 /**
  * @author Mark H. Wilkinson

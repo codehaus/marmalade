@@ -6,33 +6,33 @@ package org.codehaus.typle.test;
 
 
 public final class MultipleField {
-private String fieldOne;
+    private String fieldOne;
 
-private float fieldThree;
+    private float fieldThree;
 
-private int fieldTwo;
+    private int fieldTwo;
 
-public java.lang.String getFieldOne() {
-return fieldOne;
-}
+    public java.lang.String getFieldOne() {
+        return fieldOne;
+    }
 
-public float getFieldThree() {
-return fieldThree;
-}
+    public float getFieldThree() {
+        return fieldThree;
+    }
 
-public int getFieldTwo() {
-return fieldTwo;
-}
+    public int getFieldTwo() {
+        return fieldTwo;
+    }
 
-public void setFieldOne(java.lang.String fieldOne) {
-this.fieldOne = fieldOne;
-}
+    public void setFieldOne(java.lang.String fieldOne) {
+        this.fieldOne = fieldOne;
+    }
 
-public void setFieldThree(float fieldThree) {
-this.fieldThree = fieldThree;
-}
+    public void setFieldThree(float fieldThree) {
+        this.fieldThree = fieldThree;
+    }
 
-public void setFieldTwo(int fieldTwo) {
-this.fieldTwo = fieldTwo;
-}
+    public void setFieldTwo(int fieldTwo) {
+        this.fieldTwo = fieldTwo;
+    }
 }

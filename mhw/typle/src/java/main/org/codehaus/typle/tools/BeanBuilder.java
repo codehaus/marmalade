@@ -16,6 +16,7 @@ import org.codehaus.typle.Type;
 import org.codehaus.typle.gen.bean.JavaBean;
 import org.codehaus.typle.gen.bean.JavaBeanGenerator;
 import org.codehaus.typle.gen.bean.JavaBeanType;
+import org.codehaus.typle.src.SourceFilePrintWriter;
 
 /**
  * @author Mark H. Wilkinson
@@ -33,6 +34,7 @@ public final class BeanBuilder {
         record = new AnnotatedType(record);
         record.addAnnotation(new JavaBean("Record", JavaBeanType.CLASS));
         JavaBeanGenerator generator = new JavaBeanGenerator();
-        generator.generate(record, new PrintWriter(System.out, true));
+        generator.generate(record, new SourceFilePrintWriter(
+                new PrintWriter(System.out, true)));
     }
 }

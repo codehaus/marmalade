@@ -6,13 +6,13 @@ package org.codehaus.typle.test;
 
 
 public final class SingleField {
-private int theField;
+    private int theField;
 
-public int getTheField() {
-return theField;
-}
+    public int getTheField() {
+        return theField;
+    }
 
-public void setTheField(int theField) {
-this.theField = theField;
-}
+    public void setTheField(int theField) {
+        this.theField = theField;
+    }
 }

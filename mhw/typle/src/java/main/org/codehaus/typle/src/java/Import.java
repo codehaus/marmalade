@@ -5,10 +5,10 @@
 package org.codehaus.typle.src.java;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.codehaus.typle.src.AbstractSourceArtefact;
 import org.codehaus.typle.src.SourceArtefact;
+import org.codehaus.typle.src.SourceFileWriter;
 
 /**
  * @author Mark H. Wilkinson
@@ -20,8 +20,8 @@ public final class Import
 {
     private final String importSpecification;
 
-    public Import(String packageName) {
-        this.importSpecification = packageName;
+    public Import(String importSpecification) {
+        this.importSpecification = importSpecification;
     }
 
     /**
@@ -31,10 +31,7 @@ public final class Import
         return importSpecification;
     }
 
-    /* (non-Javadoc)
-     * @see org.codehaus.typle.src.SourceArtefact#write(java.io.Writer)
-     */
-    public void write(PrintWriter writer) throws IOException {
+    public void write(SourceFileWriter writer) throws IOException {
         if (!(importSpecification.startsWith("java.lang."))) {
             writer.println("import " + importSpecification + ";");
         }

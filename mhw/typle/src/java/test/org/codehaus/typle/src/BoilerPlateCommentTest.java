@@ -27,7 +27,7 @@ public final class BoilerPlateCommentTest extends TestCase {
      * The basic accessors should return properties of the object.
      */
     public void testAccessors() {
-        assertEquals("/* foo */", comment.getCommentSource());
+        assertEquals("/* foo */", comment.getLines()[0]);
         assertEquals(5, comment.getPriority());
     }
 

@@ -41,22 +41,22 @@ public class JavaSourceTest extends TestCase {
         BoilerPlateComment c;
         assertTrue(iter.hasNext());
         c = (BoilerPlateComment) iter.next();
-        assertEquals("/* Do not edit */", c.getCommentSource());
+        assertEquals("/* Do not edit */", c.getLines()[0]);
         assertEquals(1, c.getPriority());
 
         assertTrue(iter.hasNext());
         c = (BoilerPlateComment) iter.next();
-        assertEquals("/* Header */", c.getCommentSource());
+        assertEquals("/* Header */", c.getLines()[0]);
         assertEquals(2, c.getPriority());
 
         assertTrue(iter.hasNext());
         c = (BoilerPlateComment) iter.next();
-        assertEquals("/* Id */", c.getCommentSource());
+        assertEquals("/* Id */", c.getLines()[0]);
         assertEquals(5, c.getPriority());
 
         assertTrue(iter.hasNext());
         c = (BoilerPlateComment) iter.next();
-        assertEquals("/* Date */", c.getCommentSource());
+        assertEquals("/* Date */", c.getLines()[0]);
         assertEquals(10, c.getPriority());
 
         assertFalse(iter.hasNext());
