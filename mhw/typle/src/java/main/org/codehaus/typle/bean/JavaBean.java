@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 
 import org.codehaus.typle.Binding;
 import org.codehaus.typle.BindingList;
+import org.codehaus.typle.JavaNames;
 import org.codehaus.typle.JavaPrimitive;
 import org.codehaus.typle.JavaReferenceType;
 import org.codehaus.typle.RecordType;
@@ -68,12 +69,9 @@ public final class JavaBean {
      */
     private void visit(RecordType record, State state) {
         state.source.add(new BoilerPlateComment(BOILERPLATE_COMMENT, 1));
-        state.source.add(new JavaPackage("net.kremvax"));
-        state.source.add(new JavaPackage("foo.kremvax"));
-        state.source.add(new Import("org.codehaus.plexus.Plexus"));
-        state.source.add(new Import("javax.servlet.Servlet"));
+        state.source.add(new JavaPackage(JavaNames.packageName(beanName)));
 
-        state.outputClass = new JavaClass(beanName);
+        state.outputClass = new JavaClass(JavaNames.className(beanName));
         state.source.add(state.outputClass);
         BindingList fields = record.getFields();
         for (int i = 0; i < fields.size(); i++) {
