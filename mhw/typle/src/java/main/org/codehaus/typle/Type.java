@@ -20,4 +20,12 @@ public interface Type {
      * @return the local part of the type's name.
      */
     String getTypeName();
+
+    /**
+     * Return the type that this object is wrapped around, or
+     * <code>null</code> if this is not a type wrapper.
+     *
+     * @return
+     */
+    Type getWrappedType();
 }
