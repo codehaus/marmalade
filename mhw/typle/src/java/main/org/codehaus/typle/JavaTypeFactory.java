@@ -4,18 +4,16 @@
 
 package org.codehaus.typle;
 
-import java.util.Map;
-
 /**
  * <code>TypeFactory</code> for the <code>java</code> namespace.
  *
  * @author Mark H. Wilkinson
  * @version $Revision$
  */
-final class JavaTypeFactory implements TypeFactory {
-
-    private static Map typeMap = new java.util.HashMap();
-
+final class JavaTypeFactory
+    extends AbstractTypeFactory
+    implements TypeFactory
+{
     static {
         addType(Java.BOOLEAN_TYPE.getTypeName(), Java.BOOLEAN_TYPE);
         addType(Java.BYTE_TYPE.getTypeName(), Java.BYTE_TYPE);
@@ -28,40 +26,25 @@ final class JavaTypeFactory implements TypeFactory {
         addType(Java.VOID_TYPE.getTypeName(), Java.VOID_TYPE);
     }
 
-    private static void addType(String name, Type type) {
-        if (name == null)
-            throw new NullPointerException("name is null");
-        if (type == null)
-            throw new NullPointerException("type is null");
-        typeMap.put(name, type);
-    }
-
-    public Type lookup(String name) {
-        Object o;
+    protected Type resolveType(String name) {
         Type t = null;
 
-        if (name == null)
-            throw new NullPointerException("name is null");
-        if ((o = typeMap.get(name)) != null)
-            return (Type) o;
         if (name.indexOf('.') != -1) {
             t = new JavaReferenceType(name);
         } else {
             try {
-                o = Class.forName(name);
+                Object o = Class.forName(name);
                 t = new JavaReferenceType(name);
             } catch (ClassNotFoundException e) {
                 try {
                     String qualifiedName = "java.lang." + name;
-                    o = Class.forName(qualifiedName);
+                    Object o = Class.forName(qualifiedName);
                     t = new JavaReferenceType(qualifiedName);
                 } catch (ClassNotFoundException e2) {
                     // ignore
                 }
             }
         }
-        if (t != null)
-            addType(name, t);
         return t;
     }
 }
