@@ -13,9 +13,29 @@ public final class RegexSupport
 {
     
     private static final String PATHLIKE_PATTERN = "([^/]*\\/.*)+";
+    
+    private static final String REGEX_ESCAPABLES = "${}[]*.?+()\\/|";
 
     private RegexSupport()
     {
+    }
+    
+    public static String escapedValueOf(Object src)
+    {
+        String srcString = String.valueOf(src);
+        
+        StringBuffer resultBuffer = new StringBuffer();
+        for(int i=0; i<srcString.length(); i++)
+        {
+            char current = srcString.charAt(i);
+            if(REGEX_ESCAPABLES.indexOf(current) > -1)
+            {
+                resultBuffer.append('\\');
+            }
+            resultBuffer.append(current);
+        }
+        
+        return resultBuffer.toString();
     }
     
     public static String buildUberPathPattern(List patterns)

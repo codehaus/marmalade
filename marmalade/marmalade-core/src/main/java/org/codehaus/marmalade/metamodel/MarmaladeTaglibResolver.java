@@ -98,7 +98,7 @@ public class MarmaladeTaglibResolver
         return defaultTagLibrary;
     }
 
-    public MarmaladeTagLibrary resolve( String prefix, String taglib )
+    public MarmaladeTagLibrary resolve( String prefix, String taglib ) throws TaglibResolutionException
     {
         MarmaladeTagLibrary tlib = null;
 
@@ -123,7 +123,14 @@ public class MarmaladeTaglibResolver
                 }
             }
         }
-
-        return tlib;
+        
+        if(tlib == null)
+        {
+            throw new TaglibResolutionException(prefix, taglib, "Cannot find matching tag library implementation.");
+        }
+        else
+        {
+            return tlib;
+        }
     }
 }

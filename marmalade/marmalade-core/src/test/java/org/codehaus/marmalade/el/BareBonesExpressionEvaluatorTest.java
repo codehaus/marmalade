@@ -17,6 +17,17 @@ public class BareBonesExpressionEvaluatorTest
     extends TestCase
 {
     
+    public void testShouldPropagateWin32PathsCorrectly() throws Exception
+    {
+        BareBonesExpressionEvaluator el = new BareBonesExpressionEvaluator();
+        
+        Map context = Collections.singletonMap("key", "c:\\path\\to\\dir\\");
+        
+        Object result = el.evaluate("${key}/log.txt", context, String.class);
+        
+        assertEquals("Win32 path-separator is not preserved properly.", "c:\\path\\to\\dir\\/log.txt", result);
+    }
+    
     public void testShouldEvalLiteralExpressionToBooleanTrueWhenExpectedTypeIsBoolean()
         throws ExpressionEvaluationException
     {

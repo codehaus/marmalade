@@ -27,6 +27,12 @@ package org.codehaus.marmalade.runtime;
 import org.codehaus.marmalade.el.BareBonesExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.monitor.event.ComposableDispatcherManager;
+import org.codehaus.marmalade.monitor.event.EventDispatcherManager;
+import org.codehaus.marmalade.monitor.event.context.ContextEventDispatcher;
+import org.codehaus.marmalade.monitor.event.context.DefaultContextEventDispatcher;
+import org.codehaus.marmalade.monitor.log.DefaultLog;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.marmalade.util.ScopedMap;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -75,11 +81,19 @@ public class DefaultContext
 
     private Set externalized = new HashSet();
 
+    private EventDispatcherManager eventDispatcherManager;
+
+    private ContextEventDispatcher contextDispatcher;
+
+    private MarmaladeLog log;
+
     public DefaultContext()
     {
         this.systemContext = Collections.unmodifiableMap( new TreeMap( System.getProperties() ) );
 
         this.context = new ScopedMap( systemContext );
+
+        buildDefaultEventDispatcher();
     }
 
     public DefaultContext( Map context )
@@ -91,21 +105,93 @@ public class DefaultContext
 
         this.context = new ScopedMap( systemContext );
         this.context.putAll( context );
+
+        buildDefaultEventDispatcher();
+    }
+    
+    public DefaultContext(EventDispatcherManager eventDispatcherManager)
+    {
+        this.systemContext = Collections.unmodifiableMap( new TreeMap( System.getProperties() ) );
+
+        this.context = new ScopedMap( systemContext );
+
+        this.eventDispatcherManager = eventDispatcherManager;
+        this.contextDispatcher = eventDispatcherManager.getContextDispatcher();
+    }
+
+    public DefaultContext( Map context, EventDispatcherManager eventDispatcherManager )
+    {
+        this.systemContext = new HashMap();
+        this.systemContext.putAll( System.getProperties() );
+
+        this.systemContext = Collections.unmodifiableMap( systemContext );
+
+        this.context = new ScopedMap( systemContext );
+        this.context.putAll( context );
+        
+        this.eventDispatcherManager = eventDispatcherManager;
+        this.contextDispatcher = eventDispatcherManager.getContextDispatcher();
+    }
+    
+    public void setLog(MarmaladeLog log)
+    {
+        if(log == null)
+        {
+            this.log = log;
+        }
+    }
+    
+    public synchronized MarmaladeLog getLog()
+    {
+        if(log == null)
+        {
+            log = new DefaultLog();
+        }
+        
+        return log;
+    }
+    
+    private void buildDefaultEventDispatcher()
+    {
+        ComposableDispatcherManager mgr = new ComposableDispatcherManager();
+        
+        ContextEventDispatcher ctxDispatcher = new DefaultContextEventDispatcher();
+        
+        mgr.initContextDispatcher( ctxDispatcher );
+        
+        this.eventDispatcherManager = mgr;
+        
+        this.contextDispatcher = ctxDispatcher;
     }
 
     public void setOutWriter( PrintWriter out )
     {
+        PrintWriter old = this.out;
+        
         this.out = out;
+        
+        // Dispatch event.
+        contextDispatcher.outWriterChanged(old, out);
     }
 
     public void setErrWriter( PrintWriter err )
     {
+        PrintWriter old = this.err;
+        
         this.err = err;
+        
+        // Dispatch event.
+        contextDispatcher.errWriterChanged(old, err);
     }
 
     public void setInReader( Reader in )
     {
+        Reader old = this.in;
+        
         this.in = in;
+        
+        // Dispatch event.
+        contextDispatcher.inReaderChanged(old, in);
     }
 
     public Object getVariable( Object key, ExpressionEvaluator el ) throws ExpressionEvaluationException
@@ -127,24 +213,34 @@ public class DefaultContext
 
     public Object setVariable( Object key, Object value )
     {
+        // Dispatch event.
+        contextDispatcher.variableSet(key, value, false);
+        
         return context.put( key, value );
     }
 
     public Object setVariable( Object key, Object value, boolean externalize )
     {
-        if(externalize)
+        if ( externalize )
         {
-            externalized.add(key);
+            externalized.add( key );
         }
+        
+        // Dispatch event.
+        contextDispatcher.variableSet(key, value, externalize);
+        
         return context.put( key, value );
     }
 
     public Object removeVariable( Object key )
     {
         Object result = context.remove( key );
-        
-        externalized.remove(key);
 
+        externalized.remove( key );
+
+        // Dispatch event.
+        contextDispatcher.variableRemoved(key);
+        
         return result;
     }
 
@@ -156,6 +252,9 @@ public class DefaultContext
     public void newScope()
     {
         this.context = new ScopedMap( context );
+        
+        // Dispatch event.
+        contextDispatcher.scopeCreated();
     }
 
     public Map lastScope()
@@ -190,6 +289,9 @@ public class DefaultContext
         {
             context.putAll( replaced );
         }
+        
+        // Dispatch event.
+        contextDispatcher.scopeRestored();
 
         return replaced;
     }
@@ -240,15 +342,15 @@ public class DefaultContext
 
     public void setVariables( Map vars, boolean externalize )
     {
-        if(externalize)
+        if ( externalize )
         {
             for ( Iterator it = vars.keySet().iterator(); it.hasNext(); )
             {
                 Object key = (Object) it.next();
-                externalized.add(key);
+                externalized.add( key );
             }
         }
-        
+
         context.putAll( vars );
     }
 
@@ -264,35 +366,60 @@ public class DefaultContext
 
         return xmlSerializer;
     }
-    
 
-    public Map getExternalizedVariables(ExpressionEvaluator el) throws ExpressionEvaluationException
+    public Map getExternalizedVariables( ExpressionEvaluator el ) throws ExpressionEvaluationException
     {
-        Map result = new HashMap();
-        
-        for ( Iterator it = externalized.iterator(); it.hasNext(); )
-        {
-            Object key = (Object) it.next();
-            result.put(key, getVariable(key, el));
-        }
-        
-        return result;
+        return getVariablesAsResolved(externalized, el);
     }
-    
+
     public Map getExternalizedVariables()
     {
         try
         {
-            return getExternalizedVariables(null);
+            return getVariablesAsResolved(externalized, null);
         }
         catch ( ExpressionEvaluationException e )
         {
             StringWriter sWriter = new StringWriter();
-            PrintWriter pWriter = new PrintWriter(sWriter);
-            e.printStackTrace(pWriter);
-            
-            throw new RuntimeException("This should never, ever happen! Error was:\n" + sWriter.toString());
+            PrintWriter pWriter = new PrintWriter( sWriter );
+            e.printStackTrace( pWriter );
+
+            throw new RuntimeException( "This should never, ever happen! Error was:\n" + sWriter.toString() );
         }
+    }
+    
+    public Map getVariablesAsResolved( ExpressionEvaluator el ) throws ExpressionEvaluationException
+    {
+        return getVariablesAsResolved(context.keySet(), el);
+    }
+
+    public Map getVariablesAsResolved()
+    {
+        try
+        {
+            return getVariablesAsResolved(context.keySet(), null);
+        }
+        catch ( ExpressionEvaluationException e )
+        {
+            StringWriter sWriter = new StringWriter();
+            PrintWriter pWriter = new PrintWriter( sWriter );
+            e.printStackTrace( pWriter );
+
+            throw new RuntimeException( "This should never, ever happen! Error was:\n" + sWriter.toString() );
+        }
+    }
+    
+    private Map getVariablesAsResolved( Set variableKeys, ExpressionEvaluator el ) throws ExpressionEvaluationException
+    {
+        Map result = new HashMap();
+
+        for ( Iterator it = variableKeys.iterator(); it.hasNext(); )
+        {
+            Object key = (Object) it.next();
+            result.put( key, getVariable( key, el ) );
+        }
+
+        return result;
     }
 
 }

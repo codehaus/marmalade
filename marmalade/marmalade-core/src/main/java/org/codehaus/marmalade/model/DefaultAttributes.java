@@ -122,6 +122,7 @@ public class DefaultAttributes
         String expression = attributes.getValue( namespace, name );
         Object result = null;
 
+//        System.out.println("Resolving attribute value expression: " + expression);
         if ( (expression != null) && (expression.length() > 0) )
         {
             if ( el == null )
@@ -130,12 +131,16 @@ public class DefaultAttributes
             }
 
             result = el.evaluate( expression, context, type );
+            
+//            System.out.println("Got attribute-expression result: " + result);
         }
 
         if ( result == null )
         {
             result = defaultVal;
         }
+        
+//        System.out.println("Returning resolved value: " + result);
 
         return result;
     }
