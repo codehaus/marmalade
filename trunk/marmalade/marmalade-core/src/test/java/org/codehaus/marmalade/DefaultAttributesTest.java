@@ -158,7 +158,6 @@ public class DefaultAttributesTest extends MockObjectTestCase{
       fail("Should not allow specification of String.class and return type of Integer.class.");
     }
     catch(ExpressionEvaluationException e ) {
-      e.printStackTrace();
     }
     
     Object result = attrs.getValue("testKey", Integer.class, (MarmaladeExecutionContext)ctxMock.proxy());

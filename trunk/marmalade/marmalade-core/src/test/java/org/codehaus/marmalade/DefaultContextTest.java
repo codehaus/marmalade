@@ -59,9 +59,9 @@ public class DefaultContextTest extends MockObjectTestCase{
     
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("evaluate")
-          .with(eq("testval"), isA(Map.class), same(Object.class))
-          .will(returnValue("testval"));
+          .method("isExpression")
+          .with(eq("testval"))
+          .will(returnValue(false));
     
     DefaultContext ctx = new DefaultContext(seed);
     Object result = ctx.getVariable("testkey", (ExpressionEvaluator)elMock.proxy());
@@ -77,9 +77,9 @@ public class DefaultContextTest extends MockObjectTestCase{
     
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("evaluate")
-          .with(eq("testval2"), isA(Map.class), same(Object.class))
-          .will(returnValue("testval2"));
+          .method("isExpression")
+          .with(eq("testval2"))
+          .will(returnValue(false));
     
     DefaultContext ctx = new DefaultContext(seed);
     ctx.setVariable("testkey", "testval2");
@@ -130,21 +130,21 @@ public class DefaultContextTest extends MockObjectTestCase{
     
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("evaluate")
-          .with(eq("testval"), isA(Map.class), same(Object.class))
-          .will(returnValue("testval"));
+          .method("isExpression")
+          .with(eq("testval"))
+          .will(returnValue(false));
     
     Mock elMock2 = mock(ExpressionEvaluator.class);
     elMock2.expects(once())
-          .method("evaluate")
-          .with(eq("testval2"), isA(Map.class), same(Object.class))
-          .will(returnValue("testval2"));
+          .method("isExpression")
+          .with(eq("testval2"))
+          .will(returnValue(false));
     
     Mock elMock3 = mock(ExpressionEvaluator.class);
     elMock3.expects(once())
-          .method("evaluate")
-          .with(eq("testval"), isA(Map.class), same(Object.class))
-          .will(returnValue("testval"));
+          .method("isExpression")
+          .with(eq("testval"))
+          .will(returnValue(false));
 
     DefaultContext ctx = new DefaultContext(seed);
     
@@ -166,6 +166,8 @@ public class DefaultContextTest extends MockObjectTestCase{
     assertEquals("Value returned should match that in the original seed map.", "testval", result3);
     
     elMock.verify();
+    elMock2.verify();
+    elMock3.verify();
   }
 
 }
