@@ -24,11 +24,10 @@
 /* Created on Apr 18, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
-import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 /**
@@ -58,7 +57,7 @@ public class ArgTag extends AbstractJellyMarmaladeTag
 
         if ( arg == null )
         {
-            throw new MarmaladeExecutionException( 
+            throw new TagExecutionException( getTagInfo(),  
                 "You must specify either the \'" + VALUE_ATTRIBUTE
                 + "\' attribute or body content for the arg tag." );
         }

@@ -9,7 +9,6 @@ import org.jmock.MockObjectTestCase;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import java.util.Collections;
 
 /**
@@ -75,7 +74,7 @@ public class AbstractMarmaladeTagTest
 
         runTest( tag, false, true, "test text", "" );
     }
-
+    
     private void runTest( MarmaladeTag tag, boolean expectOutputAccess, boolean expectBodyProcess, String testInput,
         String expectedOutput ) throws MarmaladeExecutionException
     {

@@ -39,6 +39,7 @@ import java.util.Set;
 public class ScopedMap
     implements Map
 {
+    
     private Map superMap;
 
     private Map thisMap;
@@ -76,7 +77,7 @@ public class ScopedMap
         this.keySet = new ScopedMapEntriesSet( superMap, thisMap, Boolean.TRUE );
         this.valueSet = new ScopedMapEntriesSet( superMap, thisMap, Boolean.FALSE );
     }
-
+    
     public Map getSuperMap()
     {
         return superMap;

@@ -3,6 +3,7 @@ package org.codehaus.marmalade.metamodel;
 
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.model.DefaultAttributes;
+import org.codehaus.marmalade.model.MarmaladeControlProcessor;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.parsing.MarmaladeParsingContext;
 
@@ -90,7 +91,7 @@ public class MarmaladeTagBuilder
             }
         }
 
-        return tag;
+        return MarmaladeControlProcessor.activateTagControls(attributes, tag);
     }
 
     public void setTagInfo( MarmaladeTagInfo tagInfo )

@@ -21,13 +21,7 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-/*
 
- Copyright (c) 2002 John Casey. All rights reserved.
-
- SEE licenses/cj-license.txt FOR MORE INFORMATION.
-
- */
 /*
  * Reflector.java
  *

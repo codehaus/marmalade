@@ -39,6 +39,8 @@ public class MarmaladeTagInfo
 
     private int sourceLine = -1;
 
+    private int sourceCol = -1;
+
     private String filename;
 
     private String sourceFile;
@@ -95,6 +97,16 @@ public class MarmaladeTagInfo
     public void setSourceLine( int sourceLine )
     {
         this.sourceLine = sourceLine;
+    }
+    
+    public int getSourceColumn()
+    {
+        return sourceCol;
+    }
+    
+    public void setSourceColumn(int sourceCol)
+    {
+        this.sourceCol = sourceCol;
     }
 
     public void setSourceFile( String sourceFile )

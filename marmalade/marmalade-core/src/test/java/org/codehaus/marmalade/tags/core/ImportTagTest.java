@@ -24,8 +24,6 @@
 /* Created on Apr 15, 2004 */
 package org.codehaus.marmalade.tags.core;
 
-import junit.framework.TestCase;
-
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -36,8 +34,9 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-
 import java.net.MalformedURLException;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey

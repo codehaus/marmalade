@@ -24,8 +24,6 @@
 /* Created on Jun 26, 2004 */
 package org.codehaus.marmalade.tags.passthrough;
 
-import junit.framework.TestCase;
-
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.metamodel.ModelBuilderException;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
@@ -41,6 +39,8 @@ import org.codehaus.marmalade.util.RecordingReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey

@@ -1,10 +1,10 @@
 /* Created on Jul 2, 2004 */
 package org.codehaus.marmalade.util;
 
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.io.StringReader;
+
+import junit.framework.TestCase;
 
 /**
  * @author jdcasey

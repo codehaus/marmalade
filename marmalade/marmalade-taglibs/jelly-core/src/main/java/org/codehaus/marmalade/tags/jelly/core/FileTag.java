@@ -24,11 +24,10 @@
 /* Created on Apr 20, 2004 */
 package org.codehaus.marmalade.tags.jelly.core;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.AbstractOutputTag;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.jelly.AbstractJellyOutputTag;
 import org.codehaus.marmalade.util.XMLUtils;
 
@@ -115,7 +114,7 @@ public class FileTag extends AbstractJellyOutputTag
         }
         else
         {
-            throw new MarmaladeExecutionException( "Invalid Output Mode: "
+            throw new TagExecutionException( getTagInfo(), "Invalid Output Mode: "
                 + outputMode );
         }
 
@@ -163,7 +162,7 @@ public class FileTag extends AbstractJellyOutputTag
             }
             catch ( IOException e )
             {
-                throw new MarmaladeExecutionException( 
+                throw new TagExecutionException( getTagInfo(), 
                     "Error writing body content to file: " + file );
             }
             finally

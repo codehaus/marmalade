@@ -101,4 +101,22 @@ public final class ScriptStructureSupport
             return parent;
         }
     }
+    
+    public static MarmaladeTag getAncestor( MarmaladeTag tag, Class cls )
+    {
+        MarmaladeTag parent = null;
+        
+        MarmaladeTag check = tag;
+        
+        while ( (check = check.getParent()) != null )
+        {
+            if ( cls.isAssignableFrom( check.getClass() ) )
+            {
+                parent = check;
+                break;
+            }
+        }
+
+        return parent;
+    }
 }

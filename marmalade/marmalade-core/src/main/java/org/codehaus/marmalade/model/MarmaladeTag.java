@@ -63,4 +63,6 @@ public interface MarmaladeTag
     void appendBodyText( String string );
 
     void setTagInfo( MarmaladeTagInfo tagInfo );
+    
+    void setPreserveBodyWhitespace(boolean preserve);
 }

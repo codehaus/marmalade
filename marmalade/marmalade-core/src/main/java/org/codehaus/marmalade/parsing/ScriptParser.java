@@ -26,7 +26,9 @@ package org.codehaus.marmalade.parsing;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
-import org.xmlpull.v1.XmlPullParserException;
+import org.codehaus.marmalade.reader.ScriptReadException;
+import org.codehaus.marmalade.reader.ScriptReader;
+import org.codehaus.marmalade.reader.xml.Xpp3ScriptReader;
 
 import java.io.IOException;
 
@@ -35,10 +37,18 @@ import java.io.IOException;
  */
 public class ScriptParser
 {
+    private final ScriptReader scriptReader;
+
     public ScriptParser()
     {
+        this.scriptReader = new Xpp3ScriptReader();
     }
-
+    
+    public ScriptParser(ScriptReader scriptReader)
+    {
+        this.scriptReader = scriptReader;
+    }
+    
     public ScriptBuilder parse( MarmaladeParsingContext context ) throws MarmaladeParsetimeException
     {
         ScriptBuilder result = null;
@@ -49,11 +59,11 @@ public class ScriptParser
         {
             MarmaladeTaglibResolver resolver = context.getTaglibResolver();
 
-            ScriptReader scriptReader = new ScriptReader();
+            Xpp3ScriptReader scriptReader = new Xpp3ScriptReader();
 
             result = (ScriptBuilder) scriptReader.readScript( context );
         }
-        catch ( XmlPullParserException e )
+        catch ( ScriptReadException e )
         {
             throw new MarmaladeParsetimeException( e );
         }
