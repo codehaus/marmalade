@@ -45,6 +45,10 @@ public class MarmaladeScript
     {
         return location;
     }
+    
+    public MarmaladeTag getRoot() {
+        return root;
+    }
 
     public void execute( MarmaladeExecutionContext context )
         throws MarmaladeExecutionException
