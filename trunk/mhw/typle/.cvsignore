@@ -2,3 +2,5 @@ target
 maven.log
 .classpath
 .project
+jcoverage.ser
+velocity.log
