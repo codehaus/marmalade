@@ -46,11 +46,18 @@ public class DefaultAttributes implements MarmaladeAttributes
     private MetaAttributes attributes;
     private transient Set attributesSet;
 
-    public DefaultAttributes( ExpressionEvaluator el, MetaAttributes attributes )
+    public DefaultAttributes( MetaAttributes attributes )
     {
-        this.el = el;
         this.attributes = ( attributes != null ) ? ( attributes )
                                                  : ( new DefaultRawAttributes(  ) );
+    }
+    
+    public DefaultAttributes() {
+        this.attributes = new DefaultRawAttributes();
+    }
+    
+    public void setExpressionEvaluator(ExpressionEvaluator el) {
+        this.el = el;
     }
 
     public ExpressionEvaluator getExpressionEvaluator(  )

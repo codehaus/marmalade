@@ -30,6 +30,7 @@ import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
@@ -44,9 +45,9 @@ public class IfTagTest extends TestCase
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( new DefaultRawAttributes(  ) );
-
-        IfTag tag = new IfTag( ti );
+        IfTag tag = new IfTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes());
 
         try
         {
@@ -64,20 +65,24 @@ public class IfTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "test", "true" ) );
+        attrs.addAttribute( "", "", "test", "true" );
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        IfTag tag = new IfTag( ti );
+        IfTag tag = new IfTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         MarmaladeTagInfo flagTI = new MarmaladeTagInfo(  );
 
-        flagTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag flag = new FlagChildTestTag( ti );
+        FlagChildTestTag flag = new FlagChildTestTag(  );
+        flag.setTagInfo(flagTI);
 
         tag.addChild( flag );
         flag.setParent( tag );
@@ -92,20 +97,24 @@ public class IfTagTest extends TestCase
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "test", "false" ) );
+        attrs.addAttribute( "", "", "test", "false" );
+
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        IfTag tag = new IfTag( ti );
+        IfTag tag = new IfTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         MarmaladeTagInfo flagTI = new MarmaladeTagInfo(  );
 
-        flagTI.setAttributes( new DefaultRawAttributes(  ) );
-
-        FlagChildTestTag flag = new FlagChildTestTag( ti );
+        FlagChildTestTag flag = new FlagChildTestTag(  );
+        flag.setTagInfo(flagTI);
 
         tag.addChild( flag );
         flag.setParent( tag );

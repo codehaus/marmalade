@@ -30,11 +30,10 @@ import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 
 /**
  * @author jdcasey
@@ -47,11 +46,11 @@ public class SetTagTest extends TestCase
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "value", "test" ) );
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        SetTag tag = new SetTag( ti );
+        attrs.addAttribute( "", "", "value", "test" );
+        
+        SetTag tag = new SetTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes(attrs));
 
         try
         {
@@ -70,11 +69,11 @@ public class SetTagTest extends TestCase
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "var", "test" ) );
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        attrs.addAttribute( "", "", "var", "test" );
 
-        SetTag tag = new SetTag( ti );
+        SetTag tag = new SetTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes(attrs));
 
         try
         {
@@ -93,30 +92,29 @@ public class SetTagTest extends TestCase
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "var", "test" ) );
-        ti.setAttributes( attrs );
-        ti.appendText( "value".toCharArray(  ), 0, "value".length(  ) );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
+        attrs.addAttribute( "", "", "var", "test" );
 
-        SetTag tag = new SetTag( ti );
+        SetTag tag = new SetTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes(attrs));
+        tag.appendBodyText( "value" );
 
         tag.execute( new DefaultContext(  ) );
     }
 
     public void testShouldSetContextVariableWithVarAndValueAttributes(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "var", "testKey" ) );
-        attrs.addAttribute( new DefaultRawAttribute( "", "value", "value" ) );
+        attrs.addAttribute( "", "", "var", "testKey" );
+        attrs.addAttribute( "", "", "value", "value" );
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        SetTag tag = new SetTag( ti );
+        SetTag tag = new SetTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes(attrs));
 
         DefaultContext ctx = new DefaultContext(  );
 
@@ -128,21 +126,25 @@ public class SetTagTest extends TestCase
     }
 
     public void testShouldSetTargetPropertyWithTargetPropertyAndValueAttributes(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "property",
-                "attribute.value" ) );
-        attrs.addAttribute( new DefaultRawAttribute( "", "target", "#subject" ) );
-        attrs.addAttribute( new DefaultRawAttribute( "", "value", "testResult" ) );
+        attrs.addAttribute( "", "", "property", "attribute.value" );
+        attrs.addAttribute( "", "", "target", "#subject" );
+        attrs.addAttribute( "", "", "value", "testResult" );
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
+        
+        OgnlExpressionEvaluator el = new OgnlExpressionEvaluator();
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
+        tagAttrs.setExpressionEvaluator(el);
 
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        SetTag tag = new SetTag( ti );
+        SetTag tag = new SetTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(tagAttrs);
+        tag.setExpressionEvaluator(el);
 
         DefaultContext ctx = new DefaultContext(  );
 

@@ -30,11 +30,10 @@ import org.codehaus.marmalade.el.ognl.OgnlExpressionEvaluator;
 import org.codehaus.marmalade.metamodel.DefaultRawAttribute;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
+import org.codehaus.marmalade.model.DefaultAttributes;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.MissingAttributeException;
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 
 /**
  * @author jdcasey
@@ -42,14 +41,13 @@ import org.codehaus.tagalog.TagalogParseException;
 public class RemoveTagTest extends TestCase
 {
     public void testShouldRequireVarAttribute(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( new DefaultRawAttributes(  ) );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        RemoveTag tag = new RemoveTag( ti );
+        RemoveTag tag = new RemoveTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(new DefaultAttributes());
 
         try
         {
@@ -63,18 +61,19 @@ public class RemoveTagTest extends TestCase
     }
 
     public void testShouldRemoveExistingVariableFromContext(  )
-        throws TagException, TagalogParseException, MarmaladeExecutionException
+        throws MarmaladeExecutionException
     {
         DefaultRawAttributes attrs = new DefaultRawAttributes(  );
 
-        attrs.addAttribute( new DefaultRawAttribute( "", "var", "testKey" ) );
+        attrs.addAttribute( "", "", "var", "testKey" );
+        
+        DefaultAttributes tagAttrs = new DefaultAttributes(attrs);
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo(  );
 
-        ti.setAttributes( attrs );
-        ti.setExpressionEvaluator( new OgnlExpressionEvaluator(  ) );
-
-        RemoveTag tag = new RemoveTag( ti );
+        RemoveTag tag = new RemoveTag(  );
+        tag.setTagInfo(ti);
+        tag.setAttributes(tagAttrs);
 
         DefaultContext ctx = new DefaultContext(  );
 

@@ -46,7 +46,6 @@ public class MarmaladeTagInfo
     private String taglib;
     private String element;
     private String prefix;
-    private MetaAttributes attributes;
     private int sourceLine = -1;
 
     private String filename;
@@ -54,16 +53,6 @@ public class MarmaladeTagInfo
     
     public MarmaladeTagInfo(  )
     {
-    }
-
-    public MetaAttributes getAttributes(  )
-    {
-        return attributes;
-    }
-
-    public void setAttributes( MetaAttributes attributes )
-    {
-        this.attributes = attributes;
     }
 
     public String getElement(  )

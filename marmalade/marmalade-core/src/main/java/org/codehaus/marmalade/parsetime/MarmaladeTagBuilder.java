@@ -59,7 +59,9 @@ public class MarmaladeTagBuilder {
         MarmaladeTag tag = tagLibrary.createTag(tagInfo);
         tag.setTagInfo(tagInfo);
         tag.setExpressionEvaluator(expressionEvaluator);
-        tag.setAttributes(new DefaultAttributes(expressionEvaluator, attributes));
+        DefaultAttributes tagAttributes = new DefaultAttributes(attributes);
+        tagAttributes.setExpressionEvaluator(expressionEvaluator);
+        tag.setAttributes(tagAttributes);
         
         for (Iterator it = childComponents.iterator(); it.hasNext();) {
             Object childComponent = it.next();
