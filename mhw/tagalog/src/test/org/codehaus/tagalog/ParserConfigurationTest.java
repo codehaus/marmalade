@@ -147,5 +147,8 @@ public class ParserConfigurationTest extends TestCase {
         } catch (IllegalArgumentException e) {
             // expected
         }
+
+        p.setDefaultNamespace("some-uri");
+        assertEquals(t1, p.findTagLibrary(""));
     }
 }
