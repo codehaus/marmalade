@@ -2,37 +2,30 @@
 package org.codehaus.marmalade.el.ognl;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
+import ognl.DefaultTypeConverter;
 import ognl.Ognl;
 import ognl.OgnlException;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.abstractions.AbstractExpressionEvaluator;
 
 /**
  * @author jdcasey
  */
-public class OgnlExpressionEvaluator implements ExpressionEvaluator {
-
-  private static final String EXPRESSION_PATTERNS = 
-    "null|true|false|(.*\\?.*:.*)|[0-9]+|0x[a-f]+|(.*[#{}].*)";
+public class OgnlExpressionEvaluator extends AbstractExpressionEvaluator {
 
   public OgnlExpressionEvaluator() {
   }
 
-  public Object evaluate(String expression, Map context, Class expectedReturnType) 
+  public Object doEval(String expression, Map context, Class expectedType) 
   throws ExpressionEvaluationException
   {
     try {
-      Object result = Ognl.getValue(expression, context, (Object)null);
-      if(result != null && !expectedReturnType.isAssignableFrom(result.getClass())) {
-        throw new ExpressionEvaluationException(
-            "Result of evaluation is not of type " + expectedReturnType.getName()
-        );
-      }
-      else {
-        return result;
-      }
+      Ognl.setTypeConverter(context, new DefaultTypeConverter());
+      Object result = Ognl.getValue(expression, context, (Object)null, expectedType);
+      return result;
     }
     catch (OgnlException e) {
       throw new ExpressionEvaluationException(expression, e);
@@ -51,8 +44,8 @@ public class OgnlExpressionEvaluator implements ExpressionEvaluator {
     }
   }
 
-  public boolean isExpression(String src){
-    return src.matches(EXPRESSION_PATTERNS);
+  protected boolean trimExpressionDelimiters(){
+    return true;
   }
-
+  
 }

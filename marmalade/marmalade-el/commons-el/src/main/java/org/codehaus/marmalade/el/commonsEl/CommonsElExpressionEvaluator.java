@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 import javax.servlet.jsp.el.ELException;
 import javax.servlet.jsp.el.FunctionMapper;
@@ -15,47 +16,22 @@ import javax.servlet.jsp.el.VariableResolver;
 import org.apache.commons.el.Coercions;
 import org.apache.commons.el.ExpressionEvaluatorImpl;
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.el.ExpressionEvaluator;
+import org.codehaus.marmalade.abstractions.AbstractExpressionEvaluator;
 
 /**
  * @author jdcasey
  */
-public class CommonsElExpressionEvaluator implements ExpressionEvaluator {
+public class CommonsElExpressionEvaluator extends AbstractExpressionEvaluator {
 
-  private static final String EXPRESSION_PATTERNS = 
-    "\\$\\{.*\\}";
-  
   private ExpressionEvaluatorImpl elImpl = new ExpressionEvaluatorImpl(true);
 
   public CommonsElExpressionEvaluator() {
   }
 
-  public Object evaluate(String expression, Map context, Class expectedReturnType) 
+  public Object doEval(String expression, Map context, Class expectedType) 
   throws ExpressionEvaluationException
   {
-    Object result = null;
-    if(expression != null) {
-      if(expression.matches(EXPRESSION_PATTERNS)) {
-        result = eval(expression, context, expectedReturnType);
-      }
-      else if(!expectedReturnType.equals(Object.class)){
-        try{
-          result = Coercions.coerce(expression, expectedReturnType);
-        }
-        catch(ELException e){
-          throw new ExpressionEvaluationException(
-            "Error coercing expression: \'" + 
-              expression + 
-              "\' to class: " + 
-              expectedReturnType.getName(), 
-            e
-          );
-        }
-      }
-      else {
-        result = expression;
-      }
-    }
+    Object result = eval(expression, context, expectedType);
     
     return result;
   }
@@ -89,12 +65,6 @@ public class CommonsElExpressionEvaluator implements ExpressionEvaluator {
     return result;
   }
 
-  /** Returns true, so everything is subject to coercion.
-   */
-  public boolean isExpression(String src){
-    return true;
-  }
-  
   private Object set(Object target, String property, Object value) throws ExpressionEvaluationException{
     Object result = null;
     try {
@@ -196,11 +166,6 @@ public class CommonsElExpressionEvaluator implements ExpressionEvaluator {
     }
   }
   
-/*  
-  public boolean isExpression(String src){
-    return src.matches(EXPRESSION_PATTERNS);
-  }
-*/  
   private static final class ElVarResolver implements VariableResolver{
     private Map context;
     
@@ -221,6 +186,10 @@ public class CommonsElExpressionEvaluator implements ExpressionEvaluator {
     public Method resolveFunction(String arg0, String arg1){
       return null;
     }
+  }
+
+  protected boolean trimExpressionDelimiters(){
+    return false;
   }
 
 }

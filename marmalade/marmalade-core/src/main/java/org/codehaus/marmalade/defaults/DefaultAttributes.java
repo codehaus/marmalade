@@ -73,12 +73,7 @@ public class DefaultAttributes implements MarmaladeAttributes {
     Object result = null;
     if(expression != null && expression.length() > 0){
       if(el != null){
-        if(el.isExpression(expression)) {
-          result = el.evaluate(expression, context, Object.class);
-        }
-        else {
-          result = expression;
-        }
+        result = el.evaluate(expression, context, Object.class);
       }
       else{
         result = expression;

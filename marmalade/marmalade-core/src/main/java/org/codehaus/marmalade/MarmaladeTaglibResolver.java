@@ -60,7 +60,7 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
     return usePassThrough;
   }
 
-  public TagLibrary resolve(String taglib) {
+  public TagLibrary resolve(String tlib) {
     // NOTE: If the nested if statement ugliness below looks weird, I'm trying to reduce the 
     // processing overhead for calls that resolve early, rather than make it easy to read.
     //
@@ -73,6 +73,8 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
     // 5. If usePassThrough() == true, then return the PassThroughTagLibrary instance to relay to 
     //     output.
     // ---------------------------------------------------------------------------------------------
+    
+    String taglib = ((tlib == null || tlib.trim().length() < 1) ? (prefix) : (tlib));
     
     // 1.
     TagLibrary impl = (TagLibrary)resolved.get(taglib);

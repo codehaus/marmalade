@@ -61,9 +61,9 @@ public class DefaultContextTest extends MockObjectTestCase{
     
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("isExpression")
-          .with(eq("testval"))
-          .will(returnValue(false));
+          .method("evaluate")
+          .with(eq("testval"), isA(Map.class), isA(Class.class))
+          .will(returnValue("testval"));
     
     DefaultContext ctx = new DefaultContext(seed);
     Object result = ctx.getVariable("testkey", (ExpressionEvaluator)elMock.proxy());
@@ -79,9 +79,9 @@ public class DefaultContextTest extends MockObjectTestCase{
     
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("isExpression")
-          .with(eq("testval2"))
-          .will(returnValue(false));
+          .method("evaluate")
+          .with(eq("testval2"), isA(Map.class), isA(Class.class))
+          .will(returnValue("testval2"));
     
     DefaultContext ctx = new DefaultContext(seed);
     ctx.setVariable("testkey", "testval2");
@@ -132,21 +132,21 @@ public class DefaultContextTest extends MockObjectTestCase{
     
     Mock elMock = mock(ExpressionEvaluator.class);
     elMock.expects(once())
-          .method("isExpression")
-          .with(eq("testval"))
-          .will(returnValue(false));
+          .method("evaluate")
+          .with(eq("testval"), isA(Map.class), isA(Class.class))
+          .will(returnValue("testval"));
     
     Mock elMock2 = mock(ExpressionEvaluator.class);
     elMock2.expects(once())
-          .method("isExpression")
-          .with(eq("testval2"))
-          .will(returnValue(false));
+          .method("evaluate")
+          .with(eq("testval2"), isA(Map.class), isA(Class.class))
+          .will(returnValue("testval2"));
     
     Mock elMock3 = mock(ExpressionEvaluator.class);
     elMock3.expects(once())
-          .method("isExpression")
-          .with(eq("testval"))
-          .will(returnValue(false));
+           .method("evaluate")
+           .with(eq("testval"), isA(Map.class), isA(Class.class))
+           .will(returnValue("testval"));
 
     DefaultContext ctx = new DefaultContext(seed);
     

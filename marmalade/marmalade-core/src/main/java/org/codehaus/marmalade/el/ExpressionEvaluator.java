@@ -2,6 +2,7 @@
 package org.codehaus.marmalade.el;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /** Represents a bridge to an expression language processor which is used to resolve
  * object expressions within the parsing process.
@@ -9,8 +10,6 @@ import java.util.Map;
  * @author John Casey
  */
 public interface ExpressionEvaluator {
-  
-  public boolean isExpression(String src);
   
   public Object evaluate(String expression, Map context, Class expectedReturnType)
   throws ExpressionEvaluationException;
