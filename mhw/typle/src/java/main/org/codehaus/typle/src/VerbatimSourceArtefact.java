@@ -18,6 +18,10 @@ public abstract class VerbatimSourceArtefact extends AbstractSourceArtefact {
         this.source = source;
     }
 
+    protected String getSource() {
+        return source;
+    }
+
     public void write(PrintWriter writer) throws IOException {
         writer.print(source);
     }

@@ -21,6 +21,10 @@ public final class BoilerPlateComment
         this.priority = priority;
     }
 
+    public Object getCommentSource() {
+        return super.getSource();
+    }
+
     public int getPriority() {
         return priority;
     }
