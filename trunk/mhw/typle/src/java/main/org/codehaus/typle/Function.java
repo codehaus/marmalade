@@ -45,6 +45,10 @@ public class Function implements Type {
                + returnType.getTypeName();
     }
 
+    public Type getWrappedType() {
+        return null;
+    }
+
     public String toString() {
         return getTypeName();
     }

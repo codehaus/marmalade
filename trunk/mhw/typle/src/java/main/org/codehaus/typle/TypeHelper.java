@@ -31,4 +31,8 @@ public abstract class TypeHelper {
     public String getTypeName() {
         return name;
     }
+
+    public Type getWrappedType() {
+        return null;
+    }
 }
