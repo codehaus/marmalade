@@ -4,7 +4,10 @@
 
 package org.codehaus.typle.src.java;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Modifiers that can be applied to Java declarations. The modifiers sort
@@ -85,4 +88,20 @@ public final class Modifier implements Comparable {
     public static final Modifier NATIVE = new Modifier("native");
 
     public static final Modifier STRICTFP = new Modifier("strictfp");
+
+    private static Collection ACCESSIBILITY_MODIFIERS = Arrays.asList(
+        new Modifier[] { PUBLIC, PROTECTED, DEFAULT, PRIVATE }
+    );
+
+    public static Modifier accessibility(Modifier[] modifiers) {
+        List trimmed = new ArrayList(Arrays.asList(modifiers));
+        trimmed.retainAll(ACCESSIBILITY_MODIFIERS);
+        if (trimmed.size() == 0)
+            return DEFAULT;
+        else if (trimmed.size() == 1)
+            return (Modifier) trimmed.get(0);
+        else
+            throw new IllegalArgumentException(
+                "more than one accessibility modifier: " + trimmed.toString());
+    }
 }
