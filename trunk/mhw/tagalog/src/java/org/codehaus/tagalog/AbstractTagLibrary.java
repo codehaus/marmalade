@@ -62,6 +62,11 @@ public abstract class AbstractTagLibrary implements TagLibrary {
     private static class TagInfo {
         private final Class tagClass;
 
+        // Using a linked-list to recycle tag instances is probably a bad
+        // idea as the management of the linked-list requires creation of
+        // a new node for each add operation; this could be made more
+        // efficient by managing our own singly-linked-list.
+
         /**
          * Tag instances that are in use.
          */
