@@ -26,26 +26,30 @@ final class JavaTypeFactory
         addType(Java.VOID_TYPE.getTypeName(), Java.VOID_TYPE);
     }
 
-    protected void resolveType(String name) {
+    protected String[] loadTypes(String name) {
         Type t = null;
 
         if (name.indexOf('.') != -1) {
             t = new JavaReferenceType(name);
         } else {
             try {
-                Object o = Class.forName(name);
+                Class.forName(name);
                 t = new JavaReferenceType(name);
             } catch (ClassNotFoundException e) {
                 try {
-                    String qualifiedName = "java.lang." + name;
-                    Object o = Class.forName(qualifiedName);
-                    t = new JavaReferenceType(qualifiedName);
+                    name = "java.lang." + name;
+                    Class.forName(name);
+                    t = new JavaReferenceType(name);
                 } catch (ClassNotFoundException e2) {
                     // ignore
                 }
             }
         }
-        if (t != null)
+        if (t != null) {
             addType(name, t);
+            return new String[] { name };
+        } else {
+            return new String[0];
+        }
     }
 }
