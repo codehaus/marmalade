@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "taglib" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib xmlns="http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+  <tlibversion>1.0</tlibversion>
+  <shortname>HTTPUnit</shortname>
+  <tag>
+    <name>isHtml</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.IsHtmlTag</tagclass>
+    <info>Test to see whether the result is valid HTML.</info>
+  </tag>
+  <tag>
+    <name>httpTest</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.HttpTestTag</tagclass>
+    <info>Equivalent to JUnit TestCase.</info>
+  </tag>
+  <tag>
+    <name>httpTestSuite</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.HttpTestSuiteTag</tagclass>
+    <info>Equivalent to JUnit TestSuite.</info>
+  </tag>
+  <tag>
+    <name>hasTitle</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.HasTitleTag</tagclass>
+    <info>Test whether the resulting HTML has a specified title.</info>
+  </tag>
+  <tag>
+    <name>hasTitlePattern</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.HasTitlePatternTag</tagclass>
+    <info>Test whether the resulting HTML has a title matching the specified regular expression.</info>
+  </tag>
+  <tag>
+    <name>hasText</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.HasTextTag</tagclass>
+    <info>Test whether the resulting HTML has the specified simple body text (simple substring).</info>
+  </tag>
+  <tag>
+    <name>hasTextPattern</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.HasTextPatternTag</tagclass>
+    <info>Test whether the resulting HTML has text matching the specified regular expression.</info>
+  </tag>
+  <tag>
+    <name>hasElement</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.HasElementTag</tagclass>
+    <info>Test whether the resulting HTML has the specified HTML element in it.</info>
+  </tag>
+  <tag>
+    <name>hasContentType</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.HasContentTypeTag</tagclass>
+    <info>Test the Content-Type header of the result.</info>
+  </tag>
+  <tag>
+    <name>response</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.DefaultWebResponseTag</tagclass>
+    <info>Generate/save a HTTPUnit response object by submitting a request.</info>
+  </tag>
+  <tag>
+    <name>conversation</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.DefaultWebConversationTag</tagclass>
+    <info>Setup/save a HTTPUnit web conversation (like a session).</info>
+  </tag>
+  <tag>
+    <name>post</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.PostRequestTag</tagclass>
+    <info>Generate/save a HTTPUnit POST request object within a conversation.</info>
+  </tag>
+  <tag>
+    <name>get</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.GetRequestTag</tagclass>
+    <info>Generate/save a HTTPUnit GET request object within a conversation.</info>
+  </tag>
+  <tag>
+    <name>param</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.ParameterTag</tagclass>
+    <info>Setup/apply a request parameter.</info>
+  </tag>
+  <tag>
+    <name>header</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.HeaderTag</tagclass>
+    <info>Setup/apply a request header.</info>
+  </tag>
+  <tag>
+    <name>cookie</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.CookieTag</tagclass>
+    <info>Setup/save a cookie for use in requests.</info>
+  </tag>
+  <tag>
+    <name>clientProperties</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.structure.ClientPropertiesTag</tagclass>
+    <info>Setup the browser profile for use in a conversation/request.</info>
+  </tag>
+  <tag>
+    <name>linkUrl</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.link.LinkHasUrlTag</tagclass>
+    <info>Test whether the parent link has the specified URL.</info>
+  </tag>
+  <tag>
+    <name>linkUrlPattern</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.link.LinkHasUrlPatternTag</tagclass>
+    <info>Test whether the parent link has a URL matching the specified regular expression.</info>
+  </tag>
+  <tag>
+    <name>linkParam</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.link.LinkHasParamTag</tagclass>
+    <info>Test whether the parent link has the specified parameter.</info>
+  </tag>
+  <tag>
+    <name>hasLink</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.link.HasLinkTag</tagclass>
+    <info>Test whether the resulting HTML contains a link matching this tag and its subtags.</info>
+  </tag>
+  <tag>
+    <name>hasForm</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.form.HasFormTag</tagclass>
+    <info>Test whether the resulting HTML contains a form matching this tag and its subtags.</info>
+  </tag>
+  <tag>
+    <name>formParam</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.form.FormHasParamTag</tagclass>
+    <info>Test whether the parent form contains the specified parameter.</info>
+  </tag>
+  <tag>
+    <name>formMethod</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.form.FormHasMethodTag</tagclass>
+    <info>Test whether the parent form has the specified method (POST, GET, PUT, etc.)</info>
+  </tag>
+  <tag>
+    <name>formAction</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.form.FormHasActionTag</tagclass>
+    <info>Test whether the parent form has the specified action URL.</info>
+  </tag>
+  <tag>
+    <name>formActionPattern</name>
+    <tagclass>org.codehaus.marmalade.tags.httpunit.form.FormHasActionPatternTag</tagclass>
+    <info>Test whether the parent form has an action URL matching the specified regular expression.</info>
+  </tag>
+</taglib>

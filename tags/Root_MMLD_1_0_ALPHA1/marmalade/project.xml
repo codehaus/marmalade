@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <!-- v3 -->
+  <id>marmalade-parent</id>
+  <currentVersion>0.2</currentVersion>
+  <!-- v4 -->
+  <groupId>marmalade</groupId>
+  <artifactId>marmalade-parent</artifactId>
+  <version>0.2</version>
+
+  <name>Marmalade Parent Project</name>
+  <organization>
+    <name>Codehaus</name>
+    <url>http://www.codehaus.org</url>
+  </organization>
+  <inceptionYear>2004</inceptionYear>
+  <package>org.codehaus.marmalade</package>
+  
+  <description>
+      Marmalade is a scripting language, implemented in XML, with pluggable
+      expression languages and tag libraries via XML Namespaces. Initially,
+      Marmalade will focus on supporting a syntax like JSP or Jelly.
+  </description>
+  
+  <shortDescription>Marmalade is an XML-based scripting language.</shortDescription>
+  <url>http://marmalade.codehaus.org</url>
+  <siteAddress>marmalade.codehaus.org</siteAddress>
+  <siteDirectory>/home/projects/marmalade/public_html</siteDirectory>
+  <distributionSite>marmalade.codehaus.org</distributionSite>
+  <distributionDirectory>/home/projects/marmalade/dist</distributionDirectory>
+  
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</connection>
+    <developerConnection>scm:cvs:ext:user@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</developerConnection>
+    <url>http://cvs.marmalade.codehaus.org</url>
+  </repository>
+  
+  <mailingLists>
+    <mailingList>
+      <name>user</name>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/marmalade-user</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/marmalade-user</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/marmalade-user/</archive>
+    </mailingList>
+    <mailingList>
+      <name>dev</name>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/marmalade-dev</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/marmalade-dev</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/marmalade-dev/</archive>
+    </mailingList>
+  </mailingLists>
+  
+  <developers>
+    <developer>
+      <name>John Casey</name>
+      <id>jdcasey</id>
+      <roles>
+        <role>Architect</role>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  
+  <dependencies>
+    <dependency>
+      <groupId>xpp3</groupId>
+      <artifactId>xpp3</artifactId>
+      <version>1.1.3.3</version>
+    </dependency>
+    
+    <!-- Testing dependencies -->
+    <dependency>
+      <groupId>jmock</groupId>
+      <artifactId>jmock</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+    </dependency>
+    <!-- /Testing dependencies -->
+  </dependencies>
+  
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
+    
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <resources>
+        <resource>
+          <directory>src/test/resources</directory>
+        </resource>
+      </resources>
+    </unitTest>
+    
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+  </build>
+  
+  <reports>
+    <report>maven-jcoverage-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-simian-plugin</report>
+  </reports>
+</project>
