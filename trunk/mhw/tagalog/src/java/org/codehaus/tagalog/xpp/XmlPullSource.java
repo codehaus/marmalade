@@ -36,7 +36,9 @@ final class XmlPullSource {
         this.characterStream = characterStream;
     }
 
-    public void setInputFor(XmlPullParser parser) throws XmlPullParserException {
+    public void setInputFor(XmlPullParser parser)
+        throws XmlPullParserException
+    {
         if (characterStream != null)
             parser.setInput(characterStream);
         else

@@ -31,7 +31,8 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     private InputSource inputSource;
 
     TagalogSAXParser(ParserConfiguration configuration, SAXParser saxParser,
-                     InputSource inputSource) {
+                     InputSource inputSource)
+    {
         super(configuration);
         if (saxParser == null)
             throw new NullPointerException("sax parser is null");
@@ -96,13 +97,17 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     public void endDocument() throws SAXException {
     }
 
-    public void startPrefixMapping(String prefix, String uri) throws SAXException {
+    public void startPrefixMapping(String prefix, String uri)
+        throws SAXException
+    {
     }
 
     public void endPrefixMapping(String prefix) throws SAXException {
     }
 
-    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+    public void ignorableWhitespace(char[] ch, int start, int length)
+        throws SAXException
+    {
     }
 
     public void skippedEntity(String name) throws SAXException {
@@ -111,6 +116,8 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     public void setDocumentLocator(Locator locator) {
     }
 
-    public void processingInstruction(String target, String data) throws SAXException {
+    public void processingInstruction(String target, String data)
+        throws SAXException
+    {
     }
 }
