@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>a framework for XML parsing</title>
+</head>
+<body>
+<h1>Introduction</h1>
+<p>
+Tagalog provides a simple framework for parsing XML documents in Java.
+It takes a stream of events from an event-based parser and delivers
+them to implementations of the
+<a href="apidocs/org/codehaus/tagalog/Tag.html">Tag</a> interface.
+Tags are grouped into
+<a href="apidocs/org/codehaus/tagalog/TagLibrary.html">TagLibrary</a>s,
+and a tag library is responsible for implementing whatever behaviour
+is needed during the parse (for example, building objects from some
+data model).
+The namespace-driven selection of tag libraries and tags is styled
+after the similar mechanisms in
+<a href="http://java.sun.com/products/jsp/index.jsp">JSP</a> and
+<a href="http://jakarta.apache.org/commons/jelly/">Jelly</a>.
+</p>
+
+<p>
+Taglog is intended to fill the gap between event-based parsers and
+full-blown tree-based XML processing APIs.
+If
+<ul>
+<li>you have a data model that you want to read from an XML file,</li>
+<li>and extracting the information from a stream of events seems like
+hard work,</li>
+<li>but you don't want to pull the whole document into a DOM tree,</li>
+</ul>
+Tagalog might be the solution you're looking for.
+</p>
+
+</body>
+</html>
