@@ -21,6 +21,8 @@
       <bootstrappers>
 	<currentbuildstatusbootstrapper 
 	    file="logs/{@name}/currentbuildstatus.txt"/>
+        <cvsbootstrapper
+            localworkingcopy="src/{$srcdir}"/>
       </bootstrappers>
       <modificationset>
         <xsl:for-each select="repo-dependency">
