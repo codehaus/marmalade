@@ -11,9 +11,6 @@ import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-
-import junit.framework.TestCase;
 
 
 /**

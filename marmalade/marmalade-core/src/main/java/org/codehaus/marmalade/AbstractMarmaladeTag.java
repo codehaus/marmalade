@@ -5,12 +5,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
-import org.codehaus.marmalade.util.ScopedMap;
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.Tag;

@@ -1,8 +1,6 @@
 /* Created on Mar 25, 2004 */
 package org.codehaus.marmalade;
 
-import java.util.Map;
-
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.el.ExpressionEvaluator;
 

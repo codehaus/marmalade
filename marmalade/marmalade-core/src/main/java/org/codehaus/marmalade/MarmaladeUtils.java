@@ -10,7 +10,6 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.codehaus.tagalog.ParserConfiguration;
-import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;

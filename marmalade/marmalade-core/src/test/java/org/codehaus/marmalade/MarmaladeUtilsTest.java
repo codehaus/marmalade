@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
-
 import junit.framework.TestCase;
 
 

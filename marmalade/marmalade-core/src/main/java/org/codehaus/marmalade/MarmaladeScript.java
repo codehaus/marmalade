@@ -1,7 +1,6 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade;
 
-import java.io.File;
 
 
 /**

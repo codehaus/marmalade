@@ -3,11 +3,11 @@ package org.codehaus.marmalade.el.ognl;
 
 import java.util.Map;
 
-import org.codehaus.marmalade.el.ExpressionEvaluationException;
-import org.codehaus.marmalade.el.ExpressionEvaluator;
-
 import ognl.Ognl;
 import ognl.OgnlException;
+
+import org.codehaus.marmalade.el.ExpressionEvaluationException;
+import org.codehaus.marmalade.el.ExpressionEvaluator;
 
 /**
  * @author jdcasey

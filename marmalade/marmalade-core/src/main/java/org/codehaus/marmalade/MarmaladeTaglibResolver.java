@@ -5,14 +5,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.codehaus.marmalade.tld.tags.TldTagLibrary;
-import org.codehaus.tagalog.FallbackTagLibraryResolver;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.PrefixTagLibraryResolver;
 import org.codehaus.tagalog.TagLibrary;

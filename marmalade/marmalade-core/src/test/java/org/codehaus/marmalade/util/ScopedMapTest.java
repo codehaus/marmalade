@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.marmalade.util.ScopedMap;
-
 import junit.framework.TestCase;
 
 public class ScopedMapTest extends TestCase {
