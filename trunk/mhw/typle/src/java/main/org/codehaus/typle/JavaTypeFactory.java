@@ -7,7 +7,7 @@ package org.codehaus.typle;
 /**
  * <code>TypeFactory</code> for the <code>java</code> namespace. Currently
  * this will only create {@link JavaReferenceType} objects for classes that
- * are present within the JVM. This might prove to be a limitation. 
+ * are present within the JVM. This might prove to be a limitation.
  *
  * @author Mark H. Wilkinson
  * @version $Revision$

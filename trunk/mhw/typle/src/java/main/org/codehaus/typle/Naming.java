@@ -62,7 +62,7 @@ public final class Naming {
      * @return Type with the given name, or null if no such type could be
      *         found.
      * @throws TypeLookupException If the lookup process failed for some
-     * reason, other than the requested type not existing. 
+     * reason, other than the requested type not existing.
      */
     public static Type lookup(String namespace, String localPart)
         throws TypeLookupException
