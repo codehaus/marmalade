@@ -9,18 +9,30 @@ import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.codehaus.marmalade.tld.tags.TldTagLibrary;
+import org.codehaus.tagalog.FallbackTagLibraryResolver;
+import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.PrefixTagLibraryResolver;
 import org.codehaus.tagalog.TagLibrary;
+import org.codehaus.tagalog.TagalogParseException;
+import org.codehaus.tagalog.TagalogParser;
+import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
+import org.xml.sax.SAXException;
 
 /**
  * @author jdcasey
  */
-public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver {
+public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
+{
   
   public static final String DEFAULT_MARMALADE_TAGLIB_PREFIX = "marmalade";
   
   private String prefix = DEFAULT_MARMALADE_TAGLIB_PREFIX;
   private Map resolved = new TreeMap();
+
+  private TagalogSAXParserFactory factory;
 
   public MarmaladeTaglibResolver() {
   }
@@ -69,10 +81,18 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver {
           tldStream = cloader.getResourceAsStream("META-INF/" + prefix + "/" + taglib + ".tld");
           
           if(tldStream != null) {
-            
+            try{
+              ensureTldParserInited();
+              TagalogParser parser = factory.createParser(tldStream);
+              impl = (MarmaladeTagLibrary)parser.parse();
+            }
+            // Ignore these and move to step 4.
+            catch(ParserConfigurationException e){}
+            catch(SAXException e) {}
+            catch(TagalogParseException e){}
           }
         }
-        // Ignore and move on.
+        // Ignore and move to step 4.
 //        catch(IOException e) {}
         finally {
           if(tldStream != null) {
@@ -118,6 +138,30 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver {
       }
     }
     
+    if(impl != null) {
+      resolved.put(taglib, impl);
+    }
+    
     return impl;
   }
+
+  public void addTagLibrary(String uri, TagLibrary tagLibrary){
+    if(!(tagLibrary instanceof MarmaladeTagLibrary)) {
+      throw new IllegalArgumentException(
+        "Non-Marmalade TagLibrary implementations cannot currently be used inside a marmalade script."
+      );
+    }
+    else {
+      resolved.put(uri, tagLibrary);
+    }
+  }
+
+  private void ensureTldParserInited(){
+    ParserConfiguration config = new ParserConfiguration();
+    config.setDefaultNamespace(TldTagLibrary.NS_URL);
+    config.addTagLibrary(TldTagLibrary.NS_URL, new TldTagLibrary());
+    
+    this.factory = new TagalogSAXParserFactory(config);
+  }
+
 }

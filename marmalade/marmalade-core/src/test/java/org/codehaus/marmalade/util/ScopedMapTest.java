@@ -247,7 +247,7 @@ public class ScopedMapTest extends TestCase {
     ScopedMap map = new ScopedMap(base);
     assertEquals("Get with ScopedMap having base for key \'test\' should be \'testVal\'", "testVal", map.get("test"));
     map.put("test", "testVal4");
-    assertEquals("Get with ScopedMap having base for key \'test\' should be \'testVal\'", "testVal", map.get("test"));
+    assertEquals("Get with ScopedMap having base for key \'test\' should be \'testVal4\'", "testVal4", map.get("test"));
     
     ScopedMap map2 = new ScopedMap();
     assertNull("Get with ScopedMap for key \'test\' should be null", map2.get("test"));
@@ -280,7 +280,7 @@ public class ScopedMapTest extends TestCase {
     ScopedMap map = new ScopedMap(base);
     assertEquals("Get with ScopedMap having base for key \'test\' should be \'testVal\'", "testVal", map.get("test"));
     map.put("test", "testVal4");
-    assertEquals("Get with ScopedMap having base for key \'test\' should be \'testVal\'", "testVal", map.get("test"));
+    assertEquals("Get with ScopedMap having base for key \'test\' should be \'testVal4\'", "testVal4", map.get("test"));
     
     ScopedMap map2 = new ScopedMap();
     assertNull("Get with ScopedMap for key \'test\' should be null", map2.get("test"));

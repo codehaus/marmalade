@@ -120,10 +120,9 @@ public class ScopedMap implements Map{
 
   public Object put(Object key, Object value) {
     Object result = null;
-    if(!superMap.containsKey(key)){
-      result = thisMap.put(key, value);
-      update();
-    }
+    result = thisMap.put(key, value);
+    update();
+    
     return result;
   }
   
