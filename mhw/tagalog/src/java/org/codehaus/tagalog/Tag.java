@@ -57,14 +57,14 @@ public interface Tag {
     Tag getParent();
 
     void begin(String elementName, Attributes attributes)
-        throws TagalogParseException;
+        throws TagException, TagalogParseException;
 
     void text(char[] characters, int start, int length)
-        throws TagalogParseException;
+        throws TagException, TagalogParseException;
 
-    void child(Object child) throws TagalogParseException;
+    void child(Object child) throws TagException, TagalogParseException;
 
-    Object end(String elementName) throws TagalogParseException;
+    Object end(String elementName) throws TagException, TagalogParseException;
 
     boolean recycle();
 }
