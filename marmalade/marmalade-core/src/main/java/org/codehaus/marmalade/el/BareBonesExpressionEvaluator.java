@@ -73,7 +73,7 @@ public class BareBonesExpressionEvaluator
     {
         Object result = expression;
 
-        if ( expression.matches( AbstractExpressionEvaluator.LITERAL_PATTERNS ) )
+        if ( expression.matches( AbstractExpressionEvaluator.PRIMITIVE_PATTERNS ) )
         {
             result = evalAsLiteral( expression, context, expectedType );
         }

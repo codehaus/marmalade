@@ -74,27 +74,27 @@
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-core</artifactId>
-        <version>#version</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-el-ognl</artifactId>
-        <version>#version</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-el-commons</artifactId>
-        <version>#version</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-tags-jelly-common</artifactId>
-        <version>#version</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>marmalade</groupId>
         <artifactId>marmalade-utils</artifactId>
-        <version>#version</version>
+        <version>1.0-alpha2</version>
       </dependency>
       <dependency>
         <groupId>ognl</groupId>

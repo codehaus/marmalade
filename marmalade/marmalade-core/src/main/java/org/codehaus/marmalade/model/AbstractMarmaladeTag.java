@@ -62,6 +62,8 @@ public abstract class AbstractMarmaladeTag
 
     private boolean bodyProcessed;
 
+    private boolean preserveBodyWhitespace = false;
+
     protected AbstractMarmaladeTag()
     {
     }
@@ -74,6 +76,10 @@ public abstract class AbstractMarmaladeTag
     public final void setExpressionEvaluator( ExpressionEvaluator el )
     {
         this.el = el;
+        if(attributes != null)
+        {
+            attributes.setExpressionEvaluator(el);
+        }
     }
 
     public final void setTagInfo( MarmaladeTagInfo tagInfo )
@@ -261,14 +267,19 @@ public abstract class AbstractMarmaladeTag
         Boolean preserveWSOverride = context.preserveWhitespaceOverride();
         boolean presWSOver = (preserveWSOverride != null) ? (preserveWSOverride.booleanValue()) : (false);
 
-        if ( !presWSOver && !preserveBodyWhitespace( context ) )
+        if ( !presWSOver && !(preserveBodyWhitespace || preserveBodyWhitespace( context )) )
         {
             formatted = formatted.replaceAll( "\\s+", " " ).trim();
         }
 
         return formatted;
     }
-
+    
+    public void setPreserveBodyWhitespace(boolean preserve)
+    {
+        this.preserveBodyWhitespace = preserve;
+    }
+    
     protected boolean preserveBodyWhitespace( MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
         // decide from "native attribute" whether to preserve body whitespace.
