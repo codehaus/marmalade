@@ -1,20 +1,20 @@
 /* Created on Jun 26, 2004 */
-package org.codehaus.marmalade.tags.jelly.core;
+package org.codehaus.marmalade.tags.jelly;
 
 import org.codehaus.marmalade.el.ExpressionEvaluationException;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
-import org.codehaus.marmalade.tags.AbstractConditionalTag;
+import org.codehaus.marmalade.tags.AbstractLoopingTag;
 
 /**
  * @author jdcasey
  */
-public abstract class AbstractJellyConditionalTag extends AbstractConditionalTag {
+public abstract class AbstractJellyLoopingTag extends AbstractLoopingTag {
 
     public static final String TRIM_ATTRIBUTE = "trim";
 
-    protected AbstractJellyConditionalTag(MarmaladeTagInfo tagInfo) {
+    protected AbstractJellyLoopingTag(MarmaladeTagInfo tagInfo) {
         super(tagInfo);
     }
 

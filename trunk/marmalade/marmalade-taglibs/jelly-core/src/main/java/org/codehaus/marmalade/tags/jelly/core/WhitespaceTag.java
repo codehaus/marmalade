@@ -23,6 +23,7 @@ import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

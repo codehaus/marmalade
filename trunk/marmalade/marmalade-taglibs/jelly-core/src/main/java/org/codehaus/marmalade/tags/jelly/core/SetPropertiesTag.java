@@ -9,6 +9,7 @@ import org.codehaus.marmalade.model.MarmaladeAttribute;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 public class SetPropertiesTag extends AbstractJellyMarmaladeTag {
     

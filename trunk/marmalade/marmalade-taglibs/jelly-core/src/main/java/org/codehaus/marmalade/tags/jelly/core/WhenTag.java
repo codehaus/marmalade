@@ -20,6 +20,7 @@ import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.AbstractConditionalTag;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyConditionalTag;
 
 /**
  * @author jdcasey

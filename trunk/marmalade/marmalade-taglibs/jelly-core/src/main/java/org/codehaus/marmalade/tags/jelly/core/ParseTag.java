@@ -26,6 +26,7 @@ import org.codehaus.marmalade.parsetime.MarmaladeParsetimeException;
 import org.codehaus.marmalade.parsetime.ScriptParser;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyMarmaladeTag;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

@@ -21,6 +21,7 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.tags.AbstractLoopControlTag;
 import org.codehaus.marmalade.tags.LoopingTag;
+import org.codehaus.marmalade.tags.jelly.AbstractJellyLoopControlTag;
 
 /**
  * @author jdcasey
