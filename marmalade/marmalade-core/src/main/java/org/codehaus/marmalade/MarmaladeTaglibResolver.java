@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.codehaus.marmalade.tags.passthrough.PassThroughTagLibrary;
 import org.codehaus.marmalade.tld.tags.TldTagLibrary;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.PrefixTagLibraryResolver;
@@ -29,6 +30,9 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
   
   private String prefix = DEFAULT_MARMALADE_TAGLIB_PREFIX;
   private Map resolved = new TreeMap();
+  
+  private PassThroughTagLibrary passThroughTaglib = new PassThroughTagLibrary();
+  private boolean usePassThrough = true;
 
   private TagalogSAXParserFactory factory;
 
@@ -39,8 +43,21 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
     this.prefix = prefix;
   }
 
+  public MarmaladeTaglibResolver(boolean passThrough) {
+    this.usePassThrough = passThrough;
+  }
+
+  public MarmaladeTaglibResolver(String prefix, boolean passThrough) {
+    this.prefix = prefix;
+    this.usePassThrough = passThrough;
+  }
+
   public String uriPrefix() {
     return prefix;
+  }
+  
+  public boolean usePassThrough() {
+    return usePassThrough;
   }
 
   public TagLibrary resolve(String taglib) {
@@ -53,6 +70,8 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
     // 2. Check for taglib as literal TagLibrary class name
     // 3. Check for META-INF/<prefix>/<taglib>.tld
     // 4. Check for META-INF/<prefix>/<taglib>.def (contains single-line class name of taglib impl)
+    // 5. If usePassThrough() == true, then return the PassThroughTagLibrary instance to relay to 
+    //     output.
     // ---------------------------------------------------------------------------------------------
     
     // 1.
@@ -91,7 +110,6 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
           }
         }
         // Ignore and move to step 4.
-//        catch(IOException e) {}
         finally {
           if(tldStream != null) {
             try {tldStream.close();} catch(IOException e) {}
@@ -126,7 +144,6 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
             }
           }
           // We have no feedback mechanism, so fail silently.
-//          catch(IOException e) {}
           finally {
             if(defStream != null) {
               try {defStream.close();} catch(IOException e) {}
@@ -138,6 +155,11 @@ public class MarmaladeTaglibResolver implements PrefixTagLibraryResolver
     
     if(impl != null) {
       resolved.put(taglib, impl);
+    }
+    
+    // 5.
+    if(impl == null && usePassThrough) {
+      impl = passThroughTaglib;
     }
     
     return impl;
