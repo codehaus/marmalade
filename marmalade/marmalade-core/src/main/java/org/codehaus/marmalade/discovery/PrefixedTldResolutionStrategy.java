@@ -26,7 +26,7 @@ package org.codehaus.marmalade.discovery;
 
 import org.codehaus.marmalade.discovery.tld.TldParser;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
-import org.xmlpull.v1.XmlPullParserException;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;

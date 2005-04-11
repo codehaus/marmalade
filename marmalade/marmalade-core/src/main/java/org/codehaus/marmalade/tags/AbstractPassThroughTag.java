@@ -32,8 +32,8 @@ import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.TagExecutionException;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlSerializer;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.codehaus.plexus.util.xml.pull.XmlSerializer;
 
 import java.io.IOException;
 
