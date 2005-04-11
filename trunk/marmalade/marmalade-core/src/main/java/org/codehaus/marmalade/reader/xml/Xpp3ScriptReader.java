@@ -15,9 +15,9 @@ import org.codehaus.marmalade.parsing.MarmaladeParsingContext;
 import org.codehaus.marmalade.parsing.ParserHint;
 import org.codehaus.marmalade.reader.ScriptReadException;
 import org.codehaus.marmalade.reader.ScriptReader;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.codehaus.plexus.util.xml.pull.MXParser;
+import org.codehaus.plexus.util.xml.pull.XmlPullParser;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 
@@ -42,8 +42,7 @@ public class Xpp3ScriptReader
         {
             validateParsingContext( context );
 
-            XmlPullParserFactory xpp3Factory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = xpp3Factory.newPullParser();
+            XmlPullParser parser = new MXParser();
 
             parser.setFeature( XmlPullParser.FEATURE_PROCESS_NAMESPACES, true );
 

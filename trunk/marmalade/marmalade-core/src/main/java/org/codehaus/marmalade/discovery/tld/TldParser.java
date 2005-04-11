@@ -2,9 +2,9 @@
 package org.codehaus.marmalade.discovery.tld;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.codehaus.plexus.util.xml.pull.MXParser;
+import org.codehaus.plexus.util.xml.pull.XmlPullParser;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -26,17 +26,14 @@ public class TldParser
     {
     }
 
-    public MarmaladeTagLibrary parse( Reader reader ) throws XmlPullParserException, IOException,
-        ClassNotFoundException
+    public MarmaladeTagLibrary parse( Reader reader )
+        throws XmlPullParserException, IOException, ClassNotFoundException
     {
         TldDefinedTagLibrary taglib = null;
 
-        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        XmlPullParser parser = new MXParser();
 
-        factory.setNamespaceAware( false );
-        factory.setValidating( false );
-
-        XmlPullParser parser = factory.newPullParser();
+        parser.setFeature( XmlPullParser.FEATURE_PROCESS_NAMESPACES, false );
 
         parser.setInput( reader );
 
