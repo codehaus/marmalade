@@ -60,10 +60,22 @@ public abstract class AbstractPassThroughTag
 
     protected void doExecute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
+        XmlSerializer serializer = null;
         try
         {
-            XmlSerializer serializer = context.getXmlSerializer();
+            serializer = context.getXmlSerializer();
+        }
+        catch(XmlPullParserException e)
+        {
+            throw new TagExecutionException( getTagInfo(), "Error creating XML formatter.", e );
+        }
+        catch ( IOException e )
+        {
+            throw new TagExecutionException( getTagInfo(), "Error creating XML formatter.", e );
+        }
 
+        try
+        {
             MarmaladeTagInfo tagInfo = getTagInfo();
             String scheme = tagInfo.getScheme();
             String taglib = tagInfo.getTaglib();
@@ -126,14 +138,10 @@ public abstract class AbstractPassThroughTag
 
             serializer.endTag( ns, tagInfo.getElement() );
 
-            if ( (oldPrefix != null) && (ns != null) )
-            {
-                serializer.setPrefix( oldPrefix, ns );
-            }
-        }
-        catch ( XmlPullParserException e )
-        {
-            throw new TagExecutionException( getTagInfo(), "Error creating XML formatter.", e );
+//            if ( (oldPrefix != null) && (ns != null) )
+//            {
+//                serializer.setPrefix( oldPrefix, ns );
+//            }
         }
         catch ( IOException e )
         {

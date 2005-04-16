@@ -24,6 +24,8 @@
 /* Created on Apr 14, 2004 */
 package org.codehaus.marmalade.el;
 
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
+
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -33,6 +35,8 @@ import java.util.regex.Pattern;
 public class PassThroughExpressionEvaluator
     implements ExpressionEvaluator
 {
+    private MarmaladeLog log;
+
     public PassThroughExpressionEvaluator()
     {
     }
@@ -59,5 +63,10 @@ public class PassThroughExpressionEvaluator
     public Pattern getExpressionPattern()
     {
         return Pattern.compile( ".*" );
+    }
+
+    public void setLog( MarmaladeLog log )
+    {
+        this.log = log;
     }
 }

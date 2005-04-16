@@ -29,6 +29,9 @@ import org.codehaus.marmalade.discovery.PassThroughResolutionStrategy;
 import org.codehaus.marmalade.discovery.PrefixedDefFileResolutionStrategy;
 import org.codehaus.marmalade.discovery.PrefixedTldResolutionStrategy;
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
+import org.codehaus.marmalade.monitor.log.CommonLogLevels;
+import org.codehaus.marmalade.monitor.log.DefaultLog;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +46,9 @@ import java.util.List;
 public class MarmaladeTaglibResolver
 {
     public static final List DEFAULT_STRATEGY_CHAIN = Arrays.asList( new TaglibResolutionStrategy[] {
-        new LiteralResolutionStrategy(), new PrefixedTldResolutionStrategy(), new PrefixedDefFileResolutionStrategy(),
+        new LiteralResolutionStrategy(),
+        new PrefixedTldResolutionStrategy(),
+        new PrefixedDefFileResolutionStrategy(),
         new PassThroughResolutionStrategy() } );
 
     private List strategies;
@@ -51,6 +56,10 @@ public class MarmaladeTaglibResolver
     private String defaultPrefix;
 
     private MarmaladeTagLibrary defaultTagLibrary;
+
+    private MarmaladeLog log;
+    
+    private ClassLoader classloader;
 
     public MarmaladeTaglibResolver()
     {
@@ -68,6 +77,11 @@ public class MarmaladeTaglibResolver
         {
             strategies.add( strategy );
         }
+        
+        if(log != null)
+        {
+            strategy.setLog( log );
+        }
     }
 
     public void addTaglibDefinitionStrategies( Collection strategies )
@@ -80,12 +94,26 @@ public class MarmaladeTaglibResolver
             {
                 strategies.add( strategy );
             }
+            
+            if(log != null)
+            {
+                strategy.setLog(log);
+            }
         }
     }
-    
-    public void setTaglibDefinitionStrategies(Collection strategies)
+
+    public void setTaglibDefinitionStrategies( Collection strategies )
     {
-        this.strategies = new ArrayList(strategies);
+        if ( log != null )
+        {
+            for ( Iterator it = strategies.iterator(); it.hasNext(); )
+            {
+                TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
+                strategy.setLog( log );
+            }
+        }
+
+        this.strategies = new ArrayList( strategies );
     }
 
     public void setDefaultTagLibrary( MarmaladeTagLibrary taglib )
@@ -97,14 +125,36 @@ public class MarmaladeTaglibResolver
     {
         return defaultTagLibrary;
     }
-
-    public MarmaladeTagLibrary resolve( String prefix, String taglib ) throws TaglibResolutionException
+    
+    public void setClassLoader(ClassLoader classloader)
     {
+        this.classloader = classloader;
+    }
+
+    public MarmaladeTagLibrary resolve( String prefix, String taglib )
+        throws TaglibResolutionException
+    {
+        synchronized ( this )
+        {
+            if ( log == null )
+            {
+                log = new DefaultLog();
+            }
+            
+            if( classloader == null )
+            {
+                classloader = getClass().getClassLoader();
+            }
+        }
+
+        log.log( CommonLogLevels.DEBUG, "Resolving tag library for: {prefix: \'" + prefix + "\', taglib: \'" + taglib
+            + "\'}" );
+
         MarmaladeTagLibrary tlib = null;
 
         // if both the prefix and the taglib are empty, use the default if it's set.
-        if ( defaultTagLibrary != null && (prefix == null || prefix.trim().length() < 1)
-            && (taglib == null || taglib.trim().length() < 1) )
+        if ( defaultTagLibrary != null && ( prefix == null || prefix.trim().length() < 1 )
+            && ( taglib == null || taglib.trim().length() < 1 ) )
         {
             // use the default taglib.
             tlib = defaultTagLibrary;
@@ -115,22 +165,44 @@ public class MarmaladeTaglibResolver
             {
                 TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
 
-                tlib = strategy.resolve( prefix, taglib );
+                tlib = strategy.resolve( prefix, taglib, classloader );
 
                 if ( tlib != null )
                 {
+                    List entries = Arrays.asList( new Object[] {
+                        "resolved taglib: ",
+                        tlib,
+                        " using strategy: ",
+                        strategy } );
+
+                    log.log( CommonLogLevels.DEBUG, entries );
+
                     break;
                 }
             }
         }
-        
-        if(tlib == null)
+
+        if ( tlib == null )
         {
-            throw new TaglibResolutionException(prefix, taglib, "Cannot find matching tag library implementation.");
+            throw new TaglibResolutionException( prefix, taglib, "Cannot find matching tag library implementation." );
         }
         else
         {
             return tlib;
+        }
+    }
+
+    public void setLog( MarmaladeLog log )
+    {
+        this.log = log;
+        
+        if(strategies != null)
+        {
+            for ( Iterator it = strategies.iterator(); it.hasNext(); )
+            {
+                TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
+                strategy.setLog(log);
+            }
         }
     }
 }

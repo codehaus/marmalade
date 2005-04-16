@@ -31,7 +31,7 @@ import org.codehaus.marmalade.tags.passthrough.PassThroughTagLibrary;
  * @author jdcasey
  */
 public class PassThroughResolutionStrategy
-    implements TaglibResolutionStrategy
+    extends AbstractTaglibResolutionStrategy
 {
     private PassThroughTagLibrary ptTaglib;
 
@@ -40,8 +40,9 @@ public class PassThroughResolutionStrategy
         this.ptTaglib = new PassThroughTagLibrary();
     }
 
-    public MarmaladeTagLibrary resolve( String prefix, String taglib )
+    public MarmaladeTagLibrary resolve( String prefix, String taglib, ClassLoader cloader )
     {
         return ptTaglib;
     }
+
 }

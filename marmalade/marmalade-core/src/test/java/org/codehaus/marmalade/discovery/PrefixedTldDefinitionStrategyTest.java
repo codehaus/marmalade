@@ -38,7 +38,7 @@ public class PrefixedTldDefinitionStrategyTest
     public void testShouldResolveTestTagLibrary()
     {
         PrefixedTldResolutionStrategy strat = new PrefixedTldResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib" );
+        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib", Thread.currentThread().getContextClassLoader() );
 
         assertNotNull( "taglib is null", taglib );
         assertEquals( TldDefinedTagLibrary.class, taglib.getClass() );
@@ -47,7 +47,7 @@ public class PrefixedTldDefinitionStrategyTest
     public void testShouldReturnNullWithNonExistentTLD()
     {
         PrefixedTldResolutionStrategy strat = new PrefixedTldResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib-missing" );
+        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib-missing", Thread.currentThread().getContextClassLoader());
 
         assertNull( taglib );
     }

@@ -24,6 +24,8 @@
 /* Created on Mar 24, 2004 */
 package org.codehaus.marmalade.el;
 
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
+
 import java.util.Map;
 
 /**
@@ -38,4 +40,7 @@ public interface ExpressionEvaluator
         throws ExpressionEvaluationException;
 
     public Object assign( Object target, String property, Object value ) throws ExpressionEvaluationException;
+    
+    public void setLog( MarmaladeLog log );
+    
 }

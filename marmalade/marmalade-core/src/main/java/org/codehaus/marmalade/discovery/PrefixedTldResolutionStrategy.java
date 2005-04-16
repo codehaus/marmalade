@@ -26,12 +26,17 @@ package org.codehaus.marmalade.discovery;
 
 import org.codehaus.marmalade.discovery.tld.TldParser;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
+import org.codehaus.marmalade.monitor.log.CommonLogLevels;
+import org.codehaus.marmalade.monitor.log.DefaultLog;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author jdcasey
@@ -39,13 +44,22 @@ import java.io.UnsupportedEncodingException;
 public class PrefixedTldResolutionStrategy
     implements TaglibResolutionStrategy
 {
+    private MarmaladeLog log;
+
     public PrefixedTldResolutionStrategy()
     {
     }
 
-    public MarmaladeTagLibrary resolve( String prefix, String taglib )
+    public MarmaladeTagLibrary resolve( String prefix, String taglib, ClassLoader cloader )
     {
-        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
+        synchronized ( this )
+        {
+            if(log == null)
+            {
+                log = new DefaultLog();
+            }
+        }
+        
         MarmaladeTagLibrary tlib = null;
 
         InputStream tldStream = null;
@@ -68,27 +82,23 @@ public class PrefixedTldResolutionStrategy
                 // Intercept and ignore...return null.
                 catch ( UnsupportedEncodingException e )
                 {
-                    //TODO: log this exception
-                    e.printStackTrace();
-                    System.err.println("Proceeding with taglib resolution.");
+                    List entries = Arrays.asList(new Object[] {e, "Proceeding with taglib resolution."});
+                    log.log(CommonLogLevels.DEBUG, entries);
                 }
                 catch ( XmlPullParserException e )
                 {
-                    //TODO: log this exception
-                    e.printStackTrace();
-                    System.err.println("Proceeding with taglib resolution.");
+                    List entries = Arrays.asList(new Object[] {e, "Proceeding with taglib resolution."});
+                    log.log(CommonLogLevels.DEBUG, entries);
                 }
                 catch ( IOException e )
                 {
-                    //TODO: log this exception
-                    e.printStackTrace();
-                    System.err.println("Proceeding with taglib resolution.");
+                    List entries = Arrays.asList(new Object[] {e, "Proceeding with taglib resolution."});
+                    log.log(CommonLogLevels.DEBUG, entries);
                 }
                 catch ( ClassNotFoundException e )
                 {
-                    //TODO: log this exception
-                    e.printStackTrace();
-                    System.err.println("Proceeding with taglib resolution.");
+                    List entries = Arrays.asList(new Object[] {e, "Proceeding with taglib resolution."});
+                    log.log(CommonLogLevels.DEBUG, entries);
                 }
             }
         }
@@ -106,6 +116,23 @@ public class PrefixedTldResolutionStrategy
             }
         }
 
+        List entries = Arrays.asList( new Object[] {
+            "Returning taglib: ",
+            tlib,
+            " from prefixed TLD file strategy for taglib {prefix: ",
+            prefix,
+            ", taglib: ",
+            taglib,
+            "} using classloader: ",
+            cloader } );
+
+        log.log( CommonLogLevels.DEBUG, entries );
+
         return tlib;
+    }
+
+    public void setLog( MarmaladeLog log )
+    {
+        this.log = log;
     }
 }

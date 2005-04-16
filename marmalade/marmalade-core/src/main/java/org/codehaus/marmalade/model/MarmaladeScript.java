@@ -24,6 +24,7 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.model;
 
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 
@@ -35,6 +36,8 @@ public class MarmaladeScript
     private String location;
 
     private MarmaladeTag root;
+
+    private MarmaladeLog log;
 
     public MarmaladeScript( String scriptLocation, MarmaladeTag root )
     {
@@ -55,5 +58,13 @@ public class MarmaladeScript
     public void execute( MarmaladeExecutionContext context ) throws MarmaladeExecutionException
     {
         root.execute( context );
+    }
+
+    public void setLog( MarmaladeLog log )
+    {
+        if(log != null)
+        {
+            this.log = log;
+        }
     }
 }

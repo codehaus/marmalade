@@ -39,7 +39,7 @@ public class PrefixedDefFileDefinitionStrategyTest
     public void testShouldResolveTestTagLibrary()
     {
         PrefixedDefFileResolutionStrategy strat = new PrefixedDefFileResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib" );
+        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib", Thread.currentThread().getContextClassLoader() );
 
         assertNotNull( taglib );
         assertEquals( TestTaglibWithCorrectConstructor.class, taglib.getClass() );
@@ -48,7 +48,7 @@ public class PrefixedDefFileDefinitionStrategyTest
     public void testShouldReturnNullWithNonExistentTagLibrary()
     {
         PrefixedDefFileResolutionStrategy strat = new PrefixedDefFileResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib-with-nonexistent-class" );
+        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib-with-nonexistent-class", Thread.currentThread().getContextClassLoader() );
 
         assertNull( taglib );
     }
@@ -56,7 +56,7 @@ public class PrefixedDefFileDefinitionStrategyTest
     public void testShouldReturnNullWithNonEmptyConstructorTagLibrary()
     {
         PrefixedDefFileResolutionStrategy strat = new PrefixedDefFileResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib-with-nonempty-constructor" );
+        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib-with-nonempty-constructor", Thread.currentThread().getContextClassLoader() );
 
         assertNull( taglib );
     }
@@ -64,7 +64,7 @@ public class PrefixedDefFileDefinitionStrategyTest
     public void testShouldReturnNullWithNonTagLibraryClass()
     {
         PrefixedDefFileResolutionStrategy strat = new PrefixedDefFileResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib-with-nontaglib" );
+        MarmaladeTagLibrary taglib = strat.resolve( "marmalade", "testlib-with-nontaglib", Thread.currentThread().getContextClassLoader() );
 
         assertNull( taglib );
     }

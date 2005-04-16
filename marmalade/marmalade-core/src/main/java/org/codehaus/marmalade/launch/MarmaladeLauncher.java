@@ -6,6 +6,8 @@ import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.ModelBuilderException;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.monitor.log.CommonLogLevels;
+import org.codehaus.marmalade.monitor.log.DefaultLog;
 import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.marmalade.parsing.DefaultParsingContext;
 import org.codehaus.marmalade.parsing.MarmaladeParsetimeException;
@@ -39,10 +41,23 @@ public class MarmaladeLauncher
     private ScriptParser scriptParser;
 
     private boolean returnUnexternalized = false;
-    
-    public MarmaladeLauncher withUnexternalizedVarsReturned(boolean returnUnexternalized)
+
+    private ScriptBuilder builder;
+
+    private MarmaladeScript script;
+
+    private MarmaladeLog log = new DefaultLog();
+
+    public MarmaladeLauncher withUnexternalizedVarsReturned( boolean returnUnexternalized )
     {
         this.returnUnexternalized = returnUnexternalized;
+
+        return this;
+    }
+
+    public MarmaladeLauncher withClassLoader( ClassLoader classloader )
+    {
+        parsingContext.setClassLoader( classloader );
         
         return this;
     }
@@ -67,6 +82,8 @@ public class MarmaladeLauncher
 
     public MarmaladeLauncher withDefaultTagLibrary( MarmaladeTagLibrary taglib )
     {
+        log.log( CommonLogLevels.DEBUG, "Using default tag library: " + taglib );
+
         parsingContext.setDefaultTagLibrary( taglib );
         return this;
     }
@@ -77,15 +94,19 @@ public class MarmaladeLauncher
         return this;
     }
 
-    public MarmaladeLauncher withInputURL( URL url ) throws IOException
+    public MarmaladeLauncher withInputURL( URL url )
+        throws IOException
     {
+        log.log( CommonLogLevels.DEBUG, "Input script URL: " + url );
+
         parsingContext.setInputLocation( url.toExternalForm() );
         parsingContext.setInput( new InputStreamReader( url.openStream() ) );
 
         return this;
     }
 
-    public MarmaladeLauncher withInputFile( File file ) throws IOException
+    public MarmaladeLauncher withInputFile( File file )
+        throws IOException
     {
         parsingContext.setInputLocation( file.getCanonicalPath() );
         parsingContext.setInput( new BufferedReader( new FileReader( file ) ) );
@@ -151,7 +172,16 @@ public class MarmaladeLauncher
 
     public MarmaladeLauncher withLog( MarmaladeLog log )
     {
-        executionContext.setLog( log );
+        if ( log != null )
+        {
+            this.log = log;
+
+            executionContext.setLog( log );
+            parsingContext.setLog( log );
+        }
+
+        log.log( CommonLogLevels.DEBUG, "Setting log on launcher." );
+
         return this;
     }
 
@@ -191,33 +221,10 @@ public class MarmaladeLauncher
         return this;
     }
 
-    public Map run() throws MarmaladeLaunchException
+    public Map run()
+        throws MarmaladeLaunchException
     {
-        ScriptBuilder builder = null;
-        try
-        {
-            if ( scriptParser == null )
-            {
-                scriptParser = new ScriptParser();
-            }
-
-            builder = scriptParser.parse( parsingContext );
-        }
-        catch ( MarmaladeParsetimeException e )
-        {
-            throw new MarmaladeLaunchException( "Cannot launch marmalade script. There was a parsetime error.", e );
-        }
-
-        MarmaladeScript script = null;
-        try
-        {
-            script = builder.build();
-        }
-        catch ( ModelBuilderException e )
-        {
-            throw new MarmaladeLaunchException( "Cannot launch marmalade script. There was a problem building script hierarchy from metadata.",
-                                                e );
-        }
+        buildScript();
 
         try
         {
@@ -225,21 +232,91 @@ public class MarmaladeLauncher
         }
         catch ( MarmaladeExecutionException e )
         {
-            throw new MarmaladeLaunchException( "Cannot launch marmalade script. There was an execution-time (runtime) error.",
+            throw new MarmaladeLaunchException(
+                                                "Cannot launch marmalade script. There was an execution-time (runtime) error.",
                                                 e );
         }
 
         Map vars = null;
-        if(!returnUnexternalized)
-            {
+        if ( !returnUnexternalized )
+        {
             vars = executionContext.getExternalizedVariables();
-            }
+        }
         else
         {
             vars = executionContext.getVariablesAsResolved();
         }
-        
+
         return vars;
+    }
+
+    public MarmaladeScript buildScript()
+        throws MarmaladeLaunchException
+    {
+        parse();
+
+        if ( this.script == null )
+        {
+            log.log( CommonLogLevels.DEBUG, "building script instance." );
+
+            try
+            {
+                this.script = builder.build();
+                this.script.setLog( log );
+            }
+            catch ( ModelBuilderException e )
+            {
+                throw new MarmaladeLaunchException(
+                                                    "Cannot launch marmalade script. There was a problem building script hierarchy from metadata.",
+                                                    e );
+            }
+        }
+
+        log.log( CommonLogLevels.DEBUG, "Script is: " + script );
+
+        return script;
+    }
+
+    public ScriptBuilder parse()
+        throws MarmaladeLaunchException
+    {
+        if ( builder == null )
+        {
+            log.log( CommonLogLevels.DEBUG, "parsing script builder." );
+
+            try
+            {
+                if ( scriptParser == null )
+                {
+                    scriptParser = new ScriptParser();
+                    scriptParser.setLog( log );
+                }
+
+                builder = scriptParser.parse( parsingContext );
+            }
+            catch ( MarmaladeParsetimeException e )
+            {
+                throw new MarmaladeLaunchException( "Cannot launch marmalade script. There was a parsetime error.", e );
+            }
+        }
+
+        log.log( CommonLogLevels.DEBUG, "Builder is: " + builder );
+
+        return builder;
+    }
+
+    public MarmaladeScript getMarmaladeScript()
+        throws MarmaladeLaunchException
+    {
+        log.log( CommonLogLevels.DEBUG, "Getting script instance..." );
+
+        return buildScript();
+    }
+
+    public ScriptBuilder getScriptBuilder()
+        throws MarmaladeLaunchException
+    {
+        return parse();
     }
 
 }
