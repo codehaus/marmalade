@@ -39,8 +39,9 @@ public class LiteralClassDefinitionStrategyTest
     public void testShouldResolveTestTagLibrary()
     {
         LiteralResolutionStrategy strat = new LiteralResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade",
-            "org.codehaus.marmalade.discovery.test.TestTaglibWithCorrectConstructor" );
+        MarmaladeTagLibrary taglib = strat
+            .resolve( "marmalade", "org.codehaus.marmalade.discovery.test.TestTaglibWithCorrectConstructor", Thread
+                .currentThread().getContextClassLoader() );
 
         assertNotNull( taglib );
         assertEquals( TestTaglibWithCorrectConstructor.class, taglib.getClass() );
@@ -49,8 +50,9 @@ public class LiteralClassDefinitionStrategyTest
     public void testShouldReturnNullWithNonExistentTagLibrary()
     {
         LiteralResolutionStrategy strat = new LiteralResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade",
-            "org.codehaus.marmalade.lb.discovery.tags.mytags.NonExistentTaglib" );
+        MarmaladeTagLibrary taglib = strat
+            .resolve( "marmalade", "org.codehaus.marmalade.lb.discovery.tags.mytags.NonExistentTaglib", Thread
+                .currentThread().getContextClassLoader() );
 
         assertNull( taglib );
     }
@@ -58,8 +60,9 @@ public class LiteralClassDefinitionStrategyTest
     public void testShouldReturnNullWithNonEmptyConstructorTagLibrary()
     {
         LiteralResolutionStrategy strat = new LiteralResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat.resolve( "marmalade",
-            "org.codehaus.marmalade.lb.discovery.test.NonEmptyConstructorTaglib" );
+        MarmaladeTagLibrary taglib = strat
+            .resolve( "marmalade", "org.codehaus.marmalade.lb.discovery.test.NonEmptyConstructorTaglib", Thread
+                .currentThread().getContextClassLoader() );
 
         assertNull( taglib );
     }
@@ -67,8 +70,9 @@ public class LiteralClassDefinitionStrategyTest
     public void testShouldReturnNullWithNonTagLibraryClass()
     {
         LiteralResolutionStrategy strat = new LiteralResolutionStrategy();
-        MarmaladeTagLibrary taglib = strat
-            .resolve( "marmalade", "org.codehaus.marmalade.lb.discovery.test.NonTaglibClass" );
+        MarmaladeTagLibrary taglib = strat.resolve( "marmalade",
+                                                    "org.codehaus.marmalade.lb.discovery.test.NonTaglibClass", Thread
+                                                        .currentThread().getContextClassLoader() );
 
         assertNull( taglib );
     }

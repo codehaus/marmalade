@@ -4,7 +4,7 @@
   <parent>
     <groupId>marmalade</groupId>
     <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha3-SNAPSHOT</version>
+    <version>1.0-alpha-3-SNAPSHOT</version>
   </parent>
   <artifactId>marmalade-compat-jelly</artifactId>
 
@@ -24,7 +24,7 @@
     <dependency>
       <groupId>commons-jelly</groupId>
       <artifactId>commons-jelly</artifactId>
-      <version>1.0-beta-4-SNAPSHOT</version>
+      <version>1.0-RC1</version>
     </dependency>
     
     <dependency>

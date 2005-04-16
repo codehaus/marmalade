@@ -1,8 +1,5 @@
 package org.codehaus.marmalade.monitor.log;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,7 +25,7 @@ public abstract class AbstractLog
     {
         if ( enabled( level ) )
         {
-            doLog( level, content.toString() + "\n" + formatThrowable( error ) );
+            doLog( level, content.toString() + "\n" + LogSupport.formatThrowable( error ).toString() );
         }
     }
 
@@ -36,7 +33,7 @@ public abstract class AbstractLog
     {
         if ( enabled( level ) )
         {
-            doLog( level, formatThrowable( error ) );
+            doLog( level, LogSupport.formatThrowable( error ).toString() );
         }
     }
 
@@ -44,42 +41,7 @@ public abstract class AbstractLog
     {
         if ( enabled( level ) )
         {
-            StringBuffer messageBuffer = new StringBuffer();
-
-            for ( Iterator it = contentList.iterator(); it.hasNext(); )
-            {
-                Object element = (Object) it.next();
-
-                if ( element instanceof CharSequence )
-                {
-                    messageBuffer.append( ((CharSequence) element).toString() );
-                }
-                else if ( element instanceof LogRenderable )
-                {
-                    messageBuffer.append( ((LogRenderable) element).render() );
-                }
-                else if ( element instanceof Throwable )
-                {
-                    messageBuffer.append( '\n' ).append( formatThrowable( (Throwable) element ) );
-                }
-                else
-                {
-                    messageBuffer.append( String.valueOf( element ) );
-                }
-            }
-
-            doLog( level, messageBuffer.toString() );
+            doLog( level, LogSupport.formatEntryList( contentList ).toString() );
         }
     }
-
-    protected String formatThrowable( Throwable error )
-    {
-        StringWriter sWriter = new StringWriter();
-        PrintWriter pWriter = new PrintWriter( sWriter );
-
-        error.printStackTrace( pWriter );
-
-        return sWriter.toString();
-    }
-
 }

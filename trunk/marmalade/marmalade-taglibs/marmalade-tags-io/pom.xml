@@ -3,22 +3,18 @@
 <project>
   <parent>
     <groupId>marmalade</groupId>
-    <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha-3-SNAPSHOT</version>
+    <artifactId>marmalade-taglibs</artifactId>
+    <version>1.0-alpha-2</version>
   </parent>
-  <artifactId>marmalade-tags-collections</artifactId>
+  <artifactId>marmalade-tags-io</artifactId>
   <version>1.0-alpha-2</version>
 
-  <name>Collections Tag Library</name>
+  <name>Basic I/O Tag Library</name>
   
   <dependencies>
     <dependency>
       <groupId>marmalade</groupId>
       <artifactId>marmalade-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>marmalade</groupId>
-      <artifactId>marmalade-utils</artifactId>
     </dependency>
   </dependencies>
 </project>

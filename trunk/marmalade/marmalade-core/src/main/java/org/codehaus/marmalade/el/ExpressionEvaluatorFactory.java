@@ -24,6 +24,10 @@
 /* Created on Mar 24, 2004 */
 package org.codehaus.marmalade.el;
 
+import org.codehaus.marmalade.monitor.log.CommonLogLevels;
+import org.codehaus.marmalade.monitor.log.DefaultLog;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +36,8 @@ import java.io.InputStreamReader;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URL;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -46,6 +52,8 @@ public final class ExpressionEvaluatorFactory
     private static final String DEFAULT_EL_TYPE = "ognl";
 
     private static Map evaluators = new WeakHashMap();
+
+    private MarmaladeLog log;
 
     /**
      * Factory; deny construction.
@@ -67,6 +75,14 @@ public final class ExpressionEvaluatorFactory
      */
     public ExpressionEvaluator getExpressionEvaluator( String type )
     {
+        synchronized ( this )
+        {
+            if(log == null)
+            {
+                log = new DefaultLog();
+            }
+        }
+        
         // lock only for the specified type of EL...let everything else happen.
         synchronized ( type.intern() )
         {
@@ -97,9 +113,8 @@ public final class ExpressionEvaluatorFactory
                     }
                     catch ( IOException e )
                     {
-                        //TODO: log this exception
-                        e.printStackTrace();
-                        System.err.println("Proceeding with taglib resolution.");
+                        List entries = Arrays.asList( new Object[] {e, "Proceeding with taglib resolution."} );
+                        log.log(CommonLogLevels.ERROR, entries);
                     }
                     finally
                     {
@@ -129,27 +144,23 @@ public final class ExpressionEvaluatorFactory
                             }
                             catch ( ClassNotFoundException e )
                             {
-                                //TODO: log this exception
-                                e.printStackTrace();
-                                System.err.println("Proceeding with taglib resolution.");
+                                List entries = Arrays.asList( new Object[] {e, "Proceeding with taglib resolution."} );
+                                log.log(CommonLogLevels.ERROR, entries);
                             }
                             catch ( InstantiationException e )
                             {
-                                //TODO: log this exception
-                                e.printStackTrace();
-                                System.err.println("Proceeding with taglib resolution.");
+                                List entries = Arrays.asList( new Object[] {e, "Proceeding with taglib resolution."} );
+                                log.log(CommonLogLevels.ERROR, entries);
                             }
                             catch ( IllegalAccessException e )
                             {
-                                //TODO: log this exception
-                                e.printStackTrace();
-                                System.err.println("Proceeding with taglib resolution.");
+                                List entries = Arrays.asList( new Object[] {e, "Proceeding with taglib resolution."} );
+                                log.log(CommonLogLevels.ERROR, entries);
                             }
                             catch ( UndeclaredThrowableException e )
                             {
-                                //TODO: log this exception
-                                e.printStackTrace();
-                                System.err.println("Proceeding with taglib resolution.");
+                                List entries = Arrays.asList( new Object[] {e, "Proceeding with taglib resolution."} );
+                                log.log(CommonLogLevels.ERROR, entries);
                             }
                         }
                     }
@@ -158,5 +169,10 @@ public final class ExpressionEvaluatorFactory
 
             return evaluator;
         }
+    }
+
+    public void setLog( MarmaladeLog log )
+    {
+        this.log = log;
     }
 }

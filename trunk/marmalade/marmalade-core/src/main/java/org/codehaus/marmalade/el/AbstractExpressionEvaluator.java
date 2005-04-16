@@ -24,6 +24,8 @@
 /* Created on May 10, 2004 */
 package org.codehaus.marmalade.el;
 
+import org.codehaus.marmalade.monitor.log.DefaultLog;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.marmalade.util.RegexSupport;
 
 import java.util.Map;
@@ -40,13 +42,33 @@ public abstract class AbstractExpressionEvaluator
     
     public static final String PRIMITIVE_PATTERNS = "[0-9]+[idfblhIDFBLH]?|true|false|0x[0-9]+[bB]?";
 
+    private MarmaladeLog log;
+
     protected AbstractExpressionEvaluator()
     {
+    }
+    
+    public void setLog( MarmaladeLog log )
+    {
+        this.log = log;
+    }
+    
+    protected MarmaladeLog getLog()
+    {
+        return log;
     }
 
     public Object evaluate( String expression, Map context, Class expectedReturnType )
         throws ExpressionEvaluationException
     {
+        synchronized ( this )
+        {
+            if(log == null)
+            {
+                log = new DefaultLog();
+            }
+        }
+        
         Object result = null;
         Matcher matcher = getExpressionPattern().matcher( expression );
 

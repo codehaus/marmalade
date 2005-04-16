@@ -32,6 +32,7 @@ import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.marmalade.util.RecordingReader;
 
 /**
@@ -50,7 +51,7 @@ public interface MarmaladeParsingContext
     void addTaglibDefinitionStrategy( TaglibResolutionStrategy strategy );
 
     void addTaglibDefinitionStrategies( Collection strategies );
-    
+
     void setTaglibDefinitionStrategies( Collection strategies );
 
     RecordingReader getInput();
@@ -60,6 +61,12 @@ public interface MarmaladeParsingContext
     String getInputLocation();
 
     void setInputLocation( String inputLocation );
-    
+
     void setDefaultTagLibrary( MarmaladeTagLibrary taglib );
+
+    void setLog( MarmaladeLog log );
+
+    MarmaladeLog getLog();
+
+    void setClassLoader( ClassLoader classloader );
 }

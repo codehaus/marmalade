@@ -1,0 +1,16 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>1.0-alpha-2</version>
+  </parent>
+  <artifactId>marmalade-taglibs</artifactId>
+  <name>Marmalade Tag Libraries Base</name>
+  
+  <modules>
+    <module>marmalade-tags-io</module>
+    <module>marmalade-tags-inertDoco</module>
+    <module>marmalade-tags-collections</module>
+  </modules>
+</project>

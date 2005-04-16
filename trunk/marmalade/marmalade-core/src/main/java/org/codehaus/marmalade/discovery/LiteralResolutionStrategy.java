@@ -25,22 +25,27 @@
 package org.codehaus.marmalade.discovery;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
+import org.codehaus.marmalade.monitor.log.CommonLogLevels;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 
 /**
  * @author jdcasey
  */
 public class LiteralResolutionStrategy
-    implements TaglibResolutionStrategy
+    extends AbstractTaglibResolutionStrategy
 {
     public LiteralResolutionStrategy()
     {
     }
 
-    public MarmaladeTagLibrary resolve( String prefix, String taglib )
+    public MarmaladeTagLibrary resolve( String prefix, String taglib, ClassLoader cloader )
     {
-        ClassLoader cloader = Thread.currentThread().getContextClassLoader();
+        MarmaladeLog log = getLog();
+        
         MarmaladeTagLibrary tlib = null;
 
         // We need to be more proactive in determining whether the class exists
@@ -61,24 +66,34 @@ public class LiteralResolutionStrategy
             // Ignore these, and return null.
             catch ( InstantiationException e )
             {
-                //TODO: log this exception
-                e.printStackTrace();
-                System.err.println("Proceeding with taglib resolution.");
+                List entries = Arrays.asList(new Object[] {e, "Proceeding with taglib resolution."});
+                log.log(CommonLogLevels.DEBUG, entries);
             }
             catch ( IllegalAccessException e )
             {
-                //TODO: log this exception
-                e.printStackTrace();
-                System.err.println("Proceeding with taglib resolution.");
+                List entries = Arrays.asList(new Object[] {e, "Proceeding with taglib resolution."});
+                log.log(CommonLogLevels.DEBUG, entries);
             }
             catch ( ClassNotFoundException e )
             {
-                //TODO: log this exception
-                e.printStackTrace();
-                System.err.println("Proceeding with taglib resolution.");
+                List entries = Arrays.asList(new Object[] {e, "Proceeding with taglib resolution."});
+                log.log(CommonLogLevels.DEBUG, entries);
             }
         }
 
+        List entries = Arrays.asList( new Object[] {
+            "Returning taglib: ",
+            tlib,
+            " from literal taglib class strategy for taglib {prefix: ",
+            prefix,
+            ", taglib: ",
+            taglib,
+            "} using classloader: ",
+            cloader } );
+
+        log.log( CommonLogLevels.DEBUG, entries );
+
         return tlib;
     }
+
 }

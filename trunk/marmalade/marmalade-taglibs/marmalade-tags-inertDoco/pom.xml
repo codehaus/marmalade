@@ -4,10 +4,10 @@
   <parent>
     <groupId>marmalade</groupId>
     <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha3-SNAPSHOT</version>
+    <version>1.0-alpha-3-SNAPSHOT</version>
   </parent>
   <artifactId>marmalade-tags-inertDoco</artifactId>
-  <version>1.0</version>
+  <version>1.0-alpha-2</version>
 
   <name>Inert Documentation Tag Library</name>
   

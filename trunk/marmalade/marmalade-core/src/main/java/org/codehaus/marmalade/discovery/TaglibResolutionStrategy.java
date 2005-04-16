@@ -25,11 +25,14 @@
 package org.codehaus.marmalade.discovery;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 
 /**
  * @author jdcasey
  */
 public interface TaglibResolutionStrategy
 {
-    MarmaladeTagLibrary resolve( String prefix, String taglib );
+    MarmaladeTagLibrary resolve( String prefix, String taglib, ClassLoader classloader );
+    
+    void setLog( MarmaladeLog log );
 }

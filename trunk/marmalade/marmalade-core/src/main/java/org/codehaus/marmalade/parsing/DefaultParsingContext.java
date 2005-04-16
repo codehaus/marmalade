@@ -9,6 +9,7 @@ import org.codehaus.marmalade.el.ExpressionEvaluator;
 import org.codehaus.marmalade.el.ExpressionEvaluatorFactory;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.marmalade.util.RecordingReader;
 
 /**
@@ -26,6 +27,8 @@ public class DefaultParsingContext
     private RecordingReader input;
 
     private String inputLocation;
+
+    private MarmaladeLog log;
 
     public DefaultParsingContext()
     {
@@ -49,11 +52,11 @@ public class DefaultParsingContext
 
     public MarmaladeTaglibResolver getTaglibResolver()
     {
-        if(!resolver.hasStrategies())
+        if ( !resolver.hasStrategies() )
         {
-            resolver.setTaglibDefinitionStrategies(MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN);
+            resolver.setTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
         }
-        
+
         return resolver;
     }
 
@@ -79,11 +82,13 @@ public class DefaultParsingContext
 
     public void setInput( Reader input )
     {
-        if(input instanceof RecordingReader) {
-            this.input = (RecordingReader)input;
+        if ( input instanceof RecordingReader )
+        {
+            this.input = (RecordingReader) input;
         }
-        else {
-            this.input = new RecordingReader(input);
+        else
+        {
+            this.input = new RecordingReader( input );
         }
     }
 
@@ -99,6 +104,29 @@ public class DefaultParsingContext
 
     public void setDefaultTagLibrary( MarmaladeTagLibrary taglib )
     {
-        resolver.setDefaultTagLibrary(taglib);
+        resolver.setDefaultTagLibrary( taglib );
+    }
+
+    public void setLog( MarmaladeLog log )
+    {
+        this.log = log;
+
+        resolver.setLog( log );
+        factory.setLog( log );
+
+        if ( evaluator != null )
+        {
+            evaluator.setLog( log );
+        }
+    }
+
+    public MarmaladeLog getLog()
+    {
+        return log;
+    }
+
+    public void setClassLoader( ClassLoader classloader )
+    {
+        resolver.setClassLoader( classloader );
     }
 }

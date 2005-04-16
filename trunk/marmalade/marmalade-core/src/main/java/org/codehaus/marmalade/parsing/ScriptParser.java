@@ -26,6 +26,7 @@ package org.codehaus.marmalade.parsing;
 
 import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 import org.codehaus.marmalade.reader.ScriptReadException;
 import org.codehaus.marmalade.reader.ScriptReader;
 import org.codehaus.marmalade.reader.xml.Xpp3ScriptReader;
@@ -38,6 +39,7 @@ import java.io.IOException;
 public class ScriptParser
 {
     private final ScriptReader scriptReader;
+    private MarmaladeLog log;
 
     public ScriptParser()
     {
@@ -80,6 +82,14 @@ public class ScriptParser
         else
         {
             return result;
+        }
+    }
+
+    public void setLog( MarmaladeLog log )
+    {
+        if(log != null)
+        {
+            this.log = log;
         }
     }
 }

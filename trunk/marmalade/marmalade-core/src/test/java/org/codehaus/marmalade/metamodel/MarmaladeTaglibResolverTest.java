@@ -26,6 +26,7 @@ package org.codehaus.marmalade.metamodel;
 
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.model.MarmaladeTag;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 
 import junit.framework.TestCase;
 
@@ -131,9 +132,13 @@ public class MarmaladeTaglibResolverTest
         {
         }
 
-        public MarmaladeTagLibrary resolve( String prefix, String taglib )
+        public MarmaladeTagLibrary resolve( String prefix, String taglib, ClassLoader cloader )
         {
             return null;
+        }
+
+        public void setLog( MarmaladeLog log )
+        {
         }
     }
 
@@ -144,9 +149,13 @@ public class MarmaladeTaglibResolverTest
         {
         }
 
-        public MarmaladeTagLibrary resolve( String prefix, String taglib )
+        public MarmaladeTagLibrary resolve( String prefix, String taglib, ClassLoader cloader )
         {
             return new Taglib();
+        }
+
+        public void setLog( MarmaladeLog log )
+        {
         }
     }
 }
