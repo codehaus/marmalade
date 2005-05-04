@@ -51,6 +51,11 @@ public class MarmaladeTaglibResolver
         new PrefixedDefFileResolutionStrategy(),
         new PassThroughResolutionStrategy() } );
 
+    public static final List NO_PASSTHROUGH_STRATEGY_CHAIN = Arrays.asList( new TaglibResolutionStrategy[] {
+        new LiteralResolutionStrategy(),
+        new PrefixedTldResolutionStrategy(),
+        new PrefixedDefFileResolutionStrategy() } );
+
     private List strategies;
 
     private String defaultPrefix;
