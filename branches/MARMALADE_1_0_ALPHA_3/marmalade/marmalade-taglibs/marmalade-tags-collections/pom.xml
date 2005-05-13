@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>1.0-alpha-3</version>
+  </parent>
+  <artifactId>marmalade-tags-collections</artifactId>
+
+  <name>Collections Tag Library</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-utils</artifactId>
+    </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-taglibs</artifactId>
+    <version>1.0-alpha-3</version>
+  </parent>
+  <artifactId>marmalade-tags-io</artifactId>
+
+  <name>Basic I/O Tag Library</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-core</artifactId>
+    </dependency>
+  </dependencies>
+</project>

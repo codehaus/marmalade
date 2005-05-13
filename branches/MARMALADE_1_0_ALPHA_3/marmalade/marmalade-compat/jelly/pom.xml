@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>1.0-alpha-3</version>
+  </parent>
+  <artifactId>marmalade-compat-jelly</artifactId>
+
+  <name>Jelly Compatibility Layer</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-core</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-utils</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-jelly</groupId>
+      <artifactId>commons-jelly</artifactId>
+      <version>1.0-RC1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.4</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>2.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    
+    <!-- Testing dependencies -->
+    <dependency>
+      <groupId>marmalade</groupId>
+      <artifactId>marmalade-el-commons</artifactId>
+    </dependency>
+    <!-- /Testing dependencies -->
+  </dependencies>
+</project>

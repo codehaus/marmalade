@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <!-- v3 -->
+  <extend>${maven.repo.local}/marmalade/poms/marmalade-parent-0.2.pom</extend>
+  <id>marmalade-core</id>
+
+  <!-- v4 -->
+  <parent>
+    <groupId>marmalade</groupId>
+    <artifactId>marmalade-parent</artifactId>
+    <version>0.2</version>
+  </parent>
+  <artifactId>marmalade-core</artifactId>
+
+  <name>Marmalade Core</name>
+  
+  <build>
+    <!-- 
+    <unitTest>
+        <excludes>
+            <exclude>**/PassThroughTagTest.java</exclude>
+        </excludes>
+    </unitTest>
+    -->
+  </build>
+  
+  <reports>
+    <report>maven-jcoverage-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-junit-report-plugin</report>
+  </reports>
+</project>

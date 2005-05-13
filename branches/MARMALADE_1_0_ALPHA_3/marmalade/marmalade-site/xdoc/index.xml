@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <title>Marmalade</title>
+    <author email="jdcasey@codehaus.org">John Casey</author>
+  </properties>
+
+  <body>
+
+  <section name="Marmalade">
+    <p>
+      Marmalade is the next generation in XML-based scripting languages.
+      It was originally intended as a black-box replacement for the ailing 
+      <a href="http://jakarta.apache.org/commons/jelly">Jelly</a> project.
+    </p>
+    <p>
+      Marmalade is smaller, faster, and much more stable than its 
+      predecessor. 
+    </p>
+  </section>
+
+  <section name="Expressionless Structure">
+    <p>
+      
+    </p>
+  </section>
+
+  <section name="Bells and Whistles, A la Carte">
+  </section>
+
+</body>
+</document>
