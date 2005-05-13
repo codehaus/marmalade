@@ -1,0 +1,12 @@
+<classpath>
+  <classpathentry kind="src" path="src/main/java"/>
+  <classpathentry kind="src" path="src/main/resources"/>
+  <classpathentry kind="src" path="src/test/java" output="target/test-classes"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="var" rootpath="JRE_SRCROOT" path="JRE_LIB" sourcepath="JRE_SRC"/>
+  <classpathentry kind="lib" path="/data/m2LocalHome/repository/junit/junit/3.8.1/junit-3.8.1.jar"/>
+  <classpathentry kind="lib" path="/data/m2LocalHome/repository/jmock/jmock/1.0.1/jmock-1.0.1.jar"/>
+  <classpathentry kind="lib" path="/data/m2LocalHome/repository/ognl/ognl/2.5.1/ognl-2.5.1.jar"/>
+  <classpathentry kind="lib" path="/data/m2LocalHome/repository/marmalade/marmalade-core/1.0-alpha-2/marmalade-core-1.0-alpha-2.jar"/>
+  <classpathentry kind="lib" path="/data/m2LocalHome/repository/plexus/plexus-utils/1.0-alpha-2/plexus-utils-1.0-alpha-2.jar"/>
+</classpath>
