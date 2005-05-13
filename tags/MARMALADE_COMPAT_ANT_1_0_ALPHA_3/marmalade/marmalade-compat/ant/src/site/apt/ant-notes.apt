@@ -1,0 +1,100 @@
+  ---
+  Ant-Compat Marmalade Notes
+  ---
+  John Casey
+  ---
+  25-Jan-2005
+  ---
+
+*Abstract
+
+  These are just some notes on different approaches I could use to subvert
+  concrete implementation of Project in order to facilitate Ant tasks to
+  run in the context of other Marmalade tags, and for other Marmalade tags
+  to interact with the Ant-like environment that the Ant tasks use.
+
+*Subversion Approaches
+
+  [[1]] Attach an aspect to Project.
+
+        This involves around() advice for:
+
+          - classloading
+          - creation of tasks and types (possibly)
+          - addition of project references
+          - setting project properties
+          - setting up system properties
+          - retrieval of project properties
+
+        in order to store any and all settings in the Marmalade context, and
+        to avoid willy-nilly creation of classloaders, etc.
+
+        This approach would only involve offline weaving of the ant core
+        library, which could be introduced as a sub-artifact of the 
+        marmalade maven-repo groupId.
+
+  [[2]] Attach an aspect to Tasks and Types at runtime.
+
+        This involves interception of calls to Project, in order to divert
+        them to the Marmalade enviornment. Hardest part of this is the
+        runtime weaving, but it has the great advantage of not requiring the
+        creation and maintenance of an ant Project instance.
+
+        Attaching a runtime weaver to marmalade involves extending the 
+        marmalade system on the front end, in order to install the runtime
+        weaver as the context classloader.
+
+        One big advantage here is that native ant libraries would be able to
+        run in marmalade unmodified (from the user's perspective).
+
+  [[3]] Instantiation of Ant Project and Attachment of Listeners to bridge to
+        Marmalade context.
+
+        This involves instantiation and reuse of a single Ant Project instance
+        which would be stored in the Marmalade context, and attachment of a
+        set of Ant-specific listeners to try to keep the Marmalade context in
+        sync with the Project instance.
+
+        Drawbacks:
+
+          - Are there enough listener hooks to do this? Are they meant to be
+            listeners ONLY, or is there an associated write functionality to
+            allow non-Ant tags to modify the Ant environment...would I have
+            to write this in Marmalade, and make it Ant-specific??
+
+          - What is the correct context scope in which to create and hold the
+            Ant Project instance? Probably the root scope for the current
+            script (currently nonexistent, since <c:import../> currently
+            munges imported script in as native section of parent script; 
+            this is probably not the semantics we want for Ant).
+
+        The reality of this approach is that it's probably a pipe dream. The
+        mere fact that the Ant Project is a concrete class, and not an
+        interface with a default implementation suggests that this system has
+        not been designed with embedding in mind, and therefore will probably
+        not provide the level of event propagation (two-way) that is required
+        for within-the-framework coupling.
+
+  [[4]] Swizzle all references to Ant Project out of Ant tasks at runtime using
+        ASM.
+
+        This is extremely difficult IMO, since not only does it involve 
+        diverting all of those old Project calls to some undeveloped piece
+        of infrastructure (Marmalade context adapter?), it also involves
+        a fairly extensive SnR (search/replace) process for each task at
+        runtime.
+
+        One thing about it, though, is that this is probably the method that is
+        least sensitive to changes in Ant. It would make the ant-compat 
+        marmalade extension fairly stable as a result.
+
+        I'm definitely no expert on ASM, but I need to talk to Eugene a bit and
+        see how feasible this is. If it's possible and not too complex, it
+        could lead to new ways of implementing aspects (interception, 
+        introduction only) without requiring special classloaders or 
+        another step in the build.
+
+        It also means that native ant libraries could operate in marmalade
+        unchanged (from the user's perspective).
+
+
