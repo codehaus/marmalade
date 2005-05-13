@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project>
-    <groupId>tomcat</groupId>
-    <artifactId>jsp-api</artifactId>
-    <version>5.0.18</version>
-</project>

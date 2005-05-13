@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<j:forEach items="${items}" var="iter"
-  xmlns:j="jelly:core"
-  xmlns:ant="jelly:ant">
-
-    <!-- Modified to remove requirements to emulate maven1 -->
-    <ant:echo>Iteration: ${iter}</ant:echo>
-
-</j:forEach>
