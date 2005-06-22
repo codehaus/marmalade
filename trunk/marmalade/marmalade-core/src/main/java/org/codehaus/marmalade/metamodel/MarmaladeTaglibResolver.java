@@ -56,7 +56,7 @@ public class MarmaladeTaglibResolver
         new PrefixedTldResolutionStrategy(),
         new PrefixedDefFileResolutionStrategy() } );
 
-    private List strategies;
+    private List strategies = new ArrayList();
 
     private String defaultPrefix;
 
@@ -95,15 +95,7 @@ public class MarmaladeTaglibResolver
         {
             TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
 
-            if ( !strategies.contains( strategy ) )
-            {
-                strategies.add( strategy );
-            }
-            
-            if(log != null)
-            {
-                strategy.setLog(log);
-            }
+            addTaglibDefinitionStrategy( strategy );
         }
     }
 
@@ -161,6 +153,8 @@ public class MarmaladeTaglibResolver
         if ( defaultTagLibrary != null && ( prefix == null || prefix.trim().length() < 1 )
             && ( taglib == null || taglib.trim().length() < 1 ) )
         {
+            log.log(CommonLogLevels.DEBUG, "Using default taglib.");
+            
             // use the default taglib.
             tlib = defaultTagLibrary;
         }
@@ -169,7 +163,7 @@ public class MarmaladeTaglibResolver
             for ( Iterator it = strategies.iterator(); it.hasNext(); )
             {
                 TaglibResolutionStrategy strategy = (TaglibResolutionStrategy) it.next();
-
+                
                 tlib = strategy.resolve( prefix, taglib, classloader );
 
                 if ( tlib != null )
