@@ -16,12 +16,12 @@ public class LateBindingResolutionStrategyTest
 
     public void testShouldResolveLBBindTagLibWithoutRegistration() {
         LateBindingResolutionStrategy strategy = new LateBindingResolutionStrategy();
-        assertNotNull("lb:bind library should be resolved", strategy.resolve("lb", "bind"));
+        assertNotNull("lb:bind library should be resolved", strategy.resolve("lb", "bind", getClass().getClassLoader()));
     }
     
     public void testShouldNotResolveOtherTagLibWithoutRegistration() {
         LateBindingResolutionStrategy strategy = new LateBindingResolutionStrategy();
-        assertNull("lb:test library should not be resolved", strategy.resolve("lb", "test"));
+        assertNull("lb:test library should not be resolved", strategy.resolve("lb", "test", getClass().getClassLoader()));
     }
     
 }

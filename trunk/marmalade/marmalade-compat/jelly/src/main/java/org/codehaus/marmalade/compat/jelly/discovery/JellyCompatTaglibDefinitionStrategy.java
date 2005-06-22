@@ -5,6 +5,7 @@ import org.codehaus.marmalade.compat.jelly.JellyCompatConstants;
 import org.codehaus.marmalade.compat.jelly.metamodel.JellyCompatMarmaladeTaglib;
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
 
 /**
  * @author jdcasey
@@ -13,13 +14,14 @@ public class JellyCompatTaglibDefinitionStrategy
     implements TaglibResolutionStrategy
 {
     private JellyCompatMarmaladeTaglib marmaladeTaglib;
+    private MarmaladeLog log;
 
     public JellyCompatTaglibDefinitionStrategy(  )
     {
         this.marmaladeTaglib = new JellyCompatMarmaladeTaglib(  );
     }
 
-    public MarmaladeTagLibrary resolve( String prefix, String taglib )
+    public MarmaladeTagLibrary resolve( String prefix, String taglib, ClassLoader cloader )
     {
         MarmaladeTagLibrary tlib = null;
 
@@ -34,5 +36,10 @@ public class JellyCompatTaglibDefinitionStrategy
         }
 
         return tlib;
+    }
+    
+    public void setLog( MarmaladeLog log )
+    {
+        this.log = log;
     }
 }

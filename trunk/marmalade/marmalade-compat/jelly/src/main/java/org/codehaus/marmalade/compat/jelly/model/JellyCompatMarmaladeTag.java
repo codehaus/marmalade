@@ -21,6 +21,7 @@ import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.model.MarmaladeTag;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.AbstractPassThroughTag;
 
 import java.util.ArrayList;
@@ -163,7 +164,7 @@ public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
         }
         catch ( JellyException e )
         {
-            throw new MarmaladeExecutionException( e );
+            throw new TagExecutionException( getTagInfo(), "Error executing jelly tag.", e );
         }
         catch ( JellyCompatUncheckedException e )
         {
@@ -174,7 +175,7 @@ public class JellyCompatMarmaladeTag extends AbstractPassThroughTag
                 cause = e;
             }
 
-            throw new MarmaladeExecutionException( cause );
+            throw new TagExecutionException( getTagInfo(), "Error executing jelly tag.", cause );
         }
     }
 

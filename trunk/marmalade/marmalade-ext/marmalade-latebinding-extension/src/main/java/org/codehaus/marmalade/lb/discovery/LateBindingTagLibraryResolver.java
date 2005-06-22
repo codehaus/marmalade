@@ -3,7 +3,7 @@ package org.codehaus.marmalade.lb.discovery;
 
 import org.codehaus.marmalade.lb.LateBoundLibraryNotFoundException;
 import org.codehaus.marmalade.lb.LateBoundTagNotFoundException;
-import org.codehaus.marmalade.lb.tags.LateBindingDefinitionTagLibrary;
+import org.codehaus.marmalade.lb.taglib.LateBindingDefinitionTagLibrary;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.metamodel.MarmaladeTagLibrary;
 import org.codehaus.marmalade.metamodel.TagInstantiationException;
