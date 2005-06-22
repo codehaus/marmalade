@@ -8,7 +8,7 @@
     <version>1.0-alpha-3</version>
   </parent>
   <artifactId>marmalade-core</artifactId>
-  <version>1.0-alpha-4</version>
+  <version>1.0-alpha-5-SNAPSHOT</version>
 
   <name>Marmalade Core</name>
 </project>
