@@ -2,6 +2,7 @@ package org.codehaus.marmalade.compat.ant.util;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
+import org.apache.tools.ant.UnknownElement;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 
 import java.lang.ref.Reference;
@@ -54,6 +55,24 @@ public final class AntUtils
     public static Target getExecutionTarget( Project project )
     {
         return (Target) project.getTargets().get(MARMALADE_EXEC_TARGET_NAME);
+    }
+    
+    public static void assignChild( Object parent, Object child )
+    {
+        // Nested element
+        System.out.println( "Parent is of type: " + parent.getClass().getName() );
+        System.out.println( "Child is of type: " + child.getClass().getName() );
+        
+        if ( ( parent instanceof UnknownElement ) && ( child instanceof UnknownElement ) )
+        {
+            UnknownElement parentUnknown = (UnknownElement) parent;
+            
+            parentUnknown.addChild( (UnknownElement) child );
+        }
+        else
+        {
+            throw new IllegalArgumentException( "Either parent or child is not of type UnknownElement. This is not currently supported." );
+        }
     }
 
 }
