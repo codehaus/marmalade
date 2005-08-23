@@ -1,0 +1,21 @@
+<core:script xmlns:core="marmalade:core" xmlns:ant="ant:ant">
+  <ant:mkdir dir="target/test-junit-classes"/>
+  
+  <ant:javac srcdir="${junit-sources}" destdir="target/test-junit-classes" classpath="${junit-lib}"
+    fork="yes" nowarn="on" debug="on"/>
+  
+  <ant:delete dir="target/test-junit-results"/>
+  <ant:mkdir dir="target/test-junit-results"/>
+  
+  <ant:junit fork="yes" haltonfailure="no">
+    
+    <ant:sysproperty key="basedir" value="${basedir}"/>
+    
+    <ant:formatter type="xml"/>
+    
+    <ant:batchtest todir="target/test-junit-results">
+      <ant:fileset dir="target/test-junit-results" includes="**/*Test.class"/>
+    </ant:batchtest>
+    
+  </ant:junit>
+</core:script>

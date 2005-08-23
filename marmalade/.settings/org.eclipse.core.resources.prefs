@@ -1,7 +1,8 @@
-#Tue Feb 08 18:14:16 EST 2005
+#Tue Jul 19 13:17:25 EDT 2005
+eclipse.preferences.version=1
+encoding//marmalade-compat/ant/src/test/resources/scripts/testShouldExecuteJUnitTestsFromScript.mmld=UTF-8
+encoding//marmalade-compat/jelly/integration-test/src/test/resources/it0.jelly=UTF-8
+encoding//marmalade-compat/jelly/integration-test/src/test/resources/it1.jelly=UTF-8
 encoding//marmalade-compat/jelly/integration-test/src/test/resources/it2.jelly=UTF-8
 encoding//marmalade-ext/marmalade-msp/test-webapp/src/web/WEB-INF/pages/default.mmld=UTF-8
-eclipse.preferences.version=1
-encoding//marmalade-compat/jelly/integration-test/src/test/resources/it0.jelly=UTF-8
 encoding//marmalade-ext/marmalade-msp/test-webapp/src/web/WEB-INF/pages/doco/index.mmld=UTF-8
-encoding//marmalade-compat/jelly/integration-test/src/test/resources/it1.jelly=UTF-8

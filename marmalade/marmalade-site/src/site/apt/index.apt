@@ -1,0 +1,89 @@
+  ---
+  Marmalade :: Welcome
+  ---
+  John Casey
+  ---
+  22-August-2005
+  ---
+  
+Marmalade - Welcome!
+
+  In short, Marmalade is a scripting language. Its original goal was to 
+  replace {{{http://jakarta.apache.org/commons/jelly}Jelly}} with improvements
+  in design and efficiency. However, Marmalade has the potential to be much
+  more than just another XML scripting language. The philosophy behind
+  Marmalade is to provide ultimate flexibility with a set of sensible defaults.
+  This means that even features which seem fundamental to the Marmalade language
+  can be swapped out with different implementations...and each feature is
+  orthogonal to the others, allowing for customization potential that is truly
+  dizzying.
+  
+  Even with a good set of default implementations and values, configuration of
+  something as naturally complex as Marmalade can be daunting. However, even  
+  fairly advanced users will find Marmalade's configuration adequately accessible 
+  through the convenience APIs provided in the core library.
+  
+  Finally, in an effort to promote the completeness and usability of Marmalade's
+  core engine, it is packaged with a set of core tag libraries which act
+  like a JSTL of sorts, providing basic functionality which is easily decorated
+  by domain- or project-specific tag libraries to provide more sophisticated
+  operations. Operations like importing other scripts, instantiating and 
+  manipulating collections, instantiating and configuring javabean instances, 
+  and more are effectively built in.
+  
+  So, read on for more information about some of these features, and then read the
+  {{{getting-started.html}Getting Started Guide}} for help writing and executing
+  your first Marmalade script.
+  
+*Extensibility
+
+  Marmalade is extensible in terms of its support for tag library sets, 
+  expression languages, and syntax. In short, Marmalade allows the user to 
+  specify:
+  
+  * <<Language syntax>>. XML is the default syntax, but it is possible to
+    use an alternative syntax by simply using a different parser. The main
+    scripting language engine is syntax agnostic. Any language syntax that
+    will allow taglib imports via namespacing, along with attributes and
+    nested language elements can be easily supported by the core Marmalade
+    engine.
+    
+  * <<Tag libraries>>. The language elements in a Marmalade script are backed
+    by tags which are collected into tag libraries. The mechanisms used to
+    discover tag libraries are stacked, and configurable. Each tag is meant
+    to perform some simple operation on the script's runtime context, which
+    contains variables, standard streams (in, out, err), a log, etc. Different
+    configurations of the discovery stack can restrict to certain tag libraries, 
+    or expand to include any of a wide variety of discovery methods.
+    
+  * <<Expression languages>>. Marmalade allows users to manipulate and access
+    context data in whichever expression language they are most comfortable.
+    By providing a simple adaptor implementation, nearly any expression language
+    can be used within a Marmalade script. It's even possible to use multiple
+    expression languages within the same script. For example, you may want to
+    use OGNL as your mainstay expression language, with XPath or JXPath used
+    in a sub-section that deals primarily with manipulating XML data. Just
+    like context variables, the expression language in effect is scoped in terms
+    of the natural element hierarchies, with subelements inheriting the 
+    expression language of the parent by default.
+
+*Usability
+
+  Where possible, Marmalade strives to allow the user room to customize.
+  However, even with sensible default implementations such extreme flexibility 
+  can make an API too complex to use. The core Marmalade library attempts to 
+  address this concern through a suite of convenience APIs, most notably the
+  <<<org.codehaus.marmalade.launcher.MarmaladeLauncher>>> class.
+  
+  <<<MarmaladeLauncher>>> is designed to make embedding of Marmalade a non-issue.
+  It exposes every common configuration point for both parsing an executing of
+  Marmalade scripts, collected behind a single interface. In addition, every
+  configuration method in this launch API returns the <<<MarmaladeLauncher>>>
+  instance in use (effectively, <<<return this;>>>). This allows chaining of
+  configuration calls, in much the same way that <<<StringBuffer>>>'s 
+  <<<append(..)>>> methods are designed to make it easy to append even small
+  amounts of information without destroying the readability of the overall
+  message in the source code. Using <<<MarmaladeLauncher>>>, embedders can avoid
+  dozens of lines' worth of construction and configuration code, and consolidate
+  the Marmalade configuration and execution to a few lines of concise and 
+  easy-to-read code.

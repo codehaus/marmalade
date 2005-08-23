@@ -70,6 +70,9 @@ public class AntAdapterTag
         }
     }
 
+    // TODO: We need to be dealing in terms of realObject() from the RuntimeConfigurable...but this
+    // means putting in place some more advanced reflective algorithms for setting subelements on parent
+    // tags.
     private void buildAntObject( MarmaladeExecutionContext context ) throws ExpressionEvaluationException
     {
         Project project = AntUtils.getContextProject( context );
@@ -134,8 +137,7 @@ public class AntAdapterTag
 
         if ( parent != null )
         {
-            // Nested element
-            ((UnknownElement) parent).addChild( task );
+            AntUtils.assignChild(parent, task);
         }
         else
         {
