@@ -200,9 +200,5 @@ public class Xpp3ScriptReader
         {
             throw new IllegalStateException( "context input cannot be null" );
         }
-        else if ( !context.getTaglibResolver().hasStrategies() )
-        {
-            context.addTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
-        }
     }
 }

@@ -21,38 +21,19 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-/* Created on Apr 11, 2004 */
-package org.codehaus.marmalade.util;
+/* Created on May 25, 2004 */
+package org.codehaus.marmalade.tags;
+
+import org.codehaus.marmalade.metamodel.AbstractMarmaladeTagLibrary;
 
 /**
  * @author jdcasey
  */
-public class XMLUtils
+public class TestParseTaglib
+    extends AbstractMarmaladeTagLibrary
 {
-    /**
-     * Utility class; deny construction.
-     */
-    private XMLUtils()
+    public TestParseTaglib()
     {
-    }
-
-    public static String escapeXml( String src )
-    {
-        String result = src.replaceAll( "&", "&amp;" ) /*
-                                                        * Do &amp; first, to
-                                                        * keep from messing up
-                                                        * the
-                                                        */
-        .replaceAll( "<", "&lt;" ) /* rest of the replacements. */
-        .replaceAll( ">", "&gt;" );
-
-        return result;
-    }
-
-    public static String unEscapeXml( String xml )
-    {
-        String result = xml.replaceAll( "&amp;", "&" ).replaceAll( "&gt;", ">" ).replaceAll( "&lt;", "<" );
-
-        return result;
+        registerTag( "testTag", TestParseTag.class );
     }
 }

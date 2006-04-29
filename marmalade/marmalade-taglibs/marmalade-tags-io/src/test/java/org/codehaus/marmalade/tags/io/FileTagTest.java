@@ -1,15 +1,15 @@
 package org.codehaus.marmalade.tags.io;
 
-import org.codehaus.marmalade.discovery.PrefixedDefFileResolutionStrategy;
-import org.codehaus.marmalade.launch.MarmaladeLaunchException;
-import org.codehaus.marmalade.launch.MarmaladeLauncher;
-import org.codehaus.marmalade.model.MarmaladeScript;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+
+import org.codehaus.marmalade.discovery.TagLibraryRegistry;
+import org.codehaus.marmalade.launch.MarmaladeLaunchException;
+import org.codehaus.marmalade.launch.MarmaladeLauncher;
+import org.codehaus.marmalade.model.MarmaladeScript;
 
 /**
  * @author jdcasey
@@ -23,8 +23,11 @@ public class FileTagTest
     {
         String script = "<file xmlns=\"marmalade:io\" path=\"test1.txt\">This is a test</file>";
 
+        TagLibraryRegistry reg = new TagLibraryRegistry();
+        reg.registerTagLibrary( "marmalade", "io", new IOTagLibrary() );
+        
         MarmaladeLauncher launcher = new MarmaladeLauncher()
-            .withAdditionalTaglibDefinitionStrategy( new PrefixedDefFileResolutionStrategy() )
+            .withAdditionalTaglibDefinitionStrategy( reg )
             .withInputScriptString( script, "test script 1" );
 
         launcher.run();

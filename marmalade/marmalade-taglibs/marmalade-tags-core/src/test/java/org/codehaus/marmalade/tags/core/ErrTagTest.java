@@ -38,17 +38,17 @@ import junit.framework.TestCase;
 /**
  * @author jdcasey
  */
-public class OutTagTest
+public class ErrTagTest
     extends TestCase
 {
     public void testShouldFailWithMissingValueAndDefaultAttributesAndMissingBody() throws MarmaladeExecutionException
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
 
-        OutTag tag = new OutTag();
+        ErrTag tag = new ErrTag();
 
-        tag.setTagInfo( ti );
         tag.setAttributes( new DefaultAttributes() );
+        tag.setTagInfo( ti );
 
         try
         {
@@ -70,10 +70,12 @@ public class OutTagTest
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
 
-        OutTag tag = new OutTag();
+        DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
+
+        ErrTag tag = new ErrTag();
 
         tag.setTagInfo( ti );
-        tag.setAttributes( new DefaultAttributes( attrs ) );
+        tag.setAttributes( tagAttrs );
 
         tag.execute( new DefaultContext() );
     }
@@ -82,10 +84,10 @@ public class OutTagTest
     {
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
 
-        OutTag tag = new OutTag();
+        ErrTag tag = new ErrTag();
 
-        tag.setTagInfo( ti );
         tag.setAttributes( new DefaultAttributes() );
+        tag.setTagInfo( ti );
         tag.appendBodyText( "test" );
 
         tag.execute( new DefaultContext() );
@@ -97,17 +99,19 @@ public class OutTagTest
 
         attrs.addAttribute( "", "", "default", "message" );
 
+        DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
+
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
 
-        OutTag tag = new OutTag();
+        ErrTag tag = new ErrTag();
 
         tag.setTagInfo( ti );
-        tag.setAttributes( new DefaultAttributes( attrs ) );
+        tag.setAttributes( tagAttrs );
 
         tag.execute( new DefaultContext() );
     }
 
-    public void testShouldReproduceBodyToOutWriterBeforeEvaluatingValueOrDefaultAttributes()
+    public void testShouldReproduceBodyToErrWriterBeforeEvaluatingValueOrDefaultAttributes()
         throws MarmaladeExecutionException
     {
         String message = "test message";
@@ -123,23 +127,23 @@ public class OutTagTest
 
         MarmaladeTagInfo ti = new MarmaladeTagInfo();
 
-        StringWriter out = new StringWriter();
+        StringWriter err = new StringWriter();
 
-        OutTag tag = new OutTag();
+        ErrTag tag = new ErrTag();
 
-        tag.setTagInfo( ti );
         tag.setAttributes( tagAttrs );
+        tag.setTagInfo( ti );
         tag.appendBodyText( message );
 
         DefaultContext context = new DefaultContext();
 
-        context.setOutWriter( new PrintWriter( out ) );
+        context.setErrWriter( new PrintWriter( err ) );
         tag.execute( context );
 
-        assertEquals( message, out.getBuffer().toString() );
+        assertEquals( message, err.getBuffer().toString() );
     }
 
-    public void testShouldReproduceValueAttributeResultToOutWriterBeforeEvaluatingDefaultAttribute()
+    public void testShouldReproduceValueAttributeResultToErrWriterBeforeEvaluatingDefaultAttribute()
         throws MarmaladeExecutionException
     {
         String message = "test message";
@@ -150,51 +154,51 @@ public class OutTagTest
         attrs.addAttribute( "", "", "value", message );
         attrs.addAttribute( "", "", "default", message2 );
 
-        MarmaladeTagInfo ti = new MarmaladeTagInfo();
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
 
-        StringWriter out = new StringWriter();
+        MarmaladeTagInfo ti = new MarmaladeTagInfo();
 
-        OutTag tag = new OutTag();
+        StringWriter err = new StringWriter();
+
+        ErrTag tag = new ErrTag();
 
         tag.setTagInfo( ti );
         tag.setAttributes( tagAttrs );
 
         DefaultContext context = new DefaultContext();
 
-        context.setOutWriter( new PrintWriter( out ) );
+        context.setErrWriter( new PrintWriter( err ) );
         tag.execute( context );
 
-        assertEquals( message, out.getBuffer().toString() );
+        assertEquals( message, err.getBuffer().toString() );
     }
 
     public void testShouldProperlyEscapeXmlWhenEnabled() throws MarmaladeExecutionException
     {
         String message = "<test attr=\"message\"/>";
-        String escapedMessage = "&lt;test attr=\"message\"/&gt;";
+        String escapedMessage = "&lt;test attr=&quot;message&quot;/&gt;";
 
         DefaultRawAttributes attrs = new DefaultRawAttributes();
 
         attrs.addAttribute( "", "", "value", message );
         attrs.addAttribute( "", "", "escapeXml", "true" );
 
-        MarmaladeTagInfo ti = new MarmaladeTagInfo();
-
         DefaultAttributes tagAttrs = new DefaultAttributes( attrs );
 
-        StringWriter out = new StringWriter();
+        MarmaladeTagInfo ti = new MarmaladeTagInfo();
 
-        OutTag tag = new OutTag();
+        StringWriter err = new StringWriter();
+
+        ErrTag tag = new ErrTag();
 
         tag.setTagInfo( ti );
         tag.setAttributes( tagAttrs );
 
         DefaultContext context = new DefaultContext();
 
-        context.setOutWriter( new PrintWriter( out ) );
+        context.setErrWriter( new PrintWriter( err ) );
         tag.execute( context );
 
-        assertEquals( escapedMessage, out.getBuffer().toString() );
+        assertEquals( escapedMessage, err.getBuffer().toString() );
     }
 }

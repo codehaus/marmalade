@@ -1,16 +1,30 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>marmalade</groupId>
-    <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha-3</version>
+    <groupId>org.codehaus.marmalade</groupId>
+    <artifactId>marmalade</artifactId>
+    <version>1.0-alpha-5-SNAPSHOT</version>
   </parent>
+
+  <groupId>org.codehaus.marmalade.tags</groupId>
   <artifactId>marmalade-taglibs</artifactId>
   <name>Marmalade Tag Libraries Base</name>
+  <packaging>pom</packaging>
   
   <modules>
     <module>marmalade-tags-io</module>
     <module>marmalade-tags-inertDoco</module>
     <module>marmalade-tags-collections</module>
+    <module>marmalade-tags-core</module>
+    <module>marmalade-tags-lang</module>
+    <module>marmalade-tags-opml</module>
   </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.marmalade</groupId>
+      <artifactId>marmalade-core</artifactId>
+      <version>1.0-alpha-5-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 </project>

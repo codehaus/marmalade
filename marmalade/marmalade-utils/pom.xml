@@ -3,9 +3,9 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>marmalade</groupId>
-    <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha-3</version>
+    <groupId>org.codehaus.marmalade</groupId>
+    <artifactId>marmalade</artifactId>
+    <version>1.0-alpha-5-SNAPSHOT</version>
   </parent>
   <artifactId>marmalade-utils</artifactId>
 

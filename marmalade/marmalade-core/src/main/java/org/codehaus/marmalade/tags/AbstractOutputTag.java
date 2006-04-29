@@ -24,12 +24,12 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
 import org.codehaus.marmalade.model.MarmaladeAttributes;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.TagExecutionException;
-import org.codehaus.marmalade.util.XMLUtils;
 
 /**
  * @author jdcasey
@@ -90,7 +90,7 @@ public abstract class AbstractOutputTag
             String output = String.valueOf(value);
             if ( escape )
             {
-                output = XMLUtils.escapeXml( output );
+                output = StringEscapeUtils.escapeXml( output );
             }
 
             write( output, context );

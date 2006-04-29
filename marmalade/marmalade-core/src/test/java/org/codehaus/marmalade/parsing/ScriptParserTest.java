@@ -24,13 +24,6 @@
 /* Created on Apr 12, 2004 */
 package org.codehaus.marmalade.parsing;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
-import org.codehaus.marmalade.metamodel.ModelBuilderException;
-import org.codehaus.marmalade.metamodel.ScriptBuilder;
-import org.codehaus.marmalade.runtime.DefaultContext;
-import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.marmalade.util.RecordingReader;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -41,6 +34,13 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
+import org.codehaus.marmalade.metamodel.ModelBuilderException;
+import org.codehaus.marmalade.metamodel.ScriptBuilder;
+import org.codehaus.marmalade.runtime.DefaultContext;
+import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
+import org.codehaus.marmalade.tags.TestParseTaglib;
+import org.codehaus.marmalade.util.RecordingReader;
+
 /**
  * @author jdcasey
  */
@@ -50,7 +50,7 @@ public class ScriptParserTest
     private static final String MESSAGE = "This is a test";
 
     private static final String TEST_PARSE_CONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n"
-        + "<testTag xmlns=\"marmalade:org.codehaus.marmalade.tags.TestParseTaglib\" value=\"" + MESSAGE + "\"/>";
+        + "<testTag value=\"" + MESSAGE + "\"/>";
 
     public void testParse() throws IOException, MarmaladeParsetimeException, MarmaladeExecutionException,
         ModelBuilderException
@@ -63,8 +63,8 @@ public class ScriptParserTest
         fout.close();
 
         MarmaladeParsingContext pCtx = new DefaultParsingContext();
-
-        pCtx.setTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
+        
+        pCtx.setDefaultTagLibrary( new TestParseTaglib() );
 
         ScriptBuilder scriptBuilder = null;
         BufferedReader input = null;

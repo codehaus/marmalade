@@ -3,18 +3,18 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>marmalade</groupId>
+    <groupId>org.codehaus.marmalade.tags</groupId>
     <artifactId>marmalade-taglibs</artifactId>
-    <version>1.0-alpha-3</version>
+    <version>1.0-alpha-5-SNAPSHOT</version>
   </parent>
   <artifactId>marmalade-tags-io</artifactId>
 
-  <name>Basic I/O Tag Library</name>
-  
+  <name>Basic I/O Tags</name>
+
   <dependencies>
     <dependency>
-      <groupId>marmalade</groupId>
-      <artifactId>marmalade-core</artifactId>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
     </dependency>
   </dependencies>
 </project>

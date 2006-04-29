@@ -3,12 +3,23 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>marmalade</groupId>
-    <artifactId>marmalade-parent</artifactId>
-    <version>1.0-alpha-3</version>
+    <groupId>org.codehaus.marmalade</groupId>
+    <artifactId>marmalade</artifactId>
+    <version>1.0-alpha-5-SNAPSHOT</version>
   </parent>
+
   <artifactId>marmalade-core</artifactId>
-  <version>1.0-alpha-5-SNAPSHOT</version>
 
   <name>Marmalade Core</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+  </dependencies>
 </project>
