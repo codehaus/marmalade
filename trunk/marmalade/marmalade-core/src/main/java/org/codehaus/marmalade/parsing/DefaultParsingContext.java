@@ -52,11 +52,6 @@ public class DefaultParsingContext
 
     public MarmaladeTaglibResolver getTaglibResolver()
     {
-        if ( !resolver.hasStrategies() )
-        {
-            resolver.setTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
-        }
-
         return resolver;
     }
 

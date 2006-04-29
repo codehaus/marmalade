@@ -24,7 +24,13 @@
 /* Created on Jun 26, 2004 */
 package org.codehaus.marmalade.tags.passthrough;
 
-import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import junit.framework.TestCase;
+
+import org.codehaus.marmalade.discovery.TagLibraryRegistry;
 import org.codehaus.marmalade.metamodel.ModelBuilderException;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.MarmaladeScript;
@@ -36,12 +42,6 @@ import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.util.RecordingReader;
 
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
-
-import junit.framework.TestCase;
-
 /**
  * @author jdcasey
  */
@@ -52,7 +52,6 @@ public class PassThroughTagTest
         ModelBuilderException, MarmaladeExecutionException
     {
         String script = "<?xml version=\"1.0\"?><z:test xmlns:z=\"nothing:nothing\"></z:test>";
-        String check = "<test xmlns=\"nothing:nothing\"/>";
 
         String result = parseAndExecute( script );
 
@@ -142,7 +141,7 @@ public class PassThroughTagTest
 
         MarmaladeParsingContext pCtx = new DefaultParsingContext();
 
-        pCtx.addTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
+        pCtx.addTaglibDefinitionStrategy( new TagLibraryRegistry() );
         pCtx.setInput( new RecordingReader( reader ) );
         pCtx.setInputLocation( location );
 

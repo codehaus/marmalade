@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>marmalade</groupId>
-  <artifactId>marmalade-parent</artifactId>
-  <version>1.0-alpha-3</version>
-  <name>Marmalade Parent Project</name>
+  <groupId>org.codehaus.marmalade</groupId>
+  <artifactId>marmalade</artifactId>
+  <version>1.0-alpha-5-SNAPSHOT</version>
+  <name>Marmalade</name>
   <packaging>pom</packaging>
   <distributionManagement>
     <repository>
       <id>repo1</id>
-      <name>Maven Repository</name>
       <url>scp://repo1.maven.org/home/projects/maven/repository-staging/to-ibiblio/maven2</url>
-      <layout>default</layout>
     </repository>
   </distributionManagement>
-  <repository>
+  <scm>
     <connection> 
       scm:cvs:pserver:anonymous@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</connection>
     <developerConnection> 
       scm:cvs:ext:user@cvs.marmalade.codehaus.org:/home/projects/marmalade/scm:marmalade/marmalade-core</developerConnection>
     <url>http://cvs.marmalade.codehaus.org</url>
-  </repository>
+  </scm>
   <mailingLists>
     <mailingList>
       <name>user</name>
@@ -48,22 +46,15 @@
   <modules>
     <module>marmalade-core</module>
     <module>marmalade-utils</module>
-    <module>marmalade-el/ognl-el</module>
-    <module>marmalade-el/commons-el</module>
-    <module>marmalade-compat/ant</module>
+    <module>marmalade-discovery</module>
+    <module>marmalade-el</module>
     <module>marmalade-taglibs</module>
   </modules>
   <dependencies>
-    <dependency>
-      <groupId>plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>1.0-alpha-2</version>
-    </dependency>
     <!-- Testing dependencies -->
     <dependency>
       <groupId>jmock</groupId>
       <artifactId>jmock</artifactId>
-      <version>1.0.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -77,29 +68,14 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>marmalade</groupId>
-        <artifactId>marmalade-core</artifactId>
-        <version>1.0-alpha-3</version>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-utils</artifactId>
+        <version>1.1</version>
       </dependency>
       <dependency>
-        <groupId>marmalade</groupId>
-        <artifactId>marmalade-el-ognl</artifactId>
-        <version>1.0-alpha-3</version>
-      </dependency>
-      <dependency>
-        <groupId>marmalade</groupId>
-        <artifactId>marmalade-el-commons</artifactId>
-        <version>1.0-alpha-3</version>
-      </dependency>
-      <dependency>
-        <groupId>marmalade</groupId>
-        <artifactId>marmalade-tags-jelly-common</artifactId>
-        <version>1.0-alpha-3</version>
-      </dependency>
-      <dependency>
-        <groupId>marmalade</groupId>
-        <artifactId>marmalade-utils</artifactId>
-        <version>1.0-alpha-3</version>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.1</version>
       </dependency>
       <dependency>
         <groupId>ognl</groupId>

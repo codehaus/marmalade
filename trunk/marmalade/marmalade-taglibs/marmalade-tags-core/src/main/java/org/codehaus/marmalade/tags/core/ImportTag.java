@@ -24,8 +24,17 @@
 /* Created on Apr 11, 2004 */
 package org.codehaus.marmalade.tags.core;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.codehaus.marmalade.discovery.TagLibraryRegistry;
 import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
-import org.codehaus.marmalade.metamodel.MarmaladeTaglibResolver;
 import org.codehaus.marmalade.metamodel.ModelBuilderException;
 import org.codehaus.marmalade.metamodel.ScriptBuilder;
 import org.codehaus.marmalade.model.AbstractMarmaladeTag;
@@ -40,17 +49,6 @@ import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
 import org.codehaus.marmalade.runtime.TagExecutionException;
 import org.codehaus.marmalade.tags.TaglibResolutionStrategyOwner;
 import org.codehaus.marmalade.util.RecordingReader;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author jdcasey
@@ -124,13 +122,13 @@ public class ImportTag
             pContext.setInputLocation( resource.toExternalForm() );
             pContext.setDefaultExpressionEvaluator( getExpressionEvaluator() );
 
-            if ( strategies.isEmpty() )
+            if ( !strategies.isEmpty() )
             {
-                pContext.addTaglibDefinitionStrategies( MarmaladeTaglibResolver.DEFAULT_STRATEGY_CHAIN );
+                pContext.addTaglibDefinitionStrategies( strategies );
             }
             else
             {
-                pContext.addTaglibDefinitionStrategies( strategies );
+                pContext.addTaglibDefinitionStrategy( new TagLibraryRegistry() );
             }
 
             ScriptParser parser = new ScriptParser();

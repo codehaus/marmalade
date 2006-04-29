@@ -24,6 +24,7 @@
 /* Created on Apr 15, 2004 */
 package org.codehaus.marmalade.tags.core;
 
+import org.codehaus.marmalade.discovery.TagLibraryRegistry;
 import org.codehaus.marmalade.metamodel.DefaultRawAttributes;
 import org.codehaus.marmalade.metamodel.MarmaladeTagInfo;
 import org.codehaus.marmalade.model.DefaultAttributes;
@@ -82,6 +83,7 @@ public class ImportTagTest
     protected void setUp() throws Exception
     {
         this.scriptFile = File.createTempFile( "import-test", ".mmld" );
+        this.scriptFile.deleteOnExit();
 
         BufferedWriter out = new BufferedWriter( new FileWriter( scriptFile ) );
 
@@ -119,6 +121,11 @@ public class ImportTagTest
 
         tag.setTagInfo( ti );
         tag.setAttributes( tagAttrs );
+        
+        TagLibraryRegistry reg = new TagLibraryRegistry();
+        reg.registerTagLibrary( "marmalade", "core", new CoreTagLibrary() );
+        
+        tag.addTaglibResolutionStrategy( reg );
 
         DefaultContext ctx = new DefaultContext();
 

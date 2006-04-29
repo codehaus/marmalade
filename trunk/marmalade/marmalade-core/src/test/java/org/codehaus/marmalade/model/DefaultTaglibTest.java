@@ -10,7 +10,7 @@ import org.codehaus.marmalade.parsing.ScriptParser;
 import org.codehaus.marmalade.runtime.DefaultContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionContext;
 import org.codehaus.marmalade.runtime.MarmaladeExecutionException;
-import org.codehaus.marmalade.tags.core.CoreTagLibrary;
+import org.codehaus.marmalade.tags.test.TestTagLibrary;
 
 import java.io.StringReader;
 
@@ -24,10 +24,10 @@ public class DefaultTaglibTest
 {
 
     public void testShouldUseDefaultTaglibToResolveScript() throws ModelBuilderException, MarmaladeParsetimeException, MarmaladeExecutionException {
-        String script = "<set var=\"testvar\" value=\"testvalue\"/>";
+        String script = "<set key=\"testvar\" value=\"testvalue\"/>";
         
         MarmaladeParsingContext ctx = new DefaultParsingContext();
-        ctx.setDefaultTagLibrary(new CoreTagLibrary());
+        ctx.setDefaultTagLibrary(new TestTagLibrary());
         
         StringReader reader = new StringReader(script);
         ctx.setInput(reader);

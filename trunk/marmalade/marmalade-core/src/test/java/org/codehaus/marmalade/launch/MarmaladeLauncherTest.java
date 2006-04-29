@@ -1,70 +1,61 @@
 package org.codehaus.marmalade.launch;
 
-import org.codehaus.marmalade.discovery.PrefixedDefFileResolutionStrategy;
-import org.codehaus.marmalade.metamodel.ScriptBuilder;
-import org.codehaus.marmalade.model.MarmaladeScript;
-
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.codehaus.marmalade.metamodel.ScriptBuilder;
+import org.codehaus.marmalade.model.MarmaladeScript;
+import org.codehaus.marmalade.tags.test.TestTagLibrary;
+
 /**
  * @author jdcasey
  */
-public class MarmaladeLauncherTest
-    extends TestCase
-{
-    
-    public void testShouldFindParsedBuilderWithoutRunning()
-    throws MarmaladeLaunchException
-    {
-        String script = "<set var=\"var\" value=\"${valkey}\" extern=\"true\" xmlns=\"marmalade:core\"/>";
+public class MarmaladeLauncherTest extends TestCase {
 
-        MarmaladeLauncher launcher = new MarmaladeLauncher().withInputLocation( "<embedded test>" )
-                                          .withInput( new StringReader( script ) );
-        
-        ScriptBuilder builder = launcher.getScriptBuilder();
+	public void testShouldFindParsedBuilderWithoutRunning()
+			throws MarmaladeLaunchException {
+		String script = "<set key=\"var\" value=\"${valkey}\" extern=\"true\"/>";
 
-        assertNotNull( builder );
-    }
+		MarmaladeLauncher launcher = new MarmaladeLauncher()
+				.withTaglibDefinitionStrategies(Collections.EMPTY_LIST)
+				.withDefaultTagLibrary(new TestTagLibrary()).withInputLocation(
+						"<embedded test>").withInput(new StringReader(script));
 
-    public void testShouldFindBuiltScriptInstanceWithoutRunning()
-    throws MarmaladeLaunchException
-    {
-        String scriptSource = "<set var=\"var\" value=\"${valkey}\" extern=\"true\" xmlns=\"marmalade:core\"/>";
+		ScriptBuilder builder = launcher.getScriptBuilder();
 
-        MarmaladeLauncher launcher = new MarmaladeLauncher().withInputLocation( "<embedded test>" )
-                                          .withInput( new StringReader( scriptSource ) );
-        
-        MarmaladeScript script = launcher.getMarmaladeScript();
+		assertNotNull(builder);
+	}
 
-        assertNotNull( script );
-    }
+	public void testShouldFindBuiltScriptInstanceWithoutRunning()
+			throws MarmaladeLaunchException {
+		String scriptSource = "<set key=\"var\" value=\"${valkey}\" extern=\"true\"/>";
 
-    public void testShouldExecuteSimpleScriptWithNoBellsOrWhistles() throws MarmaladeLaunchException
-    {
-        String script = "<set var=\"var\" value=\"${valkey}\" extern=\"true\" xmlns=\"marmalade:core\"/>";
+		MarmaladeLauncher launcher = new MarmaladeLauncher()
+				.withTaglibDefinitionStrategies(Collections.EMPTY_LIST)
+				.withDefaultTagLibrary(new TestTagLibrary()).withInputLocation(
+						"<embedded test>").withInput(
+						new StringReader(scriptSource));
 
-        Map vars = new MarmaladeLauncher().withInputLocation( "<embedded test>" )
-                                          .withInput( new StringReader( script ) )
-                                          .withVariable( "valkey", "value" )
-                                          .run();
+		MarmaladeScript script = launcher.getMarmaladeScript();
 
-        assertEquals( "value", vars.get( "var" ) );
-    }
+		assertNotNull(script);
+	}
 
-    public void testShouldExecuteSimpleScriptWithRestrictedTaglibDiscovery() throws MarmaladeLaunchException
-    {
-        String script = "<set var=\"var\" value=\"${valkey}\" extern=\"true\" xmlns=\"marmalade:core\"/>";
+	public void testShouldExecuteSimpleScriptWithNoBellsOrWhistles()
+			throws MarmaladeLaunchException {
+		String script = "<set key=\"var\" value=\"${valkey}\" extern=\"true\"/>";
 
-        Map vars = new MarmaladeLauncher().withInputLocation( "<embedded test>" )
-                                          .withInput( new StringReader( script ) )
-                                          .withVariable( "valkey", "value" )
-                                          .withAdditionalTaglibDefinitionStrategy( new PrefixedDefFileResolutionStrategy() )
-                                          .run();
+		MarmaladeLauncher launcher = new MarmaladeLauncher()
+				.withTaglibDefinitionStrategies(Collections.EMPTY_LIST)
+				.withDefaultTagLibrary(new TestTagLibrary()).withInputLocation(
+						"<embedded test>").withInput(new StringReader(script));
 
-        assertEquals( "value", vars.get( "var" ) );
-    }
+		Map vars = launcher.withVariable("valkey", "value").run();
+
+		assertEquals("value", vars.get("var"));
+	}
 
 }

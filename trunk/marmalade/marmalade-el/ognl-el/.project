@@ -1,7 +1,9 @@
 <projectDescription>
   <name>marmalade-el-ognl</name>
   <comment/>
-  <projects/>
+  <projects>
+    <project>marmalade-core</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

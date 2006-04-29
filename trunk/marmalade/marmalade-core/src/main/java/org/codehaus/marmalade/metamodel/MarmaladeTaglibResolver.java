@@ -24,15 +24,6 @@
 /* Created on May 18, 2004 */
 package org.codehaus.marmalade.metamodel;
 
-import org.codehaus.marmalade.discovery.LiteralResolutionStrategy;
-import org.codehaus.marmalade.discovery.PassThroughResolutionStrategy;
-import org.codehaus.marmalade.discovery.PrefixedDefFileResolutionStrategy;
-import org.codehaus.marmalade.discovery.PrefixedTldResolutionStrategy;
-import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
-import org.codehaus.marmalade.monitor.log.CommonLogLevels;
-import org.codehaus.marmalade.monitor.log.DefaultLog;
-import org.codehaus.marmalade.monitor.log.MarmaladeLog;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,23 +31,19 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.codehaus.marmalade.discovery.TaglibResolutionStrategy;
+import org.codehaus.marmalade.monitor.log.CommonLogLevels;
+import org.codehaus.marmalade.monitor.log.DefaultLog;
+import org.codehaus.marmalade.monitor.log.MarmaladeLog;
+
 /**
  * @author jdcasey
  */
 public class MarmaladeTaglibResolver
 {
-    public static final List DEFAULT_STRATEGY_CHAIN = Arrays.asList( new TaglibResolutionStrategy[] {
-        new LiteralResolutionStrategy(),
-        new PrefixedTldResolutionStrategy(),
-        new PrefixedDefFileResolutionStrategy(),
-        new PassThroughResolutionStrategy() } );
-
-    public static final List NO_PASSTHROUGH_STRATEGY_CHAIN = Arrays.asList( new TaglibResolutionStrategy[] {
-        new LiteralResolutionStrategy(),
-        new PrefixedTldResolutionStrategy(),
-        new PrefixedDefFileResolutionStrategy() } );
-
     private List strategies = new ArrayList();
+    
+    private boolean strategiesSet = false;
 
     private String defaultPrefix;
 
@@ -73,7 +60,7 @@ public class MarmaladeTaglibResolver
 
     public boolean hasStrategies()
     {
-        return !strategies.isEmpty();
+        return strategiesSet || !strategies.isEmpty();
     }
 
     public void addTaglibDefinitionStrategy( TaglibResolutionStrategy strategy )
@@ -87,6 +74,7 @@ public class MarmaladeTaglibResolver
         {
             strategy.setLog( log );
         }
+        this.strategiesSet = true;
     }
 
     public void addTaglibDefinitionStrategies( Collection strategies )
@@ -97,6 +85,7 @@ public class MarmaladeTaglibResolver
 
             addTaglibDefinitionStrategy( strategy );
         }
+        this.strategiesSet = true;
     }
 
     public void setTaglibDefinitionStrategies( Collection strategies )
@@ -111,6 +100,7 @@ public class MarmaladeTaglibResolver
         }
 
         this.strategies = new ArrayList( strategies );
+        this.strategiesSet = true;
     }
 
     public void setDefaultTagLibrary( MarmaladeTagLibrary taglib )

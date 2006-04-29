@@ -1,0 +1,26 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.marmalade</groupId>
+    <artifactId>marmalade</artifactId>
+    <version>1.0-alpha-5-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.codehaus.marmalade.el</groupId>
+  <artifactId>marmalade-el</artifactId>
+  <name>Marmalade Expression Libraries Base</name>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>ognl-el</module>
+    <module>commons-el</module>
+  </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.marmalade</groupId>
+      <artifactId>marmalade-core</artifactId>
+      <version>1.0-alpha-5-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>
